@@ -18,9 +18,9 @@ class Backend {
         process.on('SIGUSR1', this.exitHandler);    // catches "kill pid" (for example: nodemon restart)
         process.on('SIGUSR2', this.exitHandler);
         process.on('uncaughtException', this.exitHandler);
-        this.configure();
-        //this.model = new Model(this);
-        //this.webServer = new WebServer(this);
+        this.database = new Database(this);
+        this.bff = new BFF(this);
+        this.engineRoom = new EngineRoom(this);
     }
 
     async start() {
@@ -35,14 +35,6 @@ class Backend {
     }
 
     exitHandler(err) {
-    }
-
-    configure() {
-        /*
-        let appConfigFileName = this.appDir+'/config/app.json';
-        this.config = JSON.parse(fs.readFileSync(appConfigFileName));
-        this.serverConfig = this.config.Executables.find(cur => cur.Type === 'Server').ServerConfig;
-        */
     }
 
 }

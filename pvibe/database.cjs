@@ -1,10 +1,10 @@
 class Database {
-    constructor(parent, databaseDir) {
+    constructor(parent) {
         this.parent = parent;
-        this.databaseDir = databaseDir;
-        this.dbNameData = 'db_' + this.parent.appName;
-        this.dbHandle = null;
-        this.nextItemkey = null;
+        //this.databaseDir = this.parent.appDir;
+        //this.dbNameData = 'db_' + this.parent.appName;
+        //this.dbHandle = null;
+        //this.nextItemkey = null;
     }
     
     openDataDB() {
