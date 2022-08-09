@@ -1,0 +1,30 @@
+{
+  "name": "plainvanillainfo",
+  "version": "0.3.0-alpha.1",
+  "description": "Plain Vanilla Info",
+  "type": "module",
+  "exports": {
+    "./pvibe": "./pvibe/index.cjs",
+    "./pvife": "./pvife/index.cjs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/plainvanillainfo/ver_0.3.git"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "csv-parse": "5.2.0",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "jsesc": "^3.0.2",
+    "leveldown": "^6.1.1",
+    "levelup": "^5.1.1",
+    "randomstring": "^1.2.2",
+    "ws": "^8.8.0"
+  },
+  "author": "PVI",
+  "license": "MIT"
+}
