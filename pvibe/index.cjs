@@ -1,7 +1,5 @@
-const {
-    Database
-} = require('./database.cjs');
-
+const { Database } = require('./database.cjs');
+const { WebServer } = require('./webserver.cjs');
 
 class Backend {
     constructor(appDir) {
