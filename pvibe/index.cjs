@@ -1,5 +1,6 @@
 const { Database } = require('./database.cjs');
 const { BFF } = require('./bff.cjs');
+const { EngineRoom } = require('./engineroom.cjs');
 
 class Backend {
     constructor(appDir) {
