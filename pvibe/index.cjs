@@ -1,5 +1,4 @@
 const { Database } = require('./database.cjs');
-const { WebServer } = require('./webserver.cjs');
 const { BFF } = require('./bff.cjs');
 
 class Backend {
