@@ -1,7 +1,7 @@
 class WebServer {
     constructor(parent) {
         this.parent = parent;
-        this.keyFileDir = this.parent.serverConfig.KeyFileDir;
+        //this.keyFileDir = this.parent.serverConfig.KeyFileDir;
         this.wsConnections = [];
         this.startupTimeBufferMillisec = 1;
     }
