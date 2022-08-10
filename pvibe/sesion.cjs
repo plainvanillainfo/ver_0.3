@@ -1,3 +1,5 @@
+const { TemplateItem } = require('./template.cjs');
+
 class Session {
     constructor(parent, id, ws) {
         this.parent = parent;
@@ -5,8 +7,8 @@ class Session {
         this.ws = ws;
         this.user = null;
         this.isClosed = false;
-        //this.model = this.parent.model;
         this.useCases = {};
+        this.templateItemRoot = new TemplateItem(this);
         this.receiveMessage = this.receiveMessage.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
     }
