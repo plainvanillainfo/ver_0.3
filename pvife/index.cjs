@@ -1,3 +1,5 @@
+const { TemplateItem } = require('./template.cjs');
+
 class Transmitter {
     constructor() {
         this.websocketBE = null;
@@ -106,6 +108,7 @@ class Transmitter {
 class ClientWeb {
     constructor(parent, name) {
         this.name = name;
+        this.templateItemRoot = new TemplateItem(this);
     }
 
     setViewerSpec(viewerSpec) {
