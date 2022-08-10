@@ -12,7 +12,7 @@ class Database {
         })
     }
     
-    openDataDB() {
+    async openDataDB() {
         console.log("Database::openDataDB()");
         await this.client.connect();
         console.log("Database::openDataDB() - await returned");
