@@ -21,7 +21,7 @@ class Database {
             console.log(err, res)
             console.log(res.rows[0].Value)
             console.log(res.rows[1].Value)
-            client.end()
+            this.client.end()
         })
     }
     
