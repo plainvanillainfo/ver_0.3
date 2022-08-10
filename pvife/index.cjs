@@ -115,7 +115,7 @@ class ClientWeb {
         console.log("ClientWeb::setViewerSpec()");
     }
 
-    setEntitlement(trackId, template, classesFileContent, useCasesFileContent) {
+    setEntitlement(useCase, dataPat) {
         console.log("ClientWeb::setEntitlement()");
     }
     
@@ -165,22 +165,6 @@ class ClientWeb {
             this.elementSignOut.style.display = 'none';
             this.terminateTracks();
         }
-    }
-
-    initiateTracks() {
-        let divTrackNew = document.createElement('div');
-        /*
-        this.elementTracks.appendChild(divTrackNew);
-        super.initiateTracks(new TrackWeb(this, '1', divTrackNew));
-        this.elementTrackFront.appendChild(divTrackNew);
-        */
-    }
-
-    terminateTracks() {
-        /*
-        super.terminateTracks();
-        this.elementTracks.appendChild(document.createTextNode("Tracks terminated"));
-        */
     }
 
 }
