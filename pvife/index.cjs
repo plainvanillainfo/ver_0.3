@@ -107,8 +107,39 @@ class Transmitter {
 
 class ClientWeb {
     constructor(parent, name) {
+        this.parent = parent;
         this.name = name;
         this.templateItemRoot = new TemplateItem(this);
+        this.fromServer = this.fromServer.bind(this);
+        this.toServer = this.toServer.bind(this);
+    }
+
+    fromServer(message) {
+        console.log("ClientWeb::fromServer(): ", message);
+        switch (message.Action) {
+            case 'StartSession':
+                this.toServer({Action: 'SendViewerSpec'});
+                break;
+            case 'ReceiveViewerSpec':
+                this.setViewerSpec(message.ViewerSpec);
+                break;
+            case 'ReceiveEntitlement':
+                this.setEntitlement(message.TrackId, message.Track, message.ClassesFileContent, message.UseCasesFileContent);
+                break;
+            case 'ContinueTrack':
+                /*
+                if (message.TrackId != null && message.Track != null && this.tracks[message.TrackId] != null) {
+                    this.tracks[message.TrackId].fromServer(message.Track);
+                }
+                */
+                break;
+            default:
+                break;        
+        }
+    }
+
+    toServer(messageIn) {
+        this.parent.sendToServer(messageIn);
     }
 
     setViewerSpec(viewerSpec) {

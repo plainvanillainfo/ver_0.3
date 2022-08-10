@@ -3,11 +3,9 @@ const { BFF } = require('./bff.cjs');
 const { EngineRoom } = require('./engineroom.cjs');
 
 class Backend {
-    constructor(appDir) {
+    constructor(config) {
         console.log("Backend::constructor()");
-        this.appDir = appDir;
-        this.config = null;
-        this.serverConfig = null;
+        this.config = config;
         this.users = {};
         this.entitlements = {};
         this.items = {};
@@ -18,7 +16,7 @@ class Backend {
         process.on('SIGUSR1', this.exitHandler);    // catches "kill pid" (for example: nodemon restart)
         process.on('SIGUSR2', this.exitHandler);
         process.on('uncaughtException', this.exitHandler);
-        this.database = new Database(this);
+        this.database = new Database(this, this.config.DB);
         this.bff = new BFF(this);
         this.engineRoom = new EngineRoom(this);
     }
@@ -27,11 +25,11 @@ class Backend {
         console.log("Backend::start()");
         //let databaseOpenedResult  = await this.model.database.openDataDB();
         //console.log(databaseOpenedResult);
-        //this.webServer.start();
+        this.bff.start();
     }
     
     async stop() {
-        console.log("Server::stop()");
+        console.log("Backend::stop()");
     }
 
     exitHandler(err) {

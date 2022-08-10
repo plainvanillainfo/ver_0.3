@@ -6,6 +6,12 @@ class BFF {
         this.users = {};
         this.entitlements = {};
         this.sessions = {};
+        this.webServer = new WebServer(this);
+    }
+
+    async start() {
+        console.log("BFF::start()");
+        this.webServer.start();
     }
 
 }

@@ -20,8 +20,7 @@
     "express": "^4.18.1",
     "express-fileupload": "^1.4.0",
     "jsesc": "^3.0.2",
-    "leveldown": "^6.1.1",
-    "levelup": "^5.1.1",
+    "pg": "^8.7.3",
     "randomstring": "^1.2.2",
     "ws": "^8.8.0"
   },

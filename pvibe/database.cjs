@@ -1,5 +1,7 @@
+const { Pool, Client } = require('pg')
+
 class Database {
-    constructor(parent) {
+    constructor(parent, dbConfig) {
         this.parent = parent;
         //this.databaseDir = this.parent.appDir;
         //this.dbNameData = 'db_' + this.parent.appName;
