@@ -3,16 +3,19 @@ const { Pool, Client } = require('pg')
 class Database {
     constructor(parent, dbConfig) {
         this.parent = parent;
-        //this.databaseDir = this.parent.appDir;
-        //this.dbNameData = 'db_' + this.parent.appName;
-        //this.dbHandle = null;
-        //this.nextItemkey = null;
+        this.client = new Client({
+            user: dbConfig.User,
+            host: dbConfig.Host,
+            database: dbConfig.Database,
+            password: dbConfig.Password,
+            port: dbConfig.Port
+        })
     }
     
     openDataDB() {
-    }
-
-    initializeDataDB(resolve) {
+        console.log("Database::openDataDB()");
+        await this.client.connect();
+        console.log("Database::openDataDB() - await returned");
     }
     
 }

@@ -23,9 +23,9 @@ class Backend {
 
     async start() {
         console.log("Backend::start()");
-        //let databaseOpenedResult  = await this.model.database.openDataDB();
-        //console.log(databaseOpenedResult);
+        await this.database.openDataDB();
         this.bff.start();
+        this.engineRoom.start();
     }
     
     async stop() {
