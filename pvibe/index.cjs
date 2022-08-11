@@ -45,7 +45,7 @@ class Backend {
         });
         let webAppServer = this.executables.find(cur => cur.WebAppServer != null);
         if (webAppServer != null) {
-            this.bff.start(webAppServer);
+            this.bff.start(webAppServer.WebAppServer);
         }
         //this.engineRoom.start();
     }
