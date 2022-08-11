@@ -34,10 +34,10 @@ class Backend {
             console.log(rowCur);
             switch (rowCur.Param) {
                 case 'Identity':
-                    this.identity = rowCur.Param;
+                    this.identity = rowCur.Value;
                     break;
                 case 'Executables':
-                    this.executables = rowCur.Param;
+                    this.executables = rowCur.Value;
                     break;
                 default:
                     break;
