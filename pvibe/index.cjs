@@ -16,6 +16,7 @@ class Backend {
         process.on('SIGUSR1', this.exitHandler);    // catches "kill pid" (for example: nodemon restart)
         process.on('SIGUSR2', this.exitHandler);
         process.on('uncaughtException', this.exitHandler);
+        this.receiveConfigFromDB = this.receiveConfigFromDB.bind(this);
         this.database = new Database(this, this.config.DB);
         this.bff = new BFF(this);
         this.engineRoom = new EngineRoom(this);
@@ -23,7 +24,10 @@ class Backend {
 
     async start() {
         console.log("Backend::start()");
-        await this.database.openDataDB();
+        await this.database.openDataDB(this.startStep2);
+    }
+
+    async receiveConfigFromDB() {
         this.bff.start();
         this.engineRoom.start();
     }
