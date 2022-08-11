@@ -16,7 +16,7 @@ class WebServer {
     }
 
     async start(configWebAppServer) {
-        console.log("WebServer::start()");
+        console.log("WebServer::start()", configWebAppServer);
         setTimeout(() => { 
             this.startWebsocketListening(configWebAppServer.WebsocketListenPort);
         }, this.startupTimeBufferMillisec);
