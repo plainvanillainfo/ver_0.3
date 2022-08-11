@@ -21,7 +21,7 @@ class WebServer {
             this.startWebsocketListening(configWebAppServer.WebsocketListenPort);
         }, this.startupTimeBufferMillisec);
         setTimeout(() => { 
-            this.startUploadListening(configWebAppServer.UploadListenPort);
+            //this.startUploadListening(configWebAppServer.UploadListenPort);
         }, this.startupTimeBufferMillisec);
     }
 
