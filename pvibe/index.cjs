@@ -16,6 +16,8 @@ class Backend {
         process.on('SIGUSR1', this.exitHandler);    // catches "kill pid" (for example: nodemon restart)
         process.on('SIGUSR2', this.exitHandler);
         process.on('uncaughtException', this.exitHandler);
+        this.identity = null;
+        this.executables = [];
         this.setConfigFromDB = this.setConfigFromDB.bind(this);
         this.database = new Database(this, this.config.DB);
         this.bff = new BFF(this);
@@ -31,16 +33,21 @@ class Backend {
         configRows.forEach(rowCur => {
             console.log(rowCur);
             switch (rowCur.Param) {
-                case 'Executables':
-                    break;
                 case 'Identity':
+                    this.identity = rowCur.Param;
+                    break;
+                case 'Executables':
+                    this.executables = rowCur.Param;
                     break;
                 default:
                     break;
             }
         });
-        //this.bff.start();
-        this.engineRoom.start();
+        let webAppServer = this.executables.find(cur => cur.WebAppServer != null);
+        if (webAppServer != null) {
+            this.bff.start(webAppServer);
+        }
+        //this.engineRoom.start();
     }
     
     async stop() {

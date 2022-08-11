@@ -9,9 +9,9 @@ class BFF {
         this.webServer = new WebServer(this);
     }
 
-    async start() {
+    async start(configWebAppServer) {
         console.log("BFF::start()");
-        this.webServer.start();
+        this.webServer.start(configWebAppServer);
     }
 
 }

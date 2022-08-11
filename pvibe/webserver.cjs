@@ -6,13 +6,13 @@ class WebServer {
         this.startupTimeBufferMillisec = 1;
     }
 
-    async start() {
+    async start(configWebAppServer) {
         console.log("WebServer::start()");
         setTimeout(() => { 
-            this.startWebsocketListening(this.parent.config.WebsocketListenPort);
+            this.startWebsocketListening(configWebAppServer.WebsocketListenPort);
         }, this.startupTimeBufferMillisec);
         setTimeout(() => { 
-            //this.startUploadListening(this.parent.config.UploadListenPort);
+            this.startUploadListening(configWebAppServer.UploadListenPort);
         }, this.startupTimeBufferMillisec);
     }
 
