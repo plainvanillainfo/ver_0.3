@@ -16,12 +16,12 @@ class Database {
         console.log("Database::openDataDB()");
         await this.client.connect();
         console.log("Database::openDataDB() - await returned");
-
         this.client.query('SELECT * FROM public."AppConfig" ORDER BY "Param" ASC', (err, res) => {
-            console.log(err, res)
-            console.log(res.rows[0].Value)
-            console.log(res.rows[1].Value)
-            this.client.end()
+            //console.log(err, res)
+            //console.log(res.rows[0].Value)
+            //console.log(res.rows[1].Value)
+            //this.client.end()
+            setConfigFromDB(res.rows);
         })
     }
     

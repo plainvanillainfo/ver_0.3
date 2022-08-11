@@ -27,8 +27,11 @@ class Backend {
         await this.database.openDataDB(this.startStep2);
     }
 
-    async setConfigFromDB() {
-        this.bff.start();
+    async setConfigFromDB(configRows) {
+        configRows.forEach(rowCur => {
+            console.log(rowCur);
+        });
+        //this.bff.start();
         this.engineRoom.start();
     }
     
