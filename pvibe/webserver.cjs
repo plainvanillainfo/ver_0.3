@@ -1,3 +1,4 @@
+const { Session } = require('./session.cjs');
 const fs = require("fs");
 const express = require('express');
 const https = require('https');
