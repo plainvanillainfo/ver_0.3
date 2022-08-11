@@ -9,10 +9,10 @@ class WebServer {
     async start() {
         console.log("WebServer::start()");
         setTimeout(() => { 
-            this.startWebsocketListening(this.parent.serverConfig.WebsocketListenPort);
+            this.startWebsocketListening(this.parent.config.WebsocketListenPort);
         }, this.startupTimeBufferMillisec);
         setTimeout(() => { 
-            this.startUploadListening(this.parent.serverConfig.UploadListenPort);
+            //this.startUploadListening(this.parent.config.UploadListenPort);
         }, this.startupTimeBufferMillisec);
     }
 
