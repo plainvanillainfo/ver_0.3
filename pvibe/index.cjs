@@ -24,7 +24,7 @@ class Backend {
 
     async start() {
         console.log("Backend::start()");
-        await this.database.openDataDB(this.startStep2);
+        await this.database.openDataDB(this.setConfigFromDB);
     }
 
     async setConfigFromDB(configRows) {
