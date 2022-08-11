@@ -89,3 +89,7 @@ class Session {
     }
     
 }
+
+module.exports = {
+    Session: Session
+}
