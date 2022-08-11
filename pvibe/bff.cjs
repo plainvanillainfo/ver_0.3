@@ -3,6 +3,7 @@ const { Session } = require('./session.cjs');
 
 class BFF {
     constructor(parent) {
+        this.parent = parent;
         this.users = {};
         this.entitlements = {};
         this.sessions = {};
