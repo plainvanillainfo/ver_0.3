@@ -12,7 +12,7 @@ class Database {
         })
     }
     
-    async openDataDB(nextStep) {
+    async openDataDB(setConfigFromDB) {
         console.log("Database::openDataDB()");
         await this.client.connect();
         console.log("Database::openDataDB() - await returned");
