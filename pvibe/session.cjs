@@ -14,15 +14,13 @@ class Session {
     }
     
     receiveMessage(message) {
-        console.log("\nSession::receiveMessage: ", message);
-        /*
         if (message.AppId != null && message.Action != null) {
             console.log("\nSession::receiveMessage: ", message);
             switch (message.Action) {
                 case 'SendViewerSpec':
-                    let viewerSpecCur = this.parent.config.Executables.find(cur => cur.Name === message.AppId && cur.Type === 'Viewer');
-                    if (viewerSpecCur != null) {
-                        this.forwardMessage({Action: 'ReceiveViewerSpec', ViewerSpec: viewerSpecCur});
+                    let webAppCur = this.parent.parent.executables.find(cur => cur.Name === message.AppId);
+                    if (webAppCur != null && webAppCur.WebAppClient != null) {
+                        this.forwardMessage({Action: 'ReceiveViewerSpec', ViewerSpec: webAppCur.WebAppClient});
                     }
                     break;
                 case 'SendEntitlement':
@@ -54,7 +52,6 @@ class Session {
 
             }
         }
-        */
     }
     
     sendMessage(messageIn) {
