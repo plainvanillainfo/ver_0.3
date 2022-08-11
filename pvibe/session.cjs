@@ -14,6 +14,7 @@ class Session {
     }
     
     receiveMessage(message) {
+        console.log("\nSession::receiveMessage: ", message);
         /*
         if (message.AppId != null && message.Action != null) {
             console.log("\nSession::receiveMessage: ", message);

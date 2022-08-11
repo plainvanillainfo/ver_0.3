@@ -10,13 +10,13 @@ const fileUpload = require('express-fileupload');
 class WebServer {
     constructor(parent) {
         this.parent = parent;
-        //this.keyFileDir = this.parent.serverConfig.KeyFileDir;
         this.wsConnections = [];
         this.startupTimeBufferMillisec = 1;
     }
 
     async start(configWebAppServer) {
         console.log("WebServer::start()", configWebAppServer);
+        this.keyFileDir = configWebAppServer.KeyFileDir;
         setTimeout(() => { 
             this.startWebsocketListening(configWebAppServer.WebsocketListenPort);
         }, this.startupTimeBufferMillisec);
