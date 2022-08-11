@@ -1,3 +1,12 @@
+const fs = require("fs");
+const express = require('express');
+const https = require('https');
+const http = require('http');
+const WebSocket = require('ws');
+const randomstring = require("randomstring");
+const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload');
+
 class WebServer {
     constructor(parent) {
         this.parent = parent;
