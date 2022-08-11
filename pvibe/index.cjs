@@ -30,6 +30,14 @@ class Backend {
     async setConfigFromDB(configRows) {
         configRows.forEach(rowCur => {
             console.log(rowCur);
+            switch (rowCur.Param) {
+                case 'Executables':
+                    break;
+                case 'Identity':
+                    break;
+                default:
+                    break;
+            }
         });
         //this.bff.start();
         this.engineRoom.start();
