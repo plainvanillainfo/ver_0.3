@@ -20,10 +20,11 @@ class Session {
                 case 'SendViewerSpec':
                     let webAppCur = this.parent.parent.executables.find(cur => cur.Name === message.AppId);
                     if (webAppCur != null && webAppCur.WebAppClient != null) {
-                        this.forwardMessage({Action: 'ReceiveViewerSpec', ViewerSpec: webAppCur.WebAppClient});
+                        this.sendMessage({Action: 'ReceiveViewerSpec', ViewerSpec: webAppCur.WebAppClient});
                     }
                     break;
                 case 'SendEntitlement':
+                    /*
                     if (message.UserId != null && message.TrackId != null) {
                         if (this.model.users[message.UserId] != null) {
                             let entitlementCur = this.model.users[message.UserId].entitlements[0];
@@ -38,14 +39,17 @@ class Session {
                             });
                         }
                     }
+                    */
                     break;
                 case 'ContinueTrack':
+                /*
                     if (message.TrackId != null && message.Track != null && this.tracks[message.TrackId] != null) {
                         this.tracks[message.TrackId].fromClient(message.Track);
                     }
+                    */
                     break;
                 case 'UpdateItem':
-                    this.model.putItem(this.model.itemSeed, message.Item);
+                    //this.model.putItem(this.model.itemSeed, message.Item);
                     break;
                 default:
                     break;        
