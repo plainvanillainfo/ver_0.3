@@ -205,9 +205,19 @@ class ClientWeb {
         }
     }
 
-    setEntitlement(useCase, dataPat) {
+    setEntitlement(useCase, dataPath) {
         console.log("ClientWeb::setEntitlement()");
     }
+
+    /*
+    setEntitlement(viewerName, classesFileContent, useCasesFileContent) {
+        console.log("Client::setEntitlement()");
+        this.initializeClasses(classesFileContent, viewerName);
+        this.initializeUseCases(useCasesFileContent, viewerName);
+        //this.tracks[trackId].setUseCase(this.useCases[track.UseCaseSpec.Name]);
+        //this.tracks[trackId].setItem(track.ItemSpec != null ? track.ItemSpec : {});
+    }
+    */
     
     checkUserAuthentication() {
         if (this.parent.transmitter.websocketBEIsActive === true) {
@@ -248,6 +258,11 @@ class ClientWeb {
             this.elementSignOut.style.visibility = 'visible';
             this.elementSignOut.style.display = 'inline';
             //this.initiateTracks();
+            this.toServer({
+                Action: 'SendEntitlement',
+                //TrackId: trackFirst.id,
+                UserId: this.userId
+            });
         } else {
             this.elementSignIn.style.visibility = 'visible';
             this.elementSignIn.style.display = 'inline';
