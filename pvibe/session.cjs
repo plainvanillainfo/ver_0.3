@@ -92,10 +92,14 @@ class Session {
 
 }
 
-class TrackServer extends Track {
+class TrackServer {
     constructor(parent, trackId) {
-        super(parent, trackId);
-        //this.model = this.parent.model;
+        this.parent = parent;
+        this.id = trackId;
+        this.session = this.parent;
+        this.track = this;
+        this.isClosed = false;
+        this.dbPath = [];
         this.templateItemRoot = new TemplateItem(this);
         this.toClient = this.toClient.bind(this);
     }

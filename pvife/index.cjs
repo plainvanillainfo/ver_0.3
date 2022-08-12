@@ -110,7 +110,6 @@ class ClientWeb {
         this.parent = parent;
         this.name = name;
         this.tracks = {};
-        this.templateItemRoot = new TemplateItem(this);
         this.fromServer = this.fromServer.bind(this);
         this.toServer = this.toServer.bind(this);
     }
@@ -312,8 +311,8 @@ class TrackWeb {
         this.divTargetSub = document.createElement('div');
         this.divTarget.appendChild(this.divTargetSub);
 
-        this.template = new TemplateItem(this, this.divTargetSub);
-        this.breadcrumbs.push(this.template);
+        this.templateItemRoot = new TemplateItem(this, this.divTargetSub);
+        this.breadcrumbs.push(this.templateItemRoot);
 
         this.olBreadcrumbs = document.createElement('ol');
         this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
@@ -327,7 +326,7 @@ class TrackWeb {
         if (message.Action != null && message.Template != null) {
             switch (message.Action) {
                 case 'ContinueTemplate':
-                    this.template.fromServer(message.Template);
+                    this.templateItemRoot.fromServer(message.Template);
                     break;
                 default:
                     break;
@@ -348,13 +347,13 @@ class TrackWeb {
 
     setUseCase(useCase) {
         console.log("TrackWeb::setUseCase()");
-        this.template.setUseCase(useCase);
+        this.templateItemRoot.setUseCase(useCase);
         this.showCrumbs();
     }
 
     setItem(item) {
         console.log("Track::setItem");
-        this.template.setItem(item);
+        this.templateItemRoot.setItem(item);
     }
 
     accessNode(nodePath) {
@@ -362,7 +361,7 @@ class TrackWeb {
         let retVal = null;
         if (this.isClosed == false) {
             nodePath.shift();
-            retVal = this.template.accessNode(nodePath);
+            retVal = this.templateItemRoot.accessNode(nodePath);
         }
         return retVal;
     }
