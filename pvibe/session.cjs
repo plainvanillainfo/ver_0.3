@@ -8,7 +8,8 @@ class Session {
         this.user = null;
         this.isClosed = false;
         this.useCases = {};
-        this.templateItemRoot = new TemplateItem(this);
+        this.trackMain = new TrackServer(this, '1');
+        this.tracks = {'1': this.trackMain};
         this.receiveMessage = this.receiveMessage.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
     }
@@ -88,7 +89,48 @@ class Session {
         */
         return retVal;
     }
-    
+
+}
+
+class TrackServer extends Track {
+    constructor(parent, trackId) {
+        super(parent, trackId);
+        //this.model = this.parent.model;
+        this.templateItemRoot = new TemplateItem(this);
+        this.toClient = this.toClient.bind(this);
+    }
+
+    fromClient(message) {
+        console.log("TrackServer::fromClient(): ", message);
+        if (message.Action != null && message.Template != null) {
+            switch (message.Action) {
+                case 'ContinueTemplate':
+                    this.templateItemRoot.fromClient(message.Template);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    toClient(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTrack',
+            TrackId: this.id,
+            Track: {
+                ...messageIn
+            }
+        };
+        this.parent.sendMessage(messageOut);
+    }
+
+    getInitialMessage() {
+        return({
+            UseCaseSpec: this.templateItemRoot.useCase.spec,
+            ItemSpec:  this.templateItemRoot.item.getItemSpec()
+        })
+    }
+
 }
 
 module.exports = {
