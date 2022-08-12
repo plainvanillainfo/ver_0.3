@@ -273,13 +273,13 @@ class ClientWeb {
         this.elementTracks.appendChild(divTrackNew);
         let trackFirst = new TrackWeb(this, '1', divTrackNew);
         this.tracks[trackFirst.id] = trackFirst;
-        if (this.driverUseCase != null) {
+        //if (this.driverUseCase != null) {
             this.toServer({
                 Action: 'SendEntitlement',
                 TrackId: trackFirst.id,
                 UserId: this.userId
             });
-        }
+        //}
         this.elementTrackFront.appendChild(divTrackNew);
     }
 
