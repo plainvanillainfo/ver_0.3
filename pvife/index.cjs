@@ -247,13 +247,13 @@ class ClientWeb {
             this.elementSignIn.style.display = 'none';
             this.elementSignOut.style.visibility = 'visible';
             this.elementSignOut.style.display = 'inline';
-            this.initiateTracks();
+            //this.initiateTracks();
         } else {
             this.elementSignIn.style.visibility = 'visible';
             this.elementSignIn.style.display = 'inline';
             this.elementSignOut.style.visibility = 'hidden';
             this.elementSignOut.style.display = 'none';
-            this.terminateTracks();
+            //this.terminateTracks();
         }
     }
 
