@@ -109,6 +109,7 @@ class ClientWeb {
     constructor(parent, name) {
         this.parent = parent;
         this.name = name;
+        this.tracks = {};
         this.templateItemRoot = new TemplateItem(this);
         this.fromServer = this.fromServer.bind(this);
         this.toServer = this.toServer.bind(this);
@@ -257,22 +258,170 @@ class ClientWeb {
             this.elementSignIn.style.display = 'none';
             this.elementSignOut.style.visibility = 'visible';
             this.elementSignOut.style.display = 'inline';
-            //this.initiateTracks();
-            this.toServer({
-                Action: 'SendEntitlement',
-                //TrackId: trackFirst.id,
-                UserId: this.userId
-            });
+            this.initiateTracks();
         } else {
             this.elementSignIn.style.visibility = 'visible';
             this.elementSignIn.style.display = 'inline';
             this.elementSignOut.style.visibility = 'hidden';
             this.elementSignOut.style.display = 'none';
-            //this.terminateTracks();
+            this.terminateTracks();
         }
     }
 
+    initiateTracks() {
+        let divTrackNew = document.createElement('div');
+        this.elementTracks.appendChild(divTrackNew);
+        let trackFirst = new TrackWeb(this, '1', divTrackNew);
+        this.tracks[trackFirst.id] = trackFirst;
+        if (this.driverUseCase != null) {
+            this.toServer({
+                Action: 'SendEntitlement',
+                TrackId: trackFirst.id,
+                UserId: this.userId
+            });
+        }
+        this.elementTrackFront.appendChild(divTrackNew);
+    }
+
+    terminateTracks() {
+        this.elementTracks.appendChild(document.createTextNode("Tracks terminated"));
+    }
+
 }
+
+class TrackWeb {
+    constructor(parent, trackId, div) {
+        this.parent = parent;
+        this.id = trackId;
+        this.div = div;
+        this.session = this.parent;
+        this.track = this;
+        this.isClosed = false;
+        this.dbPath = [];
+
+        this.breadcrumbs = [];
+
+        this.divBreadcrumbs = document.createElement('nav');
+        this.div.appendChild(this.divBreadcrumbs);
+        this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
+        //this.divBreadcrumbs.style.setProperty('--bs-breadcrumb-divider', '>');
+
+        this.divTarget = document.createElement('div');
+        this.div.appendChild(this.divTarget);
+
+        this.divTargetSub = document.createElement('div');
+        this.divTarget.appendChild(this.divTargetSub);
+
+        this.template = new TemplateItem(this, this.divTargetSub);
+        this.breadcrumbs.push(this.template);
+
+        this.olBreadcrumbs = document.createElement('ol');
+        this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
+        this.olBreadcrumbs.className = 'breadcrumb';
+        this.fromServer = this.fromServer.bind(this);
+        this.toServer = this.toServer.bind(this);
+    }
+
+    fromServer(message) {
+        console.log("TrackClient::fromServer(): ", message);
+        if (message.Action != null && message.Template != null) {
+            switch (message.Action) {
+                case 'ContinueTemplate':
+                    this.template.fromServer(message.Template);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    toServer(messageIn) {
+        let messageOut = {
+            TrackId: this.id,
+            Action: 'ContinueTrack',
+            Track :{
+                ...messageIn
+            }
+        };
+        this.parent.toServer(messageOut);
+    }
+
+    setUseCase(useCase) {
+        console.log("TrackWeb::setUseCase()");
+        this.template.setUseCase(useCase);
+        this.showCrumbs();
+    }
+
+    setItem(item) {
+        console.log("Track::setItem");
+        this.template.setItem(item);
+    }
+
+    accessNode(nodePath) {
+        console.log("Track::accessNode");
+        let retVal = null;
+        if (this.isClosed == false) {
+            nodePath.shift();
+            retVal = this.template.accessNode(nodePath);
+        }
+        return retVal;
+    }
+
+    pushBreadcrumb(templatePushed) {
+        console.log("TrackWeb::pushBreadcrumb");
+        this.breadcrumbs.push(templatePushed);
+        this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(false);
+        this.showCrumbs();
+    }
+
+    popBreadcrumb() {
+        console.log("TrackWeb::popBreadcrumb");
+        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
+        this.breadcrumbs.pop();
+        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
+        this.showCrumbs();
+    }
+
+    showCrumbs() {
+        let child = this.olBreadcrumbs.lastElementChild; 
+        while (child) {
+            this.olBreadcrumbs.removeChild(child);
+            child = this.olBreadcrumbs.lastElementChild;
+        }
+
+        let itemId = '';
+        this.breadcrumbs.forEach((crumbCur, indexCur) => {
+            let liCrumb = document.createElement('li');
+            this.olBreadcrumbs.appendChild(liCrumb);
+            if (crumbCur.itemId != null) {
+                itemId = crumbCur.itemId;
+            }
+            if (indexCur === (this.breadcrumbs.length-1)) {
+                liCrumb.className = 'breadcrumb-item active';
+                if (crumbCur.useCase != null) {
+                    liCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label + ' ' +  itemId));
+                }
+                if (crumbCur.useCaseElem != null) {
+                    liCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.spec.Viewers[0].Label + ' ' +  itemId));
+                }
+            } else {
+                liCrumb.className = 'breadcrumb-item';
+                let aCrumb = document.createElement('a');
+                liCrumb.appendChild(aCrumb);
+                aCrumb.setAttribute('href', '#');
+                //aCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label + ' ' +  itemId));
+                if (crumbCur.useCase != null) {
+                    aCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label + ' ' +  itemId));
+                }
+                if (crumbCur.useCaseElem != null) {
+                    aCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.spec.Viewers[0].Label + ' ' +  itemId));
+                }
+            }
+        });
+    }
+
+}
+
 
 module.exports = {
     Transmitter,
