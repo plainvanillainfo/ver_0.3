@@ -144,6 +144,65 @@ class ClientWeb {
 
     setViewerSpec(viewerSpec) {
         console.log("ClientWeb::setViewerSpec()");
+        if (viewerSpec.DriverUseCase != null) {
+            this.driverUseCase = viewerSpec.DriverUseCase;
+        }
+        if (viewerSpec.Viewport != null) {
+            if (viewerSpec.Viewport.Top != null) {
+                if (viewerSpec.Viewport.Top.Caption != null) {
+                    this.elementCaption = document.getElementById('id_caption');
+                    this.elementCaption.appendChild(document.createTextNode(viewerSpec.Viewport.Top.Caption));
+                }
+                if (viewerSpec.Viewport.Top.Logo != null) {
+                    this.elementLogo = document.getElementById('id_logo');
+                    this.elementLogo.setAttribute("src",viewerSpec.Viewport.Top.Logo.Image);
+                    this.elementLogo.setAttribute("width",viewerSpec.Viewport.Top.Logo.Width);
+                }
+                if (viewerSpec.Viewport.Top.SignInUp != null) {
+                    this.elementSignIn = document.getElementById('id_signin');
+                    this.elementSignIn.setAttribute("href", viewerSpec.Viewport.Top.SignInUp.CognitoRedirectURI);
+                    this.elementSignIn.addEventListener('click', (event) => {
+                        console.log("click on sign in");
+                    });
+                    this.elementSignOut = document.getElementById('id_signout');
+                    this.elementSignOut.setAttribute("href", viewerSpec.Viewport.Top.SignInUp.CognitoLogoutURI);
+                    this.elementSignOut.addEventListener('click', (event) => {
+                        console.log("click on sign out");
+                        this.isAuthenticated = false;
+                        this.setUserAccess();
+                    });
+                }
+            }
+            if (viewerSpec.Viewport.Tracks != null) {
+                this.elementTracks = document.getElementById('id_tracks');
+                this.elemenTabs = document.getElementById('id_tabs');
+                if (viewerSpec.Viewport.Tracks.Tabs == null) {
+                    this.elemenTabs.style.visibility = 'hidden';
+                    this.elemenTabs.style.display = 'none';
+                }
+                this.elementTrackFront = document.getElementById('id_track_front');
+            }
+            if (viewerSpec.Viewport.Bottom != null) {
+                if (viewerSpec.Viewport.Bottom.Image != null) {
+                    this.elementBottomImage = document.getElementById('id_bottom_image');
+                    this.elementBottomImage.setAttribute("src",viewerSpec.Viewport.Bottom.Image);
+                    this.elementBottomImage.setAttribute("width",viewerSpec.Viewport.Bottom.Width);
+                    this.elementBottomImage.setAttribute("objectFit",viewerSpec.Viewport.Bottom.ObjectFit);
+                    this.elementBottomImage.setAttribute("objectPosition",viewerSpec.Viewport.Bottom.ObjectPosition);
+                }
+                if (viewerSpec.Viewport.Bottom.CopyrightText != null) {
+                    this.elementCopyright = document.getElementById('id_copyright');
+
+                    this.elementCopyright.appendChild(document.createTextNode(viewerSpec.Viewport.Bottom.CopyrightText));
+
+                }
+            }
+            if (viewerSpec.Viewport.Top != null) {
+                if (viewerSpec.Viewport.Top.SignInUp != null) {
+                    this.checkUserAuthentication();
+                }
+            }
+        }
     }
 
     setEntitlement(useCase, dataPat) {
