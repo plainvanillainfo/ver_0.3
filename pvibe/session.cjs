@@ -27,7 +27,7 @@ class Session {
                 case 'SendEntitlement':
                     /**/
                     if (message.UserId != null) {
-                        if (this.model.users[message.UserId] != null) {
+                        if (true /*this.model.users[message.UserId] != null*/) {
                             //let entitlementCur = this.model.users[message.UserId].entitlements[0];
                             //this.trackMain.setUseCase(this.model.useCases[entitlementCur.UseCase]);
                             //this.trackMain.setItem(this.model.getItem(entitlementCur.ItemPath));
