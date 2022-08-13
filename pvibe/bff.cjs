@@ -4,6 +4,7 @@ const { Session } = require('./session.cjs');
 class BFF {
     constructor(parent) {
         this.parent = parent;
+        this.database = this.parent.database;
         this.users = {};
         this.entitlements = {};
         this.sessions = {};

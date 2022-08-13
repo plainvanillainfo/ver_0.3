@@ -5,6 +5,7 @@ class Session {
         this.parent = parent;
         this.id = id;
         this.ws = ws;
+        this.database = this.parent.database;
         this.user = null;
         this.isClosed = false;
         this.useCases = {};
@@ -12,6 +13,7 @@ class Session {
         this.tracks = {'1': this.trackMain};
         this.receiveMessage = this.receiveMessage.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
+        this.sendEntitlement = this.sendEntitlement.bind(this);
     }
     
     receiveMessage(message) {
@@ -25,9 +27,10 @@ class Session {
                     }
                     break;
                 case 'SendEntitlement':
-                    /**/
                     if (message.UserId != null) {
-                        if (true /*this.model.users[message.UserId] != null*/) {
+                        
+                        /*
+                        if (this.model.users[message.UserId] != null) {
                             //let entitlementCur = this.model.users[message.UserId].entitlements[0];
                             //this.trackMain.setUseCase(this.model.useCases[entitlementCur.UseCase]);
                             //this.trackMain.setItem(this.model.getItem(entitlementCur.ItemPath));
@@ -39,11 +42,14 @@ class Session {
                                 UseCasesFileContent: {} //this.model.useCasesFileContent
                             });
                         }
+                        */
+                        
+                        await this.database.getEntitlement(message.UserId, this.sendEntitlement);
+                        
                     }
-                    /**/
                     break;
                 case 'ContinueTrack':
-                /*
+                    /*
                     if (message.TrackId != null && message.Track != null && this.tracks[message.TrackId] != null) {
                         this.tracks[message.TrackId].fromClient(message.Track);
                     }
@@ -73,6 +79,12 @@ class Session {
     close() {
         console.log("Session::close: ", this.id);
         this.isClosed = true;
+    }
+
+    async sendEntitlement(entitlementRows) {
+        entitlementRows.forEach(rowCur => {
+            console.log(rowCur);
+        });
     }
 
     accessNode(nodePath) {

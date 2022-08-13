@@ -16,8 +16,21 @@ class Database {
         console.log("Database::openDataDB()");
         await this.client.connect();
         console.log("Database::openDataDB() - await returned");
-        this.client.query('SELECT * FROM public."AppConfig" ORDER BY "Param" ASC', (err, res) => {
+        this.client.query(
+            'SELECT * FROM public."AppConfig" ORDER BY "Param" ASC',
+            (err, res) => {
             setConfigFromDB(res.rows);
+        })
+    }
+
+    async getEntitlement(userId, sendEntitlement) {
+        console.log("Database::getEntitlement()");
+        this.client.query(
+            'SELECT u.Id as UserId, u.Name as UserName, e.Id as EntitlementId, e.UseCase as UseCase, e.BaseObject as BaseObject ' +
+            'FROM public."FEUser" u, public."FEEntitlement" e ' +
+            'WHERE u.Active = TRUE AND e.UserId = u.Id', 
+            (err, res) => {
+            sendEntitlement(res.rows);
         })
     }
     
