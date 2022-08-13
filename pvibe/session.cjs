@@ -16,7 +16,7 @@ class Session {
         this.sendEntitlement = this.sendEntitlement.bind(this);
     }
     
-    receiveMessage(message) {
+    async receiveMessage(message) {
         if (message.AppId != null && message.Action != null) {
             console.log("\nSession::receiveMessage: ", message);
             switch (message.Action) {
