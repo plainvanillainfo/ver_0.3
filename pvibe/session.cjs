@@ -84,6 +84,11 @@ class Session {
     async sendEntitlement(entitlementRows) {
         entitlementRows.forEach(rowCur => {
             console.log(rowCur);
+            this.sendMessage({
+                Action: 'ReceiveEntitlement',
+                TrackId: message.TrackId,
+                UseCasesFileContent: rowCur
+            });
         });
     }
 
