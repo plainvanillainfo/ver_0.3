@@ -26,9 +26,9 @@ class Database {
     async getEntitlement(userId, sendEntitlement) {
         console.log("Database::getEntitlement()");
         this.client.query(
-            'SELECT u.Id as UserId, u.Name as UserName, e.Id as EntitlementId, e.UseCase as UseCase, e.BaseObject as BaseObject ' +
+            'SELECT u."Id" as UserId, u."Name" as UserName, e."Id" as EntitlementId, e."UseCase" as UseCase, e."BaseObject" as BaseObject ' +
             'FROM public."FEUser" u, public."FEEntitlement" e ' +
-            'WHERE u.Active = TRUE AND e.UserId = u.Id', 
+            'WHERE u."Id" = "' + userId + '" AND u."Active" = TRUE AND e."UserId" = u."Id"', 
             (err, res) => {
             sendEntitlement(res.rows);
         })
