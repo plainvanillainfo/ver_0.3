@@ -44,7 +44,7 @@ class Session {
                         }
                         */
                         
-                        await this.database.getEntitlement(message.UserId, this.sendEntitlement);
+                        await this.database.getEntitlement(message, this.sendEntitlement);
                         
                     }
                     break;
@@ -81,12 +81,12 @@ class Session {
         this.isClosed = true;
     }
 
-    async sendEntitlement(entitlementRows) {
+    async sendEntitlement(messageIn, entitlementRows) {
         entitlementRows.forEach(rowCur => {
             console.log(rowCur);
             this.sendMessage({
                 Action: 'ReceiveEntitlement',
-                TrackId: message.TrackId,
+                TrackId: messageIn.TrackId,
                 UseCasesFileContent: rowCur
             });
         });
