@@ -100,6 +100,7 @@ class TemplateElem {
         this.useCaseElem = useCaseElem;
         this.divTarget = divTarget;
         this.isDrillDown = isDrillDown;
+        this.track = this.parent.track;
         if (this.isDrillDown) {
             this.track.div.appendChild(this.divTarget);
         } else {
@@ -110,6 +111,12 @@ class TemplateElem {
             }
             
             this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.useCaseElem)));
+            if (this.useCaseElem.SubUseCase != null) {
+                this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCaseElem.SubUseCase);
+
+                this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.subUseCase)));
+                
+            }
         }
         this.track = this.parent.track;
     }
