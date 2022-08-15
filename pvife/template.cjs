@@ -1,7 +1,7 @@
 const { UseCaseItem, UseCaseList, UseCaseElem } = require('./usecase.cjs');
 
 class TemplateItem {
-    constructor(parent, divTarget;) {
+    constructor(parent, divTarget) {
         this.parent = parent;
         this.divTarget = divTarget;
         this.UseCaseItem = null;
