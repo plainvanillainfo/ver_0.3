@@ -70,9 +70,12 @@ class Session {
             this.sendMessage({
                 Action: 'ReceiveEntitlement',
                 TrackId: messageIn.TrackId,
-                UseCasesFileContent: rowCur
+                Entitlement: rowCur
             });
         });
+
+        // Construct use case structures for all needed under this user's entitlements
+        // Send it to fe
     }
 
     accessNode(nodePath) {
