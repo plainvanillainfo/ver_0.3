@@ -104,10 +104,10 @@ class TemplateElem {
         if (this.isDrillDown) {
             this.track.div.appendChild(this.divTarget);
         } else {
-            let child = this.divTarget.lastElementChild;
+            let child = this.divTarget.lastChild;
             while (child) {
                 this.divTarget.removeChild(child);
-                child = this.divTarget.lastElementChild;
+                child = this.divTarget.lastChild;
             }
             
             this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.useCaseElem)));
