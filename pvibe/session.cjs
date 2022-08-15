@@ -8,7 +8,7 @@ class Session {
         this.database = this.parent.database;
         this.user = null;
         this.isClosed = false;
-        this.useCases = {};
+        this.entitlement = null;
         this.trackMain = new TrackServer(this, '1');
         this.tracks = {'1': this.trackMain};
         this.receiveMessage = this.receiveMessage.bind(this);
@@ -66,14 +66,12 @@ class Session {
 
     async sendEntitlement(messageIn, entitlement) {
         console.log("Session::sendEntitlement: ", entitlement);
+        this.entitlement = entitlement;
         this.sendMessage({
             Action: 'ReceiveEntitlement',
             TrackId: messageIn.TrackId,
             Entitlement: entitlement
         });
-
-        // Construct use case structures for all needed under this user's entitlements
-        // Send it to fe
     }
 
     accessNode(nodePath) {

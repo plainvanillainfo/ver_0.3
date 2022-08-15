@@ -40,7 +40,7 @@ class Database {
     }
 
     prepareEntitlementForFE(useCasesRaw, entitlementsRaw) {
-        let retVal = {UseCases: useCasesRaw, Entitlement: entitlementsRaw};
+        let retVal = {UseCases: useCasesRaw, Identity: entitlementsRaw};
         return retVal;
     }
     
