@@ -125,7 +125,7 @@ class ClientWeb {
                 this.setViewerSpec(message.ViewerSpec);
                 break;
             case 'ReceiveEntitlement':
-                this.setEntitlement(message.TrackId, message.Entitlement);
+                this.setEntitlement(message.Entitlement);
                 break;
             case 'ContinueTrack':
                 /*
@@ -206,10 +206,11 @@ class ClientWeb {
         }
     }
 
-    setEntitlement(trackId, entitlement) {
-        console.log("ClientWeb::setEntitlement()");
+    setEntitlement(entitlement) {
         this.useCases = entitlement.UseCases;
         this.identity = entitlement.Identity;
+        this.useCaseRoot = this.useCases.find(useCaseCur => useCaseCur.Id === this.identity[0].UseCase);
+        console.log("ClientWeb::setEntitlement(): ", this.useCaseRoot.Detail);
         
     }
 
