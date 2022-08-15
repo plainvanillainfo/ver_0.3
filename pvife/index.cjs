@@ -207,10 +207,11 @@ class ClientWeb {
     }
 
     setEntitlement(entitlement) {
+        console.log("ClientWeb::setEntitlement()");
         this.useCases = entitlement.UseCases;
         this.identity = entitlement.Identity;
         this.useCaseRoot = this.useCases.find(useCaseCur => useCaseCur.Id === this.identity[0].UseCase);
-        console.log("ClientWeb::setEntitlement(): ", this.useCaseRoot.Detail);
+        this.tracks['1'].setUseCase(this.useCaseRoot);
     }
     
     checkUserAuthentication() {

@@ -6,6 +6,11 @@ class TemplateItem {
         this.div = div;
         this.UseCaseItem = null;
     }
+    
+    setUseCase(useCase) {
+        this.useCase = useCase;
+        console.log("TemplateItem::setUseCase(): ", this.useCase);
+    }
 
 }
 
