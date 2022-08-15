@@ -61,55 +61,23 @@ class TemplateItem {
         this.ulMenu.ItemLIs = [];
         this.useCase.Detail.Elems.forEach( (menuItemCur, menuItemIndex) => {
             let itemLICur;
-            /*
-            if (menuItemCur.Viewers[0].ViewerSpec.MenuGroup != null) {
-                itemLICur = this.ulMenu.ItemLIs.find(cur => cur.Label === menuItemCur.Viewers[0].ViewerSpec.MenuGroup[0]);
-                if (itemLICur == null) {
-                    itemLICur = document.createElement('li');
-                    this.ulMenu.appendChild(itemLICur);
-                    itemLICur.Label = menuItemCur.Viewers[0].ViewerSpec.MenuGroup[0];
-                    itemLICur.GroupElems = [];
-                    itemLICur.className = 'nav-item';
-                    this.ulMenu.ItemLIs.push(itemLICur);
-                    itemLICur.A = document.createElement('a');
-                    itemLICur.appendChild(itemLICur.A);
-                    itemLICur.A.className = 'nav-link';
-                    itemLICur.A.setAttribute("href", "#");
-                    itemLICur.A.appendChild(document.createTextNode(itemLICur.Label));
-                    itemLICur.A.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        console.log("TemplateWeb::setUseCaseMenu - click on menu item", itemLICur);
-                        alert(JSON.stringify(itemLICur.GroupElems));
-
-                        //
-                        // HERE: Present a recursive Form
-                        //
-                        this.elems[itemLICur.Label] = new CompositeElenWeb(this);
-
-                    });
-                }
-                itemLICur.GroupElems.push({Name: menuItemCur.Name});
-            } else {
-                */
-                itemLICur = document.createElement('li');
-                this.ulMenu.appendChild(itemLICur);
-                itemLICur.Label = menuItemCur.Label;
-                itemLICur.className = 'nav-item';
-                this.ulMenu.ItemLIs.push(itemLICur);
-                itemLICur.A = document.createElement('a');
-                itemLICur.appendChild(itemLICur.A);
-                itemLICur.A.className = 'nav-link';
-                itemLICur.A.setAttribute("href", "#");
-                itemLICur.A.appendChild(document.createTextNode(itemLICur.Label));
-                itemLICur.A.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    console.log("TemplateItem::setUseCaseMenu - click on menu item", menuItemCur);
-                    let elemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
-                    this.elems[menuItemCur.Name] = new TemplateElem(this, elemPicked, this.divTargetSub, false);
-                    //this.elems[menuItemCur.Name].initiateTrigger();
-                });
-                
-            //}
+            itemLICur = document.createElement('li');
+            this.ulMenu.appendChild(itemLICur);
+            itemLICur.Label = menuItemCur.Label;
+            itemLICur.className = 'nav-item';
+            this.ulMenu.ItemLIs.push(itemLICur);
+            itemLICur.A = document.createElement('a');
+            itemLICur.appendChild(itemLICur.A);
+            itemLICur.A.className = 'nav-link';
+            itemLICur.A.setAttribute("href", "#");
+            itemLICur.A.appendChild(document.createTextNode(itemLICur.Label));
+            itemLICur.A.addEventListener('click', (event) => {
+                event.preventDefault();
+                console.log("TemplateItem::setUseCaseMenu - click on menu item", menuItemCur);
+                let elemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
+                this.elems[menuItemCur.Name] = new TemplateElem(this, elemPicked, this.divTargetSub, false);
+                //this.elems[menuItemCur.Name].initiateTrigger();
+            });
         });
     }
 
