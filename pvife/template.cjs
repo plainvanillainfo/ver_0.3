@@ -10,6 +10,15 @@ class TemplateItem {
     setUseCase(useCase) {
         this.useCase = useCase;
         console.log("TemplateItem::setUseCase(): ", this.useCase);
+        switch (this.useCase.Details.Format) {
+            case 'Menu':
+                
+                break;
+            case 'Form':
+                break;
+            default:
+                break;
+        }
     }
 
 }
