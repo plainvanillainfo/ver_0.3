@@ -4,7 +4,9 @@ class TemplateItem {
     constructor(parent, divTarget) {
         this.parent = parent;
         this.divTarget = divTarget;
+        this.track = this.parent.track;
         this.UseCaseItem = null;
+        this.elems = {};
     }
     
     setUseCase(useCase) {
@@ -102,8 +104,8 @@ class TemplateItem {
                 itemLICur.A.addEventListener('click', (event) => {
                     event.preventDefault();
                     console.log("TemplateItem::setUseCaseMenu - click on menu item", menuItemCur);
-                    //let elemPicked = this.useCase.elems[menuItemCur.Name];
-                    //this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked, false, this.divTargetSub);
+                    let elemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
+                    this.elems[menuItemCur.Name] = new TemplateElem(this, elemPicked, this.divTargetSub, false);
                     //this.elems[menuItemCur.Name].initiateTrigger();
                 });
                 
@@ -125,8 +127,21 @@ class TemplateList {
 }
 
 class TemplateElem {
-    constructor(parent) {
-        this.UseCaseElem = null;
+    constructor(parent, useCaseElem, divTarget, isDrillDown) {
+        this.parent = parent;
+        this.useCaseElem = useCaseElem;
+        this.divTarget = divTarget;
+        this.isDrillDown = isDrillDown;
+        if (this.isDrillDown) {
+            this.track.div.appendChild(this.divTarget);
+        } else {
+            let child = this.divTarget.lastElementChild;
+            while (child) {
+                this.divTarget.removeChild(child);
+                child = this.divTarget.lastElementChild;
+            }
+        }
+        this.track = this.parent.track;
     }
 
 }
