@@ -28,24 +28,7 @@ class Session {
                     break;
                 case 'SendEntitlement':
                     if (message.UserId != null) {
-                        
-                        /*
-                        if (this.model.users[message.UserId] != null) {
-                            //let entitlementCur = this.model.users[message.UserId].entitlements[0];
-                            //this.trackMain.setUseCase(this.model.useCases[entitlementCur.UseCase]);
-                            //this.trackMain.setItem(this.model.getItem(entitlementCur.ItemPath));
-                            this.sendMessage({
-                                Action: 'ReceiveEntitlement',
-                                TrackId: message.TrackId,
-                                Track: {}, //this.trackMain.getInitialMessage(),
-                                ClassesFileContent: {}, //this.model.classesFileContent,
-                                UseCasesFileContent: {} //this.model.useCasesFileContent
-                            });
-                        }
-                        */
-                        
                         await this.database.getEntitlement(message, this.sendEntitlement);
-                        
                     }
                     break;
                 case 'ContinueTrack':
