@@ -211,18 +211,7 @@ class ClientWeb {
         this.identity = entitlement.Identity;
         this.useCaseRoot = this.useCases.find(useCaseCur => useCaseCur.Id === this.identity[0].UseCase);
         console.log("ClientWeb::setEntitlement(): ", this.useCaseRoot.Detail);
-        
     }
-
-    /*
-    setEntitlement(viewerName, classesFileContent, useCasesFileContent) {
-        console.log("Client::setEntitlement()");
-        this.initializeClasses(classesFileContent, viewerName);
-        this.initializeUseCases(useCasesFileContent, viewerName);
-        //this.tracks[trackId].setUseCase(this.useCases[track.UseCaseSpec.Name]);
-        //this.tracks[trackId].setItem(track.ItemSpec != null ? track.ItemSpec : {});
-    }
-    */
     
     checkUserAuthentication() {
         if (this.parent.transmitter.websocketBEIsActive === true) {
