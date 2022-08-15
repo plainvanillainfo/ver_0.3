@@ -66,7 +66,7 @@ class Session {
 
     async sendEntitlement(messageIn, useCasesRaw, entitlementsRaw) {
         this.entitlement = {UseCases: useCasesRaw, Identity: entitlementsRaw};
-        console.log("Session::sendEntitlement: ", entitlement);
+        console.log("Session::sendEntitlement: ", this.entitlement);
         this.sendMessage({
             Action: 'ReceiveEntitlement',
             TrackId: messageIn.TrackId,
