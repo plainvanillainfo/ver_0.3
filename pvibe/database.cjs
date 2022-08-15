@@ -33,7 +33,7 @@ class Database {
                 'FROM public."FEUser" u, public."FEEntitlement" e ' +
                 'WHERE u."Id" = \'' + messageIn.UserId + '\' AND u."Active" = TRUE AND e."UserId" = u."Id"',
                 (err1, res1) => {
-                    let entitlementFinal = this.prepareEntitlementForFE(res, res1);
+                    let entitlementFinal = this.prepareEntitlementForFE(res.rows, res1.rows);
                     sendEntitlement(messageIn, entitlementFinal);
             });
         });
