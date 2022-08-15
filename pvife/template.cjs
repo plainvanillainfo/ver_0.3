@@ -141,7 +141,7 @@ class TemplateElem {
                 child = this.divTarget.lastElementChild;
             }
             
-            this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.useCaseElem));
+            this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.useCaseElem)));
         }
         this.track = this.parent.track;
     }
