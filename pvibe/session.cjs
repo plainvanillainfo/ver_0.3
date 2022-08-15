@@ -64,14 +64,12 @@ class Session {
         this.isClosed = true;
     }
 
-    async sendEntitlement(messageIn, entitlementRows) {
-        entitlementRows.forEach(rowCur => {
-            console.log(rowCur);
-            this.sendMessage({
-                Action: 'ReceiveEntitlement',
-                TrackId: messageIn.TrackId,
-                Entitlement: rowCur
-            });
+    async sendEntitlement(messageIn, entitlement) {
+        console.log("Session::sendEntitlement": entitlement);
+        this.sendMessage({
+            Action: 'ReceiveEntitlement',
+            TrackId: messageIn.TrackId,
+            Entitlement: entitlement
         });
 
         // Construct use case structures for all needed under this user's entitlements
