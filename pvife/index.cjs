@@ -391,10 +391,10 @@ class TrackWeb {
             if (indexCur === (this.breadcrumbs.length-1)) {
                 liCrumb.className = 'breadcrumb-item active';
                 if (crumbCur.useCase != null) {
-                    liCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label + ' ' +  itemId));
+                    liCrumb.appendChild(document.createTextNode(crumbCur.useCase.Detail.Label + ' ' +  itemId));
                 }
                 if (crumbCur.useCaseElem != null) {
-                    liCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.spec.Viewers[0].Label + ' ' +  itemId));
+                    liCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.Detail.Label + ' ' +  itemId));
                 }
             } else {
                 liCrumb.className = 'breadcrumb-item';
@@ -403,10 +403,10 @@ class TrackWeb {
                 aCrumb.setAttribute('href', '#');
                 //aCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label + ' ' +  itemId));
                 if (crumbCur.useCase != null) {
-                    aCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label + ' ' +  itemId));
+                    aCrumb.appendChild(document.createTextNode(crumbCur.useCase.Detail.Label + ' ' +  itemId));
                 }
                 if (crumbCur.useCaseElem != null) {
-                    aCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.spec.Viewers[0].Label + ' ' +  itemId));
+                    aCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.Detail.Label + ' ' +  itemId));
                 }
             }
         });
