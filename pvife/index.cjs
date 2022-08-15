@@ -110,6 +110,7 @@ class ClientWeb {
         this.parent = parent;
         this.name = name;
         this.tracks = {};
+        this.useCases = null;
         this.fromServer = this.fromServer.bind(this);
         this.toServer = this.toServer.bind(this);
     }
@@ -124,7 +125,7 @@ class ClientWeb {
                 this.setViewerSpec(message.ViewerSpec);
                 break;
             case 'ReceiveEntitlement':
-                this.setEntitlement(message.TrackId, message.Track, message.ClassesFileContent, message.UseCasesFileContent);
+                this.setEntitlement(message.TrackId, message.Entitlement);
                 break;
             case 'ContinueTrack':
                 /*
@@ -205,8 +206,11 @@ class ClientWeb {
         }
     }
 
-    setEntitlement(useCase, dataPath) {
+    setEntitlement(trackId, entitlement) {
         console.log("ClientWeb::setEntitlement()");
+        this.useCases = entitlement.UseCases;
+        this.identity = entitlement.Identity;
+        
     }
 
     /*
