@@ -64,13 +64,13 @@ class Session {
         this.isClosed = true;
     }
 
-    async sendEntitlement(messageIn, entitlement) {
+    async sendEntitlement(messageIn, useCasesRaw, entitlementsRaw) {
+        this.entitlement = {UseCases: useCasesRaw, Identity: entitlementsRaw};
         console.log("Session::sendEntitlement: ", entitlement);
-        this.entitlement = entitlement;
         this.sendMessage({
             Action: 'ReceiveEntitlement',
             TrackId: messageIn.TrackId,
-            Entitlement: entitlement
+            Entitlement: this.entitlement
         });
     }
 
