@@ -10,7 +10,7 @@ class TemplateItem {
     setUseCase(useCase) {
         this.useCase = useCase;
         console.log("TemplateItem::setUseCase(): ", this.useCase);
-        switch (this.useCase.Details.Format) {
+        switch (this.useCase.Detail.Format) {
             case 'Menu':
                 this.setUseCaseMenu();
                 break;
@@ -57,7 +57,7 @@ class TemplateItem {
         this.divMenu.appendChild(this.ulMenu);
         this.ulMenu.className = 'navbar-nav me-auto mb-2 mb-md-0';
         this.ulMenu.ItemLIs = [];
-        this.useCase.Details.Elems.forEach( (menuItemCur, menuItemIndex) => {
+        this.useCase.Detail.Elems.forEach( (menuItemCur, menuItemIndex) => {
             let itemLICur;
             /*
             if (menuItemCur.Viewers[0].ViewerSpec.MenuGroup != null) {
