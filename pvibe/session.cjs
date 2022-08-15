@@ -65,7 +65,7 @@ class Session {
     }
 
     async sendEntitlement(messageIn, entitlement) {
-        console.log("Session::sendEntitlement": entitlement);
+        console.log("Session::sendEntitlement: ", entitlement);
         this.sendMessage({
             Action: 'ReceiveEntitlement',
             TrackId: messageIn.TrackId,
