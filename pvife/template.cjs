@@ -149,7 +149,7 @@ class TemplateElem {
             if (this.useCaseElem.SubUseCase != null) {
                 this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCaseElem.SubUseCase);
                 //this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.subUseCase)));
-                switch (this.subUseCase.Format) {
+                switch (this.subUseCase.Detail.Format) {
                     case 'List':
                     case 'PickList':
                         this.templateList = new TemplateList(this, this.divTarget);
