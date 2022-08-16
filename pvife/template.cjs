@@ -169,17 +169,8 @@ class TemplateElem {
             // Do breadcrumb logic like ver_0.2 - TemplateElemWeb:: trigger() - case: Child
             this.track.div.appendChild(this.divTarget);
         } else {
-            /*
-            let child = this.divTarget.lastChild;
-            while (child) {
-                this.divTarget.removeChild(child);
-                child = this.divTarget.lastChild;
-            }
-            */
-            //this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.useCaseElem)));
             if (this.useCaseElem.SubUseCase != null) {
                 this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCaseElem.SubUseCase);
-                //this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.subUseCase)));
                 switch (this.subUseCase.Detail.Format) {
                     case 'List':
                     case 'PickList':
