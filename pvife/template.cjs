@@ -12,6 +12,18 @@ class TemplateItem {
     destroy() {
     }
     
+    show() {
+        this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.useCase)));
+    }
+    
+    hide() {
+        let child = this.divTarget.lastChild;
+        while (child) {
+            this.divTarget.removeChild(child);
+            child = this.divTarget.lastChild;
+        }
+    }
+    
     setUseCase(useCase) {
         this.useCase = useCase;
         console.log("TemplateItem::setUseCase(): ", this.useCase);
@@ -78,8 +90,16 @@ class TemplateItem {
                 event.preventDefault();
                 console.log("TemplateItem::setUseCaseMenu - click on menu item", menuItemCur);
                 let elemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
-                this.elems[menuItemCur.Name] = new TemplateElem(this, elemPicked, this.divTargetSub, false);
-                //this.elems[menuItemCur.Name].initiateTrigger();
+                if (this.elems[menuItemCur.Name] == null) {
+                    this.elems[menuItemCur.Name] = new TemplateElem(this, elemPicked, this.divTargetSub, false);
+                }
+                for (let elemCur in this.elems) {
+                    let elemDetail = this.elems[elemCur];
+                    if (elemDetail.Name !== menuItemCur.Name) {
+                        elemDetail.hide();
+                    }
+                }
+                this.elems[menuItemCur.Name].show();
             });
         });
     }
@@ -102,11 +122,22 @@ class TemplateList {
     
     destroy() {
     }
+    
+    show() {
+        this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.useCase)));
+    }
+    
+    hide() {
+        let child = this.divTarget.lastChild;
+        while (child) {
+            this.divTarget.removeChild(child);
+            child = this.divTarget.lastChild;
+        }
+    }
 
     setUseCase(useCase) {
         this.useCase = useCase;
         console.log("TemplateList::setUseCase(): ", this.useCase);
-        this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.useCase)));
         switch (this.useCase.Detail.Format) {
             case 'List':
                 this.setUseCaseList();
@@ -135,7 +166,7 @@ class TemplateElem {
         this.isDrillDown = isDrillDown;
         this.track = this.parent.track;
         if (this.isDrillDown) {
-            // Do breadcrumb logic liek ver_0.2 - TemplateElemWeb:: trigger() - case: Child
+            // Do breadcrumb logic like ver_0.2 - TemplateElemWeb:: trigger() - case: Child
             this.track.div.appendChild(this.divTarget);
         } else {
             /*
@@ -172,6 +203,24 @@ class TemplateElem {
         }
         if (this.templateItem != null) {
             this.templateItem.destroy();
+        }
+    }
+    
+    show() {
+        if (this.templateList != null) {
+            this.templateList.show();
+        }
+        if (this.templateItem != null) {
+            this.templateItem.show();
+        }
+    }
+    
+    hide() {
+        if (this.templateList != null) {
+            this.templateList.hide();
+        }
+        if (this.templateItem != null) {
+            this.templateItem.hide();
         }
     }
 
