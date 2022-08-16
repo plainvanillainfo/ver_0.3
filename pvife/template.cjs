@@ -6,6 +6,7 @@ class TemplateItem {
         this.divTarget = divTarget;
         this.track = this.parent.track;
         this.elems = {};
+        this.key = null;
     }
 
     destroy() {
@@ -90,7 +91,13 @@ class TemplateItem {
 }
 
 class TemplateList {
-    constructor(parent) {
+    constructor(parent, this.divTarget) {
+        this.parent = parent;
+        this.divTarget = divTarget;
+        this.track = this.parent.track;
+        this.elems = {};
+        this.items = [];
+        this.templateItems = [];
     }
     
     destroy() {
@@ -99,6 +106,7 @@ class TemplateList {
     setUseCase(useCase) {
         this.useCase = useCase;
         console.log("TemplateList::setUseCase(): ", this.useCase);
+        this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.useCase)));
         switch (this.useCase.Detail.Format) {
             case 'List':
                 this.setUseCaseList();
@@ -144,7 +152,7 @@ class TemplateElem {
                 switch (this.subUseCase.Format) {
                     case 'List':
                     case 'PickList':
-                        this.templateList = new TemplateList(this);
+                        this.templateList = new TemplateList(this, this.divTarget);
                         this.templateList.setUseCase(this.subUseCase);
                         break;
                     case 'Item':
