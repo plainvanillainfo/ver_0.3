@@ -5,8 +5,10 @@ class TemplateItem {
         this.parent = parent;
         this.divTarget = divTarget;
         this.track = this.parent.track;
-        this.UseCaseItem = null;
         this.elems = {};
+    }
+
+    destroy() {
     }
     
     setUseCase(useCase) {
@@ -89,7 +91,30 @@ class TemplateItem {
 
 class TemplateList {
     constructor(parent) {
-        this.UseCaseList = null;
+    }
+    
+    destroy() {
+    }
+
+    setUseCase(useCase) {
+        this.useCase = useCase;
+        console.log("TemplateList::setUseCase(): ", this.useCase);
+        switch (this.useCase.Detail.Format) {
+            case 'List':
+                this.setUseCaseList();
+                break;
+            case 'PickList':
+                this.setUseCasePickList();
+                break;
+            default:
+                break;
+        }
+    }
+    
+    setUseCaseList() {
+    }
+    
+    setUseCasePickList() {
     }
 
 }
@@ -102,23 +127,44 @@ class TemplateElem {
         this.isDrillDown = isDrillDown;
         this.track = this.parent.track;
         if (this.isDrillDown) {
+            // Do breadcrumb logic liek ver_0.2 - TemplateElemWeb:: trigger() - case: Child
             this.track.div.appendChild(this.divTarget);
         } else {
+            /*
             let child = this.divTarget.lastChild;
             while (child) {
                 this.divTarget.removeChild(child);
                 child = this.divTarget.lastChild;
             }
-            
-            this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.useCaseElem)));
+            */
+            //this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.useCaseElem)));
             if (this.useCaseElem.SubUseCase != null) {
                 this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCaseElem.SubUseCase);
-
-                this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.subUseCase)));
-                
+                //this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.subUseCase)));
+                switch (this.subUseCase.Format) {
+                    case 'List':
+                    case 'PickList':
+                        this.templateList = new TemplateList(this);
+                        this.templateList.setUseCase(this.subUseCase);
+                        break;
+                    case 'Item':
+                        this.templateItem = new TemplateItem(this, this.divTarget);
+                        break;
+                    default:
+                        break;
+                    
+                }
             }
         }
-        this.track = this.parent.track;
+    }
+
+    destroy() {
+        if (this.templateList != null) {
+            this.templateList.destroy();
+        }
+        if (this.templateItem != null) {
+            this.templateItem.destroy();
+        }
     }
 
 }
