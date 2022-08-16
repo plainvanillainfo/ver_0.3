@@ -91,7 +91,7 @@ class TemplateItem {
 }
 
 class TemplateList {
-    constructor(parent, this.divTarget) {
+    constructor(parent, divTarget) {
         this.parent = parent;
         this.divTarget = divTarget;
         this.track = this.parent.track;
