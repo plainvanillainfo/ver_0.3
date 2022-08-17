@@ -280,7 +280,7 @@ class TemplateElem {
         let messageOut = {
             Action: 'ContinueTemplateElem',
             TemplateElem: {
-                UseCaseElemName: this.useCaseElem.Detail.Name,
+                UseCaseElemName: this.useCaseElem.Name,
                 ...messageIn
             }
         };
