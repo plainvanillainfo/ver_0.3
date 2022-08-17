@@ -7,9 +7,28 @@ class TemplateItem {
         this.track = this.parent.track;
         this.elems = {};
         this.key = null;
+        this.toServer = this.toServer.bind(this);
     }
 
     destroy() {
+    }
+
+    fromServer(message) {
+        console.log("TemplateItem::fromServer(): ", message);
+        if (message.Action != null) {
+        }
+    }
+
+    toServer(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTemplate',
+            Template: {
+                UseCaseName: this.useCase.Detail.Name,
+                ItemId: this.key,
+                ...messageIn
+            }
+        };
+        this.parent.forwardToServer(messageOut);
     }
     
     show() {
@@ -118,9 +137,48 @@ class TemplateList {
         this.elems = {};
         this.items = [];
         this.templateItems = [];
+        this.toServer = this.toServer.bind(this);
     }
-    
+
     destroy() {
+    }
+
+    fromServer(message) {
+        console.log("TemplateList::fromServer(): ", message);
+        if (message.Action != null) {
+            /*
+            switch (message.Action) {
+                case 'ContinueTemplateSub':
+                    if (this.templateSub != null && message.Template != null) {
+                        this.templateSub.fromServer(message.Template);
+                    }
+                    break;
+                case 'ContinueTemplate':
+                    if (this.templateSub != null && message.Template != null) {
+                        this.templateSub.fromServer(message.Template);
+                    }
+                    break;
+                case 'AcceptDataList':
+                    if (message.ItemList != null) {
+                        this.setListFromServer(message.ItemList);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            */
+        }
+    }
+
+    toServer(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTemplateList',
+            TemplateList: {
+                UseCaseName: this.useCase.Detail.Name,
+                ...messageIn
+            }
+        };
+        this.parent.toServer(messageOut);
     }
     
     show() {
@@ -151,9 +209,23 @@ class TemplateList {
     }
     
     setUseCaseList() {
+        let messageOut = {
+            Action: 'StartTemplateList',
+            TemplateElem: {
+                UseCaseElemName: this.useCaseElem.spec.Name
+            }
+        };
+        this.parent.toServer(messageOut);
     }
     
     setUseCasePickList() {
+        let messageOut = {
+            Action: 'StartTemplateList',
+            TemplateElem: {
+                UseCaseElemName: this.useCaseElem.spec.Name
+            }
+        };
+        this.parent.toServer(messageOut);
     }
 
 }
@@ -165,6 +237,7 @@ class TemplateElem {
         this.divTarget = divTarget;
         this.isDrillDown = isDrillDown;
         this.track = this.parent.track;
+        this.toServer = this.toServer.bind(this);
         if (this.isDrillDown) {
             // Do breadcrumb logic like ver_0.2 - TemplateElemWeb:: trigger() - case: Child
             this.track.div.appendChild(this.divTarget);
@@ -195,6 +268,23 @@ class TemplateElem {
         if (this.templateItem != null) {
             this.templateItem.destroy();
         }
+    }
+
+    fromServer(message) {
+        console.log("TemplateElem::fromServer(): ", message);
+        if (message.Action != null) {
+        }
+    }
+
+    toServer(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTemplateElem',
+            TemplateElem: {
+                UseCaseElemName: this.useCaseElem.Detail.Name,
+                ...messageIn
+            }
+        };
+        this.parent.toServer(messageOut);
     }
     
     show() {
