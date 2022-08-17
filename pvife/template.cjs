@@ -212,7 +212,7 @@ class TemplateList {
         let messageOut = {
             Action: 'StartTemplateList',
             TemplateElem: {
-                UseCaseName: this.useCase.spec.Name
+                UseCaseName: this.useCase.Detail.Name
             }
         };
         this.parent.toServer(messageOut);
