@@ -28,7 +28,7 @@ class TemplateItem {
                 ...messageIn
             }
         };
-        this.parent.forwardToServer(messageOut);
+        this.parent.toServer(messageOut);
     }
     
     show() {
