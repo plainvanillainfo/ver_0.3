@@ -21,6 +21,11 @@ class TemplateItem {
                         if(this.elems[message.TemplateElem.UseCaseElemName] != null) {
                             this.elems[message.TemplateElem.UseCaseElemName].fromClient(message.TemplateElem);
                         } else {
+
+                        //
+                        // HERE
+                        //
+
                             let templateElemNew = new TemplateElem(this, this.useCase.elems[message.TemplateElem.UseCaseElemName]);
                             this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
                             //templateElemNew.trigger();
