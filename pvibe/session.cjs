@@ -32,11 +32,9 @@ class Session {
                     }
                     break;
                 case 'ContinueTrack':
-                    /*
                     if (message.TrackId != null && message.Track != null && this.tracks[message.TrackId] != null) {
                         this.tracks[message.TrackId].fromClient(message.Track);
                     }
-                    */
                     break;
                 case 'UpdateItem':
                     //this.model.putItem(this.model.itemSeed, message.Item);
@@ -105,10 +103,10 @@ class TrackServer {
 
     fromClient(message) {
         console.log("TrackServer::fromClient(): ", message);
-        if (message.Action != null && message.Template != null) {
+        if (message.Action != null && message.TemplateItem != null) {
             switch (message.Action) {
-                case 'ContinueTemplate':
-                    this.templateItemRoot.fromClient(message.Template);
+                case 'ContinueTemplateItem':
+                    this.templateItemRoot.fromClient(message.TemplateItem);
                     break;
                 default:
                     break;
