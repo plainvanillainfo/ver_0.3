@@ -22,7 +22,7 @@ class TemplateItem {
     toServer(messageIn) {
         let messageOut = {
             Action: 'ContinueTemplate',
-            Template: {
+            TemplateItem: {
                 UseCaseName: this.useCase.Detail.Name,
                 ItemId: this.key,
                 ...messageIn

@@ -265,7 +265,7 @@ class ClientWeb {
     initiateTracks() {
         let divTrackNew = document.createElement('div');
         this.elementTracks.appendChild(divTrackNew);
-        let trackFirst = new TrackWeb(this, '1', divTrackNew);
+        let trackFirst = new Track(this, '1', divTrackNew);
         this.tracks[trackFirst.id] = trackFirst;
         this.toServer({
             Action: 'SendEntitlement',
@@ -281,7 +281,7 @@ class ClientWeb {
 
 }
 
-class TrackWeb {
+class Track {
     constructor(parent, trackId, div) {
         this.parent = parent;
         this.id = trackId;
@@ -339,7 +339,7 @@ class TrackWeb {
     }
 
     setUseCase(useCase) {
-        console.log("TrackWeb::setUseCase()");
+        console.log("Track::setUseCase()");
         this.templateItemRoot.setUseCase(useCase);
         this.showCrumbs();
     }
@@ -360,14 +360,14 @@ class TrackWeb {
     }
 
     pushBreadcrumb(templatePushed) {
-        console.log("TrackWeb::pushBreadcrumb");
+        console.log("Track::pushBreadcrumb");
         this.breadcrumbs.push(templatePushed);
         this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(false);
         this.showCrumbs();
     }
 
     popBreadcrumb() {
-        console.log("TrackWeb::popBreadcrumb");
+        console.log("Track::popBreadcrumb");
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
         this.breadcrumbs.pop();
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
@@ -413,7 +413,6 @@ class TrackWeb {
     }
 
 }
-
 
 module.exports = {
     Transmitter,
