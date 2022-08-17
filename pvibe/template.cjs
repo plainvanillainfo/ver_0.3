@@ -13,7 +13,7 @@ class TemplateItem {
     }
 
     fromClient(message) {
-        console.log("TemplateItem::fromServer(): ", message);
+        console.log("TemplateItem::fromClient(): ", message);
         if (message.Action != null) {
         }
     }
