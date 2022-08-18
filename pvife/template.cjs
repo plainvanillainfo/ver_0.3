@@ -189,6 +189,10 @@ class TemplateList {
             }
             */
         }
+        if (message.Items != null) {
+            this.items = message.Items;
+            this.setUseCaseListRows();
+        }
     }
 
     toServer(messageIn) {
@@ -310,13 +314,23 @@ class TemplateList {
             tableHeadRowHeader.setAttribute("scope", "col");
             tableHeadRowHeader.appendChild(document.createTextNode(elemCur.Label));
         });
-        /*
-        this.listFromServer.forEach(itemCur => {
+        let messageOut = {
+            Action: 'StartTemplateList',
+            TemplateElem: {
+                UseCaseName: this.useCase.Detail.Name
+            }
+        };
+        this.parent.toServer(messageOut);
+    }
+
+    setUseCaseListRows() {
+        this.items.forEach(itemCur => {
             let tableItemRow = document.createElement('tr');
             this.tableBody.appendChild(tableItemRow);
             tableItemRow.addEventListener('click', (event) => {
                 event.preventDefault();
-                console.log("TemplateListWeb - item picked: ", itemCur.Id);
+                console.log("TemplateList - item picked: ", itemCur.Id);
+                /*
                 this.divTargetSub = document.createElement('div')
                 this.divTargetSub.style.margin = '10px';
                 this.track.divTargetSub.appendChild(this.divTargetSub);
@@ -343,23 +357,16 @@ class TemplateList {
                     this.templateSub.setUseCase(useCaseSub);
                     this.track.pushBreadcrumb(this.templateSub);
                 }
+                */
             });
-            this.useCase.spec.Elems.forEach(elemCur => {
+            this.useCase.Detail.Elems.forEach(elemCur => {
                 let tableItemRowCell = document.createElement('td');
                 tableItemRow.appendChild(tableItemRowCell);
-                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].Value : ''
+                //let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].Value : ''
+                let valueCur = itemCur[elemCur.Name] != null ? itemCur[elemCur.Name] : ''
                 tableItemRowCell.appendChild(document.createTextNode(valueCur));
             });
         });
-        */
-
-        let messageOut = {
-            Action: 'StartTemplateList',
-            TemplateElem: {
-                UseCaseName: this.useCase.Detail.Name
-            }
-        };
-        this.parent.toServer(messageOut);
     }
     
     setUseCasePickList() {
