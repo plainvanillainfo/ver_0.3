@@ -14,7 +14,7 @@ class TemplateItem {
     }
 
     fromClient(message) {
-        console.log("TemplateItem::fromClient(): ", message);
+        console.log("TemplateItem::fromClient(): ", message, "\nthis.useCase: ", this.useCase);
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateElem':
