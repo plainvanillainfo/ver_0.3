@@ -106,3 +106,38 @@ class TemplateElem {
 module.exports = {
     TemplateItem: TemplateItem
 }
+
+
+/*
+
+{
+  "Name": "Communities",
+  "Label": "Communities",
+  "Format": "List",
+  "View": "Communities",
+  "Elems": [
+    {
+      "Name": "Id"
+    },
+    {
+      "Name": "Name"
+    },
+    {
+      "Name": "MgmtCompanyId"
+    },
+    {
+      "Name": "Abbreviation"
+    },
+    {
+      "Name": "Location"
+    }
+  ]
+}
+
+ SELECT "Community"."Id",
+    "Community"."Name",
+    "Community"."MgmtCompanyId",
+    "Community"."Abbreviation",
+    "Community"."Location"
+   FROM "Community";
+*/
