@@ -64,10 +64,8 @@ class TemplateElem {
         this.useCaseElem = useCaseElem;
         this.track = this.parent.track;
         this.session = this.parent.session;
-        //this.model = this.parent.model;
         this.itemParent = parent.item;
         this.toClient = this.toClient.bind(this);
-        //this.trigger = this.trigger.bind(this);
     }
 
     fromClient(message) {
