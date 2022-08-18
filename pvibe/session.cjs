@@ -9,7 +9,7 @@ class Session {
         this.user = null;
         this.isClosed = false;
         this.entitlement = null;
-        this.trackMain = new TrackServer(this, '1');
+        this.trackMain = new Track(this, '1');
         this.tracks = {'1': this.trackMain};
         this.receiveMessage = this.receiveMessage.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
@@ -89,7 +89,7 @@ class Session {
 
 }
 
-class TrackServer {
+class Track {
     constructor(parent, trackId) {
         this.parent = parent;
         this.id = trackId;
@@ -103,11 +103,10 @@ class TrackServer {
     }
 
     fromClient(message) {
-        console.log("TrackServer::fromClient(): ", message); //," this.session.entitlement.UseCases: ", this.session.entitlement.UseCases, " this.session.entitlement.Identity: ", this.session.entitlement.Identity);
+        console.log("Track::fromClient(): ", message);
         if (message.Action != null && message.TemplateItem != null) {
             if (this.templateItemRoot == null) {
-                let useCaseFound = this.session.entitlement.UseCases.find(
-                    useCaseCur => useCaseCur.Id === this.session.entitlement.Identity[0].UseCase);
+                let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.session.entitlement.Identity[0].UseCase);
                 if (useCaseFound != null ) {
                     this.templateItemRoot = new TemplateItem(this, useCaseFound);
                 }

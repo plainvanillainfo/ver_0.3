@@ -16,7 +16,7 @@ class TemplateItem {
     }
 
     fromClient(message) {
-        console.log("TemplateItem::fromClient(): ", message, "\nthis.useCase: ", this.useCase);
+        console.log("TemplateItem::fromClient(): ", message); //, "\nthis.useCase: ", this.useCase);
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateElem':
@@ -61,6 +61,7 @@ class TemplateList {
         this.session = this.parent.session;
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
+        
     }
 
     fromClient(message) {
@@ -78,6 +79,9 @@ class TemplateList {
         this.parent.toClient(messageOut);
     }
 
+    pushOutData() {
+    }
+
 }
 
 class TemplateElem {
@@ -92,20 +96,23 @@ class TemplateElem {
     }
 
     fromClient(message) {
-        console.log("TemplateItem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem);
+        console.log("TemplateElem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem);
         if (this.useCaseElem.Format != null) {
             switch (this.useCaseElem.Format) {
                 case 'MenuOption':
                     if (this.useCaseElem.SubUseCase != null) {
-                        let useCaseFound = this.session.entitlement.UseCases.find(
-                            useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
+                        let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
                         if (useCaseFound != null) {
-                            console.log("TemplateItem::fromClient() - useCaseFound: ", useCaseFound);
-
-                            switch (useCaseFound.Format) {
+                            console.log("TemplateElem::fromClient() - useCaseFound: ", useCaseFound);
+                            switch (useCaseFound.Detail.Format) {
                                 case 'List':
-                                    let view = useCaseFound.View;
-                                    this.templateList = new TemplateList(this, useCaseFound);
+                                    if (this.templateList == null) {
+                                        this.templateList = new TemplateList(this, useCaseFound);
+                                    } else {
+                                        if (message.TemplateElem.TemplateList != null) {
+                                            this.templateList.fromClient(message.TemplateElem.TemplateList);
+                                        }
+                                    }
                                     break;
                                 default:
                                     break;
@@ -117,9 +124,8 @@ class TemplateElem {
                     break;
             }
         }
-
     }
-
+    
     toClient(messageIn) {
         let messageOut = {
             Action: 'ContinueTemplateElem',
@@ -130,7 +136,6 @@ class TemplateElem {
         };
         this.parent.toClient(messageOut);
     }
-
 }
 
 module.exports = {
