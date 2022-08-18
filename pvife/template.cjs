@@ -226,10 +226,11 @@ class TemplateList {
         switch (this.useCase.Detail.Format) {
             case 'List':
                 this.elementPayload = document.createElement('div');
+                this.divTarget.appendChild(this.elementPayload);
                 this.setUseCaseList();
                 break;
             case 'PickList':
-                this.elementPayload = document.createElement('div');
+                this.elementPayload = document.createElement('select');
                 this.setUseCasePickList();
                 break;
             default:
