@@ -20,7 +20,7 @@ class TemplateItem {
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
                         if(this.elems[message.TemplateElem.UseCaseElemName] == null) {
-                            let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur.Name === message.TemplateElem.UseCaseElemName);
+                            let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.TemplateElem.UseCaseElemName);
                             if (useCaseElemFound != null) {
                                 let templateElemNew = new TemplateElem(this, useCaseElemFound);
                                 this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
