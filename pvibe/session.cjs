@@ -106,7 +106,7 @@ class TrackServer {
         if (message.Action != null && message.TemplateItem != null) {
             if (this.templateItemRoot == null) {
                 let useCaseFound = this.session.entitlement.UseCases.find(
-                    useaCaseCur => useCaseCur.Name === this.session.entitlement.Identity[0].UseCase);
+                    useCaseCur => useCaseCur.Name === this.session.entitlement.Identity[0].UseCase);
                 if (useCaseFound != null ) {
                     this.templateItemRoot = new TemplateItem(this, useCaseFound);
                 }
