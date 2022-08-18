@@ -20,10 +20,15 @@ class TemplateItem {
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
                         if(this.elems[message.TemplateElem.UseCaseElemName] == null) {
-                            let templateElemNew = new TemplateElem(this, this.useCase.Detail.Elems[message.TemplateElem.UseCaseElemName]);
-                            this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
+                            let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur.Name === message.TemplateElem.UseCaseElemName);
+                            if (useCaseElemFound != null) {
+                                let templateElemNew = new TemplateElem(this, useCaseElemFound);
+                                this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
+                            }
                         }
-                        this.elems[message.TemplateElem.UseCaseElemName].fromClient(message.TemplateElem);
+                        if (this.elems[message.TemplateElem.UseCaseElemName] != null) {
+                            this.elems[message.TemplateElem.UseCaseElemName].fromClient(message.TemplateElem);
+                        }
                     }
                     break;
                 default:
