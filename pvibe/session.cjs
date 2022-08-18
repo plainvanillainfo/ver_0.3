@@ -97,13 +97,16 @@ class TrackServer {
         this.track = this;
         this.isClosed = false;
         this.dbPath = [];
-        this.templateItemRoot = new TemplateItem(this);
+        this.templateItemRoot = null;
         this.toClient = this.toClient.bind(this);
     }
 
     fromClient(message) {
         console.log("TrackServer::fromClient(): ", message);
         if (message.Action != null && message.TemplateItem != null) {
+            if (this.templateItemRoot == null) {
+                this.templateItemRoot = new TemplateItem(this, this.session.entitlement.Identity[0].UseCase);
+            }
             switch (message.Action) {
                 case 'ContinueTemplateItem':
                     this.templateItemRoot.fromClient(message.TemplateItem);
