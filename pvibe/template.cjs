@@ -8,6 +8,7 @@ class TemplateItem {
         this.session = this.parent.session;
         this.elems = {};
         this.key = null;
+        this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
     }
 
@@ -53,9 +54,28 @@ class TemplateItem {
 }
 
 class TemplateList {
-    constructor(parent) {
+    constructor(parent, useCase) {
+        this.parent = parent;
+        this.useCase = useCase;
         this.track = this.parent.track;
         this.session = this.parent.session;
+        this.fromClient = this.fromClient.bind(this);
+        this.toClient = this.toClient.bind(this);
+    }
+
+    fromClient(message) {
+        console.log("TemplateList::fromClient(): ", message);
+    }
+
+    toClient(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTemplateList',
+            TemplateList: {
+                UseCaseName: this.useCase.Detail.Name,
+                ...messageIn
+            }
+        };
+        this.parent.toClient(messageOut);
     }
 
 }
@@ -67,6 +87,7 @@ class TemplateElem {
         this.track = this.parent.track;
         this.session = this.parent.session;
         this.itemParent = parent.item;
+        this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
     }
 
@@ -80,6 +101,15 @@ class TemplateElem {
                             useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
                         if (useCaseFound != null) {
                             console.log("TemplateItem::fromClient() - useCaseFound: ", useCaseFound);
+
+                            switch (useCaseFound.Format) {
+                                case 'List':
+                                    let view = useCaseFound.View;
+                                    this.templateList = new TemplateList(this, useCaseFound);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                     break;
@@ -94,7 +124,7 @@ class TemplateElem {
         let messageOut = {
             Action: 'ContinueTemplateElem',
             TemplateElem: {
-                UseCaseName: this.useCase.Detail.Name,
+                UseCaseElemName: this.useCaseElem.Name,
                 ...messageIn
             }
         };
@@ -117,19 +147,24 @@ module.exports = {
   "View": "Communities",
   "Elems": [
     {
-      "Name": "Id"
+      "Name": "Id",
+      "Label": "Id"
     },
     {
-      "Name": "Name"
+      "Name": "Name",
+      "Label": "Name"
     },
     {
-      "Name": "MgmtCompanyId"
+      "Name": "MgmtCompanyId",
+      "Label": "Management Company"
     },
     {
-      "Name": "Abbreviation"
+      "Name": "Abbreviation",
+      "Label": "Abbreviation"
     },
     {
-      "Name": "Location"
+      "Name": "Location",
+      "Label": "Location"
     }
   ]
 }

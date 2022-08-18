@@ -98,6 +98,7 @@ class TrackServer {
         this.isClosed = false;
         this.dbPath = [];
         this.templateItemRoot = null;
+        this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
     }
 
