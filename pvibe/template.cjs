@@ -5,6 +5,7 @@ class TemplateItem {
         this.parent = parent;
         this.useCase = useCase;
         this.track = this.parent.track;
+        this.session = this.parent.session;
         this.elems = {};
         this.key = null;
         this.toClient = this.toClient.bind(this);
@@ -53,7 +54,8 @@ class TemplateItem {
 
 class TemplateList {
     constructor(parent) {
-        this.UseCaseList = null;
+        this.track = this.parent.track;
+        this.session = this.parent.session;
     }
 
 }
