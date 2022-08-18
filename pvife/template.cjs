@@ -215,7 +215,9 @@ class TemplateList {
             child = this.divTarget.lastChild;
         }
         */
-        this.divTarget.removeChild(this.elementPayload);
+        if (this.elementPayload != null) {
+            this.divTarget.removeChild(this.elementPayload);
+        }
     }
 
     setUseCase(useCase) {
