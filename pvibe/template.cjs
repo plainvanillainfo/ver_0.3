@@ -61,7 +61,7 @@ class TemplateList {
         this.session = this.parent.session;
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
-        this.pushOutData = this.pushOutData.bind(this);
+        this.sendViewResultToClient = this.sendViewResultToClient.bind(this);
         this.requestViewFromDB('1=1');
     }
 
