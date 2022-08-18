@@ -70,6 +70,22 @@ class TemplateElem {
 
     fromClient(message) {
         console.log("TemplateItem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem);
+        if (this.useCaseElem.Format != null) {
+            switch (this.useCaseElem.Format) {
+                case 'MenuOption':
+                    if (this.useCaseElem.SubUseCase != null) {
+                        let useCaseFound = this.session.entitlement.UseCases.find(
+                            useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
+                        if (useCaseFound != null) {
+                            console.log("TemplateItem::fromClient() - useCaseFound: ", useCaseFound);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 
     toClient(messageIn) {
