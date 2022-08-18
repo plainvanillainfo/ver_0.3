@@ -61,7 +61,8 @@ class TemplateList {
         this.session = this.parent.session;
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
-        
+        this.pushOutData = this.pushOutData.bind(this);
+        this.requestViewFromDB('1=1');
     }
 
     fromClient(message) {
@@ -79,7 +80,12 @@ class TemplateList {
         this.parent.toClient(messageOut);
     }
 
-    pushOutData() {
+    async requestViewFromDB(filter) {
+        await this.session.database.getView(this.useCase.Detail.View, filter, this.sendViewResultToClient);
+    }
+
+    async sendViewResultToClient(result) {
+        console.log(result);
     }
 
 }
@@ -125,7 +131,7 @@ class TemplateElem {
             }
         }
     }
-    
+
     toClient(messageIn) {
         let messageOut = {
             Action: 'ContinueTemplateElem',

@@ -37,7 +37,16 @@ class Database {
             });
         });
     }
-    
+
+    async getView(view, filter, sendViewResultToClient) {
+        console.log("Database::getView()");
+        this.client.query(
+            'SELECT * FROM public."' + view + '" WHERE '+filter, 
+            (err, res) => {
+            sendViewResultToClient(res.rows);
+        });
+    }
+
 }
 
 module.exports = {
