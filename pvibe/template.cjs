@@ -1,8 +1,9 @@
 const { UseCaseItem, UseCaseList, UseCaseElem } = require('./usecase.cjs');
 
 class TemplateItem {
-    constructor(parent) {
+    constructor(parent, useCase) {
         this.parent = parent;
+        this.useCase = useCase;
         this.track = this.parent.track;
         this.elems = {};
         this.key = null;
@@ -18,18 +19,11 @@ class TemplateItem {
             switch (message.Action) {
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
-                        if(this.elems[message.TemplateElem.UseCaseElemName] != null) {
-                            this.elems[message.TemplateElem.UseCaseElemName].fromClient(message.TemplateElem);
-                        } else {
-
-                        //
-                        // HERE
-                        //
-
-                            let templateElemNew = new TemplateElem(this, this.useCase.elems[message.TemplateElem.UseCaseElemName]);
+                        if(this.elems[message.TemplateElem.UseCaseElemName] == null) {
+                            let templateElemNew = new TemplateElem(this, this.useCase.Elems[message.TemplateElem.UseCaseElemName]);
                             this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
-                            //templateElemNew.trigger();
                         }
+                        this.elems[message.TemplateElem.UseCaseElemName].fromClient(message.TemplateElem);
                     }
                     break;
                 default:
@@ -72,7 +66,7 @@ class TemplateElem {
     }
 
     fromClient(message) {
-        console.log("TemplateItem::fromClient(): ", message);
+        console.log("TemplateItem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem);
     }
 
     toClient(messageIn) {
