@@ -102,7 +102,7 @@ class TrackServer {
     }
 
     fromClient(message) {
-        console.log("TrackServer::fromClient(): ", message," this.session.entitlement.UseCases: ", this.session.entitlement.UseCases, " this.session.entitlement.Identity: ", this.session.entitlement.Identity);
+        console.log("TrackServer::fromClient(): ", message); //," this.session.entitlement.UseCases: ", this.session.entitlement.UseCases, " this.session.entitlement.Identity: ", this.session.entitlement.Identity);
         if (message.Action != null && message.TemplateItem != null) {
             if (this.templateItemRoot == null) {
                 let useCaseFound = this.session.entitlement.UseCases.find(
