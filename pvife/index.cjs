@@ -128,11 +128,9 @@ class ClientWeb {
                 this.setEntitlement(message.Entitlement);
                 break;
             case 'ContinueTrack':
-                /*
                 if (message.TrackId != null && message.Track != null && this.tracks[message.TrackId] != null) {
                     this.tracks[message.TrackId].fromServer(message.Track);
                 }
-                */
                 break;
             default:
                 break;        
@@ -316,10 +314,10 @@ class Track {
 
     fromServer(message) {
         console.log("TrackClient::fromServer(): ", message);
-        if (message.Action != null && message.Template != null) {
+        if (message.Action != null && message.TemplateItem != null) {
             switch (message.Action) {
-                case 'ContinueTemplate':
-                    this.templateItemRoot.fromServer(message.Template);
+                case 'ContinueTemplateItem':
+                    this.templateItemRoot.fromServer(message.TemplateItem);
                     break;
                 default:
                     break;

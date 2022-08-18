@@ -16,6 +16,27 @@ class TemplateItem {
     fromServer(message) {
         console.log("TemplateItem::fromServer(): ", message);
         if (message.Action != null) {
+            switch (message.Action) {
+                case 'ContinueTemplateElem':
+                    if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
+                        if (this.elems[message.TemplateElem.UseCaseElemName] != null) {
+                            this.elems[message.TemplateElem.UseCaseElemName].fromServer(message.TemplateElem);
+                        }
+                    }
+                    break;
+                case 'AcceptData':
+                    if (this.item == null) {
+                        this.item = new Item(this, null, message.Item.Id);
+                    }
+                    this.item.attrs = message.Item.Attrs;
+                    this.item.ext = message.Item.Ext;
+                    this.item.childItems = message.Item.ChildItems;
+                    //this.setUseCaseForm();
+                    this.refreshData();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -273,6 +294,43 @@ class TemplateElem {
     fromServer(message) {
         console.log("TemplateElem::fromServer(): ", message);
         if (message.Action != null) {
+            switch (this.subUseCase.Detail.Format) {
+                case 'List':
+                    case 'PickList':
+                    switch (message.Action) {
+                        /*
+                        case 'StartTemplateList':
+                            this.trigger(message.TemplateList.ItemList);
+                            break;
+                        */
+                        case 'ContinueTemplateList':
+                            if (this.templateList != null && message.TemplateList != null) {
+                                this.templateList.fromServer(message.TemplateList);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                /*
+                case 'Reference':
+                    switch (message.Action) {
+                        case 'StartTemplateList':
+                            this.trigger(message.TemplateList.ItemList);
+                            break;
+                        case 'ContinueTemplateSub':
+                            if (this.templateItemPicked != null && message.Template != null) {
+                                this.templateItemPicked.fromServer(message.Template);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                */
+                default:
+                    break;
+            }
         }
     }
 
