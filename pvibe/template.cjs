@@ -86,6 +86,7 @@ class TemplateList {
 
     async sendViewResultToClient(result) {
         console.log(result);
+        this.toClient({Items: result});
     }
 
 }
