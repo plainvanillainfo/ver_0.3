@@ -20,7 +20,7 @@ class TemplateItem {
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
                         if(this.elems[message.TemplateElem.UseCaseElemName] == null) {
-                            let templateElemNew = new TemplateElem(this, this.useCase.Elems[message.TemplateElem.UseCaseElemName]);
+                            let templateElemNew = new TemplateElem(this, this.useCase.Detail.Elems[message.TemplateElem.UseCaseElemName]);
                             this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
                         }
                         this.elems[message.TemplateElem.UseCaseElemName].fromClient(message.TemplateElem);
