@@ -6,7 +6,7 @@ class TemplateItem {
         this.divTarget = divTarget;
         this.track = this.parent.track;
         this.elems = {};
-        this.key = null;
+        this.itemKey = null;
         this.toServer = this.toServer.bind(this);
     }
 
@@ -45,7 +45,7 @@ class TemplateItem {
             Action: 'ContinueTemplateItem',
             TemplateItem: {
                 UseCaseName: this.useCase.Detail.Name,
-                ItemId: this.key,
+                ItemKey: this.itemKey,
                 ...messageIn
             }
         };
@@ -146,6 +146,20 @@ class TemplateItem {
 
     setUseCaseForm() {
         console.log("TemplateItem::setUseCaseForm");
+    }
+
+    setItemKey(itemKey) {
+        this.itemKey = itemKey;
+        if (this.itemKey != null && this.useCase != null) {
+            let messageOut = {
+                Action: 'StartTemplate',
+                Template: {
+                    UseCaseName: this.useCase.spec.Name,
+                    ItemKey: this.itemKey
+                }
+            };
+            this.parent.forwardToServer(messageOut);
+        }
     }
 
 }
@@ -356,7 +370,7 @@ class TemplateList {
                 });
 
                 this.templateSub = new TemplateItem(this, this.divTargetSub);
-                this.templateSub.setItemId(itemCur.Id)
+                this.templateSub.setItemKey(itemCur.Id)
                 if (this.useCase.spec.SubUseCase != null) {
                     console.log("TemplateListWeb - item picked: - this.useCase.spec.SubUseCase != null ");
                     let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase]
