@@ -261,6 +261,7 @@ class TemplateList {
         let divTitleRowAddButton = document.createElement('div');
         divTitleRow.appendChild(divTitleRowAddButton);
         divTitleRowAddButton.className = 'col-sm-2';
+
         let buttonAdd = document.createElement('button');
         divTitleRowAddButton.appendChild(buttonAdd);
         buttonAdd.className = 'btn btn-info add-new';
@@ -269,12 +270,11 @@ class TemplateList {
             console.log("TemplateList - Add New");
             this.divTargetSub = document.createElement('div')
             this.divTargetSub.style.margin = '10px';
-            
             this.track.divTargetSub.appendChild(this.divTargetSub);
-            
             let divCur = document.createElement('div');
             this.divTargetSub.appendChild(divCur);
             divCur.className = 'mb-3';
+
             let buttonCur = document.createElement('button');
             divCur.appendChild(buttonCur);
             buttonCur.className = 'btn btn-info';
@@ -287,7 +287,8 @@ class TemplateList {
                 this.track.popBreadcrumb();
                 this.track.div.removeChild(this.divTargetSub);
             });
-            this.templateSub = new TemplateWeb(this, this.divTargetSub);
+
+            this.templateSub = new TemplateItem(this, this.divTargetSub);
             if (this.useCase.Detail.SubUseCase != null) {
                 let useCaseSub = this.client.useCases[this.useCase.Detail.SubUseCase]
                 this.templateSub.setUseCase(useCaseSub);
@@ -299,6 +300,8 @@ class TemplateList {
         iconAdd.className = 'fa fa-plus';
         buttonAdd.appendChild(iconAdd);
         buttonAdd.appendChild(document.createTextNode('Add New'));
+
+
         this.tableList = document.createElement('table');
         divTableWrapper.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
@@ -330,13 +333,15 @@ class TemplateList {
             tableItemRow.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("TemplateList - item picked: ", itemCur.Id);
-                /*
+
+                /**/
                 this.divTargetSub = document.createElement('div')
                 this.divTargetSub.style.margin = '10px';
                 this.track.divTargetSub.appendChild(this.divTargetSub);
                 let divCur = document.createElement('div');
                 this.divTargetSub.appendChild(divCur);
                 divCur.className = 'mb-3';
+
                 let buttonCur = document.createElement('button');
                 divCur.appendChild(buttonCur);
                 buttonCur.className = 'btn btn-info';
@@ -349,7 +354,8 @@ class TemplateList {
                     this.track.popBreadcrumb();
                     this.track.div.removeChild(this.divTargetSub);
                 });
-                this.templateSub = new TemplateWeb(this, this.divTargetSub);
+
+                this.templateSub = new TemplateItem(this, this.divTargetSub);
                 this.templateSub.setItemId(itemCur.Id)
                 if (this.useCase.spec.SubUseCase != null) {
                     console.log("TemplateListWeb - item picked: - this.useCase.spec.SubUseCase != null ");
@@ -357,8 +363,10 @@ class TemplateList {
                     this.templateSub.setUseCase(useCaseSub);
                     this.track.pushBreadcrumb(this.templateSub);
                 }
-                */
+                /**/
             });
+
+
             this.useCase.Detail.Elems.forEach(elemCur => {
                 let tableItemRowCell = document.createElement('td');
                 tableItemRow.appendChild(tableItemRowCell);
