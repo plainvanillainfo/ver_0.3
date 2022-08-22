@@ -325,7 +325,7 @@ class TemplateList {
             buttonCur.addEventListener('click', (event) => {
                 event.preventDefault();
                 this.track.popBreadcrumb();
-                this.track.div.removeChild(this.divTargetSub);
+                this.track.divTargetSub.removeChild(this.divTargetSub);
             });
 
             this.templateSub = new TemplateItem(this, this.divTargetSub);
@@ -393,7 +393,7 @@ class TemplateList {
                 buttonCur.addEventListener('click', (event) => {
                     event.preventDefault();
                     this.track.popBreadcrumb();
-                    this.track.div.removeChild(this.divTargetSub);
+                    this.track.divTargetSub.removeChild(this.divTargetSub);
                 });
 
                 this.templateSub = new TemplateItem(this, this.divTargetSub);
