@@ -162,6 +162,32 @@ class TemplateItem {
         }
     }
 
+    setVisibility(trueOrFalse) {
+        console.log("TemplateItem::setVisibility", trueOrFalse);
+        if (trueOrFalse === true) {
+            if (this.nav != null) {
+                this.nav.style.visibility = 'visible';
+                this.nav.style.display = 'flex';
+                this.divTargetSub.style.visibility = 'visible';
+                this.divTargetSub.style.display = 'block';
+            } else {
+                this.divTarget.style.visibility = 'visible';
+                this.divTarget.style.display = 'block';
+            }
+        } else {
+            if (this.nav != null) {
+                this.nav.style.visibility = 'hidden';
+                this.nav.style.display = 'none';
+                this.divTargetSub.style.visibility = 'hidden';
+                this.divTargetSub.style.display = 'none';
+            } else {
+                this.divTarget.style.visibility = 'hidden';
+                this.divTarget.style.display = 'none';
+            }
+        }
+    }
+
+
 }
 
 class TemplateList {
