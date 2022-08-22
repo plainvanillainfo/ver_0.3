@@ -146,6 +146,251 @@ class TemplateItem {
 
     setUseCaseForm() {
         console.log("TemplateItem::setUseCaseForm");
+        this.form = document.createElement('form');
+        this.divTarget.appendChild(this.form);
+        this.formData = {};
+        let divCur;
+        let buttonCur;
+        let fFormEditable = this.useCase.Detail.Editable == null || this.useCase.Detail.Editable === 'Yes' ? true : false;
+        this.useCase.Detail.Elems.forEach( (elemCur, elemIndex) => {
+            divCur = document.createElement('div');
+            this.form.appendChild(divCur);
+            divCur.style.marginBottom = "10px";
+            let labelText = elemCur.Label;
+            let labelCur = document.createTextNode(labelText + ": ");
+            let labelSpan = document.createElement('span');
+            labelSpan.appendChild(labelCur);
+            divCur.appendChild(labelSpan);
+            labelSpan.style.display = "inline-block";
+            labelSpan.style.verticalAlign = "top";
+            labelSpan.style.width = "25%";
+            let inputCur;
+            let inputLabel;
+            let elemPicked;
+            //let elemCur = elemCur.Viewers[0].elemCur;
+            if (elemCur.Format != null) {
+                switch (elemCur.Format) {
+                    case 'Text':
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.setAttribute("type", "input");
+                        if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null) {
+                            inputCur.value = this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
+                        }
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value
+                        });
+                        if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+                            inputCur.disabled = true;
+                        }
+                        break;
+                    case 'Textarea':
+                        inputCur = document.createElement('textarea');
+                        divCur.appendChild(inputCur);
+                        inputCur.setAttribute("rows", "4");
+                        if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null) {
+                            inputCur.value = this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
+                        }
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value
+                        });
+                        if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+                            inputCur.disabled = true;
+                        }
+                        break;
+                    case 'DrillDown':
+                        inputCur = document.createElement('button');
+                        divCur.appendChild(inputCur);
+                        inputCur.className = 'btn btn-primary';
+                        inputCur.setAttribute("type", "button");
+                        inputCur.style.width = "22em";
+                        inputCur.appendChild(document.createTextNode(labelText));
+                        inputCur.addEventListener('click', (event) => {
+                            /*
+                            event.preventDefault();
+                            console.log("TemplateWeb - DrillDown: ");
+                            if (elemCur.Name !== 'PaymentInstructions') {
+                                let elemPicked = this.useCase.elems[elemCur.Name];
+                                this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, true, document.createElement('div'));
+                                this.elems[elemCur.Name].initiateTrigger();
+                                this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                            } else {
+                                this.showPmtForm(this.form);
+                            }
+                            */
+                        });
+                        break;
+                    case 'PickList':
+                        inputCur = document.createElement('div');
+                        divCur.appendChild(inputCur);
+                        inputCur.style.display = "inline-block";
+                        inputCur.style.width = '70%';
+                        elemPicked = this.useCase.elems[elemCur.Name];
+                        /*
+                        this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
+                        this.elems[elemCur.Name].initiateTrigger();
+                        */
+                        break;
+                    case 'InPlace':
+                        inputCur = document.createElement('div');
+                        divCur.appendChild(inputCur);
+                        inputCur.style.display = "inline-block";
+                        inputCur.style.width = '70%';
+                        elemPicked = this.useCase.elems[elemCur.Name];
+                        /*
+                        this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
+                        this.elems[elemCur.Name].trigger();
+                        */
+                        break;
+                    case 'Checkbox':
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.className = 'form-check-input';
+                        inputCur.setAttribute("type", "checkbox");
+                        if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null && this.item.attrs[elemCur.Name] !== "") {
+                            inputCur.checked = true
+                        } else {
+                            inputCur.checked = false;
+                        }
+                        inputCur.style.marginRight = "1em";
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.checked;
+                        });
+
+                        inputLabel = document.createElement('label');
+                        divCur.appendChild(inputLabel);
+                        inputLabel.className = 'form-check-label';
+                        inputLabel.setAttribute("for", "flexCheckDisabled");
+                        if (elemCur.Legend != null) {
+                            inputLabel.appendChild(document.createTextNode(elemCur.Legend));
+                        }
+                        break;
+                    case 'Radio':
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.className = 'form-check-input';
+                        inputCur.setAttribute("type", "radio");
+                        inputCur.style.width = '70%';
+                        if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null && this.item.attrs[elemCur.Name] !== "") {
+                            inputCur.checked = true
+                        } else {
+                            inputCur.checked = false;
+                        }
+                        inputCur.style.marginRight = "1em";
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            //this.formData[event.target.id] = event.target.checked;
+                        });
+
+                        inputLabel = document.createElement('label');
+                        divCur.appendChild(inputLabel);
+                        inputLabel.className = 'form-check-label';
+                        inputLabel.setAttribute("for", "flexCheckDisabled");
+                        //if (itemAttrCur.elemCur.Legend != null) {
+                            inputLabel.appendChild(document.createTextNode(labelText));
+                        //}
+
+                        break;
+                    case 'Date':
+                        let divDate = document.createElement('div');
+                        divCur.appendChild(divDate);
+                        divDate.className = 'input-group date';
+                        divDate.style.display = 'inline';
+                        inputCur = document.createElement('input');
+                        divDate.appendChild(inputCur);
+                        inputCur.setAttribute("type", "date");
+                        let dateTemp = this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null && this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
+                        if (dateTemp > '') {
+                            let valueCur = new Date(dateTemp);
+                            inputCur.value = valueCur.toISOString().substr(0, 10);
+                        }
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value;
+                        });
+                        let itemImgCal = document.createElement('i');
+                        divDate.appendChild(itemImgCal);
+                        itemImgCal.className = 'bi bi-calendar';
+                        itemImgCal.style.marginLeft = "10px";
+                        break;
+                    case 'Dropdown':
+                        inputCur = document.createElement('select');
+                        divCur.appendChild(inputCur);
+                        if (elemCur.ValueSet != null) {
+                            elemCur.ValueSet.forEach(itemCur => {
+                                let option = document.createElement('option');
+                                inputCur.appendChild(option);
+                                option.addEventListener('click', (event) => {
+                                    event.preventDefault();
+                                    console.log("click on option", itemCur);
+                                    this.formData[event.target.id] = event.target.value;
+                                });
+                                let spanAttr = document.createElement('span');
+                                option.appendChild(spanAttr);
+                                spanAttr.appendChild(document.createTextNode(itemCur));
+                            });
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                inputCur = document.createElement('input');
+                divCur.appendChild(inputCur);
+                inputCur.setAttribute("type", "input");
+                if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null) {
+                    inputCur.value = this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
+                }
+                inputCur.style.width = '70%';
+                inputCur.addEventListener('blur', (event) => {
+                    event.preventDefault();
+                    this.formData[event.target.id] = event.target.value
+                });
+            }
+            if (inputCur != null) {
+                inputCur.id = elemCur.Name;
+                if (!fFormEditable) {
+                    inputCur.disabled = true;
+                }
+            }
+        });
+
+        if (fFormEditable) {
+            divCur = document.createElement('div');
+            this.form.appendChild(divCur);
+            divCur.className = 'mb-3';
+            buttonCur = document.createElement('button');
+            divCur.appendChild(buttonCur);
+            buttonCur.className = 'btn btn-danger';
+            buttonCur.setAttribute("type", "button");
+            buttonCur.id = 'cancelbutton';
+            buttonCur.style.width = "12em";
+            buttonCur.style.marginLeft = '25%';
+            buttonCur.style.marginRight = '30px';
+            buttonCur.appendChild(document.createTextNode("Cancel"));
+            buttonCur.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.track.popBreadcrumb();
+                this.track.div.removeChild(this.divTarget);
+            });
+            buttonCur = document.createElement('button');
+            divCur.appendChild(buttonCur);
+            buttonCur.className = 'btn btn-success';
+            buttonCur.setAttribute("type", "button");
+            buttonCur.id = 'savebutton';
+            buttonCur.style.width = "12em";
+            buttonCur.appendChild(document.createTextNode("Save"));
+            buttonCur.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.saveFormData();
+            });
+        }
     }
 
     setItemKey(itemKey) {
@@ -186,7 +431,6 @@ class TemplateItem {
             }
         }
     }
-
 
 }
 
