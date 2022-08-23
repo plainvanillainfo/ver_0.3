@@ -102,11 +102,7 @@ class TemplateList {
                     if (message.TemplateItem != null && message.TemplateItem.ItemKey != null) {
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.UpdateUseCase);
                         this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, useCaseFound);
-                        //console.log("TemplateList::fromClient() - this.useCase.Detail: ", this.useCase.Detail);
-                        //console.log("TemplateList::fromClient() - this.session.entitlement.UseCases: ", this.session.entitlement.UseCases);
-                        //if (useCaseFound != null) {
-                        //    this.childItemTemplates[message.TemplateItem.ItemKey].setUseCase(useCaseFound);
-                        //}
+                        console.log("TemplateList::fromClient() - useCaseFound: ", useCaseFound);
                         this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB('"Id" = ' +message.TemplateItem.ItemKey);
                     }
                     break;
