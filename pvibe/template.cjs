@@ -46,7 +46,6 @@ class TemplateItem {
             Action: 'ContinueTemplateItem',
             TemplateItem: {
                 UseCaseName: this.useCase.Detail.Name,
-                ItemKey: this.key,
                 ...messageIn
             }
         };

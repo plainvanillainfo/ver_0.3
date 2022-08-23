@@ -25,6 +25,7 @@ class TemplateItem {
                     }
                     break;
                 case 'AcceptData':
+                    /*
                     if (this.item == null) {
                         this.item = new Item(this, null, message.Item.Id);
                     }
@@ -33,6 +34,20 @@ class TemplateItem {
                     this.item.childItems = message.Item.ChildItems;
                     //this.setUseCaseForm();
                     this.refreshData();
+                    break;
+                    */
+                default:
+                    break;
+            }
+        }
+        if (message.Item != null) {
+            this.item = message.Item;
+            switch (this.useCase.Detail.Format) {
+                case 'Menu':
+                    this.setUseCaseMenu();
+                    break;
+                case 'Form':
+                    this.setUseCaseForm();
                     break;
                 default:
                     break;
@@ -146,6 +161,9 @@ class TemplateItem {
 
     setUseCaseForm() {
         console.log("TemplateItem::setUseCaseForm");
+        if (this.form != null) {
+            this.divTarget.removeChild(this.form);
+        }
         this.form = document.createElement('form');
         this.divTarget.appendChild(this.form);
         this.formData = {};
@@ -167,15 +185,16 @@ class TemplateItem {
             let inputCur;
             let inputLabel;
             let elemPicked;
-            //let elemCur = elemCur.Viewers[0].elemCur;
             if (elemCur.Format != null) {
                 switch (elemCur.Format) {
                     case 'Text':
                         inputCur = document.createElement('input');
                         divCur.appendChild(inputCur);
                         inputCur.setAttribute("type", "input");
-                        if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null) {
-                            inputCur.value = this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                            inputCur.value = this.item.Attrs[elemCur.Name];
+                        } else {
+                            inputCur.value = '';
                         }
                         inputCur.style.width = '70%';
                         inputCur.addEventListener('blur', (event) => {
@@ -190,8 +209,10 @@ class TemplateItem {
                         inputCur = document.createElement('textarea');
                         divCur.appendChild(inputCur);
                         inputCur.setAttribute("rows", "4");
-                        if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null) {
-                            inputCur.value = this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                            inputCur.value = this.item.Attrs[elemCur.Name];
+                        } else {
+                            inputCur.value = '';
                         }
                         inputCur.style.width = '70%';
                         inputCur.addEventListener('blur', (event) => {
@@ -251,7 +272,7 @@ class TemplateItem {
                         divCur.appendChild(inputCur);
                         inputCur.className = 'form-check-input';
                         inputCur.setAttribute("type", "checkbox");
-                        if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null && this.item.attrs[elemCur.Name] !== "") {
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
                             inputCur.checked = true
                         } else {
                             inputCur.checked = false;
@@ -276,7 +297,7 @@ class TemplateItem {
                         inputCur.className = 'form-check-input';
                         inputCur.setAttribute("type", "radio");
                         inputCur.style.width = '70%';
-                        if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null && this.item.attrs[elemCur.Name] !== "") {
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
                             inputCur.checked = true
                         } else {
                             inputCur.checked = false;
@@ -304,7 +325,7 @@ class TemplateItem {
                         inputCur = document.createElement('input');
                         divDate.appendChild(inputCur);
                         inputCur.setAttribute("type", "date");
-                        let dateTemp = this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null && this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
+                        let dateTemp = this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null ? this.item.Attrs[elemCur.Name] : '';
                         if (dateTemp > '') {
                             let valueCur = new Date(dateTemp);
                             inputCur.value = valueCur.toISOString().substr(0, 10);
@@ -344,8 +365,10 @@ class TemplateItem {
                 inputCur = document.createElement('input');
                 divCur.appendChild(inputCur);
                 inputCur.setAttribute("type", "input");
-                if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null) {
-                    inputCur.value = this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
+                if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                    inputCur.value = this.item.Attrs[elemCur.Name];
+                } else {
+                    inputCur.checked = '';
                 }
                 inputCur.style.width = '70%';
                 inputCur.addEventListener('blur', (event) => {
@@ -451,27 +474,29 @@ class TemplateList {
     fromServer(message) {
         console.log("TemplateList::fromServer(): ", message);
         if (message.Action != null) {
-            /*
             switch (message.Action) {
                 case 'ContinueTemplateSub':
+                /*
                     if (this.templateSub != null && message.Template != null) {
                         this.templateSub.fromServer(message.Template);
                     }
                     break;
-                case 'ContinueTemplate':
-                    if (this.templateSub != null && message.Template != null) {
-                        this.templateSub.fromServer(message.Template);
+                    */
+                case 'ContinueTemplateItem':
+                    if (this.templateSub != null && message.TemplateItem != null) {
+                        this.templateSub.fromServer(message.TemplateItem);
                     }
                     break;
                 case 'AcceptDataList':
+                /*
                     if (message.ItemList != null) {
                         this.setListFromServer(message.ItemList);
                     }
                     break;
+                    */
                 default:
                     break;
             }
-            */
         }
         if (message.Items != null) {
             this.items = message.Items;
@@ -618,7 +643,6 @@ class TemplateList {
                 event.preventDefault();
                 console.log("TemplateList - item picked: ", itemCur.Key);
 
-                /**/
                 this.divTargetSub = document.createElement('div')
                 this.divTargetSub.style.margin = '10px';
                 this.track.divTargetSub.appendChild(this.divTargetSub);
@@ -647,7 +671,6 @@ class TemplateList {
                     this.templateSub.setItemKey(itemCur.Key);
                     this.track.pushBreadcrumb(this.templateSub);
                 }
-                /**/
             });
 
 
