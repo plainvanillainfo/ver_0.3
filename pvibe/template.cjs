@@ -125,16 +125,12 @@ class TemplateList {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'StartTemplateItem':
-                    if (message.TemplateItem != null && message.TemplateItem.ItemKey!= null) {
-                        this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, this.useCase.Detail.SubUseCase);
-                        //let itemCur = this.childItemList.find(listItemCur => listItemCur.id === message.TemplateItem.ItemKey);
+                    if (message.TemplateItem != null && message.TemplateItem.ItemKey != null) {
+                        this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, this.useCase.Detail.UpdateUseCase);
                         if (this.session.entitlement.UseCases[this.useCase.Detail.UpdateUseCase] != null) {
                             this.childItemTemplates[message.TemplateItem.ItemKey].setUseCase(this.session.entitlement.UseCases[this.useCase.Detail.UpdateUseCase]);
                         }
-                        //if (itemCur != null) {
-                            //this.childItemTemplates[message.TemplateItem.ItemKey].setItem(itemCur);
-                            this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB('"Id" = ' +message.TemplateItem.ItemKey);  //pushOutData();
-                        //}
+                        this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB('"Id" = ' +message.TemplateItem.ItemKey);
                     }
                     break;
                 case 'ContinueTemplateItem':
