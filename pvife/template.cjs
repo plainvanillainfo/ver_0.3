@@ -616,7 +616,7 @@ class TemplateList {
             this.tableBody.appendChild(tableItemRow);
             tableItemRow.addEventListener('click', (event) => {
                 event.preventDefault();
-                console.log("TemplateList - item picked: ", itemCur.Id);
+                console.log("TemplateList - item picked: ", itemCur.Key);
 
                 /**/
                 this.divTargetSub = document.createElement('div')
@@ -644,7 +644,7 @@ class TemplateList {
                     console.log("TemplateListWeb - item picked: - this.useCase.Detail.UpdateUseCase != null ");
                     this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.UpdateUseCase);
                     this.templateSub.setUseCase(this.subUseCase);
-                    this.templateSub.setItemKey(itemCur.Id)
+                    this.templateSub.setItemKey(itemCur.Key);
                     this.track.pushBreadcrumb(this.templateSub);
                 }
                 /**/
@@ -655,7 +655,7 @@ class TemplateList {
                 let tableItemRowCell = document.createElement('td');
                 tableItemRow.appendChild(tableItemRowCell);
                 //let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].Value : ''
-                let valueCur = itemCur[elemCur.Name] != null ? itemCur[elemCur.Name] : ''
+                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : ''
                 tableItemRowCell.appendChild(document.createTextNode(valueCur));
             });
         });
