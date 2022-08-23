@@ -11,6 +11,7 @@ class TemplateItem {
         this.dbPath = [...this.parent.dbPath];
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
+        this.sendViewResultToClient = this.sendViewResultToClient.bind(this);
     }
 
     destroy() {
@@ -127,8 +128,8 @@ class TemplateList {
                 case 'StartTemplateItem':
                     if (message.TemplateItem != null && message.TemplateItem.ItemKey != null) {
                         this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, this.useCase.Detail.UpdateUseCase);
-                        console.log("TemplateList::fromClient() - this.useCase.Detail: ", this.useCase.Detail);
-                        console.log("TemplateList::fromClient() - this.session.entitlement.UseCases: ", this.session.entitlement.UseCases);
+                        //console.log("TemplateList::fromClient() - this.useCase.Detail: ", this.useCase.Detail);
+                        //console.log("TemplateList::fromClient() - this.session.entitlement.UseCases: ", this.session.entitlement.UseCases);
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.UpdateUseCase);
                         if (useCaseFound != null) {
                             this.childItemTemplates[message.TemplateItem.ItemKey].setUseCase(useCaseFound);
