@@ -87,7 +87,7 @@ class TemplateItem {
                 this.setUseCaseMenu();
                 break;
             case 'Form':
-                this.setUseCaseForm();
+                //this.setUseCaseForm();
                 break;
             default:
                 break;
@@ -667,7 +667,7 @@ class TemplateList {
                 if (this.useCase.Detail.UpdateUseCase != null) {
                     console.log("TemplateListWeb - item picked: - this.useCase.Detail.UpdateUseCase != null ");
                     this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.UpdateUseCase);
-                    //this.templateSub.setUseCase(this.subUseCase);
+                    this.templateSub.setUseCase(this.subUseCase);
                     this.templateSub.setItemKey(itemCur.Key);
                     this.track.pushBreadcrumb(this.templateSub);
                 }
