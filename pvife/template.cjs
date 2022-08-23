@@ -574,7 +574,6 @@ class TemplateList {
 
             this.templateSub = new TemplateItem(this, this.divTargetSub);
             if (this.useCase.Detail.AddUseCase != null) {
-                //let useCaseSub = this.client.useCases[this.useCase.Detail.AddUseCase]
                 this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.AddUseCase);
                 this.templateSub.setUseCase(this.subUseCase);
                 this.track.pushBreadcrumb(this.templateSub);
@@ -641,12 +640,11 @@ class TemplateList {
                 });
 
                 this.templateSub = new TemplateItem(this, this.divTargetSub);
-                this.templateSub.setItemKey(itemCur.Id)
                 if (this.useCase.Detail.UpdateUseCase != null) {
                     console.log("TemplateListWeb - item picked: - this.useCase.Detail.UpdateUseCase != null ");
-                    //let useCaseSub = this.client.useCases[this.useCase.Detail.UpdateUseCase]
                     this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.UpdateUseCase);
                     this.templateSub.setUseCase(this.subUseCase);
+                    this.templateSub.setItemKey(itemCur.Id)
                     this.track.pushBreadcrumb(this.templateSub);
                 }
                 /**/
