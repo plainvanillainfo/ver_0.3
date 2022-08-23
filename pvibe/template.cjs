@@ -116,8 +116,8 @@ class TemplateElem {
                                     if (this.templateList == null) {
                                         this.templateList = new TemplateList(this, useCaseFound);
                                     } else {
-                                        if (message.TemplateElem.TemplateList != null) {
-                                            this.templateList.fromClient(message.TemplateElem.TemplateList);
+                                        if (message.TemplateList != null) {
+                                            this.templateList.fromClient(message.TemplateList);
                                         }
                                     }
                                     break;
