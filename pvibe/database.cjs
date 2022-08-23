@@ -45,9 +45,10 @@ class Database {
     }
 
     async getView(view, filter, sendViewResultToClient) {
-        console.log("Database::getView()");
+        let query = 'SELECT * FROM public."' + view + '" WHERE '+filter;
+        console.log("Database::getView() - query: ", query);
         this.client.query(
-            'SELECT * FROM public."' + view + '" WHERE '+filter, 
+            query, 
             (err, res) => {
                 if (err) {
                 } else {
