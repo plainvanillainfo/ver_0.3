@@ -24,7 +24,7 @@ class Database {
     }
 
     async getEntitlement(messageIn, sendEntitlement) {
-        console.log("Database::getEntitlement()");
+        //console.log("Database::getEntitlement()");
         this.client.query(
             'SELECT "Id" as "Id", "Detail" as "Detail" FROM public."FEUseCase" WHERE 1=1 ', 
             (err, res) => {
@@ -46,7 +46,7 @@ class Database {
 
     async getView(view, filter, sendViewResultToClient) {
         let query = 'SELECT * FROM public."' + view + '" WHERE '+filter;
-        console.log("Database::getView() - query: ", query);
+        //console.log("Database::getView() - query: ", query);
         this.client.query(
             query, 
             (err, res) => {

@@ -57,7 +57,7 @@ class TemplateItem {
     }
 
     async sendViewResultToClient(result) {
-        console.log(result);
+        //console.log(result);
         if (result.length === 1) {
             let keyName = Object.keys(result[0])[0];
             this.item = {
@@ -94,7 +94,7 @@ class TemplateList {
                     if (message.TemplateItem != null && message.TemplateItem.ItemKey != null) {
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.UpdateUseCase);
                         this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, useCaseFound);
-                        console.log("TemplateList::fromClient() - useCaseFound: ", useCaseFound);
+                        //console.log("TemplateList::fromClient() - useCaseFound: ", useCaseFound);
                         this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB('"Id" = ' +message.TemplateItem.ItemKey);
                     }
                     break;
@@ -165,7 +165,7 @@ class TemplateList {
     }
 
     async sendViewResultToClient(result) {
-        console.log(result);
+        //console.log(result);
         this.childItemList = [];
         if (result.length > 0) {
             let keyName = Object.keys(result[0])[0];
