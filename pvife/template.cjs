@@ -403,7 +403,7 @@ class TemplateItem {
                     ItemKey: this.itemKey
                 }
             };
-            this.parent.ooServer(messageOut);
+            this.parent.toServer(messageOut);
         }
     }
 
