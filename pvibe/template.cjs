@@ -45,7 +45,7 @@ class TemplateItem {
             Action: 'ContinueTemplateItem',
             TemplateItem: {
                 UseCaseName: this.useCase.Detail.Name,
-                ItemId: this.key,
+                ItemKey: this.key,
                 ...messageIn
             }
         };
@@ -82,6 +82,15 @@ class TemplateItem {
         this.parent.toClient(messageOut);
     }
 
+    async requestViewFromDB(filter) {
+        await this.session.database.getView(this.useCase.Detail.RetrieveView, filter, this.sendViewResultToClient);
+    }
+
+    async sendViewResultToClient(result) {
+        console.log(result);
+        this.toClient({Items: result});
+    }
+
 }
 
 class TemplateList {
@@ -108,11 +117,11 @@ class TemplateList {
                         this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, this.useCase.Detail.SubUseCase);
                         let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.TemplateItem.ItemKey);
                         if (this.session.entitlement.UseCases[this.useCase.Detail.UpdateUseCase] != null) {
-                            this.childItemTemplates[message.TemplateItem.ItemId].setUseCase(this.session.entitlement.UseCases[this.useCase.Detail.UpdateUseCase]);
+                            this.childItemTemplates[message.TemplateItem.ItemKey].setUseCase(this.session.entitlement.UseCases[this.useCase.Detail.UpdateUseCase]);
                         }
                         if (itemCur != null) {
                             this.childItemTemplates[message.TemplateItem.ItemKey].setItem(itemCur);
-                            this.childItemTemplates[message.TemplateItem.ItemKey].pushOutData();
+                            this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB('"Id" = ' +message.TemplateItem.ItemKey);  //pushOutData();
                         }
                     }
                     break;
@@ -125,32 +134,32 @@ class TemplateList {
                     break;
                 case 'UpdateItem':
                     if (message.TemplateItem != null && message.TemplateItem.ItemData != null) {
-                        let itemId = null;
+                        let itemKey = null;
                         if (message.TemplateItem.ItemData.Id == null) {
                             if (this.useCase.spec.SubUseCase != null) {
                                 let useCaseSub = this.model.useCases[this.useCase.spec.SubUseCase];
                                 console.log("TemplateListServer::fromClient() - useCaseSub.spec: ", useCaseSub.spec);
                                 if (useCaseSub.spec.AutoKey != null && useCaseSub.spec.AutoKey == 'Number') {
-                                    let itemIdNew = 0;
+                                    let itemKeyNew = 0;
                                     if (this.childItemList != null && this.childItemList.ListItems != null) {
                                         this.childItemList.ListItems.forEach(listItemCur => {
                                             let parsedId = parseInt(listItemCur.id);
                                             if (isNaN(parsedId) == false) {
-                                                if (parsedId > itemIdNew) {
-                                                    itemIdNew = parsedId;
+                                                if (parsedId > itemKeyNew) {
+                                                    itemKeyNew = parsedId;
                                                 }
                                             }
                                         });
                                     }
-                                    itemIdNew++;
-                                    itemId = itemIdNew.toString();
-                                    message.TemplateItem.ItemData.Id = itemId;
+                                    itemKeyNew++;
+                                    itemKey = itemKeyNew.toString();
+                                    message.TemplateItem.ItemData.Id = itemKey;
                                 }
                             }
                         } else {
-                            itemId = message.TemplateItem.ItemData.Id;
+                            itemKey = message.TemplateItem.ItemData.Id;
                         }
-                        if (itemId != null) {
+                        if (itemKey != null) {
                             let itemLocal = {
                                 ChildItems: {},
                                 Attrs: {},
