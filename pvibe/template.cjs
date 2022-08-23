@@ -57,12 +57,15 @@ class TemplateItem {
         this.useCase = useCase;
     }
 
+    /*
     setItem(item) {
         console.log("TemplateItem::setItem: ", item);
         this.item = item;
         this.dbPath.push(this.item.id);
     }
+    */
 
+    /*
     pushOutData() {
         console.log("TemplateItem::pushOutData - item.dbId, id: "); //, this.session.id, this.item.dbId, this.item.id);
         let messageOut = {
@@ -70,17 +73,18 @@ class TemplateItem {
             TemplateItem: {
                 Action: 'AcceptData',
                 Item: {
-                    /*
+                    
                     Id: this.item.id,
                     Ext: this.item.ext,
                     Attrs: this.item.attrs,
                     ChildItems: {}
-                    */
+                    
                 }
             }
         };
         this.parent.toClient(messageOut);
     }
+    */
 
     async requestViewFromDB(filter) {
         await this.session.database.getView(this.useCase.Detail.RetrieveView, filter, this.sendViewResultToClient);
@@ -88,7 +92,15 @@ class TemplateItem {
 
     async sendViewResultToClient(result) {
         console.log(result);
-        this.toClient({Items: result});
+        if (result.length === 1) {
+            let keyName = Object.keys(result[0]);
+            this.item = {
+                Key: result[0][keyName],
+                Attrs: result[0]
+            };
+            this.dbPath.push(this.item.Key);
+        }
+        this.toClient({Item: this.item});
     }
 
 }
@@ -115,14 +127,14 @@ class TemplateList {
                 case 'StartTemplateItem':
                     if (message.TemplateItem != null && message.TemplateItem.ItemKey!= null) {
                         this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, this.useCase.Detail.SubUseCase);
-                        let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.TemplateItem.ItemKey);
+                        //let itemCur = this.childItemList.find(listItemCur => listItemCur.id === message.TemplateItem.ItemKey);
                         if (this.session.entitlement.UseCases[this.useCase.Detail.UpdateUseCase] != null) {
                             this.childItemTemplates[message.TemplateItem.ItemKey].setUseCase(this.session.entitlement.UseCases[this.useCase.Detail.UpdateUseCase]);
                         }
-                        if (itemCur != null) {
-                            this.childItemTemplates[message.TemplateItem.ItemKey].setItem(itemCur);
+                        //if (itemCur != null) {
+                            //this.childItemTemplates[message.TemplateItem.ItemKey].setItem(itemCur);
                             this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB('"Id" = ' +message.TemplateItem.ItemKey);  //pushOutData();
-                        }
+                        //}
                     }
                     break;
                 case 'ContinueTemplateItem':
@@ -193,7 +205,17 @@ class TemplateList {
 
     async sendViewResultToClient(result) {
         console.log(result);
-        this.toClient({Items: result});
+        this.childItemList = [];
+        if (result.length > 0) {
+            let keyName = Object.keys(result[0]);
+            result.forEach(resultCur => {
+                this.childItemList.push({
+                    Key: resultCur[keyName],
+                    Attrs: resultCur
+                });
+            });
+        }
+        this.toClient({Items: this.childItemList});
     }
 
 }
