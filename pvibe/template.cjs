@@ -53,37 +53,10 @@ class TemplateItem {
         this.parent.toClient(messageOut);
     }
 
+    /*
     setUseCase(useCase) {
         console.log("TemplateItem::setUseCase: ");
         this.useCase = useCase;
-    }
-
-    /*
-    setItem(item) {
-        console.log("TemplateItem::setItem: ", item);
-        this.item = item;
-        this.dbPath.push(this.item.id);
-    }
-    */
-
-    /*
-    pushOutData() {
-        console.log("TemplateItem::pushOutData - item.dbId, id: "); //, this.session.id, this.item.dbId, this.item.id);
-        let messageOut = {
-            Action: 'ContinueTemplateItemSub',
-            TemplateItem: {
-                Action: 'AcceptData',
-                Item: {
-                    
-                    Id: this.item.id,
-                    Ext: this.item.ext,
-                    Attrs: this.item.attrs,
-                    ChildItems: {}
-                    
-                }
-            }
-        };
-        this.parent.toClient(messageOut);
     }
     */
 
@@ -127,13 +100,13 @@ class TemplateList {
             switch (message.Action) {
                 case 'StartTemplateItem':
                     if (message.TemplateItem != null && message.TemplateItem.ItemKey != null) {
-                        this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, this.useCase.Detail.UpdateUseCase);
+                        let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.UpdateUseCase);
+                        this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, useCaseFound);
                         //console.log("TemplateList::fromClient() - this.useCase.Detail: ", this.useCase.Detail);
                         //console.log("TemplateList::fromClient() - this.session.entitlement.UseCases: ", this.session.entitlement.UseCases);
-                        let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.UpdateUseCase);
-                        if (useCaseFound != null) {
-                            this.childItemTemplates[message.TemplateItem.ItemKey].setUseCase(useCaseFound);
-                        }
+                        //if (useCaseFound != null) {
+                        //    this.childItemTemplates[message.TemplateItem.ItemKey].setUseCase(useCaseFound);
+                        //}
                         this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB('"Id" = ' +message.TemplateItem.ItemKey);
                     }
                     break;
