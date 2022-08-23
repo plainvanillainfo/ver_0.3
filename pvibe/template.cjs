@@ -93,7 +93,7 @@ class TemplateItem {
     async sendViewResultToClient(result) {
         console.log(result);
         if (result.length === 1) {
-            let keyName = Object.keys(result[0]);
+            let keyName = Object.keys(result[0])[0];
             this.item = {
                 Key: result[0][keyName],
                 Attrs: result[0]
@@ -207,7 +207,7 @@ class TemplateList {
         console.log(result);
         this.childItemList = [];
         if (result.length > 0) {
-            let keyName = Object.keys(result[0]);
+            let keyName = Object.keys(result[0])[0];
             result.forEach(resultCur => {
                 this.childItemList.push({
                     Key: resultCur[keyName],
