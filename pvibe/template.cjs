@@ -53,15 +53,8 @@ class TemplateItem {
         this.parent.toClient(messageOut);
     }
 
-    /*
-    setUseCase(useCase) {
-        console.log("TemplateItem::setUseCase: ");
-        this.useCase = useCase;
-    }
-    */
-
     async requestViewFromDB(filter) {
-        await this.session.database.getView(this.useCase.RetrieveView, filter, this.sendViewResultToClient);
+        await this.session.database.getView(this.useCase.Detail.RetrieveView, filter, this.sendViewResultToClient);
     }
 
     async sendViewResultToClient(result) {
