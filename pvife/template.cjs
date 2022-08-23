@@ -398,7 +398,7 @@ class TemplateItem {
         if (this.itemKey != null && this.useCase != null) {
             let messageOut = {
                 Action: 'StartTemplateItem',
-                Template: {
+                TemplateItem: {
                     UseCaseName: this.useCase.Detail.Name,
                     ItemKey: this.itemKey
                 }

@@ -8,6 +8,7 @@ class TemplateItem {
         this.session = this.parent.session;
         this.elems = {};
         this.key = null;
+        this.dbPath = [...this.parent.dbPath];
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
     }
@@ -51,6 +52,36 @@ class TemplateItem {
         this.parent.toClient(messageOut);
     }
 
+    setUseCase(useCase) {
+        console.log("TemplateItem::setUseCase: ");
+        this.useCase = useCase;
+    }
+
+    setItem(item) {
+        console.log("TemplateItem::setItem: ", item);
+        this.item = item;
+        this.dbPath.push(this.item.id);
+    }
+
+    pushOutData() {
+        console.log("TemplateItem::pushOutData - item.dbId, id: "); //, this.session.id, this.item.dbId, this.item.id);
+        let messageOut = {
+            Action: 'ContinueTemplateItemSub',
+            TemplateItem: {
+                Action: 'AcceptData',
+                Item: {
+                    /*
+                    Id: this.item.id,
+                    Ext: this.item.ext,
+                    Attrs: this.item.attrs,
+                    ChildItems: {}
+                    */
+                }
+            }
+        };
+        this.parent.toClient(messageOut);
+    }
+
 }
 
 class TemplateList {
@@ -59,6 +90,8 @@ class TemplateList {
         this.useCase = useCase;
         this.track = this.parent.track;
         this.session = this.parent.session;
+        this.childItemList = [];
+        this.childItemTemplates = {};
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
         this.sendViewResultToClient = this.sendViewResultToClient.bind(this);
@@ -67,6 +100,70 @@ class TemplateList {
 
     fromClient(message) {
         console.log("TemplateList::fromClient(): ", message);
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'StartTemplateItem':
+                    if (message.TemplateItem != null && message.TemplateItem.ItemKey!= null) {
+                        this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, this.useCase.Detail.SubUseCase);
+                        let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.TemplateItem.ItemKey);
+                        if (this.session.entitlement.UseCases[this.useCase.Detail.UpdateUseCase] != null) {
+                            this.childItemTemplates[message.TemplateItem.ItemId].setUseCase(this.session.entitlement.UseCases[this.useCase.Detail.UpdateUseCase]);
+                        }
+                        if (itemCur != null) {
+                            this.childItemTemplates[message.TemplateItem.ItemKey].setItem(itemCur);
+                            this.childItemTemplates[message.TemplateItem.ItemKey].pushOutData();
+                        }
+                    }
+                    break;
+                case 'ContinueTemplateItem':
+                    if (message.TemplateItem != null && message.TemplateItem.ItemKey != null) {
+                        if (this.childItemTemplates[message.TemplateItem.ItemKey] != null) {
+                            this.childItemTemplates[message.TemplateItem.ItemKey].fromClient(message.Template);
+                        }
+                    }
+                    break;
+                case 'UpdateItem':
+                    if (message.TemplateItem != null && message.TemplateItem.ItemData != null) {
+                        let itemId = null;
+                        if (message.TemplateItem.ItemData.Id == null) {
+                            if (this.useCase.spec.SubUseCase != null) {
+                                let useCaseSub = this.model.useCases[this.useCase.spec.SubUseCase];
+                                console.log("TemplateListServer::fromClient() - useCaseSub.spec: ", useCaseSub.spec);
+                                if (useCaseSub.spec.AutoKey != null && useCaseSub.spec.AutoKey == 'Number') {
+                                    let itemIdNew = 0;
+                                    if (this.childItemList != null && this.childItemList.ListItems != null) {
+                                        this.childItemList.ListItems.forEach(listItemCur => {
+                                            let parsedId = parseInt(listItemCur.id);
+                                            if (isNaN(parsedId) == false) {
+                                                if (parsedId > itemIdNew) {
+                                                    itemIdNew = parsedId;
+                                                }
+                                            }
+                                        });
+                                    }
+                                    itemIdNew++;
+                                    itemId = itemIdNew.toString();
+                                    message.TemplateItem.ItemData.Id = itemId;
+                                }
+                            }
+                        } else {
+                            itemId = message.TemplateItem.ItemData.Id;
+                        }
+                        if (itemId != null) {
+                            let itemLocal = {
+                                ChildItems: {},
+                                Attrs: {},
+                                Ext: ''
+                            };
+                            itemLocal.ChildItems[this.parent.useCaseElem.spec.Path.Attribute] = [message.Template.ItemData];
+                            this.model.putItem(this.itemParent, itemLocal);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     toClient(messageIn) {
