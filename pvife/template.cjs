@@ -397,13 +397,13 @@ class TemplateItem {
         this.itemKey = itemKey;
         if (this.itemKey != null && this.useCase != null) {
             let messageOut = {
-                Action: 'StartTemplate',
+                Action: 'StartTemplateItem',
                 Template: {
-                    UseCaseName: this.useCase.spec.Name,
+                    UseCaseName: this.useCase.Detail.Name,
                     ItemKey: this.itemKey
                 }
             };
-            this.parent.forwardToServer(messageOut);
+            this.parent.ooServer(messageOut);
         }
     }
 
