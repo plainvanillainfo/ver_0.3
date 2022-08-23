@@ -92,6 +92,7 @@ class TemplateList {
         this.session = this.parent.session;
         this.childItemList = [];
         this.childItemTemplates = {};
+        this.dbPath = [...this.parent.dbPath];
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
         this.sendViewResultToClient = this.sendViewResultToClient.bind(this);
@@ -195,6 +196,7 @@ class TemplateElem {
         this.track = this.parent.track;
         this.session = this.parent.session;
         this.itemParent = parent.item;
+        this.dbPath = [...this.parent.dbPath, this.useCaseElem.Name];
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
     }
