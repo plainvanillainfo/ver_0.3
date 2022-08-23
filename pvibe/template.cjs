@@ -201,7 +201,7 @@ class TemplateElem {
                     if (this.useCaseElem.SubUseCase != null) {
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
                         if (useCaseFound != null) {
-                            console.log("TemplateElem::fromClient() - useCaseFound: ", useCaseFound);
+                            //console.log("TemplateElem::fromClient() - useCaseFound: ", useCaseFound);
                             switch (useCaseFound.Detail.Format) {
                                 case 'List':
                                     if (this.templateList == null) {
