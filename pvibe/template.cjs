@@ -59,9 +59,9 @@ class TemplateItem {
     async sendViewResultToClient(result) {
         //console.log(result);
         if (result.length === 1) {
-            let keyName = Object.keys(result[0])[0];
+            this.keyName = Object.keys(result[0])[0];
             this.item = {
-                Key: result[0][keyName],
+                Key: result[0][this.keyName],
                 Attrs: result[0]
             };
             this.dbPath.push(this.item.Key);
@@ -91,11 +91,12 @@ class TemplateList {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'StartTemplateItem':
-                    if (message.TemplateItem != null && message.TemplateItem.ItemKey != null) {
+                    if (message.TemplateItem != null && message.TemplateItem.ItemKey != null && this.keyName != null) {
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.UpdateUseCase);
                         this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, useCaseFound);
                         //console.log("TemplateList::fromClient() - useCaseFound: ", useCaseFound);
-                        this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB('"Id" = ' +message.TemplateItem.ItemKey);
+                        //this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB('"Id" = ' +message.TemplateItem.ItemKey);
+                        this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB('"' + this.keyName + '" = ' +message.TemplateItem.ItemKey);
                     }
                     break;
                 case 'ContinueTemplateItem':
@@ -168,10 +169,10 @@ class TemplateList {
         //console.log(result);
         this.childItemList = [];
         if (result.length > 0) {
-            let keyName = Object.keys(result[0])[0];
+            this.keyName = Object.keys(result[0])[0];
             result.forEach(resultCur => {
                 this.childItemList.push({
-                    Key: resultCur[keyName],
+                    Key: resultCur[this.keyName],
                     Attrs: resultCur
                 });
             });
