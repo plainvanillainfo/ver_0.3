@@ -233,16 +233,32 @@ class TemplateItem {
                         inputCur.addEventListener('click', (event) => {
                             event.preventDefault();
                             console.log("TemplateItem - DrillDown: ");
-                            /*
-                            if (elemCur.Name !== 'PaymentInstructions') {
-                                let elemPicked = this.useCase.elems[elemCur.Name];
-                                this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, true, document.createElement('div'));
-                                this.elems[elemCur.Name].initiateTrigger();
-                                this.track.pushBreadcrumb(this.elems[elemCur.Name]);
-                            } else {
-                                this.showPmtForm(this.form);
+
+
+                            this.divTargetSub = document.createElement('div')
+                            this.divTargetSub.style.margin = '10px';
+                            this.track.divTargetSub.appendChild(this.divTargetSub);
+                            let divCur = document.createElement('div');
+                            this.divTargetSub.appendChild(divCur);
+                            divCur.className = 'mb-3';
+            
+                            let buttonCur = document.createElement('button');
+                            divCur.appendChild(buttonCur);
+                            buttonCur.className = 'btn btn-info';
+                            buttonCur.setAttribute("type", "button");
+                            buttonCur.id = 'backbutton';
+                            buttonCur.style.width = "12em";
+                            buttonCur.appendChild(document.createTextNode("< Go Back"));
+                
+                            buttonCur.addEventListener('click', (event) => {
+                                event.preventDefault();
+                                this.track.popBreadcrumb();
+                                this.track.divTargetSub.removeChild(this.divTargetSub);
+                            });
+
+                            if (this.elems[elemCur.Name] == null) {
+                                this.elems[elemCur.Name] = new TemplateElem(this, elemCur, this.divTargetSub, true);
                             }
-                            */
                         });
                         break;
                     case 'PickList':
@@ -610,7 +626,6 @@ class TemplateList {
         buttonAdd.appendChild(iconAdd);
         buttonAdd.appendChild(document.createTextNode('Add New'));
 
-
         this.tableList = document.createElement('table');
         divTableWrapper.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
@@ -657,6 +672,7 @@ class TemplateList {
                 buttonCur.id = 'backbutton';
                 buttonCur.style.width = "12em";
                 buttonCur.appendChild(document.createTextNode("< Go Back"));
+                
                 buttonCur.addEventListener('click', (event) => {
                     event.preventDefault();
                     this.track.popBreadcrumb();
@@ -673,11 +689,9 @@ class TemplateList {
                 }
             });
 
-
             this.useCase.Detail.Elems.forEach(elemCur => {
                 let tableItemRowCell = document.createElement('td');
                 tableItemRow.appendChild(tableItemRowCell);
-                //let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].Value : ''
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : ''
                 tableItemRowCell.appendChild(document.createTextNode(valueCur));
             });
