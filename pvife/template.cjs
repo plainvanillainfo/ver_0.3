@@ -231,9 +231,9 @@ class TemplateItem {
                         inputCur.style.width = "22em";
                         inputCur.appendChild(document.createTextNode(labelText));
                         inputCur.addEventListener('click', (event) => {
-                            /*
                             event.preventDefault();
-                            console.log("TemplateWeb - DrillDown: ");
+                            console.log("TemplateItem - DrillDown: ");
+                            /*
                             if (elemCur.Name !== 'PaymentInstructions') {
                                 let elemPicked = this.useCase.elems[elemCur.Name];
                                 this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, true, document.createElement('div'));
