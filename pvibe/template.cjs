@@ -83,7 +83,7 @@ class TemplateList {
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
         this.sendViewResultToClient = this.sendViewResultToClient.bind(this);
-        this.requestViewFromDB('1=1');
+        //this.requestViewFromDB('1=1');
     }
 
     fromClient(message) {
@@ -94,9 +94,8 @@ class TemplateList {
                     if (message.TemplateItem != null && message.TemplateItem.ItemKey != null && this.keyName != null) {
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.UpdateUseCase);
                         this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, useCaseFound);
-                        //console.log("TemplateList::fromClient() - useCaseFound: ", useCaseFound);
-                        //this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB('"Id" = ' +message.TemplateItem.ItemKey);
-                        this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB('"' + this.keyName + '" = ' +message.TemplateItem.ItemKey);
+                        let filter = '"' + this.keyName + '" = ' +message.TemplateItem.ItemKey;
+                        this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB(filter);
                     }
                     break;
                 case 'ContinueTemplateItem':
@@ -203,11 +202,15 @@ class TemplateElem {
                     if (this.useCaseElem.SubUseCase != null) {
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
                         if (useCaseFound != null) {
-                            //console.log("TemplateElem::fromClient() - useCaseFound: ", useCaseFound);
                             switch (useCaseFound.Detail.Format) {
                                 case 'List':
                                     if (this.templateList == null) {
                                         this.templateList = new TemplateList(this, useCaseFound);
+                                        let filter = '1=1';
+                                        if (this.parent.item != null && useCaseFound.ViewFilterColumn != null) {
+                                            filter = '"' + useCaseFound.ViewFilterColumn + '" = ' + this.parent.item.Key;
+                                        }
+                                        this.templateList.requestViewFromDB(filter);
                                     } else {
                                         if (message.TemplateList != null) {
                                             this.templateList.fromClient(message.TemplateList);
