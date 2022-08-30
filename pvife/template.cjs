@@ -234,7 +234,6 @@ class TemplateItem {
                             event.preventDefault();
                             console.log("TemplateItem - DrillDown: ");
 
-
                             this.divTargetSub = document.createElement('div')
                             this.divTargetSub.style.margin = '10px';
                             this.track.divTargetSub.appendChild(this.divTargetSub);
@@ -253,7 +252,7 @@ class TemplateItem {
                             buttonCur.addEventListener('click', (event) => {
                                 event.preventDefault();
                                 this.track.popBreadcrumb();
-                                this.track.divTargetSub.removeChild(this.divTargetSub);
+                                //this.track.divTargetSub.removeChild(this.divTargetSub);
                             });
 
                             if (this.elems[elemCur.Name] == null) {
@@ -417,7 +416,7 @@ class TemplateItem {
             buttonCur.addEventListener('click', (event) => {
                 event.preventDefault();
                 this.track.popBreadcrumb();
-                this.track.div.removeChild(this.divTarget);
+                //this.track.div.removeChild(this.divTarget);
             });
             buttonCur = document.createElement('button');
             divCur.appendChild(buttonCur);
