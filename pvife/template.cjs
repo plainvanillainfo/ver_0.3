@@ -823,6 +823,17 @@ class TemplateElem {
         }
     }
 
+    setVisibility(trueOrFalse) {
+        console.log("TemplateElem::setVisibility", trueOrFalse);
+        if (trueOrFalse === true) {
+            this.divTarget.style.visibility = 'visible';
+            this.divTarget.style.display = 'block';
+        } else {
+            this.divTarget.style.visibility = 'hidden';
+            this.divTarget.style.display = 'none';
+        }
+    }
+
 }
 
 module.exports = {
