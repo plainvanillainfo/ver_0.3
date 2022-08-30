@@ -718,10 +718,10 @@ class TemplateElem {
         this.isDrillDown = isDrillDown;
         this.track = this.parent.track;
         this.toServer = this.toServer.bind(this);
-        if (this.isDrillDown) {
+        //if (this.isDrillDown) {
             // Do breadcrumb logic like ver_0.2 - TemplateElemWeb:: trigger() - case: Child
-            this.track.div.appendChild(this.divTarget);
-        } else {
+            //this.track.div.appendChild(this.divTarget);
+        //} else {
             if (this.useCaseElem.SubUseCase != null) {
                 this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCaseElem.SubUseCase);
                 switch (this.subUseCase.Detail.Format) {
@@ -738,7 +738,7 @@ class TemplateElem {
                     
                 }
             }
-        }
+        //}
     }
 
     destroy() {
