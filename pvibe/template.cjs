@@ -199,6 +199,7 @@ class TemplateElem {
         if (this.useCaseElem.Format != null) {
             switch (this.useCaseElem.Format) {
                 case 'MenuOption':
+                case 'DrillDown':
                     if (this.useCaseElem.SubUseCase != null) {
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
                         if (useCaseFound != null) {
