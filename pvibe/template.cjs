@@ -207,6 +207,8 @@ class TemplateElem {
                                     if (this.templateList == null) {
                                         this.templateList = new TemplateList(this, useCaseFound);
                                         let filter = '1=1';
+                                        console.log("AAA: ",this.parent.item);
+                                        console.log("BBB: ",useCaseFound);
                                         if (this.parent.item != null && useCaseFound.ViewFilterColumn != null) {
                                             filter = '"' + useCaseFound.ViewFilterColumn + '" = ' + this.parent.item.Key;
                                         }
