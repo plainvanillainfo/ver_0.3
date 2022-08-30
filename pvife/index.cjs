@@ -392,7 +392,7 @@ class Track {
                     liCrumb.appendChild(document.createTextNode(crumbCur.useCase.Detail.Label + ' ' +  itemId));
                 }
                 if (crumbCur.useCaseElem != null) {
-                    liCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.Detail.Label + ' ' +  itemId));
+                    liCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.Label + ' ' +  itemId));
                 }
             } else {
                 liCrumb.className = 'breadcrumb-item';
@@ -404,7 +404,7 @@ class Track {
                     aCrumb.appendChild(document.createTextNode(crumbCur.useCase.Detail.Label + ' ' +  itemId));
                 }
                 if (crumbCur.useCaseElem != null) {
-                    aCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.Detail.Label + ' ' +  itemId));
+                    aCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.Label + ' ' +  itemId));
                 }
             }
         });
