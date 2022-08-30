@@ -209,8 +209,9 @@ class TemplateElem {
                                         let filter = '1=1';
                                         console.log("AAA: ",this.parent.item);
                                         console.log("BBB: ",useCaseFound);
-                                        if (this.parent.item != null && useCaseFound.ViewFilterColumn != null) {
-                                            filter = '"' + useCaseFound.ViewFilterColumn + '" = ' + this.parent.item.Key;
+                                        if (this.parent.item != null && useCaseFound.Detail.ViewFilterColumn != null) {
+                                            filter = '"' + useCaseFound.Detail.ViewFilterColumn + '" = ' + this.parent.item.Key;
+                                            console.log("CCC: ",filter);
                                         }
                                         this.templateList.requestViewFromDB(filter);
                                     } else {
