@@ -102,7 +102,7 @@ class TemplateList {
                 case 'ContinueTemplateItem':
                     if (message.TemplateItem != null && message.TemplateItem.ItemKey != null) {
                         if (this.childItemTemplates[message.TemplateItem.ItemKey] != null) {
-                            this.childItemTemplates[message.TemplateItem.ItemKey].fromClient(message.Template);
+                            this.childItemTemplates[message.TemplateItem.ItemKey].fromClient(message.TemplateItem);
                         }
                     }
                     break;
