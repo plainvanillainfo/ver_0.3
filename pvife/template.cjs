@@ -432,6 +432,32 @@ class TemplateItem {
         }
     }
 
+    saveFormData() {
+        let attrs = {};
+        let fUpdated = false;
+        for (let formAttrCur in this.formData) {
+            let formAttrDetail = this.formData[formAttrCur];
+            attrs[formAttrCur] = {Type: 'P', Value: formAttrDetail};
+            fUpdated = true;
+        }
+        if (fUpdated) {
+            let messageOut = {
+                Action: 'UpdateItem',
+                TemplateItem: {
+                    ItemData: {
+                        ItemKey: this.itemKey,
+                        Attrs: attrs,
+                        ChildItems: {}
+                    }
+                }
+            };
+            this.parent.toServer(messageOut);
+        } else {
+            this.track.popBreadcrumb();
+            //this.track.div.removeChild(this.divTarget);
+        }
+    }
+
     setItemKey(itemKey) {
         this.itemKey = itemKey;
         if (this.itemKey != null && this.useCase != null) {

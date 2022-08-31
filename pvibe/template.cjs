@@ -18,7 +18,7 @@ class TemplateItem {
     }
 
     fromClient(message) {
-        console.log("TemplateItem::fromClient(): ", message); //, "\nthis.useCase: ", this.useCase);
+        console.log("TemplateItem::fromClient(): ", message);
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateElem':
@@ -108,10 +108,11 @@ class TemplateList {
                 case 'UpdateItem':
                     if (message.TemplateItem != null && message.TemplateItem.ItemData != null) {
                         let itemKey = null;
-                        if (message.TemplateItem.ItemData.Id == null) {
+                        if (message.TemplateItem.ItemData.ItemKey == null) {
+                            /* Insert row with AtKey
                             if (this.useCase.spec.SubUseCase != null) {
                                 let useCaseSub = this.model.useCases[this.useCase.spec.SubUseCase];
-                                console.log("TemplateListServer::fromClient() - useCaseSub.spec: ", useCaseSub.spec);
+                                console.log("TemplateList::fromClient() - useCaseSub.spec: ", useCaseSub.spec);
                                 if (useCaseSub.spec.AutoKey != null && useCaseSub.spec.AutoKey == 'Number') {
                                     let itemKeyNew = 0;
                                     if (this.childItemList != null && this.childItemList.ListItems != null) {
@@ -126,13 +127,18 @@ class TemplateList {
                                     }
                                     itemKeyNew++;
                                     itemKey = itemKeyNew.toString();
-                                    message.TemplateItem.ItemData.Id = itemKey;
+                                    message.TemplateItem.ItemData.ItemKey = itemKey;
                                 }
                             }
+                            */
                         } else {
-                            itemKey = message.TemplateItem.ItemData.Id;
+                            itemKey = message.TemplateItem.ItemData.ItemKey;
                         }
                         if (itemKey != null) {
+
+                            console.log(" message.TemplateItem.ItemData: ", message.TemplateItem.ItemData);
+
+                            /*
                             let itemLocal = {
                                 ChildItems: {},
                                 Attrs: {},
@@ -140,6 +146,7 @@ class TemplateList {
                             };
                             itemLocal.ChildItems[this.parent.useCaseElem.spec.Path.Attribute] = [message.Template.ItemData];
                             this.model.putItem(this.itemParent, itemLocal);
+                            */
                         }
                     }
                     break;
