@@ -96,7 +96,7 @@ class TemplateList {
                     if (message.TemplateItem != null && message.TemplateItem.ItemKey != null && this.keyName != null) {
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.UpdateUseCase);
                         this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, useCaseFound);
-                        let filter = '"' + this.keyName + "\" = '" + message.TemplateItem.ItemKey + "'" ;
+                        let filter = '"' + this.keyName + "\" = '" + message.TemplateItem.ItemKey + "'";
                         this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB(filter);
                     }
                     break;
@@ -138,9 +138,18 @@ class TemplateList {
                         }
                         if (itemKey != null && message.TemplateItem.ItemData.Attrs != null) {
                             console.log(" message.TemplateItem.ItemData: ", message.TemplateItem.ItemData);
-                            let filter = '"' + this.keyName + '" = ' + message.TemplateItem.ItemData.ItemKey;
-                            let data = message.TemplateItem.ItemData.Attrs;
-                            this.childItemTemplates[message.TemplateItem.ItemKey].requestUpdateToDB(filter, data);
+                            let filter = '"' + this.keyName + "\" = '" + message.TemplateItem.ItemData.ItemKey + "'";
+                            let data = '';
+                            for (let attrCur in message.TemplateItem.ItemData.Attrs) {
+                                let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
+                                data += ('"' + attrCur + '"');
+                                data += ("'" + attrDetail.Value.replace(/'/g, "\'") + "'");
+                                data += ',';
+                            }
+                            if (data.length > 0) {
+                                data = data.slice(0, -1);
+                                this.childItemTemplates[message.TemplateItem.ItemData.ItemKey].requestUpdateToDB(filter, data);
+                            }
                         }
                     }
                     break;
