@@ -58,8 +58,8 @@ class Database {
     }
 
     async putData(view, filter, data, sendViewResultToClient) {
-        let query = 'UPDATE public."' + view + '" SET x = y ' + ' WHERE ' + filter;
-        //console.log("Database::putData() - query: ", query);
+        let query = 'UPDATE public."' + view + '" SET ' + data + ' WHERE ' + filter + ' RETURNING * ';
+        console.log("Database::putData() - query: ", query);
         this.client.query(
             query, 
             (err, res) => {
