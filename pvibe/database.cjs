@@ -57,6 +57,19 @@ class Database {
         });
     }
 
+    async putData(view, filter, data, sendViewResultToClient) {
+        let query = 'UPDATE public."' + view + ' SET x = y ' + " WHERE '+filter;
+        //console.log("Database::putData() - query: ", query);
+        this.client.query(
+            query, 
+            (err, res) => {
+                if (err) {
+                } else {
+                    sendViewResultToClient(res.rows);
+                }
+        });
+    }
+
 }
 
 module.exports = {

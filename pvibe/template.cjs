@@ -57,7 +57,6 @@ class TemplateItem {
     }
 
     async sendViewResultToClient(result) {
-        //console.log(result);
         if (result.length === 1) {
             this.keyName = Object.keys(result[0])[0];
             this.item = {
@@ -67,6 +66,10 @@ class TemplateItem {
             this.dbPath.push(this.item.Key);
         }
         this.toClient({Item: this.item});
+    }
+
+    async requestUpdateToDB(filter, data) {
+        await this.session.database.putData(this.useCase.Detail.UpdateView, filter, data, this.sendViewResultToClient);
     }
 
 }
@@ -83,7 +86,6 @@ class TemplateList {
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
         this.sendViewResultToClient = this.sendViewResultToClient.bind(this);
-        //this.requestViewFromDB('1=1');
     }
 
     fromClient(message) {
@@ -94,7 +96,7 @@ class TemplateList {
                     if (message.TemplateItem != null && message.TemplateItem.ItemKey != null && this.keyName != null) {
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.UpdateUseCase);
                         this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, useCaseFound);
-                        let filter = '"' + this.keyName + '" = ' +message.TemplateItem.ItemKey;
+                        let filter = '"' + this.keyName + '" = ' + message.TemplateItem.ItemKey;
                         this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB(filter);
                     }
                     break;
@@ -106,7 +108,7 @@ class TemplateList {
                     }
                     break;
                 case 'UpdateItem':
-                    if (message.TemplateItem != null && message.TemplateItem.ItemData != null) {
+                    if (message.TemplateItem != null && message.TemplateItem.ItemData != null && message.TemplateItem.ItemData.Attrs != null) {
                         let itemKey = null;
                         if (message.TemplateItem.ItemData.ItemKey == null) {
                             /* Insert row with AtKey
@@ -134,19 +136,12 @@ class TemplateList {
                         } else {
                             itemKey = message.TemplateItem.ItemData.ItemKey;
                         }
-                        if (itemKey != null) {
-
+                        if (itemKey != null && message.TemplateItem.ItemData.Attrs != null) {
                             console.log(" message.TemplateItem.ItemData: ", message.TemplateItem.ItemData);
+                            let filter = '"' + this.keyName + '" = ' + message.TemplateItem.ItemData.ItemKey;
+                            let data = message.TemplateItem.ItemData.Attrs;
+                            this.childItemTemplates[message.TemplateItem.ItemKey].requestUpdateToDB(filter, data);
 
-                            /*
-                            let itemLocal = {
-                                ChildItems: {},
-                                Attrs: {},
-                                Ext: ''
-                            };
-                            itemLocal.ChildItems[this.parent.useCaseElem.spec.Path.Attribute] = [message.Template.ItemData];
-                            this.model.putItem(this.itemParent, itemLocal);
-                            */
                         }
                     }
                     break;
