@@ -142,7 +142,7 @@ class TemplateList {
                             let data = '';
                             for (let attrCur in message.TemplateItem.ItemData.Attrs) {
                                 let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
-                                data += ('"' + attrCur + '"');
+                                data += ('"' + attrCur + '" = ');
                                 data += ("'" + attrDetail.Value.replace(/'/g, "\'") + "'");
                                 data += ',';
                             }
