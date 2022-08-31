@@ -141,7 +141,6 @@ class TemplateList {
                             let filter = '"' + this.keyName + '" = ' + message.TemplateItem.ItemData.ItemKey;
                             let data = message.TemplateItem.ItemData.Attrs;
                             this.childItemTemplates[message.TemplateItem.ItemKey].requestUpdateToDB(filter, data);
-
                         }
                     }
                     break;
