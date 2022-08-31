@@ -74,6 +74,8 @@ class TemplateItem {
 
 }
 
+EGG ab' + " \&hv
+
 class TemplateList {
     constructor(parent, useCase) {
         this.parent = parent;
@@ -143,7 +145,8 @@ class TemplateList {
                             for (let attrCur in message.TemplateItem.ItemData.Attrs) {
                                 let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
                                 data += ('"' + attrCur + '" = ');
-                                data += ("'" + attrDetail.Value.replace(/'/g, "\'") + "'");
+                                //data += ("'" + attrDetail.Value.replace(/'/g, "\'") + "'");
+                                data += ("'" + JSON.stringify(attrDetail.Value) + "'");
                                 data += ',';
                             }
                             if (data.length > 0) {
