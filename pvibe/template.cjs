@@ -96,7 +96,7 @@ class TemplateList {
                     if (message.TemplateItem != null && message.TemplateItem.ItemKey != null && this.keyName != null) {
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.UpdateUseCase);
                         this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, useCaseFound);
-                        let filter = '"' + this.keyName + '" = "' + message.TemplateItem.ItemKey +'"';
+                        let filter = '"' + this.keyName + "' = '" + message.TemplateItem.ItemKey + "'" ;
                         this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB(filter);
                     }
                     break;
@@ -209,7 +209,7 @@ class TemplateElem {
                                         this.templateList = new TemplateList(this, useCaseFound);
                                         let filter = '1=1';
                                         if (this.parent.item != null && useCaseFound.Detail.ViewFilterColumn != null) {
-                                            filter = '"' + useCaseFound.Detail.ViewFilterColumn + '" = "' + this.parent.item.Key + '"';
+                                            filter = '"' + useCaseFound.Detail.ViewFilterColumn + "' = '" + this.parent.item.Key + "'";
                                         }
                                         this.templateList.requestViewFromDB(filter);
                                     } else {
