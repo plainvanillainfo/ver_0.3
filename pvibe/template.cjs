@@ -145,7 +145,7 @@ class TemplateList {
                                 let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
                                 data += ('"' + attrCur + '" = ');
                                 //data += ("'" + attrDetail.Value.replace(/'/g, "\'") + "'");
-                                data += ("'" + jsesc(attrDetail.Value, {'quotes': 'single'}) + "'");
+                                data += ("E'" + jsesc(attrDetail.Value, {'quotes': 'single'}) + "'");
                                 data += ',';
                             }
                             if (data.length > 0) {
