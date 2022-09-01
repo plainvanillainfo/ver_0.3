@@ -1,4 +1,5 @@
 const { UseCaseItem, UseCaseList, UseCaseElem } = require('./usecase.cjs');
+const jsesc = require("jsesc");
 
 class TemplateItem {
     constructor(parent, useCase) {
@@ -144,7 +145,7 @@ class TemplateList {
                                 let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
                                 data += ('"' + attrCur + '" = ');
                                 //data += ("'" + attrDetail.Value.replace(/'/g, "\'") + "'");
-                                data += ("'" + JSON.stringify(attrDetail.Value) + "'");
+                                data += ("'" + jsesc(attrDetail.Value, {'quotes': 'double'}) + "'");
                                 data += ',';
                             }
                             if (data.length > 0) {
