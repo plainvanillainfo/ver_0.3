@@ -74,8 +74,6 @@ class TemplateItem {
 
 }
 
-EGG ab' + " \&hv
-
 class TemplateList {
     constructor(parent, useCase) {
         this.parent = parent;
