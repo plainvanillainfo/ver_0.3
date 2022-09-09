@@ -87,7 +87,7 @@ class TemplateItem {
                 this.setUseCaseMenu();
                 break;
             case 'Form':
-                //this.setUseCaseForm();
+                this.setUseCaseForm();
                 break;
             default:
                 break;
