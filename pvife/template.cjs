@@ -356,6 +356,25 @@ class TemplateItem {
                         itemImgCal.className = 'bi bi-calendar';
                         itemImgCal.style.marginLeft = "10px";
                         break;
+                    case 'DateTime':
+                        let divDateTime = document.createElement('div');
+                        divCur.appendChild(divDateTime);
+                        divDateTime.className = 'input-group';
+                        divDateTime.style.display = 'inline';
+                        inputCur = document.createElement('input');
+                        divDateTime.appendChild(inputCur);
+                        inputCur.setAttribute("type", "datetime-local");
+                        let dateTimeTemp = this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null ? this.item.Attrs[elemCur.Name] : '';
+                        if (dateTimeTemp > '') {
+                            let valueCur = new Date(dateTimeTemp);
+                            inputCur.value = valueCur.toISOString();
+                        }
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value;
+                        });
+                        break;
                     case 'Dropdown':
                         inputCur = document.createElement('select');
                         divCur.appendChild(inputCur);
