@@ -112,30 +112,7 @@ class TemplateList {
                     if (message.TemplateItem != null && message.TemplateItem.ItemData != null && message.TemplateItem.ItemData.Attrs != null) {
                         let itemKey = null;
                         if (message.TemplateItem.ItemData.ItemKey == null) {
-                            /* Insert row with AtKey
-                            if (this.useCase.spec.SubUseCase != null) {
-                                let useCaseSub = this.model.useCases[this.useCase.spec.SubUseCase];
-                                console.log("TemplateList::fromClient() - useCaseSub.spec: ", useCaseSub.spec);
-                                if (useCaseSub.spec.AutoKey != null && useCaseSub.spec.AutoKey == 'Number') {
-                                    let itemKeyNew = 0;
-                                    if (this.childItemList != null && this.childItemList.ListItems != null) {
-                                        this.childItemList.ListItems.forEach(listItemCur => {
-                                            let parsedId = parseInt(listItemCur.id);
-                                            if (isNaN(parsedId) == false) {
-                                                if (parsedId > itemKeyNew) {
-                                                    itemKeyNew = parsedId;
-                                                }
-                                            }
-                                        });
-                                    }
-                                    itemKeyNew++;
-                                    itemKey = itemKeyNew.toString();
-                                    message.TemplateItem.ItemData.ItemKey = itemKey;
-                                }
-                            }
-                            */
-
-                            let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.UpdateUseCase);
+                            let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.AddUseCase);
                             if (useCaseFound != null && useCaseFound.Detail.AutoKey != null && useCaseFound.Detail.AutoKey === 'Yes') {
                                 itemKey = '';
                             }
@@ -145,20 +122,30 @@ class TemplateList {
                         }
                         if (itemKey != null && message.TemplateItem.ItemData.Attrs != null) {
                             console.log(" message.TemplateItem.ItemData: ", message.TemplateItem.ItemData);
-                            let data = '';
-                            for (let attrCur in message.TemplateItem.ItemData.Attrs) {
-                                let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
-                                data += ('"' + attrCur + '" = ');
-                                data += ("E'" + jsesc(attrDetail.Value, {'quotes': 'single'}) + "'");
-                                data += ',';
-                            }
                             if (data.length > 0) {
+                                let data = '';
                                 if (itemKey !== '') {
+                                    for (let attrCur in message.TemplateItem.ItemData.Attrs) {
+                                        let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
+                                        data += ('"' + attrCur + '" = ');
+                                        data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
+                                    }
                                     let filter = '"' + this.keyName + "\" = '" + itemKey + "'";
                                     data = data.slice(0, -1);
                                     this.childItemTemplates[itemKey].requestUpdateToDB(filter, data);
                                 } else {
-                                    this.requestInsertToDB(data);
+                                    let columns = '(';
+                                    data = '(';
+                                    for (let attrCur in message.TemplateItem.ItemData.Attrs) {
+                                        let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
+                                        columns += ('"' + attrCur + '",');
+                                        data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
+                                    }
+                                    columns = columns.slice(0, -1);
+                                    columns += ') VALUES (';
+                                    data = data.slice(0, -1);
+                                    data += ')';
+                                    this.requestInsertToDB(columns + data);
                                 }
                             }
                         }

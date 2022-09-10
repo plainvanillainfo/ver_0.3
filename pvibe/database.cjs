@@ -70,9 +70,9 @@ class Database {
         });
     }
 
-    async addData(view, data, sendViewResultToClient) {
-        let query = 'UPDATE public."' + view + '" SET ' + data + ' WHERE ' + '' + ' RETURNING * ';
-        console.log("Database::putData() - query: ", query);
+    async addData(view, columnsAnddata, sendViewResultToClient) {
+        let query = 'INSERT INTO public."' + view + '" ' + columnsAnddata + ' RETURNING * ';
+        console.log("Database::addData() - query: ", query);
         this.client.query(
             query, 
             (err, res) => {
