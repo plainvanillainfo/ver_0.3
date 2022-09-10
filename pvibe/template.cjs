@@ -136,13 +136,13 @@ class TemplateList {
                                 }
                             } else {
                                 let columns = '(';
-                                data = '(';
+                                data = '';
                                 for (let attrCur in message.TemplateItem.ItemData.Attrs) {
                                     let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
                                     columns += ('"' + attrCur + '",');
                                     data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
                                 }
-                                if (data.length > 1) {
+                                if (data.length > 0) {
                                     columns = columns.slice(0, -1);
                                     columns += ') VALUES (';
                                     data = data.slice(0, -1);
