@@ -364,31 +364,6 @@ class TemplateItem {
                         itemImgCal.className = 'bi bi-calendar';
                         itemImgCal.style.marginLeft = "10px";
                         break;
-                    case 'DateTime':
-                        let divDateTime = document.createElement('div');
-                        divCur.appendChild(divDateTime);
-                        divDateTime.className = 'input-group';
-                        divDateTime.style.display = 'inline';
-                        inputCur = document.createElement('input');
-                        divDateTime.appendChild(inputCur);
-                        inputCur.setAttribute("type", "datetime-local");
-                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
-                            let valueCur = new Date(this.item.Attrs[elemCur.Name]);
-                            let junk  = valueCur.toUTCString();
-                            junk = valueCur.toString();
-                            junk = valueCur.toDateString();
-
-                            junk = valueCur.toISOString();
-                            junk = 'a';
-                        } else {
-                            inputCur.value = '';
-                        }
-                        inputCur.style.width = '70%';
-                        inputCur.addEventListener('blur', (event) => {
-                            event.preventDefault();
-                            this.formData[event.target.id] = event.target.value;
-                        });
-                        break;
                     case 'Dropdown':
                         inputCur = document.createElement('select');
                         divCur.appendChild(inputCur);
@@ -424,6 +399,9 @@ class TemplateItem {
                     event.preventDefault();
                     this.formData[event.target.id] = event.target.value
                 });
+                if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+                    inputCur.disabled = true;
+                }
             }
             if (inputCur != null) {
                 inputCur.id = elemCur.Name;
