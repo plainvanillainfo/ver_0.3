@@ -374,6 +374,9 @@ class TemplateItem {
                         inputCur.setAttribute("type", "datetime-local");
                         if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
                             let valueCur = new Date(this.item.Attrs[elemCur.Name]);
+                            inputCur.value = valueCur.toUTCString();
+                            inputCur.value = valueCur.toString();
+                            inputCur.value = valueCur.toDateString();
                             inputCur.value = valueCur.toISOString();
                         } else {
                             inputCur.value = '';
