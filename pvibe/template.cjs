@@ -158,7 +158,7 @@ class TemplateList {
                                     data = data.slice(0, -1);
                                     this.childItemTemplates[itemKey].requestUpdateToDB(filter, data);
                                 } else {
-
+                                    this.requestInsertToDB(data);
                                 }
                             }
                         }
@@ -198,6 +198,10 @@ class TemplateList {
             });
         }
         this.toClient({Items: this.childItemList});
+    }
+
+    async requestInsertToDB(data) {
+        await this.session.database.addData(this.useCase.Detail.AddView, data, this.sendViewResultToClient);
     }
 
 }

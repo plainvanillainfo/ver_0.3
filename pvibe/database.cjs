@@ -70,6 +70,19 @@ class Database {
         });
     }
 
+    async addData(view, data, sendViewResultToClient) {
+        let query = 'UPDATE public."' + view + '" SET ' + data + ' WHERE ' + '' + ' RETURNING * ';
+        console.log("Database::putData() - query: ", query);
+        this.client.query(
+            query, 
+            (err, res) => {
+                if (err) {
+                } else {
+                    sendViewResultToClient(res.rows);
+                }
+        });
+    }
+
 }
 
 module.exports = {
