@@ -452,6 +452,14 @@ class TemplateItem {
             fUpdated = true;
         }
         if (fUpdated) {
+            if (this.itemKey == null) {
+                if (this.useCase.Detail.KeyAttribute != null) {
+                    if (attrs[this.useCase.Detail.KeyAttribute] != null && attrs[this.useCase.Detail.KeyAttribute].Value != null) {
+                        this.itemKey = attrs[this.useCase.Detail.KeyAttribute].Value;
+                    }
+                }
+
+            }
             let messageOut = {
                 Action: 'UpdateItem',
                 TemplateItem: {
