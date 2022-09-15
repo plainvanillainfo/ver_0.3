@@ -116,7 +116,9 @@ class TemplateList {
                             if (useCaseFound != null && useCaseFound.Detail.AutoKey != null && useCaseFound.Detail.AutoKey === 'Yes') {
                                 itemKey = '';
                             }
-                            
+                            if (useCaseFound != null && useCaseFound.Detail.KeyAttribute != null && message.TemplateItem.ItemData.Attrs[useCaseFound.Detail.KeyAttribute] != null) {
+                                itemKey = '';
+                            }
                         } else {
                             itemKey = message.TemplateItem.ItemData.ItemKey;
                         }
