@@ -53,6 +53,11 @@ class FileImportXML {
     }
 }
 
+class FileExportNACHA {
+    constructor(parent) {
+    }
+}
+
 module.exports = {
     EngineRoom: EngineRoom
 }
