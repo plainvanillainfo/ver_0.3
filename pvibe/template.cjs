@@ -1,4 +1,3 @@
-const { UseCaseItem, UseCaseList, UseCaseElem } = require('./usecase.cjs');
 const jsesc = require("jsesc");
 
 class TemplateItem {
