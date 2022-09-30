@@ -631,44 +631,44 @@ class TemplateList {
         divTitleRow.appendChild(divTitleRowAddButton);
         divTitleRowAddButton.className = 'col-sm-2';
 
-        let buttonAdd = document.createElement('button');
-        divTitleRowAddButton.appendChild(buttonAdd);
-        buttonAdd.className = 'btn btn-info add-new';
-        buttonAdd.addEventListener('click', (event) => {
-            event.preventDefault();
-            console.log("TemplateList - Add New");
-            this.divTargetSub = document.createElement('div')
-            this.divTargetSub.style.margin = '10px';
-            this.track.divTargetSub.appendChild(this.divTargetSub);
-            let divCur = document.createElement('div');
-            this.divTargetSub.appendChild(divCur);
-            divCur.className = 'mb-3';
-
-            let buttonCur = document.createElement('button');
-            divCur.appendChild(buttonCur);
-            buttonCur.className = 'btn btn-info';
-            buttonCur.setAttribute("type", "button");
-            buttonCur.id = 'backbutton';
-            buttonCur.style.width = "12em";
-            buttonCur.appendChild(document.createTextNode("< Go Back"));
-            buttonCur.addEventListener('click', (event) => {
+        if (this.useCase.Detail.AddUseCase != null) {
+            let buttonAdd = document.createElement('button');
+            divTitleRowAddButton.appendChild(buttonAdd);
+            buttonAdd.className = 'btn btn-info add-new';
+            buttonAdd.addEventListener('click', (event) => {
                 event.preventDefault();
-                this.track.popBreadcrumb();
-                this.track.divTargetSub.removeChild(this.divTargetSub);
-            });
+                console.log("TemplateList - Add New");
+                this.divTargetSub = document.createElement('div')
+                this.divTargetSub.style.margin = '10px';
+                this.track.divTargetSub.appendChild(this.divTargetSub);
+                let divCur = document.createElement('div');
+                this.divTargetSub.appendChild(divCur);
+                divCur.className = 'mb-3';
 
-            this.templateSub = new TemplateItem(this, this.divTargetSub);
-            if (this.useCase.Detail.AddUseCase != null) {
+                let buttonCur = document.createElement('button');
+                divCur.appendChild(buttonCur);
+                buttonCur.className = 'btn btn-info';
+                buttonCur.setAttribute("type", "button");
+                buttonCur.id = 'backbutton';
+                buttonCur.style.width = "12em";
+                buttonCur.appendChild(document.createTextNode("< Go Back"));
+                buttonCur.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    this.track.popBreadcrumb();
+                    this.track.divTargetSub.removeChild(this.divTargetSub);
+                });
+
+                this.templateSub = new TemplateItem(this, this.divTargetSub);
                 this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.AddUseCase);
                 this.templateSub.setUseCase(this.subUseCase);
                 this.track.pushBreadcrumb(this.templateSub);
-            }
-        });
-        let iconAdd = document.createElement('i');
-        divTitleRowTitle.appendChild(iconAdd);
-        iconAdd.className = 'fa fa-plus';
-        buttonAdd.appendChild(iconAdd);
-        buttonAdd.appendChild(document.createTextNode('Add New'));
+            });
+            let iconAdd = document.createElement('i');
+            divTitleRowTitle.appendChild(iconAdd);
+            iconAdd.className = 'fa fa-plus';
+            buttonAdd.appendChild(iconAdd);
+            buttonAdd.appendChild(document.createTextNode('Add New'));
+        }
 
         this.tableList = document.createElement('table');
         divTableWrapper.appendChild(this.tableList);
