@@ -455,8 +455,14 @@ class TemplateItem {
             buttonCur.addEventListener('click', (event) => {
                 event.preventDefault();
                 if (this.useCase.Id === 'AlertTypeUpdate') {
-                    let response = window.prompt("Date range", "");
-                    if (response != null && response > "") {
+                    let responseStart = window.prompt("Start Date", "");
+                    if (responseStart != null && responseStart > "") {
+
+                        let responseEnd = window.prompt("End Date", "");
+                        if (responseEnd != null && responseEnd > "") {
+                            alert(responseStart + " " + responseEnd);
+                        }
+
                         alert(response);
                     }
                 }
