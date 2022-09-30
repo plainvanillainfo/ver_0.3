@@ -203,6 +203,24 @@ class TemplateItem {
                             inputCur.disabled = true;
                         }
                         break;
+                    case 'Json':
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.setAttribute("type", "input");
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                            inputCur.value = JSON.stringify(this.item.Attrs[elemCur.Name]);
+                        } else {
+                            inputCur.value = '';
+                        }
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value
+                        });
+                        if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+                            inputCur.disabled = true;
+                        }
+                        break;
                     case 'Textarea':
                         inputCur = document.createElement('textarea');
                         divCur.appendChild(inputCur);
