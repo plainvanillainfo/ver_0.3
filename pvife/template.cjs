@@ -204,9 +204,9 @@ class TemplateItem {
                         }
                         break;
                     case 'Json':
-                        inputCur = document.createElement('input');
+                        inputCur = document.createElement('textarea');
                         divCur.appendChild(inputCur);
-                        inputCur.setAttribute("type", "input");
+                        inputCur.setAttribute("rows", "4");
                         if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
                             inputCur.value = JSON.stringify(this.item.Attrs[elemCur.Name]);
                         } else {
