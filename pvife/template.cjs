@@ -454,6 +454,7 @@ class TemplateItem {
             buttonCur.appendChild(document.createTextNode("Save"));
             buttonCur.addEventListener('click', (event) => {
                 event.preventDefault();
+                /*
                 if (this.useCase.Id === 'AlertTypeUpdate') {
                     let responseStart = window.prompt("Start Date", "");
                     if (responseStart != null && responseStart > "") {
@@ -466,6 +467,7 @@ class TemplateItem {
                         alert(response);
                     }
                 }
+                */
                 this.saveFormData();
             });
         }
