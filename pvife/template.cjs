@@ -303,7 +303,7 @@ class TemplateItem {
                         /*
                         this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
                         this.elems[elemCur.Name].initiateTrigger();
-                        */
+                        */ 
                         break;
                     case 'InPlace':
                         inputCur = document.createElement('div');
