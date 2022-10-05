@@ -182,7 +182,6 @@ class TemplateItem {
             labelSpan.style.width = "25%";
             let inputCur;
             let inputLabel;
-            let elemPicked;
             if (elemCur.Format != null) {
                 switch (elemCur.Format) {
                     case 'Text':
@@ -256,7 +255,7 @@ class TemplateItem {
                             let divCur = document.createElement('div');
                             this.divTargetSub.appendChild(divCur);
                             divCur.className = 'mb-3';
-            
+
                             let buttonCur = document.createElement('button');
                             divCur.appendChild(buttonCur);
                             buttonCur.className = 'btn btn-info';
@@ -264,7 +263,7 @@ class TemplateItem {
                             buttonCur.id = 'backbutton';
                             buttonCur.style.width = "12em";
                             buttonCur.appendChild(document.createTextNode("< Go Back"));
-                
+
                             buttonCur.addEventListener('click', (event) => {
                                 event.preventDefault();
                                 this.track.popBreadcrumb();
@@ -276,6 +275,24 @@ class TemplateItem {
                                 this.track.pushBreadcrumb(this.elems[elemCur.Name]);
                             }
                         });
+                        break;
+                    case 'Context':
+                        inputCur = document.createElement('select');
+                        divCur.appendChild(inputCur);
+                        if (elemCur.ValueSet != null) {
+                            elemCur.ValueSet.forEach(itemCur => {
+                                let option = document.createElement('option');
+                                inputCur.appendChild(option);
+                                option.addEventListener('click', (event) => {
+                                    event.preventDefault();
+                                    console.log("click on option", itemCur);
+                                    this.formData[event.target.id] = event.target.value;
+                                });
+                                let spanAttr = document.createElement('span');
+                                option.appendChild(spanAttr);
+                                spanAttr.appendChild(document.createTextNode(itemCur));
+                            });
+                        }
                         break;
                     case 'PickList':
                         inputCur = document.createElement('div');
