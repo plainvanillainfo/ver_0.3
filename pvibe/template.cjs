@@ -214,11 +214,13 @@ class TemplateElem {
             switch (this.useCaseElem.Format) {
                 case 'MenuOption':
                 case 'DrillDown':
-                    if (this.useCaseElem.SubUseCase != null) {
+                    case 'Context':
+                        if (this.useCaseElem.SubUseCase != null) {
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
                         if (useCaseFound != null) {
                             switch (useCaseFound.Detail.Format) {
                                 case 'List':
+                                case 'Context':
                                     if (this.templateList == null) {
                                         this.templateList = new TemplateList(this, useCaseFound);
                                         let filter = '1=1';
