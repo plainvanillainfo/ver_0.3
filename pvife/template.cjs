@@ -277,22 +277,7 @@ class TemplateItem {
                         });
                         break;
                     case 'Context':
-                        inputCur = document.createElement('select');
-                        divCur.appendChild(inputCur);
-                        if (elemCur.ValueSet != null) {
-                            elemCur.ValueSet.forEach(itemCur => {
-                                let option = document.createElement('option');
-                                inputCur.appendChild(option);
-                                option.addEventListener('click', (event) => {
-                                    event.preventDefault();
-                                    console.log("click on option", itemCur);
-                                    this.formData[event.target.id] = event.target.value;
-                                });
-                                let spanAttr = document.createElement('span');
-                                option.appendChild(spanAttr);
-                                spanAttr.appendChild(document.createTextNode(itemCur));
-                            });
-                        }
+                        this.elems[elemCur.Name] = new TemplateElem(this, elemCur, divCur, false);
                         break;
                     case 'PickList':
                         inputCur = document.createElement('div');
@@ -585,7 +570,7 @@ class TemplateList {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateSub':
-                /*
+                    /*
                     if (this.templateSub != null && message.Template != null) {
                         this.templateSub.fromServer(message.Template);
                     }
@@ -597,7 +582,7 @@ class TemplateList {
                     }
                     break;
                 case 'AcceptDataList':
-                /*
+                    /*
                     if (message.ItemList != null) {
                         this.setListFromServer(message.ItemList);
                     }
@@ -609,7 +594,21 @@ class TemplateList {
         }
         if (message.Items != null) {
             this.items = message.Items;
-            this.setUseCaseListRows();
+            //this.setUseCaseListRows();
+            switch (this.useCase.Detail.Format) {
+                case 'List':
+                    this.setUseCaseListRows();
+                    break;
+                case 'PickList':
+                    this.setUseCasePickListRows();
+                    break;
+                case 'Context':
+                    this.setUseCasePickListRows();
+                    break;
+                default:
+                    break;
+            }
+    
         }
     }
 
@@ -652,7 +651,10 @@ class TemplateList {
                 this.setUseCaseList();
                 break;
             case 'PickList':
-                this.elementPayload = document.createElement('select');
+                //this.elementPayload = document.createElement('select');
+                this.setUseCasePickList();
+                break;
+            case 'Context':
                 this.setUseCasePickList();
                 break;
             default:
@@ -774,7 +776,7 @@ class TemplateList {
 
                 this.templateSub = new TemplateItem(this, this.divTargetSub);
                 if (this.useCase.Detail.UpdateUseCase != null) {
-                    console.log("TemplateListWeb - item picked: - this.useCase.Detail.UpdateUseCase != null ");
+                    console.log("TemplateList - item picked: - this.useCase.Detail.UpdateUseCase != null ");
                     this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.UpdateUseCase);
                     this.templateSub.setUseCase(this.subUseCase);
                     this.templateSub.setItemKey(itemCur.Key);
@@ -792,13 +794,80 @@ class TemplateList {
     }
     
     setUseCasePickList() {
+        this.selectList = document.createElement('select');
+        this.divTarget.appendChild(this.selectList);
+        let option = document.createElement('option');
+        this.selectList.appendChild(option);
+        let spanAttr = document.createElement('span');
+        option.appendChild(spanAttr);
+        spanAttr.appendChild(document.createTextNode('Select ...'));
+
         let messageOut = {
             Action: 'StartTemplateList',
             TemplateElem: {
-                UseCaseElemName: this.useCaseElem.spec.Name
+                UseCaseName: this.useCase.Detail.Name
             }
         };
         this.parent.toServer(messageOut);
+
+        /*
+        inputCur = document.createElement('select');
+        divCur.appendChild(inputCur);
+        if (elemCur.ValueSet != null) {
+            elemCur.ValueSet.forEach(itemCur => {
+                let option = document.createElement('option');
+                inputCur.appendChild(option);
+                option.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    console.log("click on option", itemCur);
+                    this.formData[event.target.id] = event.target.value;
+                });
+                let spanAttr = document.createElement('span');
+                option.appendChild(spanAttr);
+                spanAttr.appendChild(document.createTextNode(itemCur));
+            });
+        }
+        */
+
+    }
+
+    setUseCasePickListRows() {
+        this.items.forEach(itemCur => {
+            option = document.createElement('option');
+            this.selectList.appendChild(option);
+            option.addEventListener('click', (event) => {
+                event.preventDefault();
+                console.log("click on option", itemCur);
+                if (this.parent.templateItemPicked != null) {
+                    //this.parent.templateItemPicked.setItemId(itemCur.Id)
+                }
+            });
+            spanAttr = document.createElement('span');
+            option.appendChild(spanAttr);
+
+            /*
+            this.useCase.spec.Elems.forEach(elemCur => {
+                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].Value : ''
+                spanAttr.appendChild(document.createTextNode(valueCur + ' | '));
+            });
+            if (spanAttr.lastElementChild != null) {
+                spanAttr.removeChild(spanAttr.lastElementChild);
+            }
+            */
+
+            this.useCase.Detail.Elems.forEach(elemCur => {
+                /*
+                let tableItemRowCell = document.createElement('td');
+                tableItemRow.appendChild(tableItemRowCell);
+                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : ''
+                tableItemRowCell.appendChild(document.createTextNode(valueCur));
+                */
+                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : ''
+                spanAttr.appendChild(document.createTextNode(valueCur + ' | '));
+            });
+
+            //spanAttr.appendChild(document.createTextNode(itemCur));
+        });
     }
 
 }
@@ -820,6 +889,7 @@ class TemplateElem {
                 switch (this.subUseCase.Detail.Format) {
                     case 'List':
                     case 'PickList':
+                    case 'Context':
                         this.templateList = new TemplateList(this, this.divTarget);
                         this.templateList.setUseCase(this.subUseCase);
                         break;
