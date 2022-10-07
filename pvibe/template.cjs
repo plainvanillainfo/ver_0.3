@@ -219,10 +219,10 @@ class TemplateElem {
                         console.log("TemplateElem::fromClient() - this.useCaseElem.SubUseCase: ", this.useCaseElem.SubUseCase);
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
                         if (useCaseFound != null) {
-                            console.log("TemplateElem::fromClient() - useCaseFound != null: ", useCaseFound != null);
+                            console.log("TTTTTTTTTTTTTTTTTTTTTemplateElem::fromClient() - useCaseFound != null: ", useCaseFound != null);
                             switch (useCaseFound.Detail.Format) {
                                 case 'List':
-                                case 'PickList':
+                                case 'PickList': 
                                     if (this.templateList == null) {
                                         this.templateList = new TemplateList(this, useCaseFound);
                                         let filter = '1=1';
