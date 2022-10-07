@@ -1,9 +1,33 @@
 class EngineRoom {
-    constructor(parent) {
+    constructor(parent, config) {
+        this.parent = parent;
+        this.config = config;
+        this.engines = [];
     }
 
     async start() {
         console.log("EngineRoom::start()");
+        this.parent.executables.forEach(executableCur => {
+            if (executableCur.Type != null && executableCur.Type === 'Engine' && executableCur.Name != null) {
+                let customCode = null;
+                if (this.config.EngineCustomCode != null && this.config.EngineCustomCode[executableCur.Name] != null) {
+                    customCode = this.config.EngineCustomCode[executableCur.Name];
+                }
+                switch (executableCur.Name) {
+                    case 'SecApiIoInterface':
+                        this.engines[executableCur.Name] = new RESTApiSession(this, executableCur, customCode);
+                        break;
+                    case 'SecEdgarInterface':
+                        this.engines[executableCur.Name] = new FileFetch(this, executableCur, customCode);
+                        break;
+                    case 'TwilioInterface':
+                        this.engines[executableCur.Name] = new RESTApiSession(this, executableCur, customCode);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
 }
@@ -14,12 +38,18 @@ class ChildProcess {
 }
 
 class RESTApiSession {
-    constructor(parent) {
+    constructor(parent, spec, customCode) {
+        this.parent = parent;
+        this.spec = spec;
+        this.customCode = customCode;
     }
 }
 
 class FileTransfer {
-    constructor(parent) {
+    constructor(parent, customCode) {
+        this.parent = parent;
+        this.spec = spec;
+        this.customCode = customCode;
     }
 }
 
