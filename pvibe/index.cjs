@@ -20,8 +20,11 @@ class Backend {
         this.executables = [];
         this.setConfigFromDB = this.setConfigFromDB.bind(this);
         this.database = new Database(this, this.config.DB);
-        this.bff = new BFF(this);
-        this.engineRoom = new EngineRoom(this);
+        if  (config.Usage != null && config.Usage === 'Engines') {
+            this.engineRoom = new EngineRoom(this, config);
+        } else {
+            this.bff = new BFF(this);
+        }
     }
 
     async start() {
@@ -43,11 +46,14 @@ class Backend {
                     break;
             }
         });
-        let webAppServer = this.executables.find(cur => cur.WebAppServer != null);
-        if (webAppServer != null) {
-            this.bff.start(webAppServer.WebAppServer);
+        if (this.bff != null) {
+            let webAppServer = this.executables.find(cur => cur.WebAppServer != null);
+            if (webAppServer != null) {
+                this.bff.start(webAppServer.WebAppServer);
+            }
+        } else {
+            this.engineRoom.start();
         }
-        //this.engineRoom.start();
     }
     
     async stop() {
