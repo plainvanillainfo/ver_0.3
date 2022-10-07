@@ -104,12 +104,12 @@ class TemplateList {
                     if (message.TemplateItem != null && message.TemplateItem.ItemKey != null) {
                         if (this.childItemTemplates[message.TemplateItem.ItemKey] != null) {
                             this.childItemTemplates[message.TemplateItem.ItemKey].fromClient(message.TemplateItem);
-                        } else {
-                            if (message.TemplateItem.TemplateElem != null) {
-                                
-                                console.log("TemplateList::fromClient() - Continue TemplateItem: ", message.TemplateItem.TemplateElem );
-                                
-                            }
+                        }
+                    } else {
+                        if (message.TemplateItem.TemplateElem != null) {
+                            
+                            console.log("TemplateList::fromClient() - Continue TemplateItem: ", message.TemplateItem.TemplateElem );
+                            
                         }
                     }
                     break;
