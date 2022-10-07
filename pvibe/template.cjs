@@ -216,8 +216,10 @@ class TemplateElem {
                 case 'DrillDown':
                 case 'Context':
                     if (this.useCaseElem.SubUseCase != null) {
+                        console.log("TemplateElem::fromClient() - this.useCaseElem.SubUseCase: ", this.useCaseElem.SubUseCase);
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
                         if (useCaseFound != null) {
+                            console.log("TemplateElem::fromClient() - useCaseFound != null: ", useCaseFound != null);
                             switch (useCaseFound.Detail.Format) {
                                 case 'List':
                                 case 'PickList':
