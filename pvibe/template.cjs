@@ -101,15 +101,23 @@ class TemplateList {
                     }
                     break;
                 case 'ContinueTemplateItem':
-                    if (message.TemplateItem != null && message.TemplateItem.ItemKey != null) {
-                        if (this.childItemTemplates[message.TemplateItem.ItemKey] != null) {
-                            this.childItemTemplates[message.TemplateItem.ItemKey].fromClient(message.TemplateItem);
-                        }
-                    } else {
-                        if (message.TemplateItem.TemplateElem != null) {
-                            
-                            console.log("TemplateList::fromClient() - Continue TemplateItem: ", message.TemplateItem.TemplateElem );
-                            
+                    if (message.TemplateItem != null) {
+                        if ( message.TemplateItem.ItemKey != null) {
+                            if (this.childItemTemplates[message.TemplateItem.ItemKey] != null) {
+                                this.childItemTemplates[message.TemplateItem.ItemKey].fromClient(message.TemplateItem);
+                            }
+                        } else {
+                            if (message.TemplateItem.TemplateElem != null) {
+                                console.log("TemplateList::fromClient() - Continue TemplateItem: ", message.TemplateItem.TemplateElem );
+                                if (message.TemplateItem.TemplateElem.Action != null) {
+                                    if (message.TemplateItem.TemplateElem.TemplateElem.Action === 'StartTemplateList') {
+                                        if (message.TemplateItem.TemplateElem.TemplateElem != null && message.TemplateItem.TemplateElem.TemplateElem.UseCaseName != null) {
+                                            let useCaseSubFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === message.TemplateItem.TemplateElem.TemplateElem.UseCaseName);
+                                            
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     break;
@@ -225,7 +233,7 @@ class TemplateElem {
                         console.log("TemplateElem::fromClient() - this.useCaseElem.SubUseCase: ", this.useCaseElem.SubUseCase);
                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
                         if (useCaseFound != null) {
-                            console.log("TTTTTTTTTTTTTTTTTTTTTemplateElem::fromClient() - useCaseFound != null: ", useCaseFound);
+                            //console.log("TTTTTTTTTTTTTTTTTTTTTemplateElem::fromClient() - useCaseFound != null: ", useCaseFound);
                             switch (useCaseFound.Detail.Format) {
                                 case 'List':
                                 case 'PickList': 
