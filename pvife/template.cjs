@@ -794,7 +794,7 @@ class TemplateList {
             this.useCase.Detail.Elems.forEach(elemCur => {
                 let tableItemRowCell = document.createElement('td');
                 tableItemRow.appendChild(tableItemRowCell);
-                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].substr(0,1000) : ''
+                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].substring(0,1000) : ''
                 tableItemRowCell.appendChild(document.createTextNode(valueCur));
             });
         });
