@@ -794,6 +794,7 @@ class TemplateList {
             this.useCase.Detail.Elems.forEach(elemCur => {
                 let tableItemRowCell = document.createElement('td');
                 tableItemRow.appendChild(tableItemRowCell);
+                tableItemRowCell.style.maxHeight = '20em';
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : ''
                 tableItemRowCell.appendChild(document.createTextNode(valueCur));
             });
