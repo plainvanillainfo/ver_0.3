@@ -148,7 +148,7 @@ class TemplateItem {
                 }
                 for (let elemCur in this.elems) {
                     let elemDetail = this.elems[elemCur];
-                    if (elemDetail.Name != null && elemDetail.Name !== menuItemCur.Name) {
+                    if (elemDetail.useCaseElem != null && elemDetail.useCaseElem.Name !== menuItemCur.Name) {
                         elemDetail.hide();
                     }
                 }
