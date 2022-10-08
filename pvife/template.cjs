@@ -385,6 +385,11 @@ class TemplateItem {
                     case 'Dropdown':
                         inputCur = document.createElement('select');
                         divCur.appendChild(inputCur);
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                            inputCur.value = this.item.Attrs[elemCur.Name];
+                        } else {
+                            inputCur.value = '';
+                        }
                         if (elemCur.ValueSet != null) {
                             elemCur.ValueSet.forEach(itemCur => {
                                 let option = document.createElement('option');
