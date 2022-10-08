@@ -385,15 +385,17 @@ class TemplateItem {
                     case 'Dropdown':
                         inputCur = document.createElement('select');
                         divCur.appendChild(inputCur);
+                        let valuePicked = '';
                         if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
-                            inputCur.value = this.item.Attrs[elemCur.Name];
-                        } else {
-                            inputCur.value = '';
+                            valuePicked = this.item.Attrs[elemCur.Name];
                         }
                         if (elemCur.ValueSet != null) {
                             elemCur.ValueSet.forEach(itemCur => {
                                 let option = document.createElement('option');
                                 inputCur.appendChild(option);
+                                if (itemCur === valuePicked) {
+                                    option.setAttribute('selected','selected');
+                                }
                                 option.addEventListener('click', (event) => {
                                     event.preventDefault();
                                     console.log("click on option", itemCur);
