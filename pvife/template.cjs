@@ -392,7 +392,7 @@ class TemplateItem {
                                 option.addEventListener('click', (event) => {
                                     event.preventDefault();
                                     console.log("click on option", itemCur);
-                                    this.formData[event.target.id] = event.target.value;
+                                    this.formData[elemCur.Name] = event.target.value;
                                 });
                                 let spanAttr = document.createElement('span');
                                 option.appendChild(spanAttr);
