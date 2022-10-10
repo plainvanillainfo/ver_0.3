@@ -108,7 +108,7 @@ class TemplateList {
                             }
                         } else {
                             if (message.TemplateItem.TemplateElem != null) {
-                                console.log("TemplateList::fromClient() - Continue TemplateItem: ", message.TemplateItem.TemplateElem );
+                                console.trace("TemplateList::fromClient() - Continue TemplateItem: ", message.TemplateItem.TemplateElem );
                                 if (message.TemplateItem.TemplateElem.Action != null) {
                                     if (message.TemplateItem.TemplateElem.TemplateElem.Action === 'StartTemplateList') {
                                         if (message.TemplateItem.TemplateElem.TemplateElem != null && message.TemplateItem.TemplateElem.TemplateElem.UseCaseName != null) {
