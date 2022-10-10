@@ -636,13 +636,6 @@ class TemplateList {
     }
     
     hide() {
-        /*
-        let child = this.divTarget.lastChild;
-        while (child) {
-            this.divTarget.removeChild(child);
-            child = this.divTarget.lastChild;
-        }
-        */
         if (this.elementPayload != null) {
             this.divTarget.removeChild(this.elementPayload);
         }
