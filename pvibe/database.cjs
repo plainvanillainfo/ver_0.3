@@ -58,7 +58,7 @@ class Database {
     }
 
     async setWatch(channel, notifyWatcher) {
-        let query = 'LISTEN public.record_changed';
+        let query = 'LISTEN record_changed';
         console.log("Database::setWatch() - query: ", query);
         this.client.query(query);
         this.client.on('notification', msg => {
