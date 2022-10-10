@@ -62,9 +62,9 @@ class Database {
         console.log("Database::setWatch() - query: ", query);
         this.client.query(query);
         this.client.on('notification', msg => {
-            console.log(msg.processId) // pid
-            console.log(msg.channel) // foo
-            console.log(msg.payload) // bar!
+            //console.log(msg.processId) // pid
+            //console.log(msg.channel) // foo
+            //console.log(msg.payload) // bar!
             notifyWatcher(msg);
           }
         )        
