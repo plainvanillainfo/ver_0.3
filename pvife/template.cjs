@@ -359,13 +359,6 @@ class TemplateItem {
                         inputCur = document.createElement('input');
                         divDate.appendChild(inputCur);
                         inputCur.setAttribute("type", "date");
-                        /*
-                        let dateTemp = this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null ? this.item.Attrs[elemCur.Name] : '';
-                        if (dateTemp > '') {
-                            let valueCur = new Date(dateTemp);
-                            inputCur.value = valueCur.toISOString().substr(0, 10);
-                        }
-                        */
                         if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
                             let valueCur = new Date(this.item.Attrs[elemCur.Name]);
                             inputCur.value = valueCur.toISOString();
