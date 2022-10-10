@@ -111,7 +111,7 @@ class TemplateList {
                             }
                         } else {
                             if (message.TemplateItem.TemplateElem != null) {
-                                console.trace("TemplateList::fromClient() - Continue TemplateItem: ", message.TemplateItem.TemplateElem);
+                                //console.trace("TemplateList::fromClient() - Continue TemplateItem: ", message.TemplateItem.TemplateElem);
                                 if (message.TemplateItem.TemplateElem.Action != null) {
                                     if (this.childItemTemplateEmpty == null) {
                                         let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.AddUseCase);
@@ -119,13 +119,6 @@ class TemplateList {
                                             this.childItemTemplateEmpty = new TemplateItem(this, useCaseFound);
                                         }
                                     }
-                                    /*
-                                    if (message.TemplateItem.TemplateElem.TemplateElem.Action === 'StartTemplateList') {
-                                        if (message.TemplateItem.TemplateElem.TemplateElem != null && message.TemplateItem.TemplateElem.TemplateElem.UseCaseName != null) {
-                                            let useCaseSubFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === message.TemplateItem.TemplateElem.TemplateElem.UseCaseName);
-                                        }
-                                    }
-                                    */
                                     if (this.childItemTemplateEmpty != null) {
                                         this.childItemTemplateEmpty.fromClient(message.TemplateItem);
                                     }
