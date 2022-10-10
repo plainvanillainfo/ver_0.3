@@ -57,6 +57,19 @@ class Database {
         });
     }
 
+    async setWatch(channel, notifyWatcher) {
+        let query = 'LISTEN public.record_changed';
+        console.log("Database::setWatch() - query: ", query);
+        this.client.query();
+        this.client.on('notification', msg => {
+            console.log(msg.processId) // pid
+            console.log(msg.channel) // foo
+            console.log(msg.payload) // bar!
+            notifyWatcher(msg);
+          }
+        )        
+    }
+
     async putData(view, filter, data, sendViewResultToClient) {
         let query = 'UPDATE public."' + view + '" SET ' + data + ' WHERE ' + filter + ' RETURNING * ';
         console.log("Database::putData() - query: ", query);
