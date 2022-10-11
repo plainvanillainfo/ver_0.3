@@ -838,7 +838,7 @@ class TemplateList {
                     //this.parent.templateItemPicked.setItemId(itemCur.Id)
                 }
             });
-            spanAttr = document.createElement('span');
+            let spanAttr = document.createElement('span');
             option.appendChild(spanAttr);
 
             /*
