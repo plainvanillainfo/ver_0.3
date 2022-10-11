@@ -829,7 +829,7 @@ class TemplateList {
 
     setUseCasePickListRows() {
         this.items.forEach(itemCur => {
-            option = document.createElement('option');
+            let option = document.createElement('option');
             this.selectList.appendChild(option);
             option.addEventListener('click', (event) => {
                 event.preventDefault();
