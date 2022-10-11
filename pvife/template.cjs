@@ -797,7 +797,6 @@ class TemplateList {
         let spanAttr = document.createElement('span');
         option.appendChild(spanAttr);
         spanAttr.appendChild(document.createTextNode('Select ...'));
-
         let messageOut = {
             Action: 'StartTemplateList',
             TemplateElem: {
@@ -805,26 +804,6 @@ class TemplateList {
             }
         };
         this.parent.toServer(messageOut);
-
-        /*
-        inputCur = document.createElement('select');
-        divCur.appendChild(inputCur);
-        if (elemCur.ValueSet != null) {
-            elemCur.ValueSet.forEach(itemCur => {
-                let option = document.createElement('option');
-                inputCur.appendChild(option);
-                option.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    console.log("click on option", itemCur);
-                    this.formData[event.target.id] = event.target.value;
-                });
-                let spanAttr = document.createElement('span');
-                option.appendChild(spanAttr);
-                spanAttr.appendChild(document.createTextNode(itemCur));
-            });
-        }
-        */
-
     }
 
     setUseCasePickListRows() {
@@ -836,6 +815,7 @@ class TemplateList {
                 console.log("click on option", itemCur);
                 if (this.parent.templateItemPicked != null) {
                     //this.parent.templateItemPicked.setItemId(itemCur.Id)
+                    let itemPicked = itemCur.Key;
                 }
             });
             let spanAttr = document.createElement('span');
