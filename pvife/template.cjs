@@ -238,6 +238,105 @@ class TemplateItem {
                             inputCur.disabled = true;
                         }
                         break;
+                    case 'Checkbox':
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.className = 'form-check-input';
+                        inputCur.setAttribute("type", "checkbox");
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
+                            inputCur.checked = true
+                        } else {
+                            inputCur.checked = false;
+                        }
+                        inputCur.style.marginRight = "1em";
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.checked;
+                        });
+
+                        inputLabel = document.createElement('label');
+                        divCur.appendChild(inputLabel);
+                        inputLabel.className = 'form-check-label';
+                        inputLabel.setAttribute("for", "flexCheckDisabled");
+                        if (elemCur.Legend != null) {
+                            inputLabel.appendChild(document.createTextNode(elemCur.Legend));
+                        }
+                        break;
+                    case 'Radio':
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.className = 'form-check-input';
+                        inputCur.setAttribute("type", "radio");
+                        inputCur.style.width = '70%';
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
+                            inputCur.checked = true
+                        } else {
+                            inputCur.checked = false;
+                        }
+                        inputCur.style.marginRight = "1em";
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            //this.formData[event.target.id] = event.target.checked;
+                        });
+
+                        inputLabel = document.createElement('label');
+                        divCur.appendChild(inputLabel);
+                        inputLabel.className = 'form-check-label';
+                        inputLabel.setAttribute("for", "flexCheckDisabled");
+                        //if (itemAttrCur.elemCur.Legend != null) {
+                        inputLabel.appendChild(document.createTextNode(labelText));
+                        //}
+
+                        break;
+                    case 'Date':
+                        let divDate = document.createElement('div');
+                        divCur.appendChild(divDate);
+                        divDate.className = 'input-group date';
+                        divDate.style.display = 'inline';
+                        inputCur = document.createElement('input');
+                        divDate.appendChild(inputCur);
+                        inputCur.setAttribute("type", "date");
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                            let valueCur = new Date(this.item.Attrs[elemCur.Name]);
+                            inputCur.value = valueCur.toISOString();
+                        } else {
+                            inputCur.value = '';
+                        }
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value;
+                        });
+                        let itemImgCal = document.createElement('i');
+                        divDate.appendChild(itemImgCal);
+                        itemImgCal.className = 'bi bi-calendar';
+                        itemImgCal.style.marginLeft = "10px";
+                        break;
+                    case 'Dropdown':
+                        inputCur = document.createElement('select');
+                        divCur.appendChild(inputCur);
+                        let valuePicked = '';
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                            valuePicked = this.item.Attrs[elemCur.Name];
+                        }
+                        if (elemCur.ValueSet != null) {
+                            elemCur.ValueSet.forEach(itemCur => {
+                                let option = document.createElement('option');
+                                inputCur.appendChild(option);
+                                if (itemCur === valuePicked) {
+                                    option.setAttribute('selected', 'selected');
+                                }
+                                option.addEventListener('click', (event) => {
+                                    event.preventDefault();
+                                    console.log("click on option", itemCur);
+                                    this.formData[elemCur.Name] = event.target.value;
+                                });
+                                let spanAttr = document.createElement('span');
+                                option.appendChild(spanAttr);
+                                spanAttr.appendChild(document.createTextNode(itemCur));
+                            });
+                        }
+                        break;
                     case 'DrillDown':
                         inputCur = document.createElement('button');
                         divCur.appendChild(inputCur);
@@ -288,7 +387,7 @@ class TemplateItem {
                         /*
                         this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
                         this.elems[elemCur.Name].initiateTrigger();
-                        */ 
+                        */
                         break;
                     case 'InPlace':
                         inputCur = document.createElement('div');
@@ -300,105 +399,6 @@ class TemplateItem {
                         this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
                         this.elems[elemCur.Name].trigger();
                         */
-                        break;
-                    case 'Checkbox':
-                        inputCur = document.createElement('input');
-                        divCur.appendChild(inputCur);
-                        inputCur.className = 'form-check-input';
-                        inputCur.setAttribute("type", "checkbox");
-                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
-                            inputCur.checked = true
-                        } else {
-                            inputCur.checked = false;
-                        }
-                        inputCur.style.marginRight = "1em";
-                        inputCur.addEventListener('blur', (event) => {
-                            event.preventDefault();
-                            this.formData[event.target.id] = event.target.checked;
-                        });
-
-                        inputLabel = document.createElement('label');
-                        divCur.appendChild(inputLabel);
-                        inputLabel.className = 'form-check-label';
-                        inputLabel.setAttribute("for", "flexCheckDisabled");
-                        if (elemCur.Legend != null) {
-                            inputLabel.appendChild(document.createTextNode(elemCur.Legend));
-                        }
-                        break;
-                    case 'Radio':
-                        inputCur = document.createElement('input');
-                        divCur.appendChild(inputCur);
-                        inputCur.className = 'form-check-input';
-                        inputCur.setAttribute("type", "radio");
-                        inputCur.style.width = '70%';
-                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
-                            inputCur.checked = true
-                        } else {
-                            inputCur.checked = false;
-                        }
-                        inputCur.style.marginRight = "1em";
-                        inputCur.addEventListener('blur', (event) => {
-                            event.preventDefault();
-                            //this.formData[event.target.id] = event.target.checked;
-                        });
-
-                        inputLabel = document.createElement('label');
-                        divCur.appendChild(inputLabel);
-                        inputLabel.className = 'form-check-label';
-                        inputLabel.setAttribute("for", "flexCheckDisabled");
-                        //if (itemAttrCur.elemCur.Legend != null) {
-                            inputLabel.appendChild(document.createTextNode(labelText));
-                        //}
-
-                        break;
-                    case 'Date':
-                        let divDate = document.createElement('div');
-                        divCur.appendChild(divDate);
-                        divDate.className = 'input-group date';
-                        divDate.style.display = 'inline';
-                        inputCur = document.createElement('input');
-                        divDate.appendChild(inputCur);
-                        inputCur.setAttribute("type", "date");
-                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
-                            let valueCur = new Date(this.item.Attrs[elemCur.Name]);
-                            inputCur.value = valueCur.toISOString();
-                        } else {
-                            inputCur.value = '';
-                        }
-                        inputCur.style.width = '70%';
-                        inputCur.addEventListener('blur', (event) => {
-                            event.preventDefault();
-                            this.formData[event.target.id] = event.target.value;
-                        });
-                        let itemImgCal = document.createElement('i');
-                        divDate.appendChild(itemImgCal);
-                        itemImgCal.className = 'bi bi-calendar';
-                        itemImgCal.style.marginLeft = "10px";
-                        break;
-                    case 'Dropdown':
-                        inputCur = document.createElement('select');
-                        divCur.appendChild(inputCur);
-                        let valuePicked = '';
-                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
-                            valuePicked = this.item.Attrs[elemCur.Name];
-                        }
-                        if (elemCur.ValueSet != null) {
-                            elemCur.ValueSet.forEach(itemCur => {
-                                let option = document.createElement('option');
-                                inputCur.appendChild(option);
-                                if (itemCur === valuePicked) {
-                                    option.setAttribute('selected','selected');
-                                }
-                                option.addEventListener('click', (event) => {
-                                    event.preventDefault();
-                                    console.log("click on option", itemCur);
-                                    this.formData[elemCur.Name] = event.target.value;
-                                });
-                                let spanAttr = document.createElement('span');
-                                option.appendChild(spanAttr);
-                                spanAttr.appendChild(document.createTextNode(itemCur));
-                            });
-                        }
                         break;
                     default:
                         break;
@@ -602,9 +602,11 @@ class TemplateList {
                 case 'PickList':
                     this.setUseCasePickListRows();
                     break;
+                /*
                 case 'Context':
                     this.setUseCasePickListRows();
                     break;
+                */
                 default:
                     break;
             }
@@ -647,9 +649,11 @@ class TemplateList {
                 //this.elementPayload = document.createElement('select');
                 this.setUseCasePickList();
                 break;
+            /*
             case 'Context':
                 this.setUseCasePickList();
                 break;
+            */
             default:
                 break;
         }
@@ -856,27 +860,30 @@ class TemplateElem {
         this.isDrillDown = isDrillDown;
         this.track = this.parent.track;
         this.toServer = this.toServer.bind(this);
-        //if (this.isDrillDown) {
-            // Do breadcrumb logic like ver_0.2 - TemplateElemWeb:: trigger() - case: Child
-            //this.track.div.appendChild(this.divTarget);
-        //} else {
-            if (this.useCaseElem.SubUseCase != null) {
-                this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCaseElem.SubUseCase);
-                switch (this.subUseCase.Detail.Format) {
-                    case 'List':
-                    case 'PickList':
-                    case 'Context':
-                        this.templateList = new TemplateList(this, this.divTarget);
-                        this.templateList.setUseCase(this.subUseCase);
-                        break;
-                    case 'Item':
-                        this.templateItem = new TemplateItem(this, this.divTarget);
-                        break;
-                    default:
-                        break;
-                    
-                }
+        if (this.useCaseElem.SubUseCase != null) {
+            this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCaseElem.SubUseCase);
+            switch (this.subUseCase.Detail.Format) {
+                case 'List':
+                case 'PickList':
+                    this.templateList = new TemplateList(this, this.divTarget);
+                    this.templateList.setUseCase(this.subUseCase);
+                    break;
+                case 'Item':
+                    this.templateItem = new TemplateItem(this, this.divTarget);
+                    break;
+                case 'Context':
+                    this.templateList = new TemplateList(this, this.divTarget);
+                    this.templateList.setUseCase(this.subUseCase);
+                    break;
+                default:
+                    break;
+
             }
+        }
+        //if (this.isDrillDown) {
+        // Do breadcrumb logic like ver_0.2 - TemplateElemWeb:: trigger() - case: Child
+        //this.track.div.appendChild(this.divTarget);
+        //} else {
         //}
     }
 
