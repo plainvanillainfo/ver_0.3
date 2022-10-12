@@ -1,3 +1,5 @@
+const { Nacha } = require('./engine_nacha.cjs');
+
 class EngineRoom {
     constructor(parent, config) {
         this.parent = parent;
@@ -22,6 +24,9 @@ class EngineRoom {
                         break;
                     case 'TwilioInterface':
                         this.engines[executableCur.Name] = new RESTApiSession(this, executableCur, customCode);
+                        break;
+                    case 'NACHAFileGeneration':
+                        this.engines[executableCur.Name] = new FileExportNACHA(this, executableCur, customCode);
                         break;
                     default:
                         break;
@@ -84,10 +89,29 @@ class FileImportXML {
 }
 
 class FileExportNACHA {
-    constructor(parent) {
+    constructor(parent, spec, customCode) {
+        this.parent = parent;
+        this.spec = spec;
+        this.customCode = customCode;
+        setTimeout(() => { this.customCode({Action: 'Start', EngineInstance: this}); }, 1);
+    }
+
+    startNachaFile() {
+        let nacha = Nacha({
+            destinationRouting: destinationRouting,
+            destinationName: destinationName,
+            immediateOrigin: immediateOrigin,
+            immediateOriginName: 'IHC',
+            companyName: 'IHC',
+            //companyIdentification: '1861470447',
+            fileCreationDate: effectiveEntryDate,
+            fileCreationTime: '1304',
+            fileId: 'A'
+        });        
     }
 }
 
 module.exports = {
-    EngineRoom: EngineRoom
+    EngineRoom: EngineRoom,
+    FileExportNACHA: FileExportNACHA
 }
