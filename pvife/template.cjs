@@ -196,6 +196,7 @@ class TemplateItem {
                         } else {
                             if (elemCur.ParentKey != null && elemCur.ParentKey === 'Yes') {
                                 inputCur.value = this.parent.parent.parent.item.Key;
+                                this.formData[elemCur.Name] = inputCur.value;
                             } else {
                                 inputCur.value = '';
                             }
