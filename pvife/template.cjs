@@ -334,16 +334,23 @@ class TemplateItem {
                                 if (itemCur === valuePicked) {
                                     option.setAttribute('selected', 'selected');
                                 }
+                                /*
                                 option.addEventListener('click', (event) => {
                                     event.preventDefault();
                                     console.log("click on option", itemCur);
                                     this.formData[elemCur.Name] = event.target.value;
                                 });
+                                */
                                 let spanAttr = document.createElement('span');
                                 option.appendChild(spanAttr);
                                 spanAttr.appendChild(document.createTextNode(itemCur));
                             });
                         }
+                        inputCur.addEventListener('change', (event) => {
+                            event.preventDefault();
+                            console.log("click on option", event.target.value);
+                            this.formData[elemCur.Name] = event.target.value;
+                        });
                         break;
                     case 'DrillDown':
                         inputCur = document.createElement('button');
@@ -794,6 +801,11 @@ class TemplateList {
                 UseCaseName: this.useCase.Detail.Name
             }
         };
+        this.selectList.addEventListener('change', (event) => {
+            event.preventDefault();
+            console.log("click on option", event.target.value);
+            let itemPicked = event.target.value;
+        });
         this.parent.toServer(messageOut);
     }
 
@@ -801,6 +813,7 @@ class TemplateList {
         this.items.forEach(itemCur => {
             let option = document.createElement('option');
             this.selectList.appendChild(option);
+            /*
             option.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("click on option", itemCur);
@@ -809,6 +822,7 @@ class TemplateList {
                     let itemPicked = itemCur.Key;
                 }
             });
+            */
             let spanAttr = document.createElement('span');
             option.appendChild(spanAttr);
 
