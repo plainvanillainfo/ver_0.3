@@ -334,13 +334,6 @@ class TemplateItem {
                                 if (itemCur === valuePicked) {
                                     option.setAttribute('selected', 'selected');
                                 }
-                                /*
-                                option.addEventListener('click', (event) => {
-                                    event.preventDefault();
-                                    console.log("click on option", itemCur);
-                                    this.formData[elemCur.Name] = event.target.value;
-                                });
-                                */
                                 let spanAttr = document.createElement('span');
                                 option.appendChild(spanAttr);
                                 spanAttr.appendChild(document.createTextNode(itemCur));
@@ -813,16 +806,6 @@ class TemplateList {
         this.items.forEach(itemCur => {
             let option = document.createElement('option');
             this.selectList.appendChild(option);
-            /*
-            option.addEventListener('click', (event) => {
-                event.preventDefault();
-                console.log("click on option", itemCur);
-                if (this.parent.templateItemPicked != null) {
-                    //this.parent.templateItemPicked.setItemId(itemCur.Id)
-                    let itemPicked = itemCur.Key;
-                }
-            });
-            */
             let spanAttr = document.createElement('span');
             option.appendChild(spanAttr);
 
