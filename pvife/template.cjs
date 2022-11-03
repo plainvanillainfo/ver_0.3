@@ -182,6 +182,9 @@ class TemplateItem {
             labelSpan.style.width = "25%";
             let inputCur;
             let inputLabel;
+            if (elemCur.Format == null) {
+                elemCur.Format = 'Text';
+            }
             if (elemCur.Format != null) {
                 switch (elemCur.Format) {
                     case 'Text':
@@ -191,7 +194,12 @@ class TemplateItem {
                         if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
                             inputCur.value = this.item.Attrs[elemCur.Name];
                         } else {
-                            inputCur.value = '';
+                            if (elemCur.ParentKey != null && ParentKey === 'Yes') {
+                                let x = 8;
+                                let y = 9;
+                            } else {
+                                inputCur.value = '';
+                            }
                         }
                         inputCur.style.width = '70%';
                         inputCur.addEventListener('blur', (event) => {
@@ -404,13 +412,14 @@ class TemplateItem {
                         break;
                 }
             } else {
+                /*
                 inputCur = document.createElement('input');
                 divCur.appendChild(inputCur);
                 inputCur.setAttribute("type", "input");
                 if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
                     inputCur.value = this.item.Attrs[elemCur.Name];
                 } else {
-                    inputCur.checked = '';
+                    inputCur.value = '';
                 }
                 inputCur.style.width = '70%';
                 inputCur.addEventListener('blur', (event) => {
@@ -420,6 +429,7 @@ class TemplateItem {
                 if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
                     inputCur.disabled = true;
                 }
+                */
             }
             if (inputCur != null) {
                 inputCur.id = elemCur.Name;
@@ -456,20 +466,6 @@ class TemplateItem {
             buttonCur.appendChild(document.createTextNode("Save"));
             buttonCur.addEventListener('click', (event) => {
                 event.preventDefault();
-                /*
-                if (this.useCase.Id === 'AlertTypeUpdate') {
-                    let responseStart = window.prompt("Start Date", "");
-                    if (responseStart != null && responseStart > "") {
-
-                        let responseEnd = window.prompt("End Date", "");
-                        if (responseEnd != null && responseEnd > "") {
-                            alert(responseStart + " " + responseEnd);
-                        }
-
-                        alert(response);
-                    }
-                }
-                */
                 this.saveFormData();
             });
         }
@@ -484,15 +480,6 @@ class TemplateItem {
             fUpdated = true;
         }
         if (fUpdated) {
-            /*
-            if (this.itemKey == null) {
-                if (this.useCase.Detail.KeyAttribute != null) {
-                    if (attrs[this.useCase.Detail.KeyAttribute] != null && attrs[this.useCase.Detail.KeyAttribute].Value != null) {
-                        this.itemKey = attrs[this.useCase.Detail.KeyAttribute].Value;
-                    }
-                }
-            }
-            */
             let messageOut = {
                 Action: 'UpdateItem',
                 TemplateItem: {
