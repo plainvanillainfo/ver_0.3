@@ -194,7 +194,7 @@ class TemplateItem {
                         if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
                             inputCur.value = this.item.Attrs[elemCur.Name];
                         } else {
-                            if (elemCur.ParentKey != null && ParentKey === 'Yes') {
+                            if (elemCur.ParentKey != null && elemCur.ParentKey === 'Yes') {
                                 let x = 8;
                                 let y = 9;
                             } else {
