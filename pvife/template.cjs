@@ -434,7 +434,9 @@ class TemplateItem {
             if (inputCur != null) {
                 inputCur.id = elemCur.Name;
                 if (!fFormEditable) {
-                    inputCur.disabled = true;
+                    if (elemCur.Editable == null || elemCur.Editable === 'No') {
+                        inputCur.disabled = true;
+                    }
                 }
             }
         });
