@@ -379,8 +379,9 @@ class TemplateItem {
 
                             if (this.elems[elemCur.Name] == null) {
                                 this.elems[elemCur.Name] = new TemplateElem(this, elemCur, this.divTargetSub, true);
-                                this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                                //this.track.pushBreadcrumb(this.elems[elemCur.Name]);
                             }
+                            this.track.pushBreadcrumb(this.elems[elemCur.Name]);
                         });
                         break;
                     case 'Context':
