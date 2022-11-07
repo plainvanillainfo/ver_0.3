@@ -359,8 +359,9 @@ class Track {
 
     pushBreadcrumb(templatePushed) {
         console.log("Track::pushBreadcrumb");
+        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
         this.breadcrumbs.push(templatePushed);
-        this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(false);
+        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
         this.showCrumbs();
     }
 

@@ -374,7 +374,6 @@ class TemplateItem {
                             buttonCur.addEventListener('click', (event) => {
                                 event.preventDefault();
                                 this.track.popBreadcrumb();
-                                //this.track.divTargetSub.removeChild(this.divTargetSub);
                             });
 
                             if (this.elems[elemCur.Name] == null) {
