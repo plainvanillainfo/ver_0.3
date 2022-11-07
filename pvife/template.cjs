@@ -381,7 +381,7 @@ class TemplateItem {
                                 this.elems[elemCur.Name] = new TemplateElem(this, elemCur, this.divTargetSub, true);
                                 //this.track.pushBreadcrumb(this.elems[elemCur.Name]);
                             } else {
-                                this.elems[menuItemCur.Name].show();
+                                this.elems[elemCur.Name].show();
                             }
                             this.track.pushBreadcrumb(this.elems[elemCur.Name]);
                         });
