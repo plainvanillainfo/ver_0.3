@@ -167,7 +167,7 @@ class TemplateItem {
         this.formData = {};
         let divCur;
         let buttonCur;
-        let fFormEditable = this.useCase.Detail.Editable != null && this.useCase.Detail.Editable === 'Yes' ? true : false;
+        let fFormEditable = (this.useCase.Detail.Editable != null && this.useCase.Detail.Editable === 'Yes') ? true : false;
         this.useCase.Detail.Elems.forEach( (elemCur, elemIndex) => {
             divCur = document.createElement('div');
             this.form.appendChild(divCur);
