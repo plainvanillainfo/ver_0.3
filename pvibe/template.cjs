@@ -131,8 +131,10 @@ class TemplateList {
                     if (message.TemplateItem != null && message.TemplateItem.ItemData != null && message.TemplateItem.ItemData.Attrs != null) {
                         let itemKey = null;
                         if (message.TemplateItem.ItemData.ItemKey == null) {
+                            console.log("AAA - this.useCase: ", this.useCase);
                             let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.AddUseCase);
                             if (useCaseFound != null && useCaseFound.Detail.AutoKey != null && useCaseFound.Detail.AutoKey === 'Yes') {
+                                console.log("BBB - useCaseFound: ", useCaseFound);
                                 itemKey = '';
                             }
                             if (useCaseFound != null && useCaseFound.Detail.KeyAttribute != null && message.TemplateItem.ItemData.Attrs[useCaseFound.Detail.KeyAttribute] != null) {
