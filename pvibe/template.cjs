@@ -130,15 +130,21 @@ class TemplateList {
                 case 'UpdateItem':
                     if (message.TemplateItem != null && message.TemplateItem.ItemData != null && message.TemplateItem.ItemData.Attrs != null) {
                         let itemKey = null;
+                        let addView = null;
                         if (message.TemplateItem.ItemData.ItemKey == null) {
                             //console.log("AAA - this.useCase: ", this.useCase);
                             let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.AddUseCase);
-                            if (useCaseFound != null && useCaseFound.Detail.AutoKey != null && useCaseFound.Detail.AutoKey === 'Yes') {
-                                console.log("BBB - useCaseFound: ", useCaseFound);
-                                itemKey = '';
-                            }
-                            if (useCaseFound != null && useCaseFound.Detail.KeyAttribute != null && message.TemplateItem.ItemData.Attrs[useCaseFound.Detail.KeyAttribute] != null) {
-                                itemKey = '';
+                            if (useCaseFound != null) {
+                                if (useCaseFound.Detail.AutoKey != null && useCaseFound.Detail.AutoKey === 'Yes') {
+                                    console.log("BBB - useCaseFound: ", useCaseFound);
+                                    itemKey = '';
+                                }
+                                if (useCaseFound.Detail.KeyAttribute != null && message.TemplateItem.ItemData.Attrs[useCaseFound.Detail.KeyAttribute] != null) {
+                                    itemKey = '';
+                                }
+                                if (useCaseFound.Detail.AddView != null) {
+                                    addView = useCaseFound.Detail.AddView;
+                                }
                             }
                         } else {
                             itemKey = message.TemplateItem.ItemData.ItemKey;
@@ -170,7 +176,7 @@ class TemplateList {
                                     columns += ') VALUES (';
                                     data = data.slice(0, -1);
                                     data += ')';
-                                    this.requestInsertToDB(columns + data);
+                                    this.requestInsertToDB(addView, columns + data);
                                 }
                             }
                         }
@@ -212,8 +218,8 @@ class TemplateList {
         this.toClient({Items: this.childItemList});
     }
 
-    async requestInsertToDB(data) {
-        await this.session.database.addData(this.useCase.Detail.AddView, data, this.sendViewResultToClient);
+    async requestInsertToDB(addView, data) {
+        await this.session.database.addData(addView, data, this.sendViewResultToClient);
     }
 
 }
