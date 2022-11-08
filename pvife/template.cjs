@@ -371,12 +371,18 @@ class TemplateItem {
                             buttonCur.style.width = "12em";
                             buttonCur.appendChild(document.createTextNode("< Go Back"));
 
+                            /*
                             buttonCur.addEventListener('click', (event) => {
                                 event.preventDefault();
                                 this.track.popBreadcrumb();
                             });
+                            */
 
                             if (this.elems[elemCur.Name] == null) {
+                                buttonCur.addEventListener('click', (event) => {
+                                    event.preventDefault();
+                                    this.track.popBreadcrumb();
+                                });
                                 this.elems[elemCur.Name] = new TemplateElem(this, elemCur, this.divTargetSub, true);
                                 //this.track.pushBreadcrumb(this.elems[elemCur.Name]);
                             } else {
