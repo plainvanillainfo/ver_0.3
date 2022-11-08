@@ -363,6 +363,7 @@ class TemplateItem {
                             this.divTargetSub.appendChild(divCur);
                             divCur.className = 'mb-3';
 
+                            /*
                             let buttonCur = document.createElement('button');
                             divCur.appendChild(buttonCur);
                             buttonCur.className = 'btn btn-info';
@@ -371,7 +372,6 @@ class TemplateItem {
                             buttonCur.style.width = "12em";
                             buttonCur.appendChild(document.createTextNode("< Go Back"));
 
-                            /*
                             buttonCur.addEventListener('click', (event) => {
                                 event.preventDefault();
                                 this.track.popBreadcrumb();
@@ -379,7 +379,14 @@ class TemplateItem {
                             */
 
                             if (this.elems[elemCur.Name] == null) {
-                                buttonCur.addEventListener('click', (event) => {
+                                let buttonCur = document.createElement('button');
+                                divCur.appendChild(buttonCur);
+                                buttonCur.className = 'btn btn-info';
+                                buttonCur.setAttribute("type", "button");
+                                buttonCur.id = 'backbutton';
+                                buttonCur.style.width = "12em";
+                                buttonCur.appendChild(document.createTextNode("< Go Back"));
+                                    buttonCur.addEventListener('click', (event) => {
                                     event.preventDefault();
                                     this.track.popBreadcrumb();
                                 });
