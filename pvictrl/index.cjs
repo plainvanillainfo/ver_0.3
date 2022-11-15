@@ -10,9 +10,16 @@ class ServerMonitor {
     }
 
     doHeartbeat() {
+        this.monitorAsConfigured();
         setTimeout(() => {
             this.doHeartbeat({}); 
        }, this.config.HeartbeatIntervalInMS);        
+    }
+
+    monitorAsConfigured() {
+        this.config.Jobs.forEach(cur => {
+            console.log(cur);
+        });
     }
 }
 
