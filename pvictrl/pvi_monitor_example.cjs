@@ -16,7 +16,20 @@ let processName = 'pvi_monitor_example';
 let cmd = 'ps -Af ';
 
 exec(cmd, (err, stdout, stderr) => {
-    if (stdout.indexOf(processName) > -1) {
+    let isRunning = false;
+    let pidCur = process.pid.toString();
+    let processes = stdout.split(/\r\n|\n/);
+    processes.forEach(processCur => {
+        if (processCur.indexOf(pidCur) === -1) {
+            if (processCur.indexOf(processName) > -1) {
+                //console.log("AA ",pidCur, processName, processCur);
+                isRunning = true;
+            }
+        }
+    });
+    
+    //if (stdout.indexOf(processName) > -1) {
+    if (isRunning === false) {
         let serverConfig = {
             HeartbeatIntervalInMS: 10000,
             Jobs: [
@@ -26,4 +39,5 @@ exec(cmd, (err, stdout, stderr) => {
         let serverMonitor = new ServerMonitor(serverConfig);
         setTimeout(() => { serverMonitor.start({}); }, 10);    
     }
+    
 });
