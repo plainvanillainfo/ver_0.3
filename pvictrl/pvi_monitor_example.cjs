@@ -17,7 +17,7 @@ let cmd = 'ps -Af ';
 
 exec(cmd, (err, stdout, stderr) => {
     let isRunning = false;
-    let pidCur = process.pid.toString();
+    let pidCur = ' ' + process.pid.toString() + ' ';
     let processes = stdout.split(/\r\n|\n/);
     processes.forEach(processCur => {
         if (processCur.indexOf(pidCur) === -1) {
