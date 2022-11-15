@@ -19,7 +19,23 @@ class ServerMonitor {
     monitorAsConfigured() {
         this.config.Jobs.forEach(cur => {
             console.log(cur);
+            if (cur === 'AppLifeCycle') {
+                this.queryDBForInstructions();
+            }
         });
+    }
+
+    queryDBForInstructions() {
+
+    }
+
+    instructionsReceivedFromDB(instructions) {
+        switch (instructions.Type) {
+            case 'CreateClasses':
+                break;
+            case 'CreateUseCases':
+                break;
+        }
     }
 }
 
