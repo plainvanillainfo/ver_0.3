@@ -1,4 +1,4 @@
-const { Database } = require('./database.cjs');
+const { Database } = require('../pvibe/database.cjs');
 
 class ServerMonitor {
     constructor(config) {
