@@ -1,4 +1,4 @@
-let classes = [
+[
     {
         Name: "Event",
         Base: "",
