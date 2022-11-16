@@ -22,16 +22,13 @@ exec(cmd, (err, stdout, stderr) => {
     processes.forEach(processCur => {
         if (processCur.indexOf(pidCur) === -1) {
             if (processCur.indexOf(processName) > -1) {
-                //console.log("AA ",pidCur, processName, processCur);
                 isRunning = true;
             }
         }
     });
-    
-    //if (stdout.indexOf(processName) > -1) {
     if (isRunning === false) {
         let serverConfig = {
-            HeartbeatIntervalInMS: 10000,
+            HeartbeatIntervalInMS: 100000,
             Jobs: [
                 "AppLifeCycle"
             ]
@@ -39,5 +36,4 @@ exec(cmd, (err, stdout, stderr) => {
         let serverMonitor = new ServerMonitor(serverConfig);
         setTimeout(() => { serverMonitor.start({}); }, 10);    
     }
-    
 });
