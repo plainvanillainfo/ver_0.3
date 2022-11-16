@@ -30,7 +30,7 @@ class ServerMonitor {
     }
 
     queryDBForInstructions() {
-
+        this.instructionsReceivedFromDB({Type: 'CreateClasses'});
     }
 
     instructionsReceivedFromDB(instructions) {
