@@ -32,8 +32,12 @@ class ServerMonitor {
     instructionsReceivedFromDB(instructions) {
         switch (instructions.Type) {
             case 'CreateClasses':
+                // Read json files
                 break;
             case 'CreateUseCases':
+                break;
+            case 'ManageProcess':
+                // Start/stop O/S process
                 break;
         }
     }
