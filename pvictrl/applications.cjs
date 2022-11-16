@@ -11,6 +11,11 @@ class Application {
     createClasses() {
         let classesApplication = JSON.parse(fs.readFileSync(this.config.Dir + 'classes.cjs'));
         let useCasesApplication = JSON.parse(fs.readFileSync(this.config.Dir + 'use_cases.cjs'));
+
+        console.log(ClassesCommon);
+        console.log(classesApplication);
+        console.log(UseCasesCommon);
+        console.log(useCasesApplication);
     }
 }
 
