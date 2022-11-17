@@ -5,7 +5,7 @@ const fs = require('fs');
 class Application {
     constructor(config) {
         this.config = config;
-        this.sqlScriptTables = '';
+        this.sqlScriptTables = 'CREATE SCHEMA data;\n';
     }
 
     createClasses() {
