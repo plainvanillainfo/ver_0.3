@@ -9,14 +9,14 @@ class Application {
 
     createClasses() {
         let classesApplication = JSON.parse(fs.readFileSync(this.config.Dir + 'classes.cjs'));
-        console.log(ClassesCommon);
-        console.log(classesApplication);
+        let classes = [...ClassesCommon, ...classesApplication];
+        console.log(classes);
     }
 
     createUseCases() {
         let useCasesApplication = JSON.parse(fs.readFileSync(this.config.Dir + 'use_cases.cjs'));
-        console.log(UseCasesCommon);
-        console.log(useCasesApplication);
+        let useCases = [...UseCasesCommon, ...useCasesApplication];
+        console.log(useCases);
     }
 
 }
