@@ -2,7 +2,7 @@ ClassesCommon = [
     {
         Name: "Event",
         Base: "",
-        Components: [,
+        Components: [
             {
                 Name: "TimeStamp",
                 Type: "TIMESTAMP"
@@ -34,18 +34,21 @@ ClassesCommon = [
                 Extensions: [
                     {
                         Name: "Email",
+                        Components: [],
                         Children: [],
                         References: [],
                         Extensions: []
                     },
                     {
                         Name: "Text",
+                        Components: [],
                         Children: [],
                         References: [],
                         Extensions: []
                     },
                     {
                         Name: "Voicemail",
+                        Components: [],
                         Children: [],
                         References: [],
                         Extensions: []
@@ -54,6 +57,7 @@ ClassesCommon = [
             },
             {
                 Name: "Task",
+                Components: [],
                 Children: [],
                 References: [],
                 Extensions: []
@@ -75,6 +79,7 @@ ClassesCommon = [
         Extensions: [
             {
                 Name: "Person",
+                Components: [],
                 Children: [],
                 References: [],
                 Extensions: []
