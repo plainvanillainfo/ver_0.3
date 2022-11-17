@@ -72,7 +72,7 @@ class Application {
 
 
     createTablePrimaryKey(classInfo) {
-		this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + 
+		this.sqlScriptTables += 'ALTER TABLE ONLY data."' + classInfo.Name + 
 			'" \nADD CONSTRAINT "' + classInfo.Name + '_pkey" PRIMARY KEY ("Id");\n';
 	}
 
