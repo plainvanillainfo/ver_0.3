@@ -6,7 +6,7 @@
   "exports": {
     "./pvibe": "./pvibe/index.cjs",
     "./pvife": "./pvife/index.cjs",
-    "./pvictrl": "./pvictrl/index.cjs",
+    "./pvimon": "./pvictrl/index.cjs",
     "./pvimeta": "./pvimeta/index.cjs"
   },
   "scripts": {
