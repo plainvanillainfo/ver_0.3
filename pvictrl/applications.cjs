@@ -32,6 +32,9 @@ class Application {
 								this.sqlScriptTables += ('(' + componentCur.Length + ')');
 							}
 							break;
+						case 'text':
+							this.sqlScriptTables += 'text';
+							break;
 						case 'smallint':
 							this.sqlScriptTables += 'smallint';
 							break;
