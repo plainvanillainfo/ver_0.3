@@ -35,12 +35,14 @@ class ServerMonitor {
 
     instructionsReceivedFromDB(instructions) {
         let applicationName = 'CPL';
+        let applicationCur;
         let serverName = '';
+        let serverCur;
         let dir = '/home/ubuntu/projects/CPL/test3/meta/';
         switch (instructions.Type) {
             case 'CreateClasses':
                 // Read json files
-                let applicationCur = this.applications.find(cur => cur.Name === applicationName);
+                applicationCur = this.applications.find(cur => cur.Name === applicationName);
                 if (applicationCur == null) {
                     applicationCur = new Application({
                         Name: applicationName,
@@ -51,7 +53,7 @@ class ServerMonitor {
                 applicationCur.createClasses();
                 break;
             case 'CreateUseCases':
-                let applicationCur = this.applications.find(cur => cur.Name === applicationName);
+                applicationCur = this.applications.find(cur => cur.Name === applicationName);
                 if (applicationCur == null) {
                     applicationCur = new Application({
                         Name: applicationName,
@@ -63,7 +65,7 @@ class ServerMonitor {
                 break;
             case 'ManageProcess':
                 // Start/stop O/S process
-                let serverCur = this.servers.find(cur => cur.Name === serverName);
+                serverCur = this.servers.find(cur => cur.Name === serverName);
                 if (serverCur == null) {
                     serverCur = new Server({Name: serverName});
                     this.servers.push(serverCur);
