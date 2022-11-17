@@ -65,8 +65,11 @@ class Application {
 				this.sqlScriptTables += '    "' + referenceCur.Name + '" ';
 				this.sqlScriptTables += 'uuid not null ,\n';
 			});
-			;
 			this.sqlScriptTables = this.sqlScriptTables.slice(0, -2) + '\n);\n';
+			classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
+				this.createTable(extensionCur);
+			});
+			
 		}
 	}
 
@@ -74,6 +77,9 @@ class Application {
     createTablePrimaryKey(classInfo) {
 		this.sqlScriptTables += 'ALTER TABLE ONLY data."' + classInfo.Name + 
 			'" \nADD CONSTRAINT "' + classInfo.Name + '_pkey" PRIMARY KEY ("Id");\n';
+		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
+			this.createTablePrimaryKey(extensionCur);
+		});
 	}
 
     createUseCases() {

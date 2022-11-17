@@ -33,18 +33,30 @@ ClassesCommon = [
                 References: [],
                 Extensions: [
                     {
-                        Name: "Email"
+                        Name: "Email",
+                        Children: [],
+                        References: [],
+                        Extensions: []
                     },
                     {
-                        Name: "Text"
+                        Name: "Text",
+                        Children: [],
+                        References: [],
+                        Extensions: []
                     },
                     {
-                        Name: "Voicemail"
+                        Name: "Voicemail",
+                        Children: [],
+                        References: [],
+                        Extensions: []
                     }
                 ]
             },
             {
-                Name: "Task"
+                Name: "Task",
+                Children: [],
+                References: [],
+                Extensions: []
             }
         ]
     },
@@ -62,7 +74,10 @@ ClassesCommon = [
         References: [],
         Extensions: [
             {
-                Name: "Person"
+                Name: "Person",
+                Children: [],
+                References: [],
+                Extensions: []
             }
         ]
     },
