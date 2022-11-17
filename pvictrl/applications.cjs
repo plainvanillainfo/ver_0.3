@@ -47,6 +47,9 @@ class Application {
 						case 'json':
 							this.sqlScriptTables += 'json';
 							break;
+						case 'timestamp':
+							this.sqlScriptTables += 'timestamp with time zone DEFAULT clock_timestamp()';
+							break;
 					}
 					this.sqlScriptTables += ',\n';
 				}
@@ -56,7 +59,7 @@ class Application {
 				this.sqlScriptTables += 'uuid not null ,\n';
 			});
 			;
-			this.sqlScriptTables = this.sqlScriptTables.slice(0, -2) + '\n);';
+			this.sqlScriptTables = this.sqlScriptTables.slice(0, -2) + '\n);\n';
 		}
 	}
 
