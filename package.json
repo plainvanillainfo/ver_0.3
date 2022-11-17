@@ -6,7 +6,8 @@
   "exports": {
     "./pvibe": "./pvibe/index.cjs",
     "./pvife": "./pvife/index.cjs",
-    "./pvimon": "./pvictrl/index.cjs"
+    "./pvictrl": "./pvictrl/index.cjs",
+    "./pvimeta": "./pvimeta/index.cjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,6 +1,5 @@
 
-const { ClassesCommon } = require('plainvanillainfo/pvimeta/classes.cjs');
-const { UseCasesCommon } = require('plainvanillainfo/pvimeta/use_cases.cjs');
+const { ClassesCommon, UseCasesCommon } = require('plainvanillainfo/pvimeta');
 const fs = require('fs');
 
 class Application {

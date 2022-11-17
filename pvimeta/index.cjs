@@ -1,4 +1,4 @@
-[
+ClassesCommon = [
     {
         Name: "Event",
         Base: "",
@@ -126,4 +126,11 @@
         References: [],
         Extensions: []
     }
-]
+];
+
+UseCasesCommon = [];
+
+module.exports = {
+    ClassesCommon: ClassesCommon,
+    UseCasesCommon: UseCasesCommon
+}
