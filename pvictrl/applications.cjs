@@ -15,6 +15,9 @@ class Application {
         classes.forEach(classCur => {
 			this.createTable(classCur);
         });
+        classes.forEach(classCur => {
+			this.createTablePrimaryKey(classCur);
+        });
         console.log(this.sqlScriptTables);
     }
     
@@ -22,6 +25,7 @@ class Application {
 		if (classInfo.Base != null && classInfo.Base > '') {
 		} else {
 			this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + '" (\n';
+			this.sqlScriptTables += '    "Id" uuid NOT NULL,\n';
 			classInfo.Components.forEach((componentCur, componentIndex) => {
 				if (componentCur.Type != null ) {
 					this.sqlScriptTables += '    "' + componentCur.Name + '" ';
@@ -64,6 +68,12 @@ class Application {
 			;
 			this.sqlScriptTables = this.sqlScriptTables.slice(0, -2) + '\n);\n';
 		}
+	}
+
+
+    createTablePrimaryKey(classInfo) {
+		this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + 
+			'" \nADD CONSTRAINT "' + classInfo.Name + '_pkey" PRIMARY KEY ("Id")';
 	}
 
     createUseCases() {
