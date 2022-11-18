@@ -109,7 +109,7 @@ class Application {
         });
         if (baseClassInfo == null) {
             this.sqlScriptTables = this.sqlScriptTables.slice(0, -2) + '\n);\n';
-            this.sqlScriptTables += ('COMMENT ON TABLE data."' + classInfo.Name + '" IS ' + JSON.stringify({ExtensionTree: classInfo.extensionTree}) + ';\n\n');
+            this.sqlScriptTables += ('COMMENT ON TABLE data."' + classInfo.Name + '" IS \'' + JSON.stringify({ExtensionTree: classInfo.extensionTree}) + '\';\n\n');
         }
     }
 
