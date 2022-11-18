@@ -54,10 +54,14 @@ class Application {
         this.classesAll.push(classInfo);
         if (baseClassInfo == null) {
             classInfo.tableName = classInfo.Name;
+            classInfo.extensions = [];
             this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + '" (\n';
             this.sqlScriptTables += '    "Id" uuid NOT NULL,\n';
+            this.sqlScriptTables += '    "Extension" json NOT NULL,\n';
         } else {
             classInfo.tableName = baseClassInfo.tableName;
+            classInfo.extensions = [...baseClassInfo.extensions];
+            classInfo.extensions.push(classInfo.Name);
         }
         classInfo.Components.forEach(componentCur => {
             if (componentCur.Type != null) {
