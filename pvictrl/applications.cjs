@@ -5,78 +5,102 @@ const fs = require('fs');
 class Application {
     constructor(config) {
         this.config = config;
+        this.classes = [];
         this.sqlScriptTables = 'CREATE SCHEMA data;\n';
     }
 
     createClasses() {
         let classesApplication = JSON.parse(fs.readFileSync(this.config.Dir + 'classes.cjs'));
-        let classes = [...ClassesCommon, ...classesApplication];
-        console.log(classes);
-        classes.forEach(classCur => {
-			this.createTable(classCur);
+        this.classes = [...ClassesCommon, ...classesApplication];
+        this.classes.forEach((classCur) => {
+            this.deepen(classCur);
         });
-        classes.forEach(classCur => {
-			this.createTablePrimaryKey(classCur);
+        console.log(this.classes, "\n");
+        this.classes.forEach(classCur => {
+            if (classCur.Base == null) {
+			    this.createTable(classCur, null);
+            }
         });
-        classes.forEach(classCur => {
-			this.createLinkTables(classCur);
+        this.classes.forEach(classCur => {
+            if (classCur.Base == null) {
+                this.createTablePrimaryKey(classCur);
+            }
         });
-        classes.forEach(classCur => {
-			this.createTableForeignKeys(classCur);
+        this.classes.forEach(classCur => {
+            if (classCur.Base == null) {
+                this.createLinkTables(classCur);
+            }
+        });
+        this.classes.forEach(classCur => {
+            if (classCur.Base == null) {
+                this.createTableForeignKeys(classCur);
+            }
         });
         console.log(this.sqlScriptTables);
     }
+
+    deepen(classInfo) {
+        if (classInfo.Base != null) {
+            let baseClass = this.classes.find(cur => cur.Name === classInfo.Base);
+            if (baseClass != null) {
+                baseClass.Extensions.push({...classInfo});
+            }
+        }
+    }
     
-    createTable(classInfo) {
-		if (classInfo.Base != null && classInfo.Base > '') {
-		} else {
-			this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + '" (\n';
-			this.sqlScriptTables += '    "Id" uuid NOT NULL,\n';
-			classInfo.Components.forEach((componentCur, componentIndex) => {
-				if (componentCur.Type != null ) {
-					this.sqlScriptTables += '    "' + componentCur.Name + '" ';
-					switch (componentCur.Type.toLowerCase()) {
-						case 'varchar':
-							this.sqlScriptTables += 'character varying';
-							if (componentCur.Length != null) {
-								this.sqlScriptTables += ('(' + componentCur.Length + ')');
-							}
-							break;
-						case 'text':
-							this.sqlScriptTables += 'text';
-							break;
-						case 'smallint':
-							this.sqlScriptTables += 'smallint';
-							break;
-						case 'integer':
-							this.sqlScriptTables += 'integer';
-							break;
-						case 'bigint':
-							this.sqlScriptTables += 'bigint';
-							break;
-						case 'uuid':
-							this.sqlScriptTables += 'uuid';
-							break;
-						case 'json':
-							this.sqlScriptTables += 'json';
-							break;
-						case 'timestamp':
-							this.sqlScriptTables += 'timestamp with time zone DEFAULT clock_timestamp()';
-							break;
-					}
-					this.sqlScriptTables += ',\n';
-				}
-			});
-			classInfo.References.forEach((referenceCur, referenceIndex) => {
-				this.sqlScriptTables += '    "' + referenceCur.Name + '" ';
-				this.sqlScriptTables += 'uuid not null ,\n';
-			});
-			this.sqlScriptTables = this.sqlScriptTables.slice(0, -2) + '\n);\n';
-			classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
-				this.createTable(extensionCur);
-			});
-		}
-	}
+    createTable(classInfo, baseClassInfo) {
+        if (baseClassInfo == null) {
+            this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + '" (\n';
+        }
+        //this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + '" (\n';
+        this.sqlScriptTables += '    "Id" uuid NOT NULL,\n';
+        classInfo.Components.forEach((componentCur, componentIndex) => {
+            if (componentCur.Type != null) {
+                this.sqlScriptTables += '    "' + componentCur.Name + '" ';
+                switch (componentCur.Type.toLowerCase()) {
+                    case 'varchar':
+                        this.sqlScriptTables += 'character varying';
+                        if (componentCur.Length != null) {
+                            this.sqlScriptTables += ('(' + componentCur.Length + ')');
+                        }
+                        break;
+                    case 'text':
+                        this.sqlScriptTables += 'text';
+                        break;
+                    case 'smallint':
+                        this.sqlScriptTables += 'smallint';
+                        break;
+                    case 'integer':
+                        this.sqlScriptTables += 'integer';
+                        break;
+                    case 'bigint':
+                        this.sqlScriptTables += 'bigint';
+                        break;
+                    case 'uuid':
+                        this.sqlScriptTables += 'uuid';
+                        break;
+                    case 'json':
+                        this.sqlScriptTables += 'json';
+                        break;
+                    case 'timestamp':
+                        this.sqlScriptTables += 'timestamp with time zone DEFAULT clock_timestamp()';
+                        break;
+                }
+                this.sqlScriptTables += ',\n';
+            }
+        });
+        classInfo.References.forEach((referenceCur, referenceIndex) => {
+            this.sqlScriptTables += '    "' + referenceCur.Name + '" ';
+            this.sqlScriptTables += 'uuid not null ,\n';
+        });
+        //this.sqlScriptTables = this.sqlScriptTables.slice(0, -2) + '\n);\n';
+        classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
+            this.createTable(extensionCur, classInfo);
+        });
+        if (baseClassInfo == null) {
+            this.sqlScriptTables = this.sqlScriptTables.slice(0, -2) + '\n);\n';
+        }
+    }
 
     createTablePrimaryKey(classInfo) {
 		this.sqlScriptTables += 'ALTER TABLE ONLY data."' + classInfo.Name + 
