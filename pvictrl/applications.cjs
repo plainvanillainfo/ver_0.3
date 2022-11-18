@@ -19,7 +19,7 @@ class Application {
 			this.createTablePrimaryKey(classCur);
         });
         classes.forEach(classCur => {
-			this.createTablecreateLinkTablesForeignKeys(classCur);
+			this.createLinkTables(classCur);
         });
         classes.forEach(classCur => {
 			this.createTableForeignKeys(classCur);
