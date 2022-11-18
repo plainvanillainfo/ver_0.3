@@ -52,10 +52,10 @@ class Application {
     
     createTable(classInfo, baseClassInfo) {
         this.classesAll.push(classInfo);
+        classInfo.extensionTree = {};
         if (baseClassInfo == null) {
             classInfo.tableName = classInfo.Name;
             classInfo.extensions = [];
-            classInfo.extensionTree = {};
             this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + '" (\n';
             this.sqlScriptTables += '    "Id" uuid NOT NULL,\n';
             this.sqlScriptTables += '    "Extension" json NOT NULL,\n';
