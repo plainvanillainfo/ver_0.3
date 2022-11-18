@@ -121,6 +121,8 @@ class Application {
     createLinkTables(classInfo) {
         classInfo.Children.forEach((childCur, indexIndex) => {
 			let childTableName = classInfo.Name + '_CHILD_' + childCur.Name;
+            let childClass = this.classesAll.find(cur => cur.Name === childCur.ChildClass);
+
 			this.sqlScriptTables += ('CREATE TABLE data."' + childTableName + '" (\n');
 			this.sqlScriptTables += '    "ParentId" uuid NOT NULL,\n';
 			this.sqlScriptTables += '    "ChildId" uuid NOT NULL\n);\n';
@@ -135,7 +137,7 @@ class Application {
 
 			this.sqlScriptTables += ('ALTER TABLE ONLY data."' + childTableName + '"\n');
 			this.sqlScriptTables += ('    ADD CONSTRAINT "' + childCur.Name + '_REFERENCE" ');
-			this.sqlScriptTables += ('FOREIGN KEY ("ChildId") REFERENCES data."' + childCur.tableName + '"("Id") NOT VALID;\n');
+			this.sqlScriptTables += ('FOREIGN KEY ("ChildId") REFERENCES data."' + childClass.tableName + '"("Id") NOT VALID;\n');
 		});
 		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
 			this.createLinkTables(extensionCur);
