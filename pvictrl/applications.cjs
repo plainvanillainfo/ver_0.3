@@ -19,10 +19,10 @@ class Application {
 			this.createTablePrimaryKey(classCur);
         });
         classes.forEach(classCur => {
-			this.createTableForeignKeys(classCur);
+			this.createTablecreateLinkTablesForeignKeys(classCur);
         });
         classes.forEach(classCur => {
-			this.createTablecreateLinkTablesForeignKeys(classCur);
+			this.createTableForeignKeys(classCur);
         });
         console.log(this.sqlScriptTables);
     }
@@ -86,6 +86,14 @@ class Application {
 		});
 	}
 
+    createLinkTables(classInfo) {
+        classInfo.Children.forEach((childCur, indexIndex) => {
+        });
+		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
+			this.createLinkTables(extensionCur);
+		});
+	}
+
     createTableForeignKeys(classInfo) {
         classInfo.References.forEach((referenceCur, referenceIndex) => {
             
@@ -94,14 +102,6 @@ class Application {
 			this.createTableForeignKeys(extensionCur);
 		});
     }
-
-    createLinkTables(classInfo) {
-        classInfo.Children.forEach((childCur, indexIndex) => {
-        });
-		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
-			this.createLinkTables(extensionCur);
-		});
-	}
 
     createUseCases() {
         let useCasesApplication = JSON.parse(fs.readFileSync(this.config.Dir + 'use_cases.cjs'));
