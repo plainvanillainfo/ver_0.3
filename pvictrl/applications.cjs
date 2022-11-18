@@ -88,10 +88,6 @@ class Application {
 
     createLinkTables(classInfo) {
         classInfo.Children.forEach((childCur, indexIndex) => {
-			/*
-			ALTER TABLE ONLY public."CommunityContractAttachment"
-    		ADD CONSTRAINT "AttachmentIdReference" FOREIGN KEY ("AttachmentId") REFERENCES public."CoreAttachment"("UUID") NOT VALID;
-			*/
 			let childTableName = classInfo.Name + '_CHILD_' + childCur.Name;
 			this.sqlScriptTables += ('CREATE TABLE data."' + childTableName + '" (\n');
 			this.sqlScriptTables += '    "ParentId" uuid NOT NULL,\n';
@@ -112,7 +108,9 @@ class Application {
 
     createTableForeignKeys(classInfo) {
         classInfo.References.forEach((referenceCur, referenceIndex) => {
-            
+			this.sqlScriptTables += ('ALTER TABLE ONLY data."' + classInfo + '"\n');
+			this.sqlScriptTables += ('    ADD CONSTRAINT "' + referenceCur.Name + '_REFERENCE" ');
+			this.sqlScriptTables += ('FOREIGN KEY ("ChildId") REFERENCES data."' + referenceCur.ReferedClass + '"("Id") NOT VALID;\n');
         });
 		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
 			this.createTableForeignKeys(extensionCur);
