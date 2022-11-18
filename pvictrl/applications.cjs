@@ -97,9 +97,13 @@ class Application {
 			this.sqlScriptTables += '    "ParentId" uuid NOT NULL,\n';
 			this.sqlScriptTables += '    "ChildId" uuid NOT NULL\n);\n';
 
-			this.sqlScriptTables += ('ALTER TABLE ONLY data."' + childTableName + '" (\n');
-			this.sqlScriptTables += ('    ADD CONSTRAINT "REFEENCE_' + childCur.Name + '" \n');
-			this.sqlScriptTables += ('    FOREIGN KEY ("ChildId") REFERENCES data."' + childCur.Name + '" ("Id") NOT VALID;\n');
+			this.sqlScriptTables += ('ALTER TABLE ONLY data."' + childTableName + '"\n');
+			this.sqlScriptTables += ('    ADD CONSTRAINT "' + childCur.Name + '_pkey" ');
+			this.sqlScriptTables += ('PRIMARY KEY ("ParentId", "ChildId") ;\n');
+
+			this.sqlScriptTables += ('ALTER TABLE ONLY data."' + childTableName + '"\n');
+			this.sqlScriptTables += ('    ADD CONSTRAINT "' + childCur.Name + '_REFERENCE" ');
+			this.sqlScriptTables += ('FOREIGN KEY ("ChildId") REFERENCES data."' + childCur.Name + '"("Id") NOT VALID;\n');
 		});
 		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
 			this.createLinkTables(extensionCur);
