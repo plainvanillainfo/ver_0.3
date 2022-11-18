@@ -18,6 +18,12 @@ class Application {
         classes.forEach(classCur => {
 			this.createTablePrimaryKey(classCur);
         });
+        classes.forEach(classCur => {
+			this.createTableForeignKeys(classCur);
+        });
+        classes.forEach(classCur => {
+			this.createTablecreateLinkTablesForeignKeys(classCur);
+        });
         console.log(this.sqlScriptTables);
     }
     
@@ -69,16 +75,31 @@ class Application {
 			classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
 				this.createTable(extensionCur);
 			});
-			
 		}
 	}
-
 
     createTablePrimaryKey(classInfo) {
 		this.sqlScriptTables += 'ALTER TABLE ONLY data."' + classInfo.Name + 
 			'" \nADD CONSTRAINT "' + classInfo.Name + '_pkey" PRIMARY KEY ("Id");\n';
 		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
 			this.createTablePrimaryKey(extensionCur);
+		});
+	}
+
+    createTableForeignKeys(classInfo) {
+        classInfo.References.forEach((referenceCur, referenceIndex) => {
+            
+        });
+		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
+			this.createTableForeignKeys(extensionCur);
+		});
+    }
+
+    createLinkTables(classInfo) {
+        classInfo.Children.forEach((childCur, indexIndex) => {
+        });
+		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
+			this.createLinkTables(extensionCur);
 		});
 	}
 
