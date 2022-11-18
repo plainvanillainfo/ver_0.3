@@ -104,7 +104,7 @@ class Application {
 
     createTablePrimaryKey(classInfo) {
 		this.sqlScriptTables += 'ALTER TABLE ONLY data."' + classInfo.Name + 
-			'" \nADD CONSTRAINT "' + classInfo.Name + '_pkey" PRIMARY KEY ("Id");\n';
+			'" \n    ADD CONSTRAINT "' + classInfo.Name + '_pkey" PRIMARY KEY ("Id");\n';
 		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
 			this.createTablePrimaryKey(extensionCur);
 		});
