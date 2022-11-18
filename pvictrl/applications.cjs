@@ -51,7 +51,7 @@ class Application {
     }
     
     createTable(classInfo, baseClassInfo) {
-        this.classes.push(classInfo);
+        this.classesAll.push(classInfo);
         if (baseClassInfo == null) {
             classInfo.tableName = classInfo.Name;
             this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + '" (\n';
