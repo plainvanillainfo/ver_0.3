@@ -133,7 +133,7 @@ class Application {
 
     createTableForeignKeys(classInfo) {
         classInfo.References.forEach((referenceCur, referenceIndex) => {
-            let referedClass = this.classesAll.find(cur => cur.name === referenceCur.ReferedClass);
+            let referedClass = this.classesAll.find(cur => cur.Name === referenceCur.ReferedClass);
 			this.sqlScriptTables += ('ALTER TABLE ONLY data."' + classInfo.tableName + '"\n');
 			this.sqlScriptTables += ('    ADD CONSTRAINT "' + referenceCur.Name + '_REFERENCE" ');
 			this.sqlScriptTables += ('FOREIGN KEY ("' + referenceCur.Name + '") REFERENCES data."' + referedClass.tableName + '"("Id") NOT VALID;\n');
