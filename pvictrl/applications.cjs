@@ -127,9 +127,9 @@ class Application {
 
     createTableForeignKeys(classInfo) {
         classInfo.References.forEach((referenceCur, referenceIndex) => {
-			this.sqlScriptTables += ('ALTER TABLE ONLY data."' + classInfo + '"\n');
+			this.sqlScriptTables += ('ALTER TABLE ONLY data."' + classInfo.Name + '"\n');
 			this.sqlScriptTables += ('    ADD CONSTRAINT "' + referenceCur.Name + '_REFERENCE" ');
-			this.sqlScriptTables += ('FOREIGN KEY ("ChildId") REFERENCES data."' + referenceCur.ReferedClass + '"("Id") NOT VALID;\n');
+			this.sqlScriptTables += ('FOREIGN KEY ("' + referenceCur.Name + '") REFERENCES data."' + referenceCur.ReferedClass + '"("Id") NOT VALID;\n');
         });
 		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
 			this.createTableForeignKeys(extensionCur);
