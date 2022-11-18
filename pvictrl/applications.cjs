@@ -17,7 +17,7 @@ class Application {
         });
         console.log(this.classes, "\n");
         this.classes.forEach(classCur => {
-            if (classCur.Base == null) {
+            if (classCur.Base == null || classCur.Base === '') {
 			    this.createTable(classCur, null);
             }
         });
@@ -27,12 +27,12 @@ class Application {
             }
         });
         this.classes.forEach(classCur => {
-            if (classCur.Base == null) {
+            if (classCur.Base == null || classCur.Base === '') {
                 this.createLinkTables(classCur);
             }
         });
         this.classes.forEach(classCur => {
-            if (classCur.Base == null) {
+            if (classCur.Base == null || classCur.Base === '') {
                 this.createTableForeignKeys(classCur);
             }
         });
