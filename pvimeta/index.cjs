@@ -36,7 +36,12 @@ ClassesCommon = [
                         Name: "Email",
                         Components: [],
                         Children: [],
-                        References: [],
+                        References: [
+                            {
+                                Name: "EmailAddress",
+                                ReferedClass: "Place"
+                            }
+                        ],
                         Extensions: []
                     },
                     {
