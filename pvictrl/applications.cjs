@@ -22,7 +22,7 @@ class Application {
             }
         });
         this.classes.forEach(classCur => {
-            if (classCur.Base == null) {
+            if (classCur.Base == null || classCur.Base === '') {
                 this.createTablePrimaryKey(classCur);
             }
         });
