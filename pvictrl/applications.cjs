@@ -1,6 +1,7 @@
 
 const { ClassesCommon, UseCasesCommon } = require('plainvanillainfo/pvimeta');
 const fs = require('fs');
+const { default: e } = require('express');
 
 class Application {
     constructor(config) {
@@ -50,8 +51,11 @@ class Application {
     
     createTable(classInfo, baseClassInfo) {
         if (baseClassInfo == null) {
+            classInfo.tableName = classInfo.Name;
             this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + '" (\n';
             this.sqlScriptTables += '    "Id" uuid NOT NULL,\n';
+        } else {
+            classInfo.tableName = baseClassInfo.tableName;
         }
         classInfo.Components.forEach(componentCur => {
             if (componentCur.Type != null) {
@@ -127,7 +131,7 @@ class Application {
 
     createTableForeignKeys(classInfo) {
         classInfo.References.forEach((referenceCur, referenceIndex) => {
-			this.sqlScriptTables += ('ALTER TABLE ONLY data."' + classInfo.Name + '"\n');
+			this.sqlScriptTables += ('ALTER TABLE ONLY data."' + classInfo.tableName + '"\n');
 			this.sqlScriptTables += ('    ADD CONSTRAINT "' + referenceCur.Name + '_REFERENCE" ');
 			this.sqlScriptTables += ('FOREIGN KEY ("' + referenceCur.Name + '") REFERENCES data."' + referenceCur.ReferedClass + '"("Id") NOT VALID;\n');
         });

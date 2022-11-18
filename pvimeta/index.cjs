@@ -39,7 +39,7 @@ ClassesCommon = [
                         References: [
                             {
                                 Name: "EmailAddress",
-                                ReferedClass: "Place"
+                                ReferedClass: "EmailAddress"
                             }
                         ],
                         Extensions: []
@@ -103,7 +103,36 @@ ClassesCommon = [
         ],
         Children: [],
         References: [],
-        Extensions: []
+        Extensions: [
+            {
+                Name: "EmailAddress",
+                Components: [],
+                Children: [],
+                References: [],
+                Extensions: []
+            },
+            {
+                Name: "PhoneNumber",
+                Components: [],
+                Children: [],
+                References: [],
+                Extensions: []
+            },
+            {
+                Name: "StreetAddress",
+                Components: [],
+                Children: [],
+                References: [],
+                Extensions: []
+            },
+            {
+                Name: "SocialAddress",
+                Components: [],
+                Children: [],
+                References: [],
+                Extensions: []
+            }
+        ]
     },
     {
         Name: "Thing",
