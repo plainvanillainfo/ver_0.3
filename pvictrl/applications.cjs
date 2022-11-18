@@ -51,10 +51,9 @@ class Application {
     createTable(classInfo, baseClassInfo) {
         if (baseClassInfo == null) {
             this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + '" (\n';
+            this.sqlScriptTables += '    "Id" uuid NOT NULL,\n';
         }
-        //this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + '" (\n';
-        this.sqlScriptTables += '    "Id" uuid NOT NULL,\n';
-        classInfo.Components.forEach((componentCur, componentIndex) => {
+        classInfo.Components.forEach(componentCur => {
             if (componentCur.Type != null) {
                 this.sqlScriptTables += '    "' + componentCur.Name + '" ';
                 switch (componentCur.Type.toLowerCase()) {
@@ -89,12 +88,11 @@ class Application {
                 this.sqlScriptTables += ',\n';
             }
         });
-        classInfo.References.forEach((referenceCur, referenceIndex) => {
+        classInfo.References.forEach(referenceCur => {
             this.sqlScriptTables += '    "' + referenceCur.Name + '" ';
             this.sqlScriptTables += 'uuid not null ,\n';
         });
-        //this.sqlScriptTables = this.sqlScriptTables.slice(0, -2) + '\n);\n';
-        classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
+        classInfo.Extensions.forEach(extensionCur => {
             this.createTable(extensionCur, classInfo);
         });
         if (baseClassInfo == null) {
