@@ -118,7 +118,7 @@ class Application {
 
 			this.sqlScriptTables += ('ALTER TABLE ONLY data."' + childTableName + '"\n');
 			this.sqlScriptTables += ('    ADD CONSTRAINT "' + childCur.Name + '_REFERENCE" ');
-			this.sqlScriptTables += ('FOREIGN KEY ("ChildId") REFERENCES data."' + childCur.Name + '"("Id") NOT VALID;\n');
+			this.sqlScriptTables += ('FOREIGN KEY ("ChildId") REFERENCES data."' + childCur.ClassName + '"("Id") NOT VALID;\n');
 		});
 		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
 			this.createLinkTables(extensionCur);
