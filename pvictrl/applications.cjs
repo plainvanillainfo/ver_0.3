@@ -105,9 +105,6 @@ class Application {
     createTablePrimaryKey(classInfo) {
 		this.sqlScriptTables += 'ALTER TABLE ONLY data."' + classInfo.Name + 
 			'" \n    ADD CONSTRAINT "' + classInfo.Name + '_pkey" PRIMARY KEY ("Id");\n';
-		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
-			this.createTablePrimaryKey(extensionCur);
-		});
 	}
 
     createLinkTables(classInfo) {
