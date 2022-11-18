@@ -7,6 +7,7 @@ class Application {
     constructor(config) {
         this.config = config;
         this.classes = [];
+        this.classesAll = [];
         this.sqlScriptTables = 'CREATE SCHEMA data;\n';
     }
 
@@ -50,6 +51,7 @@ class Application {
     }
     
     createTable(classInfo, baseClassInfo) {
+        this.classes.push(classInfo);
         if (baseClassInfo == null) {
             classInfo.tableName = classInfo.Name;
             this.sqlScriptTables += 'CREATE TABLE data."' + classInfo.Name + '" (\n';
@@ -131,9 +133,10 @@ class Application {
 
     createTableForeignKeys(classInfo) {
         classInfo.References.forEach((referenceCur, referenceIndex) => {
+            let referedClass = this.classesAll.find(cur => cur.name === referenceCur.ReferedClass);
 			this.sqlScriptTables += ('ALTER TABLE ONLY data."' + classInfo.tableName + '"\n');
 			this.sqlScriptTables += ('    ADD CONSTRAINT "' + referenceCur.Name + '_REFERENCE" ');
-			this.sqlScriptTables += ('FOREIGN KEY ("' + referenceCur.Name + '") REFERENCES data."' + referenceCur.ReferedClass + '"("Id") NOT VALID;\n');
+			this.sqlScriptTables += ('FOREIGN KEY ("' + referenceCur.Name + '") REFERENCES data."' + referedClass.tableName + '"("Id") NOT VALID;\n');
         });
 		classInfo.Extensions.forEach((extensionCur, extensionIndex) => {
 			this.createTableForeignKeys(extensionCur);
