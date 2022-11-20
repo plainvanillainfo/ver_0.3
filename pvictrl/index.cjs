@@ -30,7 +30,8 @@ class ServerMonitor {
     }
 
     queryDBForInstructions() {
-        this.instructionsReceivedFromDB({Type: 'CreateClasses'});
+        //this.instructionsReceivedFromDB({Type: 'CreateClasses'});
+        this.instructionsReceivedFromDB({Type: 'CreateUseCases'});
     }
 
     instructionsReceivedFromDB(instructions) {
@@ -61,7 +62,7 @@ class ServerMonitor {
                     });
                     this.applications.push(applicationCur);
                 }
-                applicationCur.UseCases();
+                applicationCur.createUseCases();
                 break;
             case 'ManageProcess':
                 // Start/stop O/S process
