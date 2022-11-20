@@ -598,7 +598,6 @@ class TemplateList {
     }
     
     show() {
-        //this.divTarget.appendChild(document.createTextNode(JSON.stringify(this.useCase)));
         this.divTarget.appendChild(this.elementPayload);
     }
     
@@ -621,11 +620,6 @@ class TemplateList {
                 //this.elementPayload = document.createElement('select');
                 this.setUseCasePickList();
                 break;
-            /*
-            case 'Context':
-                this.setUseCasePickList();
-                break;
-            */
             default:
                 break;
         }
@@ -793,29 +787,10 @@ class TemplateList {
             this.selectList.appendChild(option);
             let spanAttr = document.createElement('span');
             option.appendChild(spanAttr);
-
-            /*
-            this.useCase.spec.Elems.forEach(elemCur => {
-                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].Value : ''
-                spanAttr.appendChild(document.createTextNode(valueCur + ' | '));
-            });
-            if (spanAttr.lastElementChild != null) {
-                spanAttr.removeChild(spanAttr.lastElementChild);
-            }
-            */
-
             this.useCase.Detail.Elems.forEach(elemCur => {
-                /*
-                let tableItemRowCell = document.createElement('td');
-                tableItemRow.appendChild(tableItemRowCell);
-                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : ''
-                tableItemRowCell.appendChild(document.createTextNode(valueCur));
-                */
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : ''
                 spanAttr.appendChild(document.createTextNode(valueCur + ' | '));
             });
-
-            //spanAttr.appendChild(document.createTextNode(itemCur));
         });
     }
 
@@ -846,14 +821,8 @@ class TemplateElem {
                     break;
                 default:
                     break;
-
             }
         }
-        //if (this.isDrillDown) {
-        // Do breadcrumb logic like ver_0.2 - TemplateElemWeb:: trigger() - case: Child
-        //this.track.div.appendChild(this.divTarget);
-        //} else {
-        //}
     }
 
     destroy() {
