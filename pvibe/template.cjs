@@ -238,6 +238,32 @@ class TemplateElem {
 
     fromClient(message) {
         console.log("TemplateElem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem);
+        if (this.useCaseElem.SubUseCase != null) {
+            console.log("TemplateElem::fromClient() - this.useCaseElem.SubUseCase: ", this.useCaseElem.SubUseCase);
+            let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
+            if (useCaseFound != null) {
+                switch (useCaseFound.Detail.Format) {
+                    case 'List':
+                    case 'PickList': 
+                        if (this.templateList == null) {
+                            this.templateList = new TemplateList(this, useCaseFound);
+                            let filter = '1=1';
+                            if (this.parent.item != null && useCaseFound.Detail.ViewFilterColumn != null) {
+                                filter = '"' + useCaseFound.Detail.ViewFilterColumn + "\" = '" + this.parent.item.Key + "'";
+                            }
+                            this.templateList.requestViewFromDB(filter);
+                        } else {
+                            if (message.TemplateList != null) {
+                                this.templateList.fromClient(message.TemplateList);
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        /*
         if (this.useCaseElem.Format != null) {
             switch (this.useCaseElem.Format) {
                 case 'MenuOption':
@@ -273,6 +299,7 @@ class TemplateElem {
                     break;
             }
         }
+        */
     }
 
     toClient(messageIn) {
