@@ -201,10 +201,7 @@ class Application {
             this.sqlScriptAuthorization += ('INSERT INTO authorizations."Entitlements"("Id", "UseCase", "BaseObject", "UserId") VALUES(\'');
             this.sqlScriptAuthorization += (entitlementCur.Id+'\',\'' + entitlementCur.UseCase+'\',\'' + entitlementCur.BaseObject+'\',\'' + entitlementCur.UserId + '\');\n');
         });
-
-
         console.log(this.sqlScriptAuthorization);
-
         console.log(this.sqlScriptExecution);
     }
 
