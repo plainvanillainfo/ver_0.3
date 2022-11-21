@@ -165,7 +165,6 @@ class Application {
     createUseCases() {
         let useCasesApplication = JSON.parse(fs.readFileSync(this.config.Dir + 'use_cases.cjs'));
         this.useCases = [...UseCasesCommon, ...useCasesApplication];
-        //console.log(this.useCases);
         this.sqlScriptFunctionality += 'CREATE TABLE functionality."UseCases" (\n';
         this.sqlScriptFunctionality += '    "Id" character varying(255) NOT NULL,\n';
         this.sqlScriptFunctionality += '    "Detail" json NOT NULL';
@@ -180,7 +179,6 @@ class Application {
     createUsers() {
         let users = JSON.parse(fs.readFileSync(this.config.Dir + 'users.cjs'));
         this.users = [...users];
-        //console.log(this.users);
         this.sqlScriptAuthorization += 'CREATE TABLE authorizations."Users" (\n';
         this.sqlScriptAuthorization += '    "Id" character varying(255) NOT NULL,\n';
         this.sqlScriptAuthorization += '    "Name" character varying(255) NOT NULL,\n';
@@ -193,6 +191,16 @@ class Application {
 
         let entitlements = JSON.parse(fs.readFileSync(this.config.Dir + 'entitlements.cjs'));
         this.entitlements = [...entitlements];
+        this.sqlScriptAuthorization += 'CREATE TABLE authorizations."Entitlements" (\n';
+        this.sqlScriptAuthorization += '    "Id" character varying(255) NOT NULL,\n';
+        this.sqlScriptAuthorization += '    "UseCase" character varying(255) NOT NULL,\n';
+        this.sqlScriptAuthorization += '    "BaseObject" character varying(255) NOT NULL,\n';
+        this.sqlScriptAuthorization += '    "UserId" character varying(255) NOT NULL';
+        this.sqlScriptAuthorization += '\n);\n';
+        this.entitlements.forEach(entitlementCur => {
+            this.sqlScriptAuthorization += ('INSERT INTO authorizations."Entitlements"("Id", "UseCase", "BaseObject", "UserId") VALUES(\'');
+            this.sqlScriptAuthorization += (entitlementCur.Id+'\',\'' + entitlementCur.UseCase+'\',\'' + entitlementCur.BaseObject+'\',\'' + entitlementCur.UserId + '\');\n');
+        });
 
 
         console.log(this.sqlScriptAuthorization);
