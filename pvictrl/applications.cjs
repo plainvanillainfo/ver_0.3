@@ -165,7 +165,7 @@ class Application {
     createUseCases() {
         let useCasesApplication = JSON.parse(fs.readFileSync(this.config.Dir + 'use_cases.cjs'));
         this.useCases = [...UseCasesCommon, ...useCasesApplication];
-        console.log(this.useCases);
+        //console.log(this.useCases);
         this.sqlScriptFunctionality += 'CREATE TABLE functionality."UseCases" (\n';
         this.sqlScriptFunctionality += '    "Id" character varying(255) NOT NULL,\n';
         this.sqlScriptFunctionality += '    "Detail" json NOT NULL';
@@ -180,10 +180,23 @@ class Application {
     createUsers() {
         let users = JSON.parse(fs.readFileSync(this.config.Dir + 'users.cjs'));
         this.users = [...users];
+        //console.log(this.users);
+        this.sqlScriptAuthorization += 'CREATE TABLE authorization."Users" (\n';
+        this.sqlScriptAuthorization += '    "Id" character varying(255) NOT NULL,\n';
+        this.sqlScriptAuthorization += '    "Name" character varying(255) NOT NULL,\n';
+        this.sqlScriptAuthorization += '    "Active" boolean NOT NULL';
+        this.sqlScriptAuthorization += '\n);\n';
+        this.users.forEach(userCur => {
+            this.sqlScriptAuthorization += ('INSERT INTO authorization."Users"("Id", "Name", "Active") VALUES(\'');
+            this.sqlScriptAuthorization += (userCur.Id+'\',\'' + userCur.Name+'\',\'' + userCur.Active + '\');');
+        });
+
         let entitlements = JSON.parse(fs.readFileSync(this.config.Dir + 'entitlements.cjs'));
         this.entitlements = [...entitlements];
-        console.log(this.users);
+
+
         console.log(this.sqlScriptAuthorization);
+
         console.log(this.sqlScriptExecution);
     }
 
