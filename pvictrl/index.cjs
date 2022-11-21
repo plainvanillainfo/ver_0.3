@@ -32,6 +32,7 @@ class ServerMonitor {
     queryDBForInstructions() {
         this.instructionsReceivedFromDB({Type: 'CreateClasses'});
         this.instructionsReceivedFromDB({Type: 'CreateUseCases'});
+        this.instructionsReceivedFromDB({Type: 'CreateUsers'});
     }
 
     instructionsReceivedFromDB(instructions) {
@@ -64,11 +65,22 @@ class ServerMonitor {
                 }
                 applicationCur.createUseCases();
                 break;
+            case 'CreateUsers':
+                applicationCur = this.applications.find(cur => cur.Name === applicationName);
+                if (applicationCur == null) {
+                    applicationCur = new Application({
+                        Name: applicationName,
+                        Dir: dir
+                    });
+                    this.applications.push(applicationCur);
+                }
+                applicationCur.createUsers();
+                break;
             case 'ManageProcess':
                 // Start/stop O/S process
                 serverCur = this.servers.find(cur => cur.Name === serverName);
                 if (serverCur == null) {
-                    serverCur = new Server({Name: serverName});
+                    serverCur = new Server({ Name: serverName });
                     this.servers.push(serverCur);
                 }
                 break;

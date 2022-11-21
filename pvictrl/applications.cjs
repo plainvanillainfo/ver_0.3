@@ -1,7 +1,7 @@
 
 const { ClassesCommon, UseCasesCommon } = require('plainvanillainfo/pvimeta');
 const fs = require('fs');
-const { default: e } = require('express');
+const jsesc = require("jsesc");
 
 class Application {
     constructor(config) {
@@ -9,6 +9,8 @@ class Application {
         this.classes = [];
         this.classesAll = [];
         this.useCases = [];
+        this.users = [];
+        this.entitlements = [];
         this.sqlScriptData = 'CREATE SCHEMA IF NOT EXISTS data;\n';
         this.sqlScriptFunctionality = 'CREATE SCHEMA IF NOT EXISTS functionality;\n';
         this.sqlScriptAuthorization = 'CREATE SCHEMA IF NOT EXISTS authorization;\n';
@@ -164,7 +166,23 @@ class Application {
         let useCasesApplication = JSON.parse(fs.readFileSync(this.config.Dir + 'use_cases.cjs'));
         this.useCases = [...UseCasesCommon, ...useCasesApplication];
         console.log(this.useCases);
+        this.sqlScriptFunctionality += 'CREATE TABLE functionality."UseCases" (\n';
+        this.sqlScriptFunctionality += '    "Id" character varying(255) NOT NULL,\n';
+        this.sqlScriptFunctionality += '    "Detail" json NOT NULL';
+        this.sqlScriptFunctionality += '\n);\n';
+        this.useCases.forEach(useCaseCur => {
+            this.sqlScriptFunctionality += ('INSERT INTO functionality."UseCases"("Id", "Detail") VALUES(\'');
+            this.sqlScriptFunctionality += (useCaseCur.Name+'\',\'' + jsesc(JSON.stringify(useCaseCur), { 'quotes': 'single' }) + '\');');
+        });
         console.log(this.sqlScriptFunctionality);
+    }
+
+    createUsers() {
+        let users = JSON.parse(fs.readFileSync(this.config.Dir + 'users.cjs'));
+        this.users = [...users];
+        let entitlements = JSON.parse(fs.readFileSync(this.config.Dir + 'entitlements.cjs'));
+        this.entitlements = [...entitlements];
+        console.log(this.users);
         console.log(this.sqlScriptAuthorization);
         console.log(this.sqlScriptExecution);
     }
