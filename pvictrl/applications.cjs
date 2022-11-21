@@ -13,7 +13,7 @@ class Application {
         this.entitlements = [];
         this.sqlScriptData = 'CREATE SCHEMA IF NOT EXISTS data;\n';
         this.sqlScriptFunctionality = 'CREATE SCHEMA IF NOT EXISTS functionality;\n';
-        this.sqlScriptAuthorization = 'CREATE SCHEMA IF NOT EXISTS authorization;\n';
+        this.sqlScriptAuthorization = 'CREATE SCHEMA IF NOT EXISTS authorizations;\n';
         this.sqlScriptExecution = 'CREATE SCHEMA IF NOT EXISTS execution;\n';
     }
 
@@ -172,7 +172,7 @@ class Application {
         this.sqlScriptFunctionality += '\n);\n';
         this.useCases.forEach(useCaseCur => {
             this.sqlScriptFunctionality += ('INSERT INTO functionality."UseCases"("Id", "Detail") VALUES(\'');
-            this.sqlScriptFunctionality += (useCaseCur.Name+'\',\'' + jsesc(JSON.stringify(useCaseCur), { 'quotes': 'single' }) + '\');');
+            this.sqlScriptFunctionality += (useCaseCur.Name+'\',\'' + jsesc(JSON.stringify(useCaseCur), { 'quotes': 'single' }) + '\');\n');
         });
         console.log(this.sqlScriptFunctionality);
     }
@@ -181,14 +181,14 @@ class Application {
         let users = JSON.parse(fs.readFileSync(this.config.Dir + 'users.cjs'));
         this.users = [...users];
         //console.log(this.users);
-        this.sqlScriptAuthorization += 'CREATE TABLE authorization."Users" (\n';
+        this.sqlScriptAuthorization += 'CREATE TABLE authorizations."Users" (\n';
         this.sqlScriptAuthorization += '    "Id" character varying(255) NOT NULL,\n';
         this.sqlScriptAuthorization += '    "Name" character varying(255) NOT NULL,\n';
         this.sqlScriptAuthorization += '    "Active" boolean NOT NULL';
         this.sqlScriptAuthorization += '\n);\n';
         this.users.forEach(userCur => {
-            this.sqlScriptAuthorization += ('INSERT INTO authorization."Users"("Id", "Name", "Active") VALUES(\'');
-            this.sqlScriptAuthorization += (userCur.Id+'\',\'' + userCur.Name+'\',\'' + userCur.Active + '\');');
+            this.sqlScriptAuthorization += ('INSERT INTO authorizations."Users"("Id", "Name", "Active") VALUES(\'');
+            this.sqlScriptAuthorization += (userCur.Id+'\',\'' + userCur.Name+'\',\'' + userCur.Active + '\');\n');
         });
 
         let entitlements = JSON.parse(fs.readFileSync(this.config.Dir + 'entitlements.cjs'));
