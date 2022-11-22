@@ -342,11 +342,14 @@ class Track {
         this.showCrumbs();
     }
 
+    /*
     setItem(item) {
         console.log("Track::setItem");
         this.templateItemRoot.setItem(item);
     }
+    */
 
+    /*
     accessNode(nodePath) {
         console.log("Track::accessNode");
         let retVal = null;
@@ -356,6 +359,7 @@ class Track {
         }
         return retVal;
     }
+    */
 
     pushBreadcrumb(templatePushed) {
         console.log("Track::pushBreadcrumb");
