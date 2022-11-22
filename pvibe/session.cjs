@@ -36,9 +36,6 @@ class Session {
                         this.tracks[message.TrackId].fromClient(message.Track);
                     }
                     break;
-                case 'UpdateItem':
-                    //this.model.putItem(this.model.itemSeed, message.Item);
-                    break;
                 default:
                     break;        
 
