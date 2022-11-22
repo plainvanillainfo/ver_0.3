@@ -17,7 +17,7 @@ class Database {
         await this.client.connect();
         console.log("Database::openDataDB() - await returned");
         this.client.query(
-            'SELECT * FROM public."AppConfig" ORDER BY "Param" ASC',
+            'SELECT * FROM functionality."AppConfig" ORDER BY "Param" ASC',
             (err, res) => {
             setConfigFromDB(res.rows);
         })
@@ -45,7 +45,7 @@ class Database {
     }
 
     async getView(view, filter, sendViewResultToClient) {
-        let query = 'SELECT * FROM public."' + view + '" WHERE '+filter;
+        let query = 'SELECT * FROM data."' + view + '" WHERE '+filter;
         console.log("Database::getView() - query: ", query);
         this.client.query(
             query, 
@@ -71,7 +71,7 @@ class Database {
     }
 
     async putData(view, filter, data, sendViewResultToClient) {
-        let query = 'UPDATE public."' + view + '" SET ' + data + ' WHERE ' + filter + ' RETURNING * ';
+        let query = 'UPDATE data."' + view + '" SET ' + data + ' WHERE ' + filter + ' RETURNING * ';
         console.log("Database::putData() - query: ", query);
         this.client.query(
             query, 
@@ -84,7 +84,7 @@ class Database {
     }
 
     async addData(view, columnsAnddata, sendViewResultToClient) {
-        let query = 'INSERT INTO public."' + view + '" ' + columnsAnddata + ' RETURNING * ';
+        let query = 'INSERT INTO data."' + view + '" ' + columnsAnddata + ' RETURNING * ';
         console.log("Database::addData() - query: ", query);
         this.client.query(
             query, 
