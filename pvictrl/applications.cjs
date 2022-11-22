@@ -163,6 +163,17 @@ class Application {
     }
 
     createUseCases() {
+        let configApplication = JSON.parse(fs.readFileSync(this.config.Dir + 'app_config.cjs'));
+        this.sqlScriptFunctionality += 'CREATE TABLE functionality."AppConfig" (\n';
+        this.sqlScriptFunctionality += '    "Param" character varying(255) NOT NULL,\n';
+        this.sqlScriptFunctionality += '    "Value" json NOT NULL';
+        this.sqlScriptFunctionality += '\n);\n';
+        for (let paramCur in configApplication) {
+            let paramValue = configApplication[paramCur];
+            this.sqlScriptFunctionality += ('INSERT INTO functionality."AppConfig"("Param", "Value") VALUES(\'');
+            this.sqlScriptFunctionality += (paramCur+'\',\'' + jsesc(JSON.stringify(paramValue), { 'quotes': 'single' }) + '\');\n');
+        }
+
         let useCasesApplication = JSON.parse(fs.readFileSync(this.config.Dir + 'use_cases.cjs'));
         this.useCases = [...UseCasesCommon, ...useCasesApplication];
         this.sqlScriptFunctionality += 'CREATE TABLE functionality."UseCases" (\n';
