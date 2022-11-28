@@ -44,6 +44,12 @@ class Application {
                 this.createTableForeignKeys(classCur);
             }
         });
+        let classRoot = this.classes.find(cur => cur.Name === 'Root');
+        if (classRoot != null) {
+            this.sqlScriptData += ('INSERT INTO data."Root"("Id", "Extension", "Name") VALUES(\'');
+            this.sqlScriptData += ('11111111-1111-1111-1111-111111111111\',\'[]\',\'Root\');\n');
+            
+        }
         console.log(this.sqlScriptData);
     }
 

@@ -129,12 +129,14 @@ class Track {
         this.parent.sendMessage(messageOut);
     }
 
+	/*
     getInitialMessage() {
         return({
             UseCaseSpec: this.templateItemRoot.useCase.spec,
             ItemSpec:  this.templateItemRoot.item.getItemSpec()
         })
     }
+    */
 
 }
 
