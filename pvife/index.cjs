@@ -286,28 +286,27 @@ class Track {
         this.div = div;
         this.session = this.parent;
         this.track = this;
-        this.isClosed = false;
-        this.dbPath = [];
-
+        //this.isClosed = false;
+        //this.dbPath = [];
         this.breadcrumbs = [];
 
         this.divBreadcrumbs = document.createElement('nav');
         this.div.appendChild(this.divBreadcrumbs);
         this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
         //this.divBreadcrumbs.style.setProperty('--bs-breadcrumb-divider', '>');
+        this.olBreadcrumbs = document.createElement('ol');
+        this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
+        this.olBreadcrumbs.className = 'breadcrumb';
 
         this.divTarget = document.createElement('div');
         this.div.appendChild(this.divTarget);
 
         this.divTargetSub = document.createElement('div');
-        this.divTarget.appendChild(this.divTargetSub);
+        //this.divTarget.appendChild(this.divTargetSub);
 
-        this.templateItemRoot = new TemplateItem(this, this.divTargetSub);
+        this.templateItemRoot = new TemplateItem(this, this.divTarget);
         this.breadcrumbs.push(this.templateItemRoot);
 
-        this.olBreadcrumbs = document.createElement('ol');
-        this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
-        this.olBreadcrumbs.className = 'breadcrumb';
         this.fromServer = this.fromServer.bind(this);
         this.toServer = this.toServer.bind(this);
     }
@@ -364,7 +363,6 @@ class Track {
             this.olBreadcrumbs.removeChild(child);
             child = this.olBreadcrumbs.lastElementChild;
         }
-
         let itemId = '';
         this.breadcrumbs.forEach((crumbCur, indexCur) => {
             let liCrumb = document.createElement('li');
@@ -385,7 +383,6 @@ class Track {
                 let aCrumb = document.createElement('a');
                 liCrumb.appendChild(aCrumb);
                 aCrumb.setAttribute('href', '#');
-                //aCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label + ' ' +  itemId));
                 if (crumbCur.useCase != null) {
                     aCrumb.appendChild(document.createTextNode(crumbCur.useCase.Detail.Label + ' ' +  itemId));
                 }
