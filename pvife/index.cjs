@@ -342,25 +342,6 @@ class Track {
         this.showCrumbs();
     }
 
-    /*
-    setItem(item) {
-        console.log("Track::setItem");
-        this.templateItemRoot.setItem(item);
-    }
-    */
-
-    /*
-    accessNode(nodePath) {
-        console.log("Track::accessNode");
-        let retVal = null;
-        if (this.isClosed == false) {
-            nodePath.shift();
-            retVal = this.templateItemRoot.accessNode(nodePath);
-        }
-        return retVal;
-    }
-    */
-
     pushBreadcrumb(templatePushed) {
         console.log("Track::pushBreadcrumb");
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
