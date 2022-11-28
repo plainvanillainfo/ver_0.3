@@ -1,15 +1,53 @@
-const { TemplateItemClient } = require('../pvibe/template_client.cjs');
-
-class TemplateItem extends TemplateItemClient{
+class TemplateItem {
     constructor(parent, divTarget) {
-        super(parent);
+        this.parent = parent;
         this.divTarget = divTarget;
+        this.track = this.parent.track;
+        this.elems = {};
+        this.itemKey = null;
+        this.toServer = this.toServer.bind(this);
     }
 
     fromServer(message) {
+        console.log("TemplateItem::fromServer(): ", message);
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'ContinueTemplateElem':
+                    if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
+                        if (this.elems[message.TemplateElem.UseCaseElemName] != null) {
+                            this.elems[message.TemplateElem.UseCaseElemName].fromServer(message.TemplateElem);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (message.Item != null) {
+            this.item = message.Item;
+            switch (this.useCase.Detail.Format) {
+                case 'Menu':
+                    this.setUseCaseMenu();
+                    break;
+                case 'Form':
+                    this.setUseCaseForm();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     toServer(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTemplateItem',
+            TemplateItem: {
+                UseCaseName: this.useCase.Detail.Name,
+                ItemKey: this.itemKey,
+                ...messageIn
+            }
+        };
+        this.parent.toServer(messageOut);
     }
     
     show() {
@@ -498,6 +536,259 @@ class TemplateItem extends TemplateItemClient{
                 this.divTarget.style.display = 'none';
             }
         }
+    }
+
+}
+
+class TemplateList {
+    constructor(parent, divTarget) {
+        this.parent = parent;
+        this.divTarget = divTarget;
+        this.track = this.parent.track;
+        this.elems = {};
+        this.items = [];
+        this.templateItems = [];
+        this.toServer = this.toServer.bind(this);
+    }
+
+    destroy() {
+    }
+
+    fromServer(message) {
+        console.log("TemplateList::fromServer(): ", message);
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'ContinueTemplateItem':
+                    if (this.templateSub != null && message.TemplateItem != null) {
+                        this.templateSub.fromServer(message.TemplateItem);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (message.Items != null) {
+            this.items = message.Items;
+            switch (this.useCase.Detail.Format) {
+                case 'List':
+                    this.setUseCaseListRows();
+                    break;
+                case 'PickList':
+                    this.setUseCasePickListRows();
+                    break;
+                default:
+                    break;
+            }
+    
+        }
+    }
+
+    toServer(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTemplateList',
+            TemplateList: {
+                UseCaseName: this.useCase.Detail.Name,
+                ...messageIn
+            }
+        };
+        this.parent.toServer(messageOut);
+    }
+    
+    show() {
+        this.divTarget.appendChild(this.elementPayload);
+    }
+    
+    hide() {
+        if (this.elementPayload != null) {
+            this.divTarget.removeChild(this.elementPayload);
+        }
+    }
+
+    setUseCase(useCase) {
+        this.useCase = useCase;
+        console.log("TemplateList::setUseCase(): ", this.useCase);
+        switch (this.useCase.Detail.Format) {
+            case 'List':
+                this.elementPayload = document.createElement('div');
+                this.divTarget.appendChild(this.elementPayload);
+                this.setUseCaseList();
+                break;
+            case 'PickList':
+                //this.elementPayload = document.createElement('select');
+                this.setUseCasePickList();
+                break;
+            default:
+                break;
+        }
+    }
+    
+    setUseCaseList() {
+        let divTableWrapper = document.createElement('div');
+        this.elementPayload.appendChild(divTableWrapper);
+        divTableWrapper.className = 'table-wrapper';
+        let divTitle = document.createElement('div');
+        divTableWrapper.appendChild(divTitle);
+        divTitle.className = 'table-title';
+        let divTitleRow = document.createElement('div');
+        divTitle.appendChild(divTitleRow);
+        divTitleRow.className = 'row';
+        let divTitleRowTitle = document.createElement('div');
+        divTitleRow.appendChild(divTitleRowTitle);
+        divTitleRowTitle.className = 'col-sm-10';
+        let tableCaption = document.createElement('h3');
+        divTitleRowTitle.appendChild(tableCaption);
+        tableCaption.appendChild(document.createTextNode(this.useCase.Detail.Label));
+        let divTitleRowAddButton = document.createElement('div');
+        divTitleRow.appendChild(divTitleRowAddButton);
+        divTitleRowAddButton.className = 'col-sm-2';
+
+        if (this.useCase.Detail.AddUseCase != null) {
+            let buttonAdd = document.createElement('button');
+            divTitleRowAddButton.appendChild(buttonAdd);
+            buttonAdd.className = 'btn btn-info add-new';
+            buttonAdd.addEventListener('click', (event) => {
+                event.preventDefault();
+                console.log("TemplateList - Add New");
+                this.divTargetSub = document.createElement('div')
+                this.divTargetSub.style.margin = '10px';
+                this.track.divTargetSub.appendChild(this.divTargetSub);
+                let divCur = document.createElement('div');
+                this.divTargetSub.appendChild(divCur);
+                divCur.className = 'mb-3';
+
+                let buttonCur = document.createElement('button');
+                divCur.appendChild(buttonCur);
+                buttonCur.className = 'btn btn-info';
+                buttonCur.setAttribute("type", "button");
+                buttonCur.id = 'backbutton';
+                buttonCur.style.width = "12em";
+                buttonCur.appendChild(document.createTextNode("< Go Back"));
+                buttonCur.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    this.track.popBreadcrumb();
+                    this.track.divTargetSub.removeChild(this.divTargetSub);
+                });
+
+                this.templateSub = new TemplateItem(this, this.divTargetSub);
+                this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.AddUseCase);
+                this.templateSub.setUseCase(this.subUseCase);
+                this.track.pushBreadcrumb(this.templateSub);
+            });
+            let iconAdd = document.createElement('i');
+            divTitleRowTitle.appendChild(iconAdd);
+            iconAdd.className = 'fa fa-plus';
+            buttonAdd.appendChild(iconAdd);
+            buttonAdd.appendChild(document.createTextNode('Add New'));
+        }
+
+        this.tableList = document.createElement('table');
+        divTableWrapper.appendChild(this.tableList);
+        this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
+        let tableHead = document.createElement('thead');
+        this.tableList.appendChild(tableHead);
+        this.tableHeadRow = document.createElement('tr');
+        tableHead.appendChild(this.tableHeadRow);
+        this.tableBody = document.createElement('tbody');
+        this.tableList.appendChild(this.tableBody);
+        this.useCase.Detail.Elems.forEach(elemCur => {
+            let tableHeadRowHeader = document.createElement('th');
+            this.tableHeadRow.appendChild(tableHeadRowHeader);
+            tableHeadRowHeader.setAttribute("scope", "col");
+            tableHeadRowHeader.appendChild(document.createTextNode(elemCur.Label));
+        });
+        let messageOut = {
+            Action: 'StartTemplateList',
+            TemplateElem: {
+                UseCaseName: this.useCase.Detail.Name
+            }
+        };
+        this.parent.toServer(messageOut);
+    }
+
+    setUseCaseListRows() {
+        this.items.forEach(itemCur => {
+            let tableItemRow = document.createElement('tr');
+            this.tableBody.appendChild(tableItemRow);
+            tableItemRow.addEventListener('click', (event) => {
+                event.preventDefault();
+                console.log("TemplateList - item picked: ", itemCur.Key);
+
+                this.divTargetSub = document.createElement('div')
+                this.divTargetSub.style.margin = '10px';
+                this.track.divTargetSub.appendChild(this.divTargetSub);
+                let divCur = document.createElement('div');
+                this.divTargetSub.appendChild(divCur);
+                divCur.className = 'mb-3';
+
+                let buttonCur = document.createElement('button');
+                divCur.appendChild(buttonCur);
+                buttonCur.className = 'btn btn-info';
+                buttonCur.setAttribute("type", "button");
+                buttonCur.id = 'backbutton';
+                buttonCur.style.width = "12em";
+                buttonCur.appendChild(document.createTextNode("< Go Back"));
+                
+                buttonCur.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    this.track.popBreadcrumb();
+                    this.track.divTargetSub.removeChild(this.divTargetSub);
+                });
+
+                this.templateSub = new TemplateItem(this, this.divTargetSub);
+                if (this.useCase.Detail.UpdateUseCase != null) {
+                    console.log("TemplateList - item picked: - this.useCase.Detail.UpdateUseCase != null ");
+                    this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.UpdateUseCase);
+                    this.templateSub.setUseCase(this.subUseCase);
+                    this.templateSub.setItemKey(itemCur.Key);
+                    this.track.pushBreadcrumb(this.templateSub);
+                }
+            });
+
+            this.useCase.Detail.Elems.forEach(elemCur => {
+                let tableItemRowCell = document.createElement('td');
+                tableItemRow.appendChild(tableItemRowCell);
+                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
+                if (valueCur.substring != null) {
+                    valueCur = valueCur.substring(0,1000);
+                }
+                tableItemRowCell.appendChild(document.createTextNode(valueCur));
+            });
+        });
+    }
+    
+    setUseCasePickList() {
+        this.selectList = document.createElement('select');
+        this.divTarget.appendChild(this.selectList);
+        let option = document.createElement('option');
+        this.selectList.appendChild(option);
+        let spanAttr = document.createElement('span');
+        option.appendChild(spanAttr);
+        spanAttr.appendChild(document.createTextNode('Select ...'));
+        let messageOut = {
+            Action: 'StartTemplateList',
+            TemplateElem: {
+                UseCaseName: this.useCase.Detail.Name
+            }
+        };
+        this.selectList.addEventListener('change', (event) => {
+            event.preventDefault();
+            console.log("click on option", event.target.value);
+            let itemPicked = event.target.value;
+        });
+        this.parent.toServer(messageOut);
+    }
+
+    setUseCasePickListRows() {
+        this.items.forEach(itemCur => {
+            let option = document.createElement('option');
+            this.selectList.appendChild(option);
+            let spanAttr = document.createElement('span');
+            option.appendChild(spanAttr);
+            this.useCase.Detail.Elems.forEach(elemCur => {
+                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : ''
+                spanAttr.appendChild(document.createTextNode(valueCur + ' | '));
+            });
+        });
     }
 
 }
