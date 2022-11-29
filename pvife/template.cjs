@@ -6,26 +6,9 @@ class TemplateItem extends TemplateItemClient{
         this.divTarget = divTarget;
     }
 
-    setUseCase(useCase) {
-        super.setUseCase(useCase);
-        console.log("TemplateItem::setUseCase()");
-        
-    }
+    renderUseCase() {
+        console.log("TemplateItem::renderUseCase()");
 
-    setDataItems(dataItems) {
-        super.setDataItems(dataItems);
-        console.log("TemplateItem::setDataItems()");
-        if (this.useCase.Detail.Flow === 'Parallel') {
-            switch (this.useCase.Detail.Rendering.Format) {
-                case 'Menu':
-
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            
-        }
     }
 
 }

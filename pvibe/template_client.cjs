@@ -50,6 +50,12 @@ class TemplateItemClient {
     setUseCase(useCase) {
         this.useCase = useCase;
         console.log("TemplateItemClient::setUseCase(): ", this.useCase);
+        this.renderUseCase();
+    }
+    
+    renderUseCase() {
+        console.log("TemplateItemClient::renderUseCase()");
+
     }
   
 	setDataItems(dataItems) {
