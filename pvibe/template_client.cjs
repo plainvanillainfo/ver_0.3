@@ -2,8 +2,6 @@ class TemplateItemClient {
     constructor(parent) {
         this.parent = parent;
         this.track = this.parent.track;
-        this.itemKey = null;
-        this.elems = {};
         this.toServer = this.toServer.bind(this);
     }
 
@@ -48,7 +46,16 @@ class TemplateItemClient {
         };
         this.parent.toServer(messageOut);
     }
-    
+
+    setUseCase(useCase) {
+        this.useCase = useCase;
+        console.log("TemplateItemClient::setUseCase(): ", this.useCase);
+    }
+  
+	setDataItems(dataItems) {
+		this.dataItems = dataItems;
+        console.log("TemplateItemClient::setDataItems(): ", this.dataItems);
+	}
 
 }
 

@@ -7,8 +7,13 @@ class TemplateItem extends TemplateItemClient{
     }
 
     setUseCase(useCase) {
-        this.useCase = useCase;
-        console.log("TemplateItem::setUseCase(): ", this.useCase);
+        super.setUseCase(useCase);
+        console.log("TemplateItem::setUseCase()");
+    }
+
+    setDataItems(dataItems) {
+        super.setDataItems(dataItems);
+        console.log("TemplateItem::setData()");
     }
 
 }

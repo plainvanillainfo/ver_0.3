@@ -209,7 +209,12 @@ class ClientWeb {
         this.useCases = entitlement.UseCases;
         this.identity = entitlement.Identity;
         this.useCaseRoot = this.useCases.find(useCaseCur => useCaseCur.Id === this.identity[0].UseCase);
-        this.tracks['1'].setUseCase(this.useCaseRoot);
+        this.dataItemsRoot = [
+			{
+				Key: this.identity[0].BaseObject
+			}
+        ];
+        this.tracks['1'].setRoot(this.useCaseRoot, this.dataItemsRoot);
     }
     
     checkUserAuthentication() {
@@ -286,9 +291,9 @@ class Track {
         this.div = div;
         this.session = this.parent;
         this.track = this;
-        //this.isClosed = false;
-        //this.dbPath = [];
         this.breadcrumbs = [];
+        this.fromServer = this.fromServer.bind(this);
+        this.toServer = this.toServer.bind(this);
 
         this.divBreadcrumbs = document.createElement('nav');
         this.div.appendChild(this.divBreadcrumbs);
@@ -301,14 +306,9 @@ class Track {
         this.divTarget = document.createElement('div');
         this.div.appendChild(this.divTarget);
 
-        this.divTargetSub = document.createElement('div');
-        //this.divTarget.appendChild(this.divTargetSub);
-
         this.templateItemRoot = new TemplateItem(this, this.divTarget);
         this.breadcrumbs.push(this.templateItemRoot);
 
-        this.fromServer = this.fromServer.bind(this);
-        this.toServer = this.toServer.bind(this);
     }
 
     fromServer(message) {
@@ -335,9 +335,10 @@ class Track {
         this.parent.toServer(messageOut);
     }
 
-    setUseCase(useCase) {
+    setRoot(useCase, dataItems) {
         console.log("Track::setUseCase()");
         this.templateItemRoot.setUseCase(useCase);
+        this.templateItemRoot.setData(dataItems);
         this.showCrumbs();
     }
 
