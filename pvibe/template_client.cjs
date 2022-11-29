@@ -55,13 +55,17 @@ class TemplateItemClient {
     
     renderUseCase() {
         console.log("TemplateItemClient::renderUseCase()");
-
     }
   
 	setDataItems(dataItems) {
 		this.dataItems = dataItems;
         console.log("TemplateItemClient::setDataItems(): ", this.dataItems);
+        this.renderDataItems();
 	}
+    
+    renderDataItems() {
+        console.log("TemplateItemClient::renderDataItems()");
+    }
 
 }
 

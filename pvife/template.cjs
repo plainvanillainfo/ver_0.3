@@ -10,6 +10,10 @@ class TemplateItem extends TemplateItemClient{
         console.log("TemplateItem::renderUseCase()");
 
     }
+    
+    renderDataItems() {
+        console.log("TemplateItem::renderDataItems()");
+    }
 
 }
 
