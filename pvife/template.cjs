@@ -15,7 +15,7 @@ class TemplateItem extends TemplateItemClient{
     setDataItems(dataItems) {
         super.setDataItems(dataItems);
         console.log("TemplateItem::setDataItems()");
-        switch (this.useCase.Rendering.Format) {
+        switch (this.useCase.Detail.Rendering.Format) {
 			case 'Menu':
 			
 				break;
