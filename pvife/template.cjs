@@ -13,7 +13,7 @@ class TemplateItem extends TemplateItemClient{
 
     setDataItems(dataItems) {
         super.setDataItems(dataItems);
-        console.log("TemplateItem::setData()");
+        console.log("TemplateItem::setDataItems()");
     }
 
 }

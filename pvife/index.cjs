@@ -338,7 +338,7 @@ class Track {
     setRoot(useCase, dataItems) {
         console.log("Track::setUseCase()");
         this.templateItemRoot.setUseCase(useCase);
-        this.templateItemRoot.setData(dataItems);
+        this.templateItemRoot.setDataItems(dataItems);
         this.showCrumbs();
     }
 
