@@ -15,13 +15,17 @@ class TemplateItem extends TemplateItemClient{
     setDataItems(dataItems) {
         super.setDataItems(dataItems);
         console.log("TemplateItem::setDataItems()");
-        switch (this.useCase.Detail.Rendering.Format) {
-			case 'Menu':
-			
-				break;
-			default:
-				break;
-		}
+        if (this.useCase.Detail.Flow === 'Parallel') {
+            switch (this.useCase.Detail.Rendering.Format) {
+                case 'Menu':
+
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            
+        }
     }
 
 }
