@@ -99,7 +99,7 @@ class TemplateItem extends TemplateItemClient{
             let itemLICur;
             itemLICur = document.createElement('li');
             this.ulMenu.appendChild(itemLICur);
-            itemLICur.Label = menuItemCur..Rendering.Label;
+            itemLICur.Label = menuItemCur.Rendering.Label;
             itemLICur.className = 'nav-item';
             this.ulMenu.ItemLIs.push(itemLICur);
             itemLICur.A = document.createElement('a');
