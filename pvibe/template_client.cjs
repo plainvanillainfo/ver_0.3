@@ -98,6 +98,7 @@ class TemplateElemClient {
         let messageOut = {
             Action: 'ContinueTemplateElem',
             TemplateElem: {
+				ItemKey: this.dataItemParent.Key,
                 UseCaseElemName: this.useCaseElem.Name,
                 ...messageIn
             }
