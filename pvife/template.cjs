@@ -151,7 +151,8 @@ class TemplateElem extends TemplateElemClient {
     }
 
     destroy() {
-
+        this.divItemParent.removeChild(this.divElem);
+        this.divElem = null;
     }
 }
 
