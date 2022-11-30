@@ -6,7 +6,7 @@ class TemplateItemClient {
     }
 
     fromServer(message) {
-        console.log("TemplateItem::fromServer(): ", message);
+        console.log("TemplateItemClient::fromServer(): ", message);
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateElem':
@@ -69,7 +69,42 @@ class TemplateItemClient {
 
 }
 
+class TemplateElemClient {
+    constructor(parent, useCaseElem) {
+        this.parent = parent;
+        this.useCaseElem = useCaseElem;
+        this.toServer = this.toServer.bind(this);
+    }
+
+    fromServer(message) {
+        console.log("TemplateElemClient::fromServer(): ", message);
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'ContinueTemplateList':
+                    if (this.templateList != null && message.TemplateList != null) {
+                        this.templateList.fromServer(message.TemplateList);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    toServer(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTemplateElem',
+            TemplateElem: {
+                UseCaseElemName: this.useCaseElem.Name,
+                ...messageIn
+            }
+        };
+        this.parent.toServer(messageOut);
+    }
+
+}
 
 module.exports = {
-    TemplateItemClient: TemplateItemClient
+    TemplateItemClient: TemplateItemClient,
+    TemplateElemClient: TemplateElemClient
 }

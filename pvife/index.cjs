@@ -303,10 +303,10 @@ class Track {
         this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
         this.olBreadcrumbs.className = 'breadcrumb';
 
-        this.divTarget = document.createElement('div');
-        this.div.appendChild(this.divTarget);
+        this.divItem = document.createElement('div');
+        this.div.appendChild(this.divItem);
 
-        this.templateItemRoot = new TemplateItem(this, this.divTarget);
+        this.templateItemRoot = new TemplateItem(this, this.divItem);
         this.breadcrumbs.push(this.templateItemRoot);
 
     }
