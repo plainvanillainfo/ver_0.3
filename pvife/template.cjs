@@ -104,7 +104,7 @@ class TemplateItem extends TemplateItemClient {
                 let useCaseElemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
                 let templateElemPicked = null;
                 if (this.elems[menuItemCur.Name] == null) {
-                    templateElemPicked = new TemplateElem(this, useCaseElemPicked, this.divMenuOptionPicked);
+                    templateElemPicked = new TemplateElem(this, dataItem, null, useCaseElemPicked, this.divMenuOptionPicked);
                     this.elems[menuItemCur.Name] = templateElemPicked;
                 } else {
                     templateElemPicked = this.elems[menuItemCur.Name];
@@ -123,8 +123,8 @@ class TemplateItem extends TemplateItemClient {
 }
 
 class TemplateElem extends TemplateElemClient {
-    constructor(parent, useCaseElem,  divItemParent) {
-        super(parent, useCaseElem);
+    constructor(parent, dataItemParent, dataElem, useCaseElem,  divItemParent) {
+        super(parent, dataItemParent, dataElem, useCaseElem);
         this.divItemParent = divItemParent;
         this.divElem = document.createElement('div')
         this.divItemParent.appendChild(this.divElem);
@@ -135,6 +135,11 @@ class TemplateElem extends TemplateElemClient {
     }
 
     show() {
+        if (this.dataElem == null) {
+            this.toServer({
+                Action: 'Watch'
+            });
+        }
         if (this.visible == false) {
             this.divElem.style.visibility = 'visible';
             this.divElem.style.display = 'block';
