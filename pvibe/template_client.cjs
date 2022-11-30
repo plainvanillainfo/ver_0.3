@@ -1,7 +1,8 @@
 class TemplateItemClient {
     constructor(parent) {
         this.parent = parent;
-        this.track = this.parent.track;
+        //this.track = this.parent.track;
+        this.elems = {};
         this.toServer = this.toServer.bind(this);
     }
 
