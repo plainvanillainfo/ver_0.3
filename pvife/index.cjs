@@ -306,8 +306,8 @@ class Track {
         this.divItem = document.createElement('div');
         this.div.appendChild(this.divItem);
 
-        this.templateItemRoot = new TemplateItem(this, this.divItem);
-        this.breadcrumbs.push(this.templateItemRoot);
+        //this.templateItemRoot = new TemplateItem(this, this.divItem);
+        //this.breadcrumbs.push(this.templateItemRoot);
 
     }
 
@@ -336,12 +336,14 @@ class Track {
     }
 
     setRoot(useCase, dataItems) {
-        console.log("Track::setUseCase()");
-        this.templateItemRoot.setUseCase(useCase);
+        console.log("Track::setRoot()");
+        this.templateItemRoot = new TemplateItem(this, useCase, this.divItem);
+        //this.templateItemRoot.setUseCase(useCase);
         this.templateItemRoot.setDataItems(dataItems);
         this.showCrumbs();
     }
 
+    /*
     pushBreadcrumb(templatePushed) {
         console.log("Track::pushBreadcrumb");
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
@@ -393,6 +395,7 @@ class Track {
             }
         });
     }
+    */
 
 }
 

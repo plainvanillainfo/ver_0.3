@@ -1,14 +1,16 @@
 const { TemplateItemClient, TemplateElemClient } = require('../pvibe/template_client.cjs');
 
 class TemplateItem extends TemplateItemClient {
-    constructor(parent, divItem) {
-        super(parent);
+    constructor(parent, useCase, divItem) {
+        super(parent, useCase);
         this.divItem = divItem;
     }
 
+    /*
     renderUseCase() {
         console.log("TemplateItem::renderUseCase()");
     }
+    */
     
     renderDataItems() {
         console.log("TemplateItem::renderDataItems()");

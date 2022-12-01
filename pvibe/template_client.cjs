@@ -1,7 +1,7 @@
 class TemplateItemClient {
-    constructor(parent) {
+    constructor(parent, useCase) {
         this.parent = parent;
-        //this.track = this.parent.track;
+        this.useCase = useCase;
         this.elems = {};
         this.toServer = this.toServer.bind(this);
     }
@@ -48,25 +48,19 @@ class TemplateItemClient {
         this.parent.toServer(messageOut);
     }
 
+	/*
     setUseCase(useCase) {
         this.useCase = useCase;
         console.log("TemplateItemClient::setUseCase(): ", this.useCase);
         this.renderUseCase();
     }
+    */
     
-    renderUseCase() {
-        console.log("TemplateItemClient::renderUseCase()");
-    }
-  
 	setDataItems(dataItems) {
 		this.dataItems = dataItems;
         console.log("TemplateItemClient::setDataItems(): ", this.dataItems);
         this.renderDataItems();
 	}
-    
-    renderDataItems() {
-        console.log("TemplateItemClient::renderDataItems()");
-    }
 
 }
 

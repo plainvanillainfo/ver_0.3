@@ -69,10 +69,11 @@ class Session {
         });
     }
 
+	/*
     accessNode(nodePath) {
         console.log("Session::accessNode");
         let retVal = null;
-        /*
+        
         if (this.isClosed == false) {
             let trackCur = nodePath.shift();
             console.log("Session::accessNode - trackCur.id: ", trackCur.id);
@@ -80,9 +81,10 @@ class Session {
                 retVal = trackCur.accessNode(nodePath);
             }
         }
-        */
+        
         return retVal;
     }
+    */
 
 }
 
@@ -128,15 +130,6 @@ class Track {
         };
         this.parent.sendMessage(messageOut);
     }
-
-	/*
-    getInitialMessage() {
-        return({
-            UseCaseSpec: this.templateItemRoot.useCase.spec,
-            ItemSpec:  this.templateItemRoot.item.getItemSpec()
-        })
-    }
-    */
 
 }
 

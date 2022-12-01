@@ -4,11 +4,11 @@ class TemplateItem {
     constructor(parent, useCase) {
         this.parent = parent;
         this.useCase = useCase;
+        this.track = this.parent.track;
         this.session = this.parent.session;
         this.elems = {};
-        //this.track = this.parent.track;
-        //this.key = null;
-        //this.dbPath = [...this.parent.dbPath];
+        this.key = null;
+        this.dbPath = [...this.parent.dbPath];
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
         this.sendViewResultToClient = this.sendViewResultToClient.bind(this);
@@ -60,7 +60,7 @@ class TemplateItem {
                 Key: result[0][this.keyName],
                 Attrs: result[0]
             };
-            //this.dbPath.push(this.item.Key);
+            this.dbPath.push(this.item.Key);
         }
         this.toClient({Item: this.item});
     }
@@ -71,60 +71,6 @@ class TemplateItem {
 
 }
 
-class TemplateElem {
-    constructor(parent, useCaseElem) {
-        this.parent = parent;
-        this.useCaseElem = useCaseElem;
-        this.session = this.parent.session;
-        this.itemParent = parent.item;
-        //this.track = this.parent.track;
-        //this.dbPath = [...this.parent.dbPath, this.useCaseElem.Name];
-        this.fromClient = this.fromClient.bind(this);
-        this.toClient = this.toClient.bind(this);
-    }
-
-    fromClient(message) {
-        console.log("TemplateElem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem);
-        if (this.useCaseElem.SubUseCase != null) {
-            console.log("TemplateElem::fromClient() - this.useCaseElem.SubUseCase: ", this.useCaseElem.SubUseCase);
-            let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
-            if (useCaseFound != null) {
-                switch (useCaseFound.Detail.Format) {
-                    case 'List':
-                    case 'PickList': 
-                        if (this.templateList == null) {
-                            this.templateList = new TemplateList(this, useCaseFound);
-                            let filter = '1=1';
-                            if (this.parent.item != null && useCaseFound.Detail.ViewFilterColumn != null) {
-                                filter = '"' + useCaseFound.Detail.ViewFilterColumn + "\" = '" + this.parent.item.Key + "'";
-                            }
-                            this.templateList.requestViewFromDB(filter);
-                        } else {
-                            if (message.TemplateList != null) {
-                                this.templateList.fromClient(message.TemplateList);
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-    }
-
-    toClient(messageIn) {
-        let messageOut = {
-            Action: 'ContinueTemplateElem',
-            TemplateElem: {
-                UseCaseElemName: this.useCaseElem.Name,
-                ...messageIn
-            }
-        };
-        this.parent.toClient(messageOut);
-    }
-}
-
-/*
 class TemplateList {
     constructor(parent, useCase) {
         this.parent = parent;
@@ -274,8 +220,96 @@ class TemplateList {
     }
 
 }
-*/
 
+class TemplateElem {
+    constructor(parent, useCaseElem) {
+        this.parent = parent;
+        this.useCaseElem = useCaseElem;
+        this.track = this.parent.track;
+        this.session = this.parent.session;
+        this.itemParent = parent.item;
+        this.dbPath = [...this.parent.dbPath, this.useCaseElem.Name];
+        this.fromClient = this.fromClient.bind(this);
+        this.toClient = this.toClient.bind(this);
+    }
+
+    fromClient(message) {
+        console.log("TemplateElem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem);
+        if (this.useCaseElem.SubUseCase != null) {
+            console.log("TemplateElem::fromClient() - this.useCaseElem.SubUseCase: ", this.useCaseElem.SubUseCase);
+            let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
+            if (useCaseFound != null) {
+                switch (useCaseFound.Detail.Format) {
+                    case 'List':
+                    case 'PickList': 
+                        if (this.templateList == null) {
+                            this.templateList = new TemplateList(this, useCaseFound);
+                            let filter = '1=1';
+                            if (this.parent.item != null && useCaseFound.Detail.ViewFilterColumn != null) {
+                                filter = '"' + useCaseFound.Detail.ViewFilterColumn + "\" = '" + this.parent.item.Key + "'";
+                            }
+                            this.templateList.requestViewFromDB(filter);
+                        } else {
+                            if (message.TemplateList != null) {
+                                this.templateList.fromClient(message.TemplateList);
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        /*
+        if (this.useCaseElem.Format != null) {
+            switch (this.useCaseElem.Format) {
+                case 'MenuOption':
+                case 'DrillDown':
+                case 'Context':
+                    if (this.useCaseElem.SubUseCase != null) {
+                        console.log("TemplateElem::fromClient() - this.useCaseElem.SubUseCase: ", this.useCaseElem.SubUseCase);
+                        let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
+                        if (useCaseFound != null) {
+                            switch (useCaseFound.Detail.Format) {
+                                case 'List':
+                                case 'PickList': 
+                                    if (this.templateList == null) {
+                                        this.templateList = new TemplateList(this, useCaseFound);
+                                        let filter = '1=1';
+                                        if (this.parent.item != null && useCaseFound.Detail.ViewFilterColumn != null) {
+                                            filter = '"' + useCaseFound.Detail.ViewFilterColumn + "\" = '" + this.parent.item.Key + "'";
+                                        }
+                                        this.templateList.requestViewFromDB(filter);
+                                    } else {
+                                        if (message.TemplateList != null) {
+                                            this.templateList.fromClient(message.TemplateList);
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        */
+    }
+
+    toClient(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTemplateElem',
+            TemplateElem: {
+                UseCaseElemName: this.useCaseElem.Name,
+                ...messageIn
+            }
+        };
+        this.parent.toClient(messageOut);
+    }
+}
 
 module.exports = {
     TemplateItem: TemplateItem
