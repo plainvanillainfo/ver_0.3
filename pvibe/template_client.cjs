@@ -48,14 +48,6 @@ class TemplateItemClient {
         this.parent.toServer(messageOut);
     }
 
-	/*
-    setUseCase(useCase) {
-        this.useCase = useCase;
-        console.log("TemplateItemClient::setUseCase(): ", this.useCase);
-        this.renderUseCase();
-    }
-    */
-    
 	setDataItems(dataItems) {
 		this.dataItems = dataItems;
         console.log("TemplateItemClient::setDataItems(): ", this.dataItems);

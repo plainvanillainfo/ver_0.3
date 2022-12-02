@@ -5,12 +5,6 @@ class TemplateItem extends TemplateItemClient {
         super(parent, useCase);
         this.divItem = divItem;
     }
-
-    /*
-    renderUseCase() {
-        console.log("TemplateItem::renderUseCase()");
-    }
-    */
     
     renderDataItems() {
         console.log("TemplateItem::renderDataItems()");
