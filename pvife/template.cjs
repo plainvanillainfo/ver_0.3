@@ -6,6 +6,7 @@ class TemplateItem extends TemplateItemClient {
         this.divItem = divItem;
     }
     
+    /*
     renderDataItems() {
         console.log("TemplateItem::renderDataItems()");
         switch (this.useCase.Detail.Cardinality) {
@@ -21,6 +22,7 @@ class TemplateItem extends TemplateItemClient {
                 break;
         }
     }
+    */
 
     renderSingleDataItem(dataItem) {
         switch (this.useCase.Detail.Flow) {

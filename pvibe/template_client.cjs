@@ -51,7 +51,26 @@ class TemplateItemClient {
 	setDataItems(dataItems) {
 		this.dataItems = dataItems;
         console.log("TemplateItemClient::setDataItems(): ", this.dataItems);
-        this.renderDataItems();
+        //this.renderDataItems();
+        switch (this.useCase.Detail.Cardinality) {
+            case 'Single':
+                if (this.dataItems.length === 1) {
+					if (this.dataItems[0].Elems == null) {
+			            this.toServer({
+			                Action: 'Watch'
+			            });
+					} else {
+						this.renderSingleDataItem(this.dataItems[0]);
+					}
+                }
+                break;
+            case 'Multiple':
+                this.renderMultipleDataItems(this.dataItems);
+                break;
+            default:
+                break;
+        }
+        
 	}
 
 }
