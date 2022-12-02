@@ -15,6 +15,9 @@ class TemplateItem {
         console.log("TemplateItem::fromClient(): ", message);
         if (message.Action != null) {
             switch (message.Action) {
+                case 'Watch':
+                
+                    break;
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
                         if(this.elems[message.TemplateElem.UseCaseElemName] == null) {
