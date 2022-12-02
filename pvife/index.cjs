@@ -298,17 +298,13 @@ class Track {
         this.divBreadcrumbs = document.createElement('nav');
         this.div.appendChild(this.divBreadcrumbs);
         this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
-        //this.divBreadcrumbs.style.setProperty('--bs-breadcrumb-divider', '>');
+
         this.olBreadcrumbs = document.createElement('ol');
         this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
         this.olBreadcrumbs.className = 'breadcrumb';
 
         this.divItem = document.createElement('div');
         this.div.appendChild(this.divItem);
-
-        //this.templateItemRoot = new TemplateItem(this, this.divItem);
-        //this.breadcrumbs.push(this.templateItemRoot);
-
     }
 
     fromServer(message) {
@@ -338,9 +334,7 @@ class Track {
     setRoot(useCase, dataItems) {
         console.log("Track::setRoot()");
         this.templateItemRoot = new TemplateItem(this, useCase, this.divItem);
-        //this.templateItemRoot.setUseCase(useCase);
         this.templateItemRoot.setDataItems(dataItems);
-        this.showCrumbs();
     }
 
     /*

@@ -6,9 +6,6 @@ class TemplateItem {
         this.useCase = useCase;
         this.session = this.parent.session;
         this.elems = {};
-        //this.track = this.parent.track;
-        //this.key = null;
-        //this.dbPath = [...this.parent.dbPath];
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
         this.sendViewResultToClient = this.sendViewResultToClient.bind(this);
@@ -77,8 +74,6 @@ class TemplateElem {
         this.useCaseElem = useCaseElem;
         this.session = this.parent.session;
         this.itemParent = parent.item;
-        //this.track = this.parent.track;
-        //this.dbPath = [...this.parent.dbPath, this.useCaseElem.Name];
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
     }
@@ -123,159 +118,6 @@ class TemplateElem {
         this.parent.toClient(messageOut);
     }
 }
-
-/*
-class TemplateList {
-    constructor(parent, useCase) {
-        this.parent = parent;
-        this.useCase = useCase;
-        this.track = this.parent.track;
-        this.session = this.parent.session;
-        this.childItemList = [];
-        this.childItemTemplates = {};
-        this.childItemTemplateEmpty = null;
-        this.dbPath = [...this.parent.dbPath];
-        this.fromClient = this.fromClient.bind(this);
-        this.toClient = this.toClient.bind(this);
-        this.sendViewResultToClient = this.sendViewResultToClient.bind(this);
-    }
-
-    fromClient(message) {
-        console.log("TemplateList::fromClient(): ", message);
-        if (message.Action != null) {
-            switch (message.Action) {
-                case 'StartTemplateItem':
-                    if (message.TemplateItem != null && message.TemplateItem.ItemKey != null && this.keyName != null) {
-                        let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.UpdateUseCase);
-                        if (useCaseFound != null) {
-                            this.childItemTemplates[message.TemplateItem.ItemKey] = new TemplateItem(this, useCaseFound);
-                            let filter = '"' + this.keyName + "\" = '" + message.TemplateItem.ItemKey + "'";
-                            this.childItemTemplates[message.TemplateItem.ItemKey].requestViewFromDB(filter);
-                        }
-                    }
-                    break;
-                case 'ContinueTemplateItem':
-                    if (message.TemplateItem != null) {
-                        if (message.TemplateItem.ItemKey != null) {
-                            if (this.childItemTemplates[message.TemplateItem.ItemKey] != null) {
-                                this.childItemTemplates[message.TemplateItem.ItemKey].fromClient(message.TemplateItem);
-                            }
-                        } else {
-                            if (message.TemplateItem.TemplateElem != null) {
-                                //console.trace("TemplateList::fromClient() - Continue TemplateItem: ", message.TemplateItem.TemplateElem);
-                                if (message.TemplateItem.TemplateElem.Action != null) {
-                                    if (this.childItemTemplateEmpty == null) {
-                                        let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.AddUseCase);
-                                        if (useCaseFound != null) {
-                                            this.childItemTemplateEmpty = new TemplateItem(this, useCaseFound);
-                                        }
-                                    }
-                                    if (this.childItemTemplateEmpty != null) {
-                                        this.childItemTemplateEmpty.fromClient(message.TemplateItem);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case 'UpdateItem':
-                    if (message.TemplateItem != null && message.TemplateItem.ItemData != null && message.TemplateItem.ItemData.Attrs != null) {
-                        let itemKey = null;
-                        let addView = null;
-                        if (message.TemplateItem.ItemData.ItemKey == null) {
-                            //console.log("AAA - this.useCase: ", this.useCase);
-                            let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.AddUseCase);
-                            if (useCaseFound != null) {
-                                if (useCaseFound.Detail.AutoKey != null && useCaseFound.Detail.AutoKey === 'Yes') {
-                                    console.log("BBB - useCaseFound: ", useCaseFound);
-                                    itemKey = '';
-                                }
-                                if (useCaseFound.Detail.KeyAttribute != null && message.TemplateItem.ItemData.Attrs[useCaseFound.Detail.KeyAttribute] != null) {
-                                    itemKey = '';
-                                }
-                                if (useCaseFound.Detail.AddView != null) {
-                                    addView = useCaseFound.Detail.AddView;
-                                }
-                            }
-                        } else {
-                            itemKey = message.TemplateItem.ItemData.ItemKey;
-                        }
-                        if (itemKey != null && message.TemplateItem.ItemData.Attrs != null) {
-                            console.log(" message.TemplateItem.ItemData: ", message.TemplateItem.ItemData);
-                            let data = '';
-                            if (itemKey !== '') {
-                                for (let attrCur in message.TemplateItem.ItemData.Attrs) {
-                                    let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
-                                    data += ('"' + attrCur + '" = ');
-                                    data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
-                                }
-                                if (data.length > 0) {
-                                    let filter = '"' + this.keyName + "\" = '" + itemKey + "'";
-                                    data = data.slice(0, -1);
-                                    this.childItemTemplates[itemKey].requestUpdateToDB(filter, data);
-                                }
-                            } else {
-                                let columns = '(';
-                                data = '';
-                                for (let attrCur in message.TemplateItem.ItemData.Attrs) {
-                                    let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
-                                    columns += ('"' + attrCur + '",');
-                                    data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
-                                }
-                                if (data.length > 0) {
-                                    columns = columns.slice(0, -1);
-                                    columns += ') VALUES (';
-                                    data = data.slice(0, -1);
-                                    data += ')';
-                                    this.requestInsertToDB(addView, columns + data);
-                                }
-                            }
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    toClient(messageIn) {
-        let messageOut = {
-            Action: 'ContinueTemplateList',
-            TemplateList: {
-                UseCaseName: this.useCase.Detail.Name,
-                ...messageIn
-            }
-        };
-        this.parent.toClient(messageOut);
-    }
-
-    async requestViewFromDB(filter) {
-        await this.session.database.getView(this.useCase.Detail.View, filter, this.sendViewResultToClient);
-    }
-
-    async sendViewResultToClient(result) {
-        //console.log(result);
-        this.childItemList = [];
-        if (result.length > 0) {
-            this.keyName = Object.keys(result[0])[0];
-            result.forEach(resultCur => {
-                this.childItemList.push({
-                    Key: resultCur[this.keyName],
-                    Attrs: resultCur
-                });
-            });
-        }
-        this.toClient({Items: this.childItemList});
-    }
-
-    async requestInsertToDB(addView, data) {
-        await this.session.database.addData(addView, data, this.sendViewResultToClient);
-    }
-
-}
-*/
-
 
 module.exports = {
     TemplateItem: TemplateItem
