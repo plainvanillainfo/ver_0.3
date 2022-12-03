@@ -16,7 +16,7 @@ class TemplateItem {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Watch':
-                
+					
                     break;
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
@@ -48,6 +48,10 @@ class TemplateItem {
         };
         this.parent.toClient(messageOut);
     }
+    
+	setDataItems(dataItems) {
+		this.dataItems = dataItems;
+	}
 
     async requestViewFromDB(filter) {
         await this.session.database.getView(this.useCase.Detail.RetrieveView, filter, this.sendViewResultToClient);

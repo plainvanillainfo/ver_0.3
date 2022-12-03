@@ -108,11 +108,16 @@ class Track {
                 let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.session.entitlement.Identity[0].UseCase);
                 if (useCaseFound != null ) {
                     this.templateItemRoot = new TemplateItem(this, useCaseFound);
+                    this.templateItemRoot.setDataItems([{
+						Key: this.session.entitlement.Identity[0].BaseObject
+					}]);
                 }
             }
             switch (message.Action) {
                 case 'ContinueTemplateItem':
-                    this.templateItemRoot.fromClient(message.TemplateItem);
+					if (this.templateItemRoot != null) {
+						this.templateItemRoot.fromClient(message.TemplateItem);
+					}
                     break;
                 default:
                     break;
