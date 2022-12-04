@@ -57,7 +57,7 @@ class TemplateItemClient {
                 if (this.dataItems.length === 1) {
 					if (this.dataItems[0].Elems == null) {
 			            this.toServer({
-			                Action: 'Watch'
+			                Action: 'Start'
 			            });
 					} else {
 						this.renderSingleDataItem(this.dataItems[0]);
