@@ -44,7 +44,7 @@ class Database {
         });
     }
 
-    async getView(view, filter, sendViewResultToClient) {
+    async doSelect(view, filter, doneSelect) {
         let query = 'SELECT * FROM data."' + view + '" WHERE '+filter;
         console.log("Database::getView() - query: ", query);
         this.client.query(
@@ -52,12 +52,12 @@ class Database {
             (err, res) => {
                 if (err) {
                 } else {
-                    sendViewResultToClient(res.rows);
+                    doneSelect(res.rows);
                 }
         });
     }
 
-    async setWatch(channel, notifyWatcher) {
+    async doListen(channel, notifyListener) {
         let query = 'LISTEN record_changed';
         console.log("Database::setWatch() - query: ", query);
         this.client.query(query);
@@ -65,12 +65,12 @@ class Database {
             //console.log(msg.processId) // pid
             //console.log(msg.channel) // foo
             //console.log(msg.payload) // bar!
-            notifyWatcher(msg);
+            notifyListener(msg);
           }
         )        
     }
 
-    async putData(view, filter, data, sendViewResultToClient) {
+    async doUpdate(view, filter, data, doneUpdate) {
         let query = 'UPDATE data."' + view + '" SET ' + data + ' WHERE ' + filter + ' RETURNING * ';
         console.log("Database::putData() - query: ", query);
         this.client.query(
@@ -78,12 +78,12 @@ class Database {
             (err, res) => {
                 if (err) {
                 } else {
-                    sendViewResultToClient(res.rows);
+                    doneUpdate(res.rows);
                 }
         });
     }
 
-    async addData(view, columnsAnddata, sendViewResultToClient) {
+    async doInsert(view, columnsAnddata, doneInsert) {
         let query = 'INSERT INTO data."' + view + '" ' + columnsAnddata + ' RETURNING * ';
         console.log("Database::addData() - query: ", query);
         this.client.query(
@@ -91,7 +91,7 @@ class Database {
             (err, res) => {
                 if (err) {
                 } else {
-                    sendViewResultToClient(res.rows);
+                    doneInsert(res.rows);
                 }
         });
     }

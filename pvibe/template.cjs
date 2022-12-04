@@ -8,7 +8,7 @@ class TemplateItem {
         this.elems = {};
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
-        this.sendViewResultToClient = this.sendViewResultToClient.bind(this);
+        this.dbDoneSelect = this.dbDoneSelect.bind(this);
     }
 
     fromClient(message) {
@@ -16,6 +16,8 @@ class TemplateItem {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
+                    break;
+                case 'Refresh':
                     break;
                 case 'Stop':
                     break;
@@ -54,24 +56,27 @@ class TemplateItem {
 		this.dataItems = dataItems;
 	}
 
-    async requestViewFromDB(filter) {
-        await this.session.database.getView(this.useCase.Detail.RetrieveView, filter, this.sendViewResultToClient);
+    async dbDoSelect(filter) {
+        await this.session.database.doSelect(this.useCase.Detail.RetrieveView, filter, this.dbDoneSelect);
     }
 
-    async sendViewResultToClient(result) {
+    async dbDoUpdate(filter, data) {
+        await this.session.database.doUpdate(this.useCase.Detail.UpdateView, filter, data, this.dbDoneSelect);
+    }
+
+    async dbDoInsert(filter, data) {
+        await this.session.database.doInsert(this.useCase.Detail.UpdateView, filter, data, this.dbDoneSelect);
+    }
+
+    async dbDoneSelect(result) {
         if (result.length === 1) {
             this.keyName = Object.keys(result[0])[0];
             this.item = {
                 Key: result[0][this.keyName],
                 Attrs: result[0]
             };
-            //this.dbPath.push(this.item.Key);
         }
         this.toClient({Item: this.item});
-    }
-
-    async requestUpdateToDB(filter, data) {
-        await this.session.database.putData(this.useCase.Detail.UpdateView, filter, data, this.sendViewResultToClient);
     }
 
 }
