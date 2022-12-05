@@ -7,6 +7,7 @@ class TemplateItem {
         this.session = this.parent.session;
         this.elems = {};
         this.selectQuery = null;
+        this.listenQuery = null;
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
         this.dbDoneSelect = this.dbDoneSelect.bind(this);
@@ -60,6 +61,7 @@ class TemplateItem {
 
 	constructSelect() {
         console.log("TemplateItem::constructSelect() -: ");
+        this.selectQuery = '';
 		this.useCase.Detail.Attributes.forEach(attributeCur => {
 			this.constructSelectNode(attributeCur);
 		});
