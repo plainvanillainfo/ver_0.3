@@ -59,7 +59,8 @@ class TemplateItem {
 	}
 
 	constructSelect() {
-		this.useCase.Detail.Attributes;
+        console.log("TemplateItem::constructSelect() - attributes: ", this.useCase.Detail.Attributes);
+		;
 	}
 
 	constructListen(selectResult) {
