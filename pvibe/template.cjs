@@ -59,8 +59,28 @@ class TemplateItem {
 	}
 
 	constructSelect() {
-        console.log("TemplateItem::constructSelect() - attributes: ", this.useCase.Detail.Attributes);
-		;
+        console.log("TemplateItem::constructSelect() -: ");
+		this.useCase.Detail.Attributes.forEach(attributeCur => {
+			this.constructSelectNode(attributeCur);
+		});
+	}
+
+	constructSelectNode(attributeNode) {
+        console.log("TemplateItem::constructSelectNode() - attributeNode: ", attributeNode.Name, attributeNode.Type);
+		if (attributeNode.Paths != null) {
+			attributeNode.Paths.forEach(pathCur => {
+				this.constructSelectNodePathSeg(pathCur);
+			});
+		}
+	}
+
+	constructSelectNodePathSeg(pathSeg) {
+        console.log("TemplateItem::constructSelectNodePathSeg() - pathSeg: ", pathSeg.Child);
+		if (pathSeg.Paths != null) {
+			pathSeg.Paths.forEach(subPathCur => {
+				this.constructSelectNodePathSeg(subPathCur);
+			});
+		}
 	}
 
 	constructListen(selectResult) {
