@@ -6,6 +6,7 @@ class TemplateItem {
         this.useCase = useCase;
         this.session = this.parent.session;
         this.elems = {};
+        this.selectQuery = null;
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
         this.dbDoneSelect = this.dbDoneSelect.bind(this);
@@ -16,6 +17,7 @@ class TemplateItem {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
+					this.constructSelect();
                     break;
                 case 'Refresh':
                     break;
@@ -56,6 +58,13 @@ class TemplateItem {
 		this.dataItems = dataItems;
 	}
 
+	constructSelect() {
+		this.useCase.Detail.Attributes;
+	}
+
+	constructListen(selectResult) {
+	}
+	
     async dbDoSelect(filter) {
         await this.session.database.doSelect(this.useCase.Detail.RetrieveView, filter, this.dbDoneSelect);
     }
@@ -70,6 +79,9 @@ class TemplateItem {
 
     async dbDoneSelect(result) {
         if (result.length === 1) {
+			if (this.useCase.Detail.Listen != null && this.useCase.Detail.Listen === 'Yes') {
+				this.constructListen(result);
+			}
             this.keyName = Object.keys(result[0])[0];
             this.item = {
                 Key: result[0][this.keyName],
