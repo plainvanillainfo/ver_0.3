@@ -64,8 +64,8 @@ class TemplateItem {
         console.log("TemplateItem::constructSelect() -: ");
         this.selectQuery = 'SELECT ';
         this.selectColumns = '';
-        this.selectFrom = 'data."'+ this.useCase.Detail.Class + '" ';
-        this.selectWhere = '1=1';
+        this.selectFrom = 'FROM data."'+ this.useCase.Detail.Class + '" ';
+        this.selectWhere = 'WHERE 1=1';
         this.selectOrderBy = '';
 		this.useCase.Detail.Attributes.forEach(attributeCur => {
 			this.constructSelectNode(attributeCur);
