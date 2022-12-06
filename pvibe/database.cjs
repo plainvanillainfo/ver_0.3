@@ -44,9 +44,9 @@ class Database {
         });
     }
 
-    async doSelect(view, filter, doneSelect) {
-        let query = 'SELECT * FROM data."' + view + '" WHERE '+filter;
-        console.log("Database::getView() - query: ", query);
+    async doSelect(query/*view, filter,*/ doneSelect) {
+        //let query = 'SELECT * FROM data."' + view + '" WHERE '+filter;
+        console.log("Database::doSelect() - query: ", query);
         this.client.query(
             query, 
             (err, res) => {

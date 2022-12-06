@@ -10,7 +10,7 @@ class TemplateItem {
         this.listenQuery = null;
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
-        this.dbDoneSelect = this.dbDoneSelect.bind(this);
+        this.receiveFromDb = this.receiveFromDb.bind(this);
     }
 
     fromClient(message) {
@@ -19,6 +19,7 @@ class TemplateItem {
             switch (message.Action) {
                 case 'Start':
 					this.constructSelect();
+					this.sendToDbSelect();
                     break;
                 case 'Refresh':
                     break;
@@ -61,18 +62,29 @@ class TemplateItem {
 
 	constructSelect() {
         console.log("TemplateItem::constructSelect() -: ");
-        this.selectQuery = '';
+        this.selectQuery = 'SELECT ';
+        this.selectColumns = '';
+        this.selectFrom = 'data."'+ this.useCase.Detail.Class + '" ';
+        this.selectWhere = '1=1';
+        this.selectOrderBy = '';
 		this.useCase.Detail.Attributes.forEach(attributeCur => {
 			this.constructSelectNode(attributeCur);
 		});
+		this.selectQuery += (this.selectColumns.slice(0, -1) + ' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
 	}
 
 	constructSelectNode(attributeNode) {
         console.log("TemplateItem::constructSelectNode() - attributeNode: ", attributeNode.Name, attributeNode.Type);
-		if (attributeNode.Paths != null) {
-			attributeNode.Paths.forEach(pathCur => {
-				this.constructSelectNodePathSeg(pathCur);
-			});
+        if (attributeNode.Type === 'Component') {
+			this.selectColumns += ('"' + attributeNode.Column + '",' );
+		} else {
+			/*
+			if (attributeNode.Paths != null) {
+				attributeNode.Paths.forEach(pathCur => {
+					this.constructSelectNodePathSeg(pathCur);
+				});
+			}
+			*/
 		}
 	}
 
@@ -87,20 +99,25 @@ class TemplateItem {
 
 	constructListen(selectResult) {
 	}
-	
-    async dbDoSelect(filter) {
-        await this.session.database.doSelect(this.useCase.Detail.RetrieveView, filter, this.dbDoneSelect);
+
+    async sendToDbSelect() {
+        //await this.session.database.doSelect(this.useCase.Detail.RetrieveView, filter, this.receiveFromDb);
+        await this.session.database.doSelect(this.selectQuery, this.receiveFromDb);
     }
 
-    async dbDoUpdate(filter, data) {
-        await this.session.database.doUpdate(this.useCase.Detail.UpdateView, filter, data, this.dbDoneSelect);
+    async sendToDbUpdate(filter, data) {
+        await this.session.database.doUpdate(this.useCase.Detail.UpdateView, filter, data, this.receiveFromDb);
     }
 
-    async dbDoInsert(filter, data) {
-        await this.session.database.doInsert(this.useCase.Detail.UpdateView, filter, data, this.dbDoneSelect);
+    async sendToDbInsert(filter, data) {
+        await this.session.database.doInsert(this.useCase.Detail.UpdateView, filter, data, this.receiveFromDb);
     }
 
-    async dbDoneSelect(result) {
+    async receiveFromDb(result) {
+		result.forEach(resultCur => {
+			console.log("TemplateItem::receiveFromDb() - resultCur:\n", resultCur);
+		});
+		/*
         if (result.length === 1) {
 			if (this.useCase.Detail.Listen != null && this.useCase.Detail.Listen === 'Yes') {
 				this.constructListen(result);
@@ -112,6 +129,7 @@ class TemplateItem {
             };
         }
         this.toClient({Item: this.item});
+        */
     }
 
 }
