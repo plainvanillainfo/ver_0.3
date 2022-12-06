@@ -140,15 +140,15 @@ class Application {
 			this.sqlScriptData += '    "ChildId" uuid NOT NULL\n);\n';
 
 			this.sqlScriptData += ('ALTER TABLE ONLY data."' + childTableName + '"\n');
-			this.sqlScriptData += ('    ADD CONSTRAINT "' + childCur.Name + '_pkey" ');
+			this.sqlScriptData += ('    ADD CONSTRAINT "' + childTableName + '_pkey" ');
 			this.sqlScriptData += ('PRIMARY KEY ("ParentId", "ChildId") ;\n');
 
 			this.sqlScriptData += ('ALTER TABLE ONLY data."' + childTableName + '"\n');
-			this.sqlScriptData += ('    ADD CONSTRAINT "' + classInfo.Name + '_REFERENCE" ');
+			this.sqlScriptData += ('    ADD CONSTRAINT "' + childTableName + '_' + classInfo.Name + '_REFERENCE" ');
 			this.sqlScriptData += ('FOREIGN KEY ("ParentId") REFERENCES data."' + classInfo.tableName + '"("Id") NOT VALID;\n');
 
 			this.sqlScriptData += ('ALTER TABLE ONLY data."' + childTableName + '"\n');
-			this.sqlScriptData += ('    ADD CONSTRAINT "' + childCur.Name + '_REFERENCE" ');
+			this.sqlScriptData += ('    ADD CONSTRAINT "' + childTableName + '_' + childCur.Name + '_REFERENCE" ');
 			this.sqlScriptData += ('FOREIGN KEY ("ChildId") REFERENCES data."' + childClass.tableName + '"("Id") NOT VALID;\n');
 		});
 		classInfo.Extensions.forEach(extensionCur => {
