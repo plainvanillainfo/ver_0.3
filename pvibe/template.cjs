@@ -62,7 +62,7 @@ class TemplateItem {
 
 	constructSelect() {
         console.log("TemplateItem::constructSelect() -: ");
-        this.selectQuery = 'SELECT ';
+        this.selectQuery = 'SELECT "Id","Extension",';
         this.selectColumns = '';
         this.selectFrom = 'FROM data."'+ this.useCase.Detail.Class + '" ';
         this.selectWhere = 'WHERE 1=1';
