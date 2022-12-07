@@ -5,12 +5,17 @@ class TemplateItem {
         this.parent = parent;
         this.useCase = useCase;
         this.session = this.parent.session;
-        this.elems = {};
+        //this.elems = {};
+        this.dataItems = [];
+        this.items = {};
         this.selectQuery = null;
         this.listenQuery = null;
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
         this.receiveFromDb = this.receiveFromDb.bind(this);
+        if (this.parent.itemParent != null) {
+			console.log("TemplateItem::constructor() - this.parent.itemParent: ", this.parent.itemParent);
+		}
     }
 
     fromClient(message) {
@@ -29,16 +34,29 @@ class TemplateItem {
                     break;
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
-                        if(this.elems[message.TemplateElem.UseCaseElemName] == null) {
-                            let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.TemplateElem.UseCaseElemName);
-                            if (useCaseElemFound != null) {
-                                let templateElemNew = new TemplateElem(this, useCaseElemFound);
-                                this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
-                            }
-                        }
-                        if (this.elems[message.TemplateElem.UseCaseElemName] != null) {
-                            this.elems[message.TemplateElem.UseCaseElemName].fromClient(message.TemplateElem);
-                        }
+						if (message.TemplateElem.ItemKey != null) {
+							let dataItemCur = this.dataItems.find(dataItemCur => dataItemCur.Key === message.TemplateElem.ItemKey);
+							if (dataItemCur != null) {
+								let itemCur;
+								if (this.items[dataItemCur.Key] == null) {
+									itemCur = {Key: dataItemCur.Key, Elems: {}};
+									this.items[dataItemCur.Key] = itemCur;
+								} else {
+									itemCur = this.items[dataItemCur.Key];
+								}
+		                        if(itemCur.Elems[message.TemplateElem.UseCaseElemName] == null) {
+		                            let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.TemplateElem.UseCaseElemName);
+		                            if (useCaseElemFound != null) {
+		                                let templateElemNew = new TemplateElem(this, useCaseElemFound, itemCur);
+		                                itemCur.Elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
+		                            }
+		                        }
+		                        if (itemCur.Elems[message.TemplateElem.UseCaseElemName] != null) {
+		                            itemCur.Elems[message.TemplateElem.UseCaseElemName].fromClient(message.TemplateElem);
+		                        }
+							}
+						}
+						
                     }
                     break;
                 default:
@@ -123,55 +141,20 @@ class TemplateItem {
 }
 
 class TemplateElem {
-    constructor(parent, useCaseElem) {
+    constructor(parent, useCaseElem, itemParent) {
         this.parent = parent;
         this.useCaseElem = useCaseElem;
         this.session = this.parent.session;
-        this.itemParent = parent.item;
+        this.itemParent = itemParent;
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
     }
 
     fromClient(message) {
         console.log("TemplateElem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem, "\n");
-        
-        /*
-        if (this.useCaseElem.SubUseCase != null) {
-            console.log("TemplateElem::fromClient() - this.useCaseElem.SubUseCase: ", this.useCaseElem.SubUseCase);
-            let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
-            if (useCaseFound != null) {
-                switch (useCaseFound.Detail.Format) {
-                    case 'List':
-                    case 'PickList': 
-                        if (this.templateList == null) {
-                            this.templateList = new TemplateList(this, useCaseFound);
-                            let filter = '1=1';
-                            if (this.parent.item != null && useCaseFound.Detail.ViewFilterColumn != null) {
-                                filter = '"' + useCaseFound.Detail.ViewFilterColumn + "\" = '" + this.parent.item.Key + "'";
-                            }
-                            this.templateList.requestViewFromDB(filter);
-                        } else {
-                            if (message.TemplateList != null) {
-                                this.templateList.fromClient(message.TemplateList);
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        */
-
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
-					/*
-					if (this.useCase.Detail.Flow === 'Serial') {
-						this.constructSelect();
-						this.sendToDbSelect();
-					}
-					*/
 			        if (this.useCaseElem.SubUseCase != null) {
 			            console.log("TemplateElem::fromClient() - this.useCaseElem.SubUseCase: ", this.useCaseElem.SubUseCase);
 			            let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
