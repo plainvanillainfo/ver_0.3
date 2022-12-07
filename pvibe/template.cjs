@@ -133,7 +133,7 @@ class TemplateElem {
     }
 
     fromClient(message) {
-        console.log("TemplateElem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem);
+        console.log("TemplateElem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem, "\n");
         
         /*
         if (this.useCaseElem.SubUseCase != null) {
@@ -166,9 +166,19 @@ class TemplateElem {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
+					/*
 					if (this.useCase.Detail.Flow === 'Serial') {
 						this.constructSelect();
 						this.sendToDbSelect();
+					}
+					*/
+			        if (this.useCaseElem.SubUseCase != null) {
+			            console.log("TemplateElem::fromClient() - this.useCaseElem.SubUseCase: ", this.useCaseElem.SubUseCase);
+			            let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
+			            if (useCaseFound != null) {
+							console.log("useCaseFound:\n", useCaseFound, "\n");
+							this.templateItemRoot = new TemplateItem(this, useCaseFound);
+						}
 					}
                     break;
                 default:
