@@ -101,7 +101,6 @@ class TemplateItem {
 	}
 
     async sendToDbSelect() {
-        //await this.session.database.doSelect(this.useCase.Detail.RetrieveView, filter, this.receiveFromDb);
         await this.session.database.doSelect(this.selectQuery, this.receiveFromDb);
     }
 
@@ -117,19 +116,6 @@ class TemplateItem {
 		result.forEach(resultCur => {
 			console.log("TemplateItem::receiveFromDb() - resultCur:\n", resultCur);
 		});
-		/*
-        if (result.length === 1) {
-			if (this.useCase.Detail.Listen != null && this.useCase.Detail.Listen === 'Yes') {
-				this.constructListen(result);
-			}
-            this.keyName = Object.keys(result[0])[0];
-            this.item = {
-                Key: result[0][this.keyName],
-                Attrs: result[0]
-            };
-        }
-        this.toClient({Item: this.item});
-        */
     }
 
 }
