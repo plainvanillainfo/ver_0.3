@@ -62,7 +62,7 @@ class TemplateItem {
 
 	constructSelect() {
         console.log("TemplateItem::constructSelect() -: ");
-        this.selectQuery = 'SELECT "Id","Extension",';
+        this.selectQuery = 'SELECT "Id","Extension"';
         this.selectColumns = '';
         this.selectFrom = 'FROM data."'+ this.useCase.Detail.Class + '" ';
         this.selectWhere = 'WHERE 1=1';
@@ -70,13 +70,13 @@ class TemplateItem {
 		this.useCase.Detail.Attributes.forEach(attributeCur => {
 			this.constructSelectNode(attributeCur);
 		});
-		this.selectQuery += (this.selectColumns.slice(0, -1) + ' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
+		this.selectQuery += (this.selectColumns + ' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
 	}
 
 	constructSelectNode(attributeNode) {
         console.log("TemplateItem::constructSelectNode() - attributeNode: ", attributeNode.Name, attributeNode.Type);
         if (attributeNode.Type === 'Component') {
-			this.selectColumns += ('"' + attributeNode.Column + '",' );
+			this.selectColumns += (',"' + attributeNode.Column + '"' );
 		} else {
 			/*
 			if (attributeNode.Paths != null) {
