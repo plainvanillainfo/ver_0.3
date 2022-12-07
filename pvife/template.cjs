@@ -98,7 +98,7 @@ class TemplateItem extends TemplateItemClient {
             itemLICur.A.appendChild(document.createTextNode(itemLICur.Label));
             itemLICur.A.addEventListener('click', (event) => {
                 event.preventDefault();
-                console.log("TemplateItem::setUseCaseMenu - click on menu item", menuItemCur);
+                console.log("TemplateItem::presentMenu - clicked on menu item", menuItemCur);
                 let useCaseElemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
                 let templateElemPicked = null;
                 if (this.elems[menuItemCur.Name] == null) {
