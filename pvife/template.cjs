@@ -135,7 +135,7 @@ class TemplateElem extends TemplateElemClient {
     show() {
         if (this.dataElem == null) {
             this.toServer({
-                Action: 'Watch'
+                Action: 'Start'
             });
         }
         if (this.visible == false) {
