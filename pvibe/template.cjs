@@ -18,8 +18,10 @@ class TemplateItem {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
-					this.constructSelect();
-					this.sendToDbSelect();
+					if (this.useCase.Detail..Flow === 'Serial') {
+						this.constructSelect();
+						this.sendToDbSelect();
+					}
                     break;
                 case 'Refresh':
                     break;
