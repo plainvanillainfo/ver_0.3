@@ -55,7 +55,8 @@ class TemplateItemClient {
         switch (this.useCase.Detail.Cardinality) {
             case 'Single':
                 if (this.dataItems.length === 1) {
-					if (this.dataItems[0].Elems == null) {
+
+					if (this.useCase.Detail.Flow === 'Serial' && this.dataItems[0].Elems == null) {
 			            this.toServer({
 			                Action: 'Start'
 			            });
