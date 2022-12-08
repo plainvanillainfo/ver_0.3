@@ -86,10 +86,10 @@ class TemplateItem {
         this.selectFrom = 'FROM data."' + this.useCase.Detail.Class + '"';
         if (this.parent.itemParent != null) {
 			let classparent = this.parent.parent.useCase.Detail.Class;
-			let linkTable = classparent + '_CHILD_'+ this.parent.Attribute;
+			let linkTable = classparent + '_CHILD_'+ this.parent.useCaseElem.Attribute;
 			this.selectFrom += ', data."' + linkTable + '"';
 			this.selectWhere = 'WHERE data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ';
-			this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + this.useCase.Detail.Class + '"';
+			this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + this.useCase.Detail.Class + '"."Id"';
 		} else {
 			this.selectWhere = 'WHERE 1=1';
 		}
