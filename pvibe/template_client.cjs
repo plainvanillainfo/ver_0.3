@@ -21,6 +21,7 @@ class TemplateItemClient {
                     break;
             }
         }
+        /*
         if (message.Item != null) {
             this.item = message.Item;
             switch (this.useCase.Detail.Format) {
@@ -34,6 +35,7 @@ class TemplateItemClient {
                     break;
             }
         }
+        */
     }
 
     toServer(messageIn) {
@@ -51,11 +53,9 @@ class TemplateItemClient {
 	setDataItems(dataItems) {
 		this.dataItems = dataItems;
         console.log("TemplateItemClient::setDataItems(): ", this.dataItems);
-        //this.renderDataItems();
         switch (this.useCase.Detail.Cardinality) {
             case 'Single':
                 if (this.dataItems.length === 1) {
-
 					if (this.useCase.Detail.Flow === 'Serial' && this.dataItems[0].Elems == null) {
 			            this.toServer({
 			                Action: 'Start'
@@ -89,10 +89,8 @@ class TemplateElemClient {
         console.log("TemplateElemClient::fromServer(): ", message);
         if (message.Action != null) {
             switch (message.Action) {
-                case 'ContinueTemplateList':
-                    if (this.templateList != null && message.TemplateList != null) {
-                        this.templateList.fromServer(message.TemplateList);
-                    }
+                case 'StartTemplateItem':
+                    this.startTemplateItem(message.TemplateItem);
                     break;
                 default:
                     break;

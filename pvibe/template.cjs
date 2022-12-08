@@ -12,9 +12,9 @@ class TemplateItem {
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
         this.receiveFromDb = this.receiveFromDb.bind(this);
-        if (this.parent.itemParent != null) {
-			console.log("TemplateItem::constructor() - this.parent.itemParent: ", this.parent.itemParent);
-		}
+        //if (this.parent.itemParent != null) {
+		//	console.log("TemplateItem::constructor() - this.parent.itemParent: ", this.parent.itemParent);
+		//}
     }
 
     fromClient(message) {
@@ -142,7 +142,14 @@ class TemplateItem {
             dataItems.push(dataItemCur);
 		});
 		if (dataItems.length > 0) {
-			this.toClient(dataItems);
+			//this.toClient({DataItems: dataItems});
+	        let messageOut = {
+	            Action: 'StartTemplateItem',
+	            TemplateItem: {
+					DataItems: dataItems
+	            }
+	        };
+	        this.parent.toClient(messageOut);
 		}
     }
 

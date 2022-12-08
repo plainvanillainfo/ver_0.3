@@ -54,6 +54,9 @@ class TemplateItem extends TemplateItemClient {
     }
 
     renderMultipleDataItems(dataItems) {
+        dataItems.forEach(dataItemCur => {
+            this.divItem.appendChild(document.createTextNode(JSON.stringify(dataItemCur)));
+        });
     }
 
     presentMenu(dataItem) {
@@ -127,9 +130,14 @@ class TemplateElem extends TemplateElemClient {
         this.divElem = document.createElement('div')
         this.divItemParent.appendChild(this.divElem);
         this.visible = false;
-
         this.divElem.appendChild(document.createTextNode(JSON.stringify(this.useCaseElem)));
+    }
 
+    startTemplateItem(message) {
+        if (this.templateItem == null) {
+            this.templateItem = new TemplateItem(this, this.useCaseElem.SubUseCase, this.divElem);
+            this.templateItem.setDataItems(message.DataItems);
+        }
     }
 
     show() {
