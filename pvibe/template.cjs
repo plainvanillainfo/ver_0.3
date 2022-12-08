@@ -5,7 +5,6 @@ class TemplateItem {
         this.parent = parent;
         this.useCase = useCase;
         this.session = this.parent.session;
-        //this.elems = {};
         this.dataItems = [];
         this.items = {};
         this.selectQuery = null;
@@ -81,11 +80,19 @@ class TemplateItem {
 	}
 
 	constructSelect() {
-        console.log("TemplateItem::constructSelect() -: ");
+        console.log("TemplateItem::constructSelect():");
         this.selectQuery = 'SELECT "Id","Extension"';
         this.selectColumns = '';
-        this.selectFrom = 'FROM data."'+ this.useCase.Detail.Class + '" ';
-        this.selectWhere = 'WHERE 1=1';
+        this.selectFrom = 'FROM data."' + this.useCase.Detail.Class + '"';
+        if (this.parent.itemParent != null) {
+			let classparent = this.parent.itemParent.parent.useCase.Detail.Class;
+			let linkTable = classparent + '_CHILD_'+ this.parent.Attribute;
+			this.selectFrom += ', data."' + linkTable + '"';
+			this.selectWhere = 'WHERE data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ';
+			this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + this.useCase.Detail.Class + '"';
+		} else {
+			this.selectWhere = 'WHERE 1=1';
+		}
         this.selectOrderBy = '';
 		this.useCase.Detail.Attributes.forEach(attributeCur => {
 			this.constructSelectNode(attributeCur);
@@ -160,7 +167,9 @@ class TemplateElem {
 			            let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
 			            if (useCaseFound != null) {
 							console.log("useCaseFound:\n", useCaseFound, "\n");
-							this.templateItemRoot = new TemplateItem(this, useCaseFound);
+							this.templateItem = new TemplateItem(this, useCaseFound);
+							this.templateItem.constructSelect();
+							this.templateItem.sendToDbSelect();
 						}
 					}
                     break;
