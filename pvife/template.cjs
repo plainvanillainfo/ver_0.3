@@ -135,7 +135,8 @@ class TemplateElem extends TemplateElemClient {
 
     startTemplateItem(message) {
         if (this.templateItem == null) {
-            this.templateItem = new TemplateItem(this, this.useCaseElem.SubUseCase, this.divElem);
+            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
+            this.templateItem = new TemplateItem(this, subUseCase, this.divElem);
             this.templateItem.setDataItems(message.DataItems);
         }
     }

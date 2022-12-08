@@ -1,6 +1,7 @@
 class TemplateItemClient {
     constructor(parent, useCase) {
         this.parent = parent;
+        this.session = this.parent.session;
         this.useCase = useCase;
         this.elems = {};
         this.toServer = this.toServer.bind(this);
@@ -79,6 +80,7 @@ class TemplateItemClient {
 class TemplateElemClient {
     constructor(parent, dataItemParent, dataElem, useCaseElem) {
         this.parent = parent;
+        this.session = this.parent.session;
         this.dataItemParent = dataItemParent;
         this.useCaseElem = useCaseElem;
         this.dataElem = dataElem;
