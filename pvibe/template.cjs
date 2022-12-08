@@ -104,14 +104,6 @@ class TemplateItem {
         console.log("TemplateItem::constructSelectNode() - attributeNode: ", attributeNode.Name, attributeNode.Type);
         if (attributeNode.Type === 'Component') {
 			this.selectColumns += (',"' + attributeNode.Column + '"' );
-		} else {
-			/*
-			if (attributeNode.Paths != null) {
-				attributeNode.Paths.forEach(pathCur => {
-					this.constructSelectNodePathSeg(pathCur);
-				});
-			}
-			*/
 		}
 	}
 
@@ -140,9 +132,18 @@ class TemplateItem {
     }
 
     async receiveFromDb(result) {
+		let dataItems = [];
 		result.forEach(resultCur => {
 			console.log("TemplateItem::receiveFromDb() - resultCur:\n", resultCur);
+			let dataItemCur = {
+				Key: resultCur.Id,
+				Attrs: {...resultCur}
+			};
+            dataItems.push(dataItemCur);
 		});
+		if (dataItems.length > 0) {
+			this.toClient(dataItems);
+		}
     }
 
 }
