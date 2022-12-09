@@ -12,9 +12,6 @@ class TemplateItem {
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
         this.receiveFromDb = this.receiveFromDb.bind(this);
-        //if (this.parent.itemParent != null) {
-		//	console.log("TemplateItem::constructor() - this.parent.itemParent: ", this.parent.itemParent);
-		//}
     }
 
     fromClient(message) {
@@ -94,16 +91,16 @@ class TemplateItem {
 			this.selectWhere = 'WHERE 1=1';
 		}
         this.selectOrderBy = '';
-		this.useCase.Detail.Attributes.forEach(attributeCur => {
-			this.constructSelectNode(attributeCur);
+		this.useCase.Detail.Elems.forEach(elemCur => {
+			this.constructSelectNode(elemCur);
 		});
 		this.selectQuery += (this.selectColumns + ' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
 	}
 
-	constructSelectNode(attributeNode) {
-        console.log("TemplateItem::constructSelectNode() - attributeNode: ", attributeNode.Name, attributeNode.Type);
-        if (attributeNode.Type === 'Component') {
-			this.selectColumns += (',"' + attributeNode.Column + '"' );
+	constructSelectNode(elemNode) {
+        console.log("TemplateItem::constructSelectNode() - elemNode: ", elemNode.Name, elemNode.Complexity);
+        if (elemNode.Complexity === 'Simple') {
+			this.selectColumns += (',"' + elemNode.Attribute + '"' );
 		}
 	}
 
