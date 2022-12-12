@@ -98,9 +98,27 @@ class TemplateItem {
 	}
 
 	constructSelectNode(elemNode) {
-        console.log("TemplateItem::constructSelectNode() - elemNode: ", elemNode.Name, elemNode.Complexity);
-        if (elemNode.Complexity === 'Simple') {
-			this.selectColumns += (',"' + elemNode.Attribute + '"' );
+        console.log("TemplateItem::constructSelectNode() - elemNode: ", elemNode.Name);
+        let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemNode.Attribute);
+        //if (elemNode.Complexity === 'Simple') {
+        if (elemAttribute != null) {
+			switch (elemAttribute.Type) {
+				case 'Primitive':
+					if (elemAttribute.Path.length === 1) {
+						this.selectColumns += (',"' + elemAttribute.Path[0] + '"' );
+					}
+					break;
+				case 'Embedded':
+					break;
+				case 'Reference':
+					break;
+				case 'Child':
+					break;
+				case 'Extension':
+					break;
+				default:
+					break;
+			}
 		}
 	}
 
