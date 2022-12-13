@@ -100,7 +100,6 @@ class TemplateItem {
 	constructSelectNode(elemNode) {
         console.log("TemplateItem::constructSelectNode() - elemNode: ", elemNode.Name);
         let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemNode.Attribute);
-        //if (elemNode.Complexity === 'Simple') {
         if (elemAttribute != null) {
 			switch (elemAttribute.Type) {
 				case 'Primitive':
