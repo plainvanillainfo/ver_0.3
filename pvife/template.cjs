@@ -26,14 +26,17 @@ class TemplateItem extends TemplateItemClient {
 
     continueTemplateElem(message) {
         if (message.UseCaseElemName != null) {
-            if (this.elems[message.UseCaseElemName] == null) {
-                let dataItemParent = this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey);
+            let dataItemParent = this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey);
+            if (this.elemDataItems[dataItemParent.Key] == null) {
+                this.elemDataItems[dataItemParent.Key] = {};
+            }
+            if (this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] == null) {
                 let useCaseElemCur = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.UseCaseElemName);
                 let templateElemNew = new TemplateElem(this, dataItemParent, null, useCaseElemCur, this.divItem);
-                this.elems[message.UseCaseElemName] = templateElemNew;
+                this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] = templateElemNew;
             }
-            if (this.elems[message.UseCaseElemName] != null) {
-                this.elems[message.UseCaseElemName].fromServer(message);
+            if (this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] != null) {
+                this.elemDataItems[dataItemParent.Key][message.UseCaseElemName].fromServer(message);
             }
         }
     }
@@ -132,14 +135,17 @@ class TemplateItem extends TemplateItemClient {
                 console.log("TemplateItem::presentMenu - clicked on menu item", menuItemCur);
                 let useCaseElemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
                 let templateElemPicked = null;
-                if (this.elems[menuItemCur.Name] == null) {
-                    templateElemPicked = new TemplateElem(this, dataItem, null, useCaseElemPicked, this.divMenuOptionPicked);
-                    this.elems[menuItemCur.Name] = templateElemPicked;
-                } else {
-                    templateElemPicked = this.elems[menuItemCur.Name];
+                if (this.elemDataItems[dataItemParent] == null) {
+                    this.elemDataItems[dataItemParent] = {};
                 }
-                for (let elemCur in this.elems) {
-                    let elemDetail = this.elems[elemCur];
+                if (this.elemDataItems[dataItem.Key][menuItemCur.Name] == null) {
+                    templateElemPicked = new TemplateElem(this, dataItem, null, useCaseElemPicked, this.divMenuOptionPicked);
+                    this.elemDataItems[dataItem.Key][menuItemCur.Name] = templateElemPicked;
+                } else {
+                    templateElemPicked = this.elemDataItems[dataItem.Key][menuItemCur.Name];
+                }
+                for (let elemCur in this.elemDataItems[dataItem.Key]) {
+                    let elemDetail = this.elemDataItems[dataItem.Key][elemCur];
                     if (elemDetail.useCaseElem != null && elemDetail.useCaseElem.Name !== menuItemCur.Name) {
                         elemDetail.hide();
                     }

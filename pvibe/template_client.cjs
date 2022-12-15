@@ -3,7 +3,8 @@ class TemplateItemClient {
         this.parent = parent;
         this.session = this.parent.session;
         this.useCase = useCase;
-        this.elems = {};
+        //this.elems = {};
+        this.elemDataItems = {};
         this.toServer = this.toServer.bind(this);
     }
 
@@ -54,19 +55,19 @@ class TemplateItemClient {
         this.parent.toServer(messageOut);
     }
 
-	setDataItems(dataItems) {
-		this.dataItems = dataItems;
+    setDataItems(dataItems) {
+        this.dataItems = dataItems;
         console.log("TemplateItemClient::setDataItems(): ", this.dataItems);
         switch (this.useCase.Detail.Cardinality) {
             case 'Single':
                 if (this.dataItems.length === 1) {
-					if (this.useCase.Detail.Flow === 'Serial' && this.dataItems[0].Elems == null) {
-			            this.toServer({
-			                Action: 'Start'
-			            });
-					} else {
-						this.renderSingleDataItem(this.dataItems[0]);
-					}
+                    if (this.useCase.Detail.Flow === 'Serial' && this.dataItems[0].Elems == null) {
+                        this.toServer({
+                            Action: 'Start'
+                        });
+                    } else {
+                        this.renderSingleDataItem(this.dataItems[0]);
+                    }
                 }
                 break;
             case 'Multiple':
@@ -75,8 +76,7 @@ class TemplateItemClient {
             default:
                 break;
         }
-        
-	}
+    }
 
 }
 
