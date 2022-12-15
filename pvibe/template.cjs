@@ -141,7 +141,6 @@ class TemplateItem {
 						if (itemListEntry.Elems[elemChild.Name] == null) {
 							let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === elemChild.Name);
 							itemListEntry.Elems[elemChild.Name] = new TemplateElem(this, useCaseElemFound, itemListEntry);
-							//console.log("TemplateItem::stepDownToChild() - itemListEntry: ", itemListEntry.Key, itemListEntry.Elems);
 							itemListEntry.Elems[elemChild.Name].startTemplateItem();
 						}
 					});
@@ -177,9 +176,11 @@ class TemplateItem {
             this.dataItems.push(dataItemCur);
 		});
 		if (this.dataItems.length > 0) {
+			let parentKey = this.parent.itemParent != null ? this.parent.itemParent.Key : null;
 	        let messageOut = {
 	            Action: 'StartTemplateItem',
 	            TemplateItem: {
+					ParentKey: parentKey,
 					DataItems: this.dataItems
 	            }
 	        };
@@ -209,18 +210,6 @@ class TemplateElem {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
-					/*
-			        if (this.useCaseElem.SubUseCase != null) {
-			            console.log("TemplateElem::fromClient() - this.useCaseElem.SubUseCase: ", this.useCaseElem.SubUseCase);
-			            let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
-			            if (useCaseFound != null) {
-							console.log("useCaseFound:\n", useCaseFound, "\n");
-							this.templateItem = new TemplateItem(this, useCaseFound);
-							this.templateItem.constructSelect();
-							this.templateItem.sendToDbSelect();
-						}
-					}
-					*/
 					this.startTemplateItem();
                     break;
                 default:
@@ -242,7 +231,7 @@ class TemplateElem {
     
     startTemplateItem() {
         if (this.useCaseElem.SubUseCase != null) {
-            console.log("TemplateElem::fstartTemplateItem: ", this.useCaseElem.SubUseCase);
+            console.log("TemplateElem::startTemplateItem: ", this.useCaseElem.SubUseCase);
             let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
             if (useCaseFound != null) {
 				console.log("useCaseFound:\n", useCaseFound, "\n");

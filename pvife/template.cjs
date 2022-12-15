@@ -28,6 +28,8 @@ class TemplateItem extends TemplateItemClient {
         if (message.UseCaseElemName != null) {
             if (this.elems[message.UseCaseElemName] == null) {
                 let x = 9;
+                //let templateElemNew = new TemplateElem(this, dataItem, null, useCaseElemPicked, this.divMenuOptionPicked);
+                //this.elems[message.UseCaseElemName] = templateElemNew;
             }
             if (this.elems[message.UseCaseElemName] != null) {
                 this.elems[message.UseCaseElemName].fromServer(message);
