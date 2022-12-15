@@ -26,6 +26,9 @@ class TemplateItem extends TemplateItemClient {
 
     continueTemplateElem(message) {
         if (message.UseCaseElemName != null) {
+            if (this.elems[message.UseCaseElemName] == null) {
+                let x = 9;
+            }
             if (this.elems[message.UseCaseElemName] != null) {
                 this.elems[message.UseCaseElemName].fromServer(message);
             }
