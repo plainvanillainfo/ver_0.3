@@ -31,37 +31,6 @@ class TemplateItem {
                     break;
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
-						/*
-						if (message.TemplateElem.ItemKey != null) {
-							//let dataItemCur = this.dataItems.find(dataItemCur => dataItemCur.key === message.TemplateElem.ItemKey);
-							//if (this.itemArray[message.TemplateElem.ItemKey] != null) {
-								//let dataItemCur = this.itemArray[message.TemplateElem.ItemKey];
-								let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.TemplateElem.UseCaseElemName);
-								if (useCaseElemFound != null && useCaseElemFound.SubUseCase != null) {
-									let templateItemDetail;
-									if (this.itemArray[message.TemplateElem.ItemKey] == null) {
-										let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === useCaseElemFound.SubUseCase);
-										templateItemDetail = new TemplateItem(this, useCaseFound, dataItemCur.key);
-										this.itemArray[dataItemCur.key] = templateItemDetail;
-									} else {
-										templateItemDetail = this.itemArray[dataItemCur.key];
-									}
-			                        if (templateItemDetail.templateElems[message.TemplateElem.UseCaseElemName] == null) {
-			                            //let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.TemplateElem.UseCaseElemName);
-			                            if (useCaseElemFound != null) {
-			                                let templateElemNew = new TemplateElem(this, useCaseElemFound, templateItemDetail);
-			                                templateItemDetail.templateElems[message.TemplateElem.UseCaseElemName] = templateElemNew;
-			                            }
-			                        }
-			                        if (templateItemDetail.templateElems[message.TemplateElem.UseCaseElemName] != null) {
-			                            templateItemDetail.templateElems[message.TemplateElem.UseCaseElemName].fromClient(message.TemplateElem);
-			                            templateItemDetail.templateElems[message.TemplateElem.UseCaseElemName].fromClient(message.TemplateElem);
-			                        }
-								}
-							//}
-						}
-						*/
-						
 						let useCaseElemName = message.TemplateElem.UseCaseElemName;
 						let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === useCaseElemName);
 						if (useCaseElemFound != null && useCaseElemFound.SubUseCase != null) {
