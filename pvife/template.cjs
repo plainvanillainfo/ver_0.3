@@ -24,6 +24,14 @@ class TemplateItem extends TemplateItemClient {
     }
     */
 
+    continueTemplateElem(message) {
+        if (message.UseCaseElemName != null) {
+            if (this.elems[message.UseCaseElemName] != null) {
+                this.elems[message.UseCaseElemName].fromServer(message);
+            }
+        }
+}
+
     renderSingleDataItem(dataItem) {
         switch (this.useCase.Detail.Flow) {
             case 'Parallel':
@@ -138,6 +146,20 @@ class TemplateElem extends TemplateElemClient {
             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
             this.templateItem = new TemplateItem(this, subUseCase, this.divElem);
             this.templateItem.setDataItems(message.DataItems);
+        }
+    }
+
+    continueTemplateElem(message) {
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'ContinueTemplateItem':
+                    if (this.templateItem != null) {
+                        this.templateItem.continueTemplateItem(message.TemplateItem);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

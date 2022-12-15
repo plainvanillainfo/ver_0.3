@@ -12,10 +12,15 @@ class TemplateItemClient {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateElem':
+                    /*
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
                         if (this.elems[message.TemplateElem.UseCaseElemName] != null) {
                             this.elems[message.TemplateElem.UseCaseElemName].fromServer(message.TemplateElem);
                         }
+                    }
+                    */
+                    if (message.TemplateElem != null) {
+                        this.continueTemplateElem(message.TemplateElem);
                     }
                     break;
                 default:
@@ -50,6 +55,25 @@ class TemplateItemClient {
         };
         this.parent.toServer(messageOut);
     }
+
+    /*
+    continueTemplateItem(message) {
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'ContinueTemplateElem':
+                    if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
+                        if (this.elems[message.TemplateElem.UseCaseElemName] != null) {
+                            this.elems[message.TemplateElem.UseCaseElemName].fromServer(message.TemplateElem);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    */
+
 
 	setDataItems(dataItems) {
 		this.dataItems = dataItems;
@@ -92,7 +116,14 @@ class TemplateElemClient {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'StartTemplateItem':
-                    this.startTemplateItem(message.TemplateItem);
+                    if (message.TemplateItem != null) {
+                        this.startTemplateItem(message.TemplateItem);
+                    }
+                    break;
+                case 'ContinueTemplateElem':
+                    if (message.TemplateElem != null) {
+                        this.continueTemplateElem(message.TemplateElem);
+                    }
                     break;
                 default:
                     break;
