@@ -7,7 +7,7 @@ class TemplateItem {
         this.session = this.parent.session;
         this.dataItems = [];
         this.itemList = {};
-        this.itemList[key] = {};
+        this.itemList[key] = {Key: key, Elems: {}};
         this.selectQuery = null;
         this.listenQuery = null;
         this.fromClient = this.fromClient.bind(this);
