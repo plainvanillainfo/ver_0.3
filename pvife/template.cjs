@@ -135,8 +135,8 @@ class TemplateItem extends TemplateItemClient {
                 console.log("TemplateItem::presentMenu - clicked on menu item", menuItemCur);
                 let useCaseElemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
                 let templateElemPicked = null;
-                if (this.elemDataItems[dataItemParent] == null) {
-                    this.elemDataItems[dataItemParent] = {};
+                if (this.elemDataItems[dataItem] == null) {
+                    this.elemDataItems[dataItem] = {};
                 }
                 if (this.elemDataItems[dataItem.Key][menuItemCur.Name] == null) {
                     templateElemPicked = new TemplateElem(this, dataItem, null, useCaseElemPicked, this.divMenuOptionPicked);
