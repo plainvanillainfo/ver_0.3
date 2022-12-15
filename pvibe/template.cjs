@@ -34,17 +34,17 @@ class TemplateItem {
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
 						if (message.TemplateElem.ItemKey != null) {
-							let dataItemCur = this.dataItems.find(dataItemCur => dataItemCur.Key === message.TemplateElem.ItemKey);
+							let dataItemCur = this.dataItems.find(dataItemCur => dataItemCur.key === message.TemplateElem.ItemKey);
 							if (dataItemCur != null) {
 								let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.TemplateElem.UseCaseElemName);
 								if (useCaseElemFound != null && useCaseElemFound.SubUseCase != null) {
 									let templateItemDetail;
-									if (this.templateItems[dataItemCur.Key] == null) {
+									if (this.templateItems[dataItemCur.key] == null) {
 										let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === useCaseElemFound.SubUseCase);
-										templateItemDetail = new TemplateItem(this, useCaseFound, dataItemCur.Key); // {Key: dataItemCur.Key, Elems: {}};
-										this.templateItems[dataItemCur.Key] = templateItemDetail;
+										templateItemDetail = new TemplateItem(this, useCaseFound, dataItemCur.key);
+										this.templateItems[dataItemCur.key] = templateItemDetail;
 									} else {
-										templateItemDetail = this.templateItems[dataItemCur.Key];
+										templateItemDetail = this.templateItems[dataItemCur.key];
 									}
 			                        if (templateItemDetail.templateElems[message.TemplateElem.UseCaseElemName] == null) {
 			                            //let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.TemplateElem.UseCaseElemName);
