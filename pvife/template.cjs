@@ -166,11 +166,29 @@ class TemplateElem extends TemplateElemClient {
         }
     }
 
+    continueTemplateItem(message) {
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'ContinueTemplateElem':
+                    if (message.TemplateElem != null) {
+                        if (this.templateItem == null) {
+                            this.fromServer(message.TemplateElem);
+                        } else {
+                            this.templateItem.continueTemplateElem(message.TemplateElem);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     continueTemplateElem(message) {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateItem':
-                    if (this.templateItem != null) {
+                    if (this.templateItem != null && message.TemplateItem != null) {
                         this.templateItem.continueTemplateItem(message.TemplateItem);
                     }
                     break;

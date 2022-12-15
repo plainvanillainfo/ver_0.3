@@ -99,6 +99,11 @@ class TemplateElemClient {
                         this.startTemplateItem(message.TemplateItem);
                     }
                     break;
+                case 'ContinueTemplateItem':
+                    if (message.TemplateItem != null) {
+                        this.continueTemplateItem(message.TemplateItem);
+                    }
+                    break;
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null) {
                         this.continueTemplateElem(message.TemplateElem);
