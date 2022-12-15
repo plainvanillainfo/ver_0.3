@@ -27,9 +27,10 @@ class TemplateItem extends TemplateItemClient {
     continueTemplateElem(message) {
         if (message.UseCaseElemName != null) {
             if (this.elems[message.UseCaseElemName] == null) {
-                let x = 9;
-                //let templateElemNew = new TemplateElem(this, dataItem, null, useCaseElemPicked, this.divMenuOptionPicked);
-                //this.elems[message.UseCaseElemName] = templateElemNew;
+                let dataItemParent = this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey);
+                let useCaseElemCur = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.UseCaseElemName);
+                let templateElemNew = new TemplateElem(this, dataItemParent, null, useCaseElemCur, this.divItem);
+                this.elems[message.UseCaseElemName] = templateElemNew;
             }
             if (this.elems[message.UseCaseElemName] != null) {
                 this.elems[message.UseCaseElemName].fromServer(message);
