@@ -141,7 +141,7 @@ class TemplateItem {
 						if (itemListEntry.Elems[elemChild.Name] == null) {
 							let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === elemChild.Name);
 							itemListEntry.Elems[elemChild.Name] = new TemplateElem(this, useCaseElemFound, itemListEntry);
-							console.log("TemplateItem::stepDownToChild() - itemListEntry: ", itemListEntry);
+							console.log("TemplateItem::stepDownToChild() - itemListEntry: ", itemListEntry.Key, itemListEntry.Elems);
 						}
 					});
 					break;
