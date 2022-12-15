@@ -47,7 +47,6 @@ class TemplateItem {
 	                        }
 	                        if (itemListEntry.Elems[useCaseElemName] != null) {
 	                            itemListEntry.Elems[useCaseElemName].fromClient(message.TemplateElem);
-	                            itemListEntry.Elems[useCaseElemName].fromClient(message.TemplateElem);
 	                        }
 						}
 						
