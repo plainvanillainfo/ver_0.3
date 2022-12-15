@@ -30,7 +30,21 @@ class TemplateItem extends TemplateItemClient {
                 this.elems[message.UseCaseElemName].fromServer(message);
             }
         }
-}
+    }
+
+    continueTemplateItem(message) {
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'ContinueTemplateElem':
+                    if (message.TemplateElem != null) {
+                        this.continueTemplateElem(message.TemplateElem);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     renderSingleDataItem(dataItem) {
         switch (this.useCase.Detail.Flow) {
