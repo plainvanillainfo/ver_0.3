@@ -138,11 +138,11 @@ class TemplateItem {
 						} else {
 							itemListEntry = this.itemList[dataItemCur.Key];
 						}
+						if (itemListEntry.Elems[elemChild.Name] == null) {
+							let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === elemChild.Name);
+							itemListEntry.Elems[elemChild.Name] = new TemplateElem(this, useCaseElemFound, itemListEntry);
+						}
 					});
-					if (itemListEntry.Elems[elemChild.Name] == null) {
-						let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === elemChild.Name);
-						itemListEntry.Elems[elemChild.Name] = new TemplateElem(this, useCaseElemFound, itemListEntry);
-					}
 					break;
 				default:
 					break;
