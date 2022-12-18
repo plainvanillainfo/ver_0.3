@@ -109,6 +109,11 @@ class Application {
                         break;
                 }
                 this.sqlScriptData += ',\n';
+            } else {
+                if (componentCur.EmbeddedClass != null) {
+                    this.sqlScriptData += '    "' + componentCur.EmbeddedClass + '" ';
+                    this.sqlScriptData += 'uuid not null ,\n';
+                }
             }
         });
         classInfo.References.forEach(referenceCur => {
@@ -158,10 +163,18 @@ class Application {
 
     createTableForeignKeys(classInfo) {
         classInfo.References.forEach(referenceCur => {
-            let referedClass = this.classesAll.find(cur => cur.Name === referenceCur.ReferedClass);
+            let referredClass = this.classesAll.find(cur => cur.Name === referenceCur.ReferredClass);
 			this.sqlScriptData += ('ALTER TABLE ONLY data."' + classInfo.tableName + '"\n');
 			this.sqlScriptData += ('    ADD CONSTRAINT "' + referenceCur.Name + '_REFERENCE" ');
-			this.sqlScriptData += ('FOREIGN KEY ("' + referenceCur.Name + '") REFERENCES data."' + referedClass.tableName + '"("Id") NOT VALID;\n');
+			this.sqlScriptData += ('FOREIGN KEY ("' + referenceCur.Name + '") REFERENCES data."' + referredClass.tableName + '"("Id") NOT VALID;\n');
+        });
+        classInfo.Components.forEach(componentCur => {
+            if (componentCur.EmbeddedClass != null) {
+                let embeddedClass = this.classesAll.find(cur => cur.Name === componentCur.EmbeddedClass);
+                this.sqlScriptData += ('ALTER TABLE ONLY data."' + classInfo.tableName + '"\n');
+                this.sqlScriptData += ('    ADD CONSTRAINT "' + componentCur.Name + '_EMBED" ');
+                this.sqlScriptData += ('FOREIGN KEY ("' + componentCur.Name + '") REFERENCES data."' + embeddedClass.tableName + '"("Id") NOT VALID;\n');
+            }
         });
 		classInfo.Extensions.forEach(extensionCur => {
 			this.createTableForeignKeys(extensionCur);

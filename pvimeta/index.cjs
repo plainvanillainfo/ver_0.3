@@ -39,7 +39,7 @@ ClassesCommon = [
                         References: [
                             {
                                 Name: "EmailAddress",
-                                ReferedClass: "EmailAddress"
+                                ReferredClass: "EmailAddress"
                             }
                         ],
                         Extensions: []
@@ -59,13 +59,6 @@ ClassesCommon = [
                         Extensions: []
                     }
                 ]
-            },
-            {
-                Name: "Task",
-                Components: [],
-                Children: [],
-                References: [],
-                Extensions: []
             }
         ]
     },
