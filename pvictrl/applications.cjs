@@ -111,7 +111,7 @@ class Application {
                 this.sqlScriptData += ',\n';
             } else {
                 if (componentCur.EmbeddedClass != null) {
-                    this.sqlScriptData += '    "' + componentCur.EmbeddedClass + '" ';
+                    this.sqlScriptData += '    "' + componentCur.Name + '" ';
                     this.sqlScriptData += 'uuid not null ,\n';
                 }
             }
