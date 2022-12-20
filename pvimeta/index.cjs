@@ -160,7 +160,7 @@ ClassesCommon = [
                         Length: 255
                     },
                     {
-                        Name: "Extension",
+                        Name: "ExtensionNumber",
                         Type: "VARCHAR",
                         Length: 255
                     }
