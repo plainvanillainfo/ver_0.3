@@ -127,7 +127,7 @@ ClassesCommon = [
                         Length: 255
                     },
                     {
-                        Name: "Name",
+                        Name: "UserName",
                         Type: "VARCHAR",
                         Length: 255
                     }
