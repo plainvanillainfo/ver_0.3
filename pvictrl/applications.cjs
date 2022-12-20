@@ -64,7 +64,7 @@ class Application {
     
     createTable(classInfo, baseClassInfo) {
         this.classesAll.push(classInfo);
-        classInfo.extensionTree = {};
+        //classInfo.extensionTree = {};
         if (baseClassInfo == null) {
             classInfo.tableName = classInfo.Name;
             classInfo.extensions = [];
@@ -122,11 +122,12 @@ class Application {
         });
         classInfo.Extensions.forEach(extensionCur => {
             this.createTable(extensionCur, classInfo);
-            classInfo.extensionTree[extensionCur.Name] = extensionCur.extensionTree;
+            //classInfo.extensionTree[extensionCur.Name] = extensionCur.extensionTree;
         });
         if (baseClassInfo == null) {
             this.sqlScriptData = this.sqlScriptData.slice(0, -2) + '\n);\n';
-            this.sqlScriptData += ('COMMENT ON TABLE data."' + classInfo.Name + '" IS \'' + JSON.stringify({ExtensionTree: classInfo.extensionTree}) + '\';\n\n');
+            //this.sqlScriptData += ('COMMENT ON TABLE data."' + classInfo.Name + '" IS \'' + JSON.stringify({ExtensionTree: classInfo.extensionTree}) + '\';\n\n');
+            this.sqlScriptData += ('COMMENT ON TABLE data."' + classInfo.Name + '" IS \'' + JSON.stringify({ExtensionTree: classInfo}) + '\';\n\n');
         }
     }
 
