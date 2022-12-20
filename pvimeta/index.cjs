@@ -70,9 +70,30 @@ ClassesCommon = [
                 Name: "Name",
                 Type: "VARCHAR",
                 Length: 255
+            },
+            {
+                "Name": "StreetAddress",
+                "EmbeddedClass": "StreetAddress"
+            },
+            {
+                "Name": "EmailAddress",
+                "EmbeddedClass": "EmailAddress"
+            },
+            {
+                "Name": "PhoneNumber",
+                "EmbeddedClass": "PhoneNumber"
+            },
+            {
+                "Name": "AltPhoneNumber",
+                "EmbeddedClass": "PhoneNumber"
             }
         ],
-        Children: [],
+        Children: [
+            {
+                "Name": "Places",
+                "ChildClass": "Place"
+            }
+        ],
         References: [],
         Extensions: [
             {
@@ -99,28 +120,112 @@ ClassesCommon = [
         Extensions: [
             {
                 Name: "EmailAddress",
-                Components: [],
+                Components: [
+                    {
+                        Name: "Domain",
+                        Type: "VARCHAR",
+                        Length: 255
+                    },
+                    {
+                        Name: "Name",
+                        Type: "VARCHAR",
+                        Length: 255
+                    }
+                ],
                 Children: [],
                 References: [],
                 Extensions: []
             },
             {
                 Name: "PhoneNumber",
-                Components: [],
+                Components: [
+                    {
+                        Name: "CountryCode",
+                        Type: "VARCHAR",
+                        Length: 255
+                    },
+                    {
+                        Name: "AreaCode",
+                        Type: "VARCHAR",
+                        Length: 255
+                    },
+                    {
+                        Name: "Exchange",
+                        Type: "VARCHAR",
+                        Length: 255
+                    },
+                    {
+                        Name: "ActualNumber",
+                        Type: "VARCHAR",
+                        Length: 255
+                    },
+                    {
+                        Name: "Extension",
+                        Type: "VARCHAR",
+                        Length: 255
+                    }
+                ],
                 Children: [],
                 References: [],
                 Extensions: []
             },
             {
                 Name: "StreetAddress",
-                Components: [],
+                Components: [
+                    {
+                        Name: "Street1",
+                        Type: "VARCHAR",
+                        Length: 255
+                    },
+                    {
+                        Name: "Street2",
+                        Type: "VARCHAR",
+                        Length: 255
+                    },
+                    {
+                        Name: "Street3",
+                        Type: "VARCHAR",
+                        Length: 255
+                    },
+                    {
+                        Name: "City",
+                        Type: "VARCHAR",
+                        Length: 255
+                    },
+                    {
+                        Name: "StateProvince",
+                        Type: "VARCHAR",
+                        Length: 255
+                    },
+                    {
+                        Name: "ZipPostalCode",
+                        Type: "VARCHAR",
+                        Length: 255
+                    },
+                    {
+                        Name: "Country",
+                        Type: "VARCHAR",
+                        Length: 255
+                    }
+                ],
                 Children: [],
                 References: [],
                 Extensions: []
             },
             {
                 Name: "SocialAddress",
-                Components: [],
+                Components: [
+                    {
+                        Name: "Platform",
+                        Type: "VARCHAR",
+                        Length: 255
+                    },
+                    {
+                        Name: "Identifier",
+                        Type: "VARCHAR",
+                        Length: 255
+                    }
+                ],
                 Children: [],
                 References: [],
                 Extensions: []
