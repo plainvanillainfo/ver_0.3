@@ -1,7 +1,6 @@
 const fs = require("fs");
 const parse = require('csv-parse')
 const jsesc = require("jsesc");
-const jsesc = require("jsesc");
 const uuidv4 = require("uuid").v4;
 
 
