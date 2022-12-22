@@ -25,6 +25,43 @@ class TemplateItem {
 						this.sendToDbSelect();
 					}
                     break;
+				case 'Put':
+
+					/*
+					if (itemKey != null && message.TemplateItem.ItemData.Attrs != null) {
+						console.log(" message.TemplateItem.ItemData: ", message.TemplateItem.ItemData);
+						let data = '';
+						if (itemKey !== '') {
+							for (let attrCur in message.TemplateItem.ItemData.Attrs) {
+								let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
+								data += ('"' + attrCur + '" = ');
+								data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
+							}
+							if (data.length > 0) {
+								let filter = '"' + this.keyName + "\" = '" + itemKey + "'";
+								data = data.slice(0, -1);
+								this.childItemTemplates[itemKey].requestUpdateToDB(filter, data);
+							}
+						} else {
+							let columns = '(';
+							data = '';
+							for (let attrCur in message.TemplateItem.ItemData.Attrs) {
+								let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
+								columns += ('"' + attrCur + '",');
+								data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
+							}
+							if (data.length > 0) {
+								columns = columns.slice(0, -1);
+								columns += ') VALUES (';
+								data = data.slice(0, -1);
+								data += ')';
+								this.requestInsertToDB(addView, columns + data);
+							}
+						}
+					}
+					*/
+
+					break;
                 case 'Refresh':
                     break;
                 case 'Stop':
