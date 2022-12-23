@@ -93,7 +93,7 @@ class TemplateItem extends TemplateItemClient {
             for (let attrCur in dataItemCur.Attrs) {
                 let attrDetail = dataItemCur.Attrs[attrCur];
                 if (attrCur !== 'Id') {
-                    this.divItem.appendChild(document.createTextNode(attrDetail));
+                    //this.divItem.appendChild(document.createTextNode(attrDetail));
                 }
             }
         });
