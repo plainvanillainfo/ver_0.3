@@ -89,6 +89,7 @@ class TemplateItem extends TemplateItemClient {
         dataItems.forEach(dataItemCur => {
             //this.divItem.appendChild(document.createTextNode(JSON.stringify(dataItemCur)));
             this.divItem.appendChild(document.createElement('br'));
+            alert('X');
             for (let attrCur in dataItemCur.Attrs) {
                 let attrDetail = dataItemCur.Attrs[attrCur];
                 if (attrCur !== 'Id') {
