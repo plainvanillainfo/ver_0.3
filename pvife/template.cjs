@@ -25,6 +25,7 @@ class TemplateItem extends TemplateItemClient {
     */
 
     continueTemplateElem(message) {
+        console.log("TemplateItem::continueTemplateElem");
         if (message.UseCaseElemName != null) {
             console.log(message.TemplateItem, "\n",this.dataItems);
             let dataItemParent = message.TemplateItem.ParentKey != null ? this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) : this.dataItems[0];
@@ -43,6 +44,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     continueTemplateItem(message) {
+        console.log("TemplateItem::continueTemplateItem");
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateElem':
@@ -86,19 +88,44 @@ class TemplateItem extends TemplateItemClient {
     }
 
     renderMultipleDataItems(dataItems) {
-        dataItems.forEach(dataItemCur => {
-            this.divItem.appendChild(document.createElement('br'));
-            for (let attrCur in dataItemCur.Attrs) {
-                let attrDetail = dataItemCur.Attrs[attrCur];
-                if (attrCur !== 'Id') {
-                    this.divItem.appendChild(document.createTextNode('XYZ: '+attrDetail));
+        switch (this.useCase.Detail.Flow) {
+            case 'Parallel':
+                switch (this.useCase.Detail.Rendering.Format) {
+                    case 'PickList':
+                        this.presentPickList(dataItem);
+                        break;
+                    default:
+                        break;
                 }
-            }
-        });
+                break;
+            case 'Serial':
+                switch (this.useCase.Detail.Rendering.Format) {
+                    case 'List':
+
+                        dataItems.forEach(dataItemCur => {
+                            this.divItem.appendChild(document.createElement('br'));
+                            for (let attrCur in dataItemCur.Attrs) {
+                                let attrDetail = dataItemCur.Attrs[attrCur];
+                                if (attrCur !== 'Id') {
+                                    this.divItem.appendChild(document.createTextNode('XYZ: ' + attrDetail));
+                                }
+                            }
+                        });
+
+                        break;
+                    default:
+                        break;
+                }
+                break;
+                break;
+            default:
+                break;
+        }
+
     }
 
     presentMenu(dataItem) {
-        console.log("TemplateItem::setUseCaseMenu");
+        console.log("TemplateItem::presentMenu");
         this.nav = document.createElement('nav');
         this.divItem.appendChild(this.nav);
         this.nav.className = 'navbar navbar-expand-md navbar-dark bg-primary';
@@ -162,6 +189,10 @@ class TemplateItem extends TemplateItemClient {
         });
     }
 
+    presentPickList(dataItem) {
+        console.log("TemplateItem::presentPickList");
+    }
+
 }
 
 class TemplateElem extends TemplateElemClient {
@@ -176,6 +207,7 @@ class TemplateElem extends TemplateElemClient {
     }
 
     startTemplateItem(message) {
+        console.log("TemplateElem::startTemplateItem");
         if (this.templateItem == null) {
             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
             this.templateItem = new TemplateItem(this, subUseCase, this.divElem);
@@ -184,6 +216,7 @@ class TemplateElem extends TemplateElemClient {
     }
 
     continueTemplateItem(message) {
+        console.log("TemplateElem::continueTemplateItem");
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateElem':
@@ -202,6 +235,7 @@ class TemplateElem extends TemplateElemClient {
     }
 
     continueTemplateElem(message) {
+        console.log("TemplateElem::continueTemplateElem");
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateItem':

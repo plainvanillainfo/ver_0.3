@@ -308,7 +308,7 @@ class Track {
     }
 
     fromServer(message) {
-        console.log("TrackClient::fromServer(): ", message);
+        console.log("Track::fromServer(): ", message);
         if (message.Action != null && message.TemplateItem != null) {
             switch (message.Action) {
                 case 'ContinueTemplateItem':
