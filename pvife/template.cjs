@@ -101,7 +101,9 @@ class TemplateItem extends TemplateItemClient {
             case 'Serial':
                 switch (this.useCase.Detail.Rendering.Format) {
                     case 'List':
-
+                        if (this.tableList == null) {
+                            this.presentTable(); 
+                        }
                         dataItems.forEach(dataItemCur => {
                             this.divItem.appendChild(document.createElement('br'));
                             for (let attrCur in dataItemCur.Attrs) {
@@ -188,6 +190,94 @@ class TemplateItem extends TemplateItemClient {
             });
         });
     }
+
+    presentTable() {
+        let divTableWrapper = document.createElement('div');
+        this.divItem.appendChild(divTableWrapper);
+        divTableWrapper.className = 'table-wrapper';
+        let divTitle = document.createElement('div');
+        divTableWrapper.appendChild(divTitle);
+        divTitle.className = 'table-title';
+        let divTitleRow = document.createElement('div');
+        divTitle.appendChild(divTitleRow);
+        divTitleRow.className = 'row';
+        let divTitleRowTitle = document.createElement('div');
+        divTitleRow.appendChild(divTitleRowTitle);
+        divTitleRowTitle.className = 'col-sm-10';
+        let tableCaption = document.createElement('h3');
+        divTitleRowTitle.appendChild(tableCaption);
+        //tableCaption.appendChild(document.createTextNode(this.useCase.Detail.Label));
+        let divTitleRowAddButton = document.createElement('div');
+        divTitleRow.appendChild(divTitleRowAddButton);
+        divTitleRowAddButton.className = 'col-sm-2';
+
+        /*
+        if (this.useCase.Detail.AddUseCase != null) {
+            let buttonAdd = document.createElement('button');
+            divTitleRowAddButton.appendChild(buttonAdd);
+            buttonAdd.className = 'btn btn-info add-new';
+            buttonAdd.addEventListener('click', (event) => {
+                event.preventDefault();
+                console.log("TemplateList - Add New");
+                this.divTargetSub = document.createElement('div')
+                this.divTargetSub.style.margin = '10px';
+                this.track.divTargetSub.appendChild(this.divTargetSub);
+                let divCur = document.createElement('div');
+                this.divTargetSub.appendChild(divCur);
+                divCur.className = 'mb-3';
+
+                let buttonCur = document.createElement('button');
+                divCur.appendChild(buttonCur);
+                buttonCur.className = 'btn btn-info';
+                buttonCur.setAttribute("type", "button");
+                buttonCur.id = 'backbutton';
+                buttonCur.style.width = "12em";
+                buttonCur.appendChild(document.createTextNode("< Go Back"));
+                buttonCur.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    this.track.popBreadcrumb();
+                    this.track.divTargetSub.removeChild(this.divTargetSub);
+                });
+
+                this.templateSub = new TemplateItem(this, this.divTargetSub);
+                this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.AddUseCase);
+                this.templateSub.setUseCase(this.subUseCase);
+                this.track.pushBreadcrumb(this.templateSub);
+            });
+            let iconAdd = document.createElement('i');
+            divTitleRowTitle.appendChild(iconAdd);
+            iconAdd.className = 'fa fa-plus';
+            buttonAdd.appendChild(iconAdd);
+            buttonAdd.appendChild(document.createTextNode('Add New'));
+        }
+        */
+
+        this.tableList = document.createElement('table');
+        divTableWrapper.appendChild(this.tableList);
+        this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
+        let tableHead = document.createElement('thead');
+        this.tableList.appendChild(tableHead);
+        this.tableHeadRow = document.createElement('tr');
+        tableHead.appendChild(this.tableHeadRow);
+        this.tableBody = document.createElement('tbody');
+        this.tableList.appendChild(this.tableBody);
+        this.useCase.Detail.Elems.forEach(elemCur => {
+            let tableHeadRowHeader = document.createElement('th');
+            this.tableHeadRow.appendChild(tableHeadRowHeader);
+            tableHeadRowHeader.setAttribute("scope", "col");
+            tableHeadRowHeader.appendChild(document.createTextNode(elemCur.Label));
+        });
+        /*
+        let messageOut = {
+            Action: 'StartTemplateList',
+            TemplateElem: {
+                UseCaseName: this.useCase.Detail.Name
+            }
+        };
+        this.parent.toServer(messageOut);
+        */
+    }
+
 
     presentPickList(dataItem) {
         console.log("TemplateItem::presentPickList");
