@@ -87,7 +87,14 @@ class TemplateItem extends TemplateItemClient {
 
     renderMultipleDataItems(dataItems) {
         dataItems.forEach(dataItemCur => {
-            this.divItem.appendChild(document.createTextNode(JSON.stringify(dataItemCur)));
+            //this.divItem.appendChild(document.createTextNode(JSON.stringify(dataItemCur)));
+            this.divItem.appendChild(document.createElement('br'));
+            for (let attrCur in dataItemCur.Attrs) {
+                let attrDetail = dataItemCur.Attrs[attrCur];
+                if (attrCur !== 'Id') {
+                    this.divItem.appendChild(document.createTextNode(attrDetail));
+                }
+            }
         });
     }
 
@@ -165,7 +172,8 @@ class TemplateElem extends TemplateElemClient {
         this.divElem = document.createElement('div')
         this.divItemParent.appendChild(this.divElem);
         this.visible = false;
-        this.divElem.appendChild(document.createTextNode(JSON.stringify(this.useCaseElem)));
+        //this.divElem.appendChild(document.createTextNode(JSON.stringify(this.useCaseElem)));
+        this.divElem.appendChild(document.createTextNode(this.useCaseElem.Rendering.Label));
     }
 
     startTemplateItem(message) {
