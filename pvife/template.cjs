@@ -206,7 +206,7 @@ class TemplateItem extends TemplateItemClient {
         divTitleRowTitle.className = 'col-sm-10';
         let tableCaption = document.createElement('h3');
         divTitleRowTitle.appendChild(tableCaption);
-        //tableCaption.appendChild(document.createTextNode(this.useCase.Detail.Label));
+        tableCaption.appendChild(document.createTextNode(this.useCase.Detail.Name));
         let divTitleRowAddButton = document.createElement('div');
         divTitleRow.appendChild(divTitleRowAddButton);
         divTitleRowAddButton.className = 'col-sm-2';
@@ -265,7 +265,7 @@ class TemplateItem extends TemplateItemClient {
             let tableHeadRowHeader = document.createElement('th');
             this.tableHeadRow.appendChild(tableHeadRowHeader);
             tableHeadRowHeader.setAttribute("scope", "col");
-            tableHeadRowHeader.appendChild(document.createTextNode(elemCur.Label));
+            tableHeadRowHeader.appendChild(document.createTextNode(elemCur.Rendering.Label));
         });
         /*
         let messageOut = {
