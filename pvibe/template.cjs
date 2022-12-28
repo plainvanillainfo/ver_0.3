@@ -107,20 +107,26 @@ class TemplateItem {
     }
     
 	constructSelect() {
-        console.log("TemplateItem::constructSelect():");
-        this.selectQuery = 'SELECT "Id","Extension"';
-        this.selectColumns = '';
-        this.selectFrom = 'FROM data."' + this.useCase.Detail.Class + '"';
-        if (this.parent.itemParent != null) {
+		console.log("TemplateItem::constructSelect():");
+		this.selectQuery = 'SELECT "Id","Extension"';
+		this.selectColumns = '';
+		this.selectFrom = 'FROM data."' + this.useCase.Detail.Class + '"';
+		if (this.parent.itemParent != null) {
 			let classparent = this.parent.parent.useCase.Detail.Class;
-			let linkTable = classparent + '_CHILD_'+ this.parent.useCaseElem.Attribute;
+			let linkTable = classparent + '_CHILD_' + this.parent.useCaseElem.Attribute;
 			this.selectFrom += ', data."' + linkTable + '"';
 			this.selectWhere = 'WHERE data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ';
 			this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + this.useCase.Detail.Class + '"."Id"';
+
+			//
+			// HERE: 
+			//
+			this.parent.context;
+
 		} else {
 			this.selectWhere = 'WHERE 1=1';
 		}
-        this.selectOrderBy = '';
+		this.selectOrderBy = '';
 		this.useCase.Detail.Elems.forEach(elemCur => {
 			this.constructSelectAddColumn(elemCur);
 		});
@@ -128,7 +134,7 @@ class TemplateItem {
 	}
 
 	constructSelectAddColumn(elemColumn) {
-        console.log("TemplateItem::constructSelectAddColumn() - elemColumn: ", elemColumn.Name);
+        //console.log("TemplateItem::constructSelectAddColumn() - elemColumn: ", elemColumn.Name);
         let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemColumn.Attribute);
         if (elemAttribute != null) {
 			switch (elemAttribute.Type) {
@@ -151,17 +157,6 @@ class TemplateItem {
 		}
 	}
 
-	/*
-	constructSelectNodePathSeg(pathSeg) {
-        console.log("TemplateItem::constructSelectNodePathSeg() - pathSeg: ", pathSeg.Child);
-		if (pathSeg.Paths != null) {
-			pathSeg.Paths.forEach(subPathCur => {
-				this.constructSelectNodePathSeg(subPathCur);
-			});
-		}
-	}
-	*/
-
 	stepDownToChild(elemChild) {
         console.log("TemplateItem::stepDownToChild() - elemChild: ", elemChild.Name);
         let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemChild.Attribute);
@@ -178,6 +173,11 @@ class TemplateItem {
 						if (itemListEntry.Elems[elemChild.Name] == null) {
 							let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === elemChild.Name);
 							itemListEntry.Elems[elemChild.Name] = new TemplateElem(this, useCaseElemFound, itemListEntry);
+
+							//
+							// HERE: 
+							//
+							itemListEntry.Elems[elemChild.Name].context = this.parent.context;
 							itemListEntry.Elems[elemChild.Name].startTemplateItem();
 						}
 					});
@@ -238,6 +238,7 @@ class TemplateElem {
         this.useCaseElem = useCaseElem;
         this.session = this.parent.session;
         this.itemParent = itemParent;
+		this.context = null;
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
     }
@@ -247,6 +248,9 @@ class TemplateElem {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
+					if (message.Context != null) {
+						this.context = message.Context;
+					}
 					this.startTemplateItem();
                     break;
                 default:

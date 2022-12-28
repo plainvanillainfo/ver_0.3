@@ -6,24 +6,6 @@ class TemplateItem extends TemplateItemClient {
         this.divItem = divItem;
     }
     
-    /*
-    renderDataItems() {
-        console.log("TemplateItem::renderDataItems()");
-        switch (this.useCase.Detail.Cardinality) {
-            case 'Single':
-                if (this.dataItems.length === 1) {
-                    this.renderSingleDataItem(this.dataItems[0]);
-                }
-                break;
-            case 'Multiple':
-                this.renderMultipleDataItems(this.dataItems);
-                break;
-            default:
-                break;
-        }
-    }
-    */
-
     continueTemplateElem(message) {
         console.log("TemplateItem::continueTemplateElem");
         if (message.UseCaseElemName != null) {
@@ -292,7 +274,6 @@ class TemplateElem extends TemplateElemClient {
         this.divElem = document.createElement('div')
         this.divItemParent.appendChild(this.divElem);
         this.visible = false;
-        //this.divElem.appendChild(document.createTextNode(JSON.stringify(this.useCaseElem)));
         this.divElem.appendChild(document.createTextNode(this.useCaseElem.Rendering.Label));
     }
 
@@ -342,7 +323,8 @@ class TemplateElem extends TemplateElemClient {
     show() {
         if (this.dataElem == null) {
             this.toServer({
-                Action: 'Start'
+                Action: 'Start',
+                Context: {}
             });
         }
         if (this.visible == false) {

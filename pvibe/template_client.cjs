@@ -3,7 +3,6 @@ class TemplateItemClient {
         this.parent = parent;
         this.session = this.parent.session;
         this.useCase = useCase;
-        //this.elems = {};
         this.elemDataItems = {};
         this.toServer = this.toServer.bind(this);
     }
