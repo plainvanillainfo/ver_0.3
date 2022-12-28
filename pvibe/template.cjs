@@ -117,11 +117,8 @@ class TemplateItem {
 			this.selectFrom += ', data."' + linkTable + '"';
 			this.selectWhere = 'WHERE data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ';
 			this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + this.useCase.Detail.Class + '"."Id"';
-
-			//
 			// HERE: 
-			//
-			this.parent.context;
+			this.constructSelectApplyContext();
 
 		} else {
 			this.selectWhere = 'WHERE 1=1';
@@ -157,6 +154,11 @@ class TemplateItem {
 		}
 	}
 
+	constructSelectApplyContext() {
+		this.parent.context;
+		
+	}
+
 	stepDownToChild(elemChild) {
         console.log("TemplateItem::stepDownToChild() - elemChild: ", elemChild.Name);
         let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemChild.Attribute);
@@ -173,10 +175,7 @@ class TemplateItem {
 						if (itemListEntry.Elems[elemChild.Name] == null) {
 							let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === elemChild.Name);
 							itemListEntry.Elems[elemChild.Name] = new TemplateElem(this, useCaseElemFound, itemListEntry);
-
-							//
 							// HERE: 
-							//
 							itemListEntry.Elems[elemChild.Name].context = this.parent.context;
 							itemListEntry.Elems[elemChild.Name].startTemplateItem();
 						}
@@ -249,7 +248,8 @@ class TemplateElem {
             switch (message.Action) {
                 case 'Start':
 					if (message.Context != null) {
-						this.context = message.Context;
+							// HERE: 
+							this.context = message.Context;
 					}
 					this.startTemplateItem();
                     break;
