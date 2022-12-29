@@ -160,11 +160,11 @@ class TemplateItem {
 	}
 
 	stepDownToChild(elemChild) {
-        console.log("TemplateItem::stepDownToChild() - elemChild: ", elemChild.Name);
         let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemChild.Attribute);
         if (elemAttribute != null) {
 			switch (elemAttribute.Type) {
 				case 'Child':
+					//console.log("TemplateItem::stepDownToChild() - elemChild: ", elemChild.Name);
 					this.dataItems.forEach(dataItemCur => {
 						let itemListEntry;
 						if (this.itemList[dataItemCur.Key] == null) {
