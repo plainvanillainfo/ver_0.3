@@ -78,6 +78,7 @@ class Application {
 		classInfo.Extensions.forEach(extensionCur => {
             let classFound = this.classes.find(cur => cur.Name === extensionCur.Name);
             if (classFound == null) {
+                extensionCur.Base = classInfo.Name;
                 retVal.push(extensionCur);
             }
 			let additions = this.flatten(extensionCur);
