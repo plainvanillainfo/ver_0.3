@@ -77,7 +77,7 @@ class Track {
         this.parent = parent;
         this.id = trackId;
         this.session = this.parent;
-        this.classes = this.parent,classes;
+        this.classes = this.parent.classes;
         this.track = this;
         this.isClosed = false;
         this.dbPath = [];
