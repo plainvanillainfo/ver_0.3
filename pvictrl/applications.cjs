@@ -26,7 +26,7 @@ class Application {
         console.log(this.classes, "\n");
         let flatAdditions = [];
         this.classes.forEach(classCur => {
-    	    let additions = this.flatten(classCur, null);
+    	    let additions = this.flatten(classCur);
             flatAdditions.concat(additions);
         });
         this.classes.concat(flatAdditions);
@@ -70,9 +70,9 @@ class Application {
     
     flatten(classInfo) {
         let retVal = [];
-        console.log("AAA: ", classInfo.Nane);
+        console.log("AAA: ", classInfo.Name);
 		classInfo.Extensions.forEach(extensionCur => {
-            console.log("AAA: ", extensionCur.Nane);
+            console.log("AAA: ", extensionCur.Name);
             let classFound = this.classes.find(cur => cur.Name === extensionCur.Name);
             if (classFound == null) {
                 retVal.concat(extensionCur);
