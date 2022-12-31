@@ -29,6 +29,7 @@ class Application {
     	    let additions = this.flatten(classCur);
             flatAdditions.concat(additions);
         });
+        console.log("EEE: ", flatAdditions);
         this.classes.concat(flatAdditions);
         this.classes.forEach(classCur => {
             if (classCur.Base == null || classCur.Base === '') {
