@@ -73,7 +73,7 @@ class Application {
 		classInfo.Extensions.forEach(extensionCur => {
             let classFound = this.classes.find(cur => cur.Name === extensionCur.Name);
             if (classFound == null) {
-                retVal.concat(classInfo);
+                retVal.concat(extensionCur);
             }
 			let additions = this.flatten(extensionCur);
             retVal.concat(additions);
