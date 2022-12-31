@@ -111,14 +111,12 @@ class TemplateItem {
 		let tableName = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class).tableName;
 		this.selectQuery = 'SELECT "Id","Extension"';
 		this.selectColumns = '';
-		//this.selectFrom = 'FROM data."' + this.useCase.Detail.Class + '"';
 		this.selectFrom = 'FROM data."' + tableName + '"';
 		if (this.parent.itemParent != null) {
 			let classparent = this.parent.parent.useCase.Detail.Class;
 			let linkTable = classparent + '_CHILD_' + this.parent.useCaseElem.Attribute;
 			this.selectFrom += ', data."' + linkTable + '"';
 			this.selectWhere = 'WHERE data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ';
-			//this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + this.useCase.Detail.Class + '"."Id"';
 			this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + tableName + '"."Id"';
 			// HERE: 
 			this.constructSelectApplyContext();
