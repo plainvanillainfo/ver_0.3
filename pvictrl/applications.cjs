@@ -73,6 +73,7 @@ class Application {
     flatten(classInfo) {
         let retVal = [];
 		classInfo.Extensions.forEach(extensionCur => {
+            retVal.concat(extensionCur);
 			let additions = this.flatten(extensionCur);
             retVal.concat(additions);
 		});
