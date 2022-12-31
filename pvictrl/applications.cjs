@@ -72,9 +72,10 @@ class Application {
         let retVal = [];
         console.log("AAA: ", classInfo.Name);
 		classInfo.Extensions.forEach(extensionCur => {
-            console.log("AAA: ", extensionCur.Name);
+            console.log("BBB: ", extensionCur.Name);
             let classFound = this.classes.find(cur => cur.Name === extensionCur.Name);
             if (classFound == null) {
+                console.log("CCCC: ", extensionCur.Name);
                 retVal.concat(extensionCur);
             }
 			let additions = this.flatten(extensionCur);
