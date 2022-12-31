@@ -108,9 +108,11 @@ class TemplateItem {
     
 	constructSelect() {
 		console.log("TemplateItem::constructSelect():");
+		let tableName = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class).tableName;
 		this.selectQuery = 'SELECT "Id","Extension"';
 		this.selectColumns = '';
-		this.selectFrom = 'FROM data."' + this.useCase.Detail.Class + '"';
+		//this.selectFrom = 'FROM data."' + this.useCase.Detail.Class + '"';
+		this.selectFrom = 'FROM data."' + tableName + '"';
 		if (this.parent.itemParent != null) {
 			let classparent = this.parent.parent.useCase.Detail.Class;
 			let linkTable = classparent + '_CHILD_' + this.parent.useCaseElem.Attribute;

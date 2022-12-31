@@ -12,6 +12,7 @@ class WebServer {
     constructor(parent) {
         this.parent = parent;
         this.wsConnections = [];
+        this.classes = null;
         this.startupTimeBufferMillisec = 1;
     }
 

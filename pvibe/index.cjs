@@ -6,6 +6,7 @@ class Backend {
     constructor(config) {
         console.log("Backend::constructor()");
         this.config = config;
+        this.classes = null;
         this.users = {};
         this.entitlements = {};
         this.items = {};
@@ -42,6 +43,12 @@ class Backend {
                 case 'Executables':
                     this.executables = rowCur.Value;
                     break;
+                case 'Executables':
+                    this.executables = rowCur.Value;
+                    break;
+                case 'Classes':
+                    this.classes = rowCur.Value;
+                    break;
                 default:
                     break;
             }
@@ -49,9 +56,11 @@ class Backend {
         if (this.bff != null) {
             let webAppServer = this.executables.find(cur => cur.WebAppServer != null);
             if (webAppServer != null) {
+                this.bff.classes = this.classes;
                 this.bff.start(webAppServer.WebAppServer);
             }
         } else {
+            this.engineRoom.classes = this.classes;
             this.engineRoom.start();
         }
     }

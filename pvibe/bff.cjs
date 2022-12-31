@@ -4,6 +4,7 @@ class BFF {
     constructor(parent) {
         this.parent = parent;
         this.database = this.parent.database;
+        this.classes = null;
         this.users = {};
         this.entitlements = {};
         this.sessions = {};
@@ -12,6 +13,7 @@ class BFF {
 
     async start(configWebAppServer) {
         console.log("BFF::start()");
+        this.webServer.classes = this.classes;
         this.webServer.start(configWebAppServer);
     }
 

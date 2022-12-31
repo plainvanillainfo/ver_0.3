@@ -6,6 +6,7 @@ class Session {
         this.id = id;
         this.ws = ws;
         this.database = this.parent.database;
+        this.classes = this.parent.classes;
         this.user = null;
         this.isClosed = false;
         this.entitlement = null;
@@ -76,6 +77,7 @@ class Track {
         this.parent = parent;
         this.id = trackId;
         this.session = this.parent;
+        this.classes = this.parent,classes;
         this.track = this;
         this.isClosed = false;
         this.dbPath = [];
