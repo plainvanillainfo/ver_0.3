@@ -24,6 +24,14 @@ class Application {
             this.deepen(classCur);
         });
         console.log(this.classes, "\n");
+        let flatAdditions = [];
+        this.classes.forEach(classCur => {
+            if (classCur.Base == null || classCur.Base === '') {
+			    let additions = this.flatten(classCur, null);
+                flatAdditions.concat(additions);
+            }
+        });
+        this.classes.concat(flatAdditions);
         this.classes.forEach(classCur => {
             if (classCur.Base == null || classCur.Base === '') {
 			    this.createTable(classCur, null);
@@ -62,6 +70,11 @@ class Application {
         }
     }
     
+    flatten(classInfo) {
+        let retVal = [];
+        return retVal;
+    }
+
     createTable(classInfo, baseClassInfo) {
         this.classesAll.push(classInfo);
         //classInfo.extensionTree = {};
@@ -122,11 +135,9 @@ class Application {
         });
         classInfo.Extensions.forEach(extensionCur => {
             this.createTable(extensionCur, classInfo);
-            //classInfo.extensionTree[extensionCur.Name] = extensionCur.extensionTree;
         });
         if (baseClassInfo == null) {
             this.sqlScriptData = this.sqlScriptData.slice(0, -2) + '\n);\n';
-            //this.sqlScriptData += ('COMMENT ON TABLE data."' + classInfo.Name + '" IS \'' + JSON.stringify({ExtensionTree: classInfo.extensionTree}) + '\';\n\n');
             this.sqlScriptData += ('COMMENT ON TABLE data."' + classInfo.Name + '" IS \'' + JSON.stringify({ExtensionTree: classInfo}) + '\';\n\n');
         }
     }
@@ -193,6 +204,8 @@ class Application {
             this.sqlScriptFunctionality += ('INSERT INTO functionality."AppConfig"("Param", "Value") VALUES(\'');
             this.sqlScriptFunctionality += (paramCur+'\',\'' + jsesc(JSON.stringify(paramValue), { 'quotes': 'single' }) + '\');\n');
         }
+        this.sqlScriptFunctionality += ('INSERT INTO functionality."AppConfig"("Param", "Value") VALUES(\'');
+        this.sqlScriptFunctionality += ('Classes\',\'' + jsesc(JSON.stringify(this.classes), { 'quotes': 'single' }) + '\');\n');
 
         let useCasesApplication = JSON.parse(fs.readFileSync(this.config.Dir + 'use_cases.cjs'));
         this.useCases = [...UseCasesCommon, ...useCasesApplication];
