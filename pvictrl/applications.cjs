@@ -70,7 +70,9 @@ class Application {
     
     flatten(classInfo) {
         let retVal = [];
+        console.log("AAA: ", classInfo.Nane);
 		classInfo.Extensions.forEach(extensionCur => {
+            console.log("AAA: ", extensionCur.Nane);
             let classFound = this.classes.find(cur => cur.Name === extensionCur.Name);
             if (classFound == null) {
                 retVal.concat(extensionCur);
