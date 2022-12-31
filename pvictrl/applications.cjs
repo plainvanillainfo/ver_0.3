@@ -40,7 +40,7 @@ class Application {
             }
         });
         this.classes.forEach(classCur => {
-            console.log("DDDD: ", classCur.Name);
+            //console.log("DDDD: ", classCur.Name);
             if (classCur.Base == null || classCur.Base === '') {
                 this.createTablePrimaryKey(classCur);
             }

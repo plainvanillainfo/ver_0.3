@@ -118,7 +118,8 @@ class TemplateItem {
 			let linkTable = classparent + '_CHILD_' + this.parent.useCaseElem.Attribute;
 			this.selectFrom += ', data."' + linkTable + '"';
 			this.selectWhere = 'WHERE data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ';
-			this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + this.useCase.Detail.Class + '"."Id"';
+			//this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + this.useCase.Detail.Class + '"."Id"';
+			this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + tableName + '"."Id"';
 			// HERE: 
 			this.constructSelectApplyContext();
 
