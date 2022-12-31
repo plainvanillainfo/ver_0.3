@@ -53,6 +53,7 @@ class ServerMonitor {
                     this.applications.push(applicationCur);
                 }
                 applicationCur.createClasses();
+                this.classes = applicationCur.classes;
                 break;
             case 'CreateUseCases':
                 applicationCur = this.applications.find(cur => cur.Name === applicationName);
@@ -63,6 +64,7 @@ class ServerMonitor {
                     });
                     this.applications.push(applicationCur);
                 }
+                applicationCur.classes = this.classes;
                 applicationCur.createUseCases();
                 break;
             case 'CreateUsers':
