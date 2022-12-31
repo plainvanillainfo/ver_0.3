@@ -26,10 +26,8 @@ class Application {
         console.log(this.classes, "\n");
         let flatAdditions = [];
         this.classes.forEach(classCur => {
-            if (classCur.Base == null || classCur.Base === '') {
-			    let additions = this.flatten(classCur, null);
-                flatAdditions.concat(additions);
-            }
+    	    let additions = this.flatten(classCur, null);
+            flatAdditions.concat(additions);
         });
         this.classes.concat(flatAdditions);
         this.classes.forEach(classCur => {
@@ -73,7 +71,10 @@ class Application {
     flatten(classInfo) {
         let retVal = [];
 		classInfo.Extensions.forEach(extensionCur => {
-            retVal.concat(extensionCur);
+            let classFound = this.classes.find(cur => cur.Name === extensionCur.Name);
+            if (classFound == null) {
+                retVal.concat(classInfo);
+            }
 			let additions = this.flatten(extensionCur);
             retVal.concat(additions);
 		});
