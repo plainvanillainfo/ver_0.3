@@ -4,6 +4,22 @@ class TemplateItem extends TemplateItemClient {
     constructor(parent, useCase, divItem) {
         super(parent, useCase);
         this.divItem = divItem;
+        /* 
+        UI:
+        labels
+        collection
+        selections
+        stack
+        pagination
+        actions
+        criteria
+        search
+        - paths
+        - AIML
+        - indexing
+        - meta info
+        - backend state for template
+        */
     }
     
     continueTemplateElem(message) {
