@@ -23,8 +23,8 @@ class TemplateItem extends TemplateItemClient {
        /*
        Rendering:
        - Stack: Inherit | Originate
-       - Format: List | Form
-       - Direction: TopDown | LeftRight | RightLeft
+       - Format: Table | Form
+       - Direction: LeftRight | RightLeft
        - Criteria: []
        - Search: {}
        - Pagination: None | Numbered
@@ -108,7 +108,7 @@ class TemplateItem extends TemplateItemClient {
                 break;
             case 'Serial':
                 switch (this.useCase.Detail.Rendering.Format) {
-                    case 'List':
+                    case 'Table':
                         if (this.tableList == null) {
                             this.presentTable(); 
                         }
