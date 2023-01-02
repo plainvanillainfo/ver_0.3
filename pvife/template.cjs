@@ -20,6 +20,16 @@ class TemplateItem extends TemplateItemClient {
         - meta info
         - backend state for template
         */
+       /*
+       Rendering:
+       - Stack: Inherit | Originate
+       - Format: List | Form
+       - Direction: TopDown | LeftRight | RightLeft
+       - Criteria: []
+       - Search: {}
+       - Pagination: None | Numbered
+       - Actions: []
+       */
     }
     
     continueTemplateElem(message) {
