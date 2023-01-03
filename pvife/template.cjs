@@ -61,7 +61,7 @@ class TemplateItem extends TemplateItemClient {
             this.divItem.appendChild(divSearch);
             let inputSearch = document.createElement('input');
             divSearch.appendChild(inputSearch);
-            inputSearch.setAttribute("type", "text");
+            inputSearch.setAttribute("type", "search");
             inputSearch.setAttribute("placeholder", "Search..");
             let buttonSearch = document.createElement('button');
             divSearch.appendChild(buttonSearch);
