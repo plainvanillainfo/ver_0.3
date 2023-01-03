@@ -124,12 +124,12 @@ class TemplateItem extends TemplateItemClient {
         }
     }
 
-    renderSingleDataItem(dataItem) {
+    renderSingleDataItem() {
         switch (this.useCase.Detail.Flow) {
             case 'Parallel':
                 switch (this.useCase.Detail.Rendering.Format) {
                     case 'Menu':
-                        this.presentMenu(dataItem);
+                        this.presentMenu(this.dataItems[0]);
                         break;
                     case 'Radio':
                         break;
@@ -167,9 +167,7 @@ class TemplateItem extends TemplateItemClient {
             case 'Serial':
                 switch (this.useCase.Detail.Rendering.Format) {
                     case 'Table':
-                        //if (this.tableList == null) {
-                        //    this.presentTable(); 
-                        //}
+                        /*
                         dataItems.forEach(dataItemCur => {
                             this.divItem.appendChild(document.createElement('br'));
                             for (let attrCur in dataItemCur.Attrs) {
@@ -179,6 +177,7 @@ class TemplateItem extends TemplateItemClient {
                                 }
                             }
                         });
+                        */
                         break;
                     default:
                         break;
@@ -348,6 +347,72 @@ class TemplateItem extends TemplateItemClient {
 
     presentPickList(dataItem) {
         console.log("TemplateItem::presentPickList");
+    }
+
+    presentTableRows() {
+        this.dataItems.forEach(itemCur => {
+            let tableItemRow = document.createElement('tr');
+            this.tableBody.appendChild(tableItemRow);
+            /*
+            tableItemRow.addEventListener('click', (event) => {
+                event.preventDefault();
+                console.log("TemplateList - item picked: ", itemCur.Key);
+
+                this.divTargetSub = document.createElement('div')
+                this.divTargetSub.style.margin = '10px';
+                this.track.divTargetSub.appendChild(this.divTargetSub);
+                let divCur = document.createElement('div');
+                this.divTargetSub.appendChild(divCur);
+                divCur.className = 'mb-3';
+
+                let buttonCur = document.createElement('button');
+                divCur.appendChild(buttonCur);
+                buttonCur.className = 'btn btn-info';
+                buttonCur.setAttribute("type", "button");
+                buttonCur.id = 'backbutton';
+                buttonCur.style.width = "12em";
+                buttonCur.appendChild(document.createTextNode("< Go Back"));
+                
+                buttonCur.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    this.track.popBreadcrumb();
+                    this.track.divTargetSub.removeChild(this.divTargetSub);
+                });
+
+                this.templateSub = new TemplateItem(this, this.divTargetSub);
+                if (this.useCase.Detail.UpdateUseCase != null) {
+                    console.log("TemplateList - item picked: - this.useCase.Detail.UpdateUseCase != null ");
+                    this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.UpdateUseCase);
+                    this.templateSub.setUseCase(this.subUseCase);
+                    this.templateSub.setItemKey(itemCur.Key);
+                    this.track.pushBreadcrumb(this.templateSub);
+                }
+            });
+            */
+
+            this.useCase.Detail.Elems.forEach(elemCur => {
+                let tableItemRowCell = document.createElement('td');
+                tableItemRow.appendChild(tableItemRowCell);
+                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
+                if (valueCur.substring != null) {
+                    valueCur = valueCur.substring(0,1000);
+                }
+                tableItemRowCell.appendChild(document.createTextNode(valueCur));
+            });
+        });
+
+        /*
+        this.dataItems.forEach(dataItemCur => {
+            this.divItem.appendChild(document.createElement('br'));
+            for (let attrCur in dataItemCur.Attrs) {
+                let attrDetail = dataItemCur.Attrs[attrCur];
+                if (attrCur !== 'Id') {
+                    this.divItem.appendChild(document.createTextNode(attrDetail));
+                }
+            }
+        });
+        */
+
     }
 
     /*

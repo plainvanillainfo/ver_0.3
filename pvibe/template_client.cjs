@@ -65,12 +65,12 @@ class TemplateItemClient {
                             Action: 'Start'
                         });
                     } else {
-                        this.renderSingleDataItem(this.dataItems[0]);
+                        this.renderSingleDataItem();
                     }
                 }
                 break;
             case 'Multiple':
-                this.renderMultipleDataItems(this.dataItems);
+                this.renderMultipleDataItems();
                 break;
             default:
                 break;
