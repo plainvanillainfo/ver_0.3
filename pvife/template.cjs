@@ -69,7 +69,7 @@ class TemplateItem extends TemplateItemClient {
             buttonSearch.id = 'searchbutton';
             let iconSearch = document.createElement('i');
             buttonSearch.appendChild(iconSearch);
-            iconSearch.className = 'fa fa-search';
+            iconSearch.className = 'bi bi-search';
         }
         if (rendering.Criteria != null) {
             let divCriteria = document.createElement('div');
