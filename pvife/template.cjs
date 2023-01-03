@@ -61,8 +61,17 @@ class TemplateItem extends TemplateItemClient {
             this.divItem.appendChild(divSearch);
             let inputSearch = document.createElement('input');
             divSearch.appendChild(inputSearch);
-            inputSearch.setAttribute("type", "search");
+            inputSearch.setAttribute("type", "text");
             inputSearch.setAttribute("placeholder", "Search..");
+
+            let buttonClear = document.createElement('button');
+            divSearch.appendChild(buttonClear);
+            buttonClear.setAttribute("type", "button");
+            buttonClear.id = 'clearbutton';
+            let iconClear = document.createElement('i');
+            buttonClear.appendChild(iconClear);
+            iconClear.className = 'bi bi-x-circle';
+
             let buttonSearch = document.createElement('button');
             divSearch.appendChild(buttonSearch);
             buttonSearch.setAttribute("type", "button");
