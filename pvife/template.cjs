@@ -178,6 +178,7 @@ class TemplateItem extends TemplateItemClient {
                             }
                         });
                         */
+                        this.presentTableRows();
                         break;
                     default:
                         break;
