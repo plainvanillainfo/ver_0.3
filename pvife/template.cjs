@@ -65,7 +65,7 @@ class TemplateItem extends TemplateItemClient {
             inputSearch.setAttribute("placeholder", "Search..");
 
             let buttonClear = document.createElement('button');
-            inputSearch.appendChild(buttonClear);
+            divSearch.appendChild(buttonClear);
             buttonClear.setAttribute("type", "button");
             buttonClear.id = 'clearbutton';
             let iconClear = document.createElement('i');
