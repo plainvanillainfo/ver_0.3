@@ -32,7 +32,7 @@ class TemplateItem extends TemplateItemClient {
         - Actions: []
         */
     
-        let rendering = this.useCase.Detail.Rendering.Caption;
+        let rendering = this.useCase.Detail.Rendering;
         if (rendering.Stack != null) {
             if (rendering.Stack === 'Inherit') {
                 if (this.parent.parent.divBreadcrumbs != null) {
