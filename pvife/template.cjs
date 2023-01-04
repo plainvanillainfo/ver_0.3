@@ -167,17 +167,6 @@ class TemplateItem extends TemplateItemClient {
             case 'Serial':
                 switch (this.useCase.Detail.Rendering.Format) {
                     case 'Table':
-                        /*
-                        dataItems.forEach(dataItemCur => {
-                            this.divItem.appendChild(document.createElement('br'));
-                            for (let attrCur in dataItemCur.Attrs) {
-                                let attrDetail = dataItemCur.Attrs[attrCur];
-                                if (attrCur !== 'Id') {
-                                    this.divItem.appendChild(document.createTextNode(attrDetail));
-                                }
-                            }
-                        });
-                        */
                         this.presentTableRows();
                         break;
                     default:
@@ -256,7 +245,6 @@ class TemplateItem extends TemplateItemClient {
         });
     }
 
-    presentTable() {
         /*
         let divTableWrapper = document.createElement('div');
         this.divItem.appendChild(divTableWrapper);
@@ -319,8 +307,8 @@ class TemplateItem extends TemplateItemClient {
         }
         */
 
+    presentTable() {
         this.tableList = document.createElement('table');
-        //divTableWrapper.appendChild(this.tableList);
         this.divItem.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
         let tableHead = document.createElement('thead');
@@ -330,10 +318,7 @@ class TemplateItem extends TemplateItemClient {
         this.tableBody = document.createElement('tbody');
         this.tableList.appendChild(this.tableBody);
         this.useCase.Detail.Elems.forEach(elemCur => {
-            let tableHeadRowHeader = document.createElement('th');
-            this.tableHeadRow.appendChild(tableHeadRowHeader);
-            tableHeadRowHeader.setAttribute("scope", "col");
-            tableHeadRowHeader.appendChild(document.createTextNode(elemCur.Rendering.Label));
+            this.presentTableElem(elemCur);
         });
         /*
         let messageOut = {
@@ -344,6 +329,23 @@ class TemplateItem extends TemplateItemClient {
         };
         this.parent.toServer(messageOut);
         */
+    }
+
+    presentTableElem(elem) {
+        if (elem.Rendering.Nesting == null || elem.Rendering.Nesting !== 'Coerced') {
+            let tableHeadRowHeader = document.createElement('th');
+            this.tableHeadRow.appendChild(tableHeadRowHeader);
+            tableHeadRowHeader.setAttribute("scope", "col");
+            tableHeadRowHeader.appendChild(document.createTextNode(elem.Rendering.Label));
+        } else {
+            let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
+            if (subUseCase != null) {
+                subUseCase.Detail.Elems.forEach(elemCur => {
+                    this.presentTableElem(elemCur);
+                });
+        
+            }
+        }
     }
 
     presentPickList(dataItem) {
@@ -401,19 +403,6 @@ class TemplateItem extends TemplateItemClient {
                 tableItemRowCell.appendChild(document.createTextNode(valueCur));
             });
         });
-
-        /*
-        this.dataItems.forEach(dataItemCur => {
-            this.divItem.appendChild(document.createElement('br'));
-            for (let attrCur in dataItemCur.Attrs) {
-                let attrDetail = dataItemCur.Attrs[attrCur];
-                if (attrCur !== 'Id') {
-                    this.divItem.appendChild(document.createTextNode(attrDetail));
-                }
-            }
-        });
-        */
-
     }
 
     /*
