@@ -86,7 +86,7 @@ class TemplateItem extends TemplateItemClient {
             divCriteria.appendChild(document.createTextNode('Criteria'));
         }
         if (rendering.Format === 'Table') {
-            if (this.tableList == null) {
+            if (this.parent.useCaseElemCur == null || this.parent.useCaseElemCur.Rendering.Nesting == null || this.parent.useCaseElemCur.Rendering.Nesting !== 'Coerced') {
                 this.presentTable();
             }
         }
