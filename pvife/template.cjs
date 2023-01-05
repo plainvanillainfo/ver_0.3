@@ -361,6 +361,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentTableRows() {
+        console.log("presentTableRows()");
         let tableOwner = this;
         while (tableOwner.tableBody == null) {
             tableOwner = tableOwner.parent.parent; 
