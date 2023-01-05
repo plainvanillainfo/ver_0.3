@@ -370,7 +370,6 @@ class TemplateItem extends TemplateItemClient {
         if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
             this.parent.parent.itemCells[this.parent.dataItemParent.itemKey].forEach(cur => {
                 let cellCur = {...cur};
-                //cellCur.Td = document.createElement('td');
                 itemCellsParent.push(cellCur);
             });
         }
@@ -447,6 +446,9 @@ class TemplateItem extends TemplateItemClient {
                 });
                 */
                 this.itemCells[itemCur.Key].forEach(cellCur => {
+                    if (cellCur.Td == null) {
+                        cellCur.Td = document.createElement('td');
+                    }
                     tableItemRow.appendChild(cellCur.Td);
                     cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
                 });
