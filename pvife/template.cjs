@@ -387,7 +387,7 @@ class TemplateItem extends TemplateItemClient {
                         this.itemCells[itemCur.Key].push({
                             Col: colCur, 
                             Value: '',
-                            Td: document.createElement('td')
+                            Td: null // document.createElement('td')
                         });
                     } else {
                         this.itemCells[itemCur.Key].push({
