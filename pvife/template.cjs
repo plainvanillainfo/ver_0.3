@@ -403,14 +403,30 @@ class TemplateItem extends TemplateItemClient {
             });
             */
 
+            let cells = [];
+            tableOwner.columns.forEach(colCur => {
+                cells.push({
+                    Col: colCur, 
+                    Value: '',
+                    Td: document.createElement('td')
+                });
+            });
             this.useCase.Detail.Elems.forEach(elemCur => {
-                let tableItemRowCell = document.createElement('td');
-                tableItemRow.appendChild(tableItemRowCell);
+                //let tableItemRowCell = document.createElement('td');
+                //tableItemRow.appendChild(tableItemRowCell);
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
                 if (valueCur.substring != null) {
                     valueCur = valueCur.substring(0,1000);
                 }
-                tableItemRowCell.appendChild(document.createTextNode(valueCur));
+                let cellCur = cells.find(cellCur => {cellCur.Col === elemCiur.Rendering.Label});
+                if (cellCur != null) {
+                    cellCur.Value = valueCur;
+                }
+                //tableItemRowCell.appendChild(document.createTextNode(valueCur));
+            });
+            cells.forEach(cellCur => {
+                tableItemRow.appendChild(cellCur.Td);
+                cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
             });
         });
     }
