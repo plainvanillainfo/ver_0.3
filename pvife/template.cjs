@@ -368,7 +368,9 @@ class TemplateItem extends TemplateItemClient {
         this.itemCells = {};
         let itemCellsParent = [];
         if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
-            itemCellsParent = this.parent.parent.itemCells[this.parent.dataItemParent.itemKey];
+            this.parent.parent.itemCells[this.parent.dataItemParent.itemKey].forEach(cur => {
+                itemCellsParent.push({...cur]});
+            });
         }
         this.dataItems.forEach(itemCur => {
             let tableItemRow = null;
@@ -376,7 +378,7 @@ class TemplateItem extends TemplateItemClient {
                 tableItemRow = document.createElement('tr');
                 tableOwner.tableBody.appendChild(tableItemRow);
             }
-            this.itemCells[itemCur.Key] = [...itemCellsParent]; // [];
+            this.itemCells[itemCur.Key] = itemCellsParent; // [];
             tableOwner.columns.forEach(colCur => {
                 if (tableItemRow != null) {
                     this.itemCells[itemCur.Key].push({
