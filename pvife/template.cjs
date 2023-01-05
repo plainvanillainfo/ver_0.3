@@ -370,7 +370,7 @@ class TemplateItem extends TemplateItemClient {
         if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
             this.parent.parent.itemCells[this.parent.dataItemParent.itemKey].forEach(cur => {
                 let cellCur = {...cur};
-                cellCur.Td = document.createElement('td');
+                //cellCur.Td = document.createElement('td');
                 itemCellsParent.push(cellCur);
             });
         }
@@ -382,20 +382,21 @@ class TemplateItem extends TemplateItemClient {
             }
             this.itemCells[itemCur.Key] = itemCellsParent; // [];
             tableOwner.columns.forEach(colCur => {
-                if (tableItemRow != null) {
-                    this.itemCells[itemCur.Key].push({
-                        Col: colCur, 
-                        Value: '',
-                        Td: document.createElement('td')
-                    });
-                
-                } else {
-                    this.itemCells[itemCur.Key].push({
-                        Col: colCur, 
-                        Value: '', //itemCellsParent != null ? itemCellsParent.itemCells.find(cellCur => cellCur.Col === colCur.Label).Value : '',
-                        Td: null
-                    });
-                    
+                let cellCur = this.itemCells.find(cur => cur.Col === colCur);
+                if (cellCur == null) {
+                    if (tableItemRow != null) {
+                        this.itemCells[itemCur.Key].push({
+                            Col: colCur, 
+                            Value: '',
+                            Td: document.createElement('td')
+                        });
+                    } else {
+                        this.itemCells[itemCur.Key].push({
+                            Col: colCur, 
+                            Value: '', //itemCellsParent != null ? itemCellsParent.itemCells.find(cellCur => cellCur.Col === colCur.Label).Value : '',
+                            Td: null
+                        });
+                    }
                 }
             });
             this.useCase.Detail.Elems.forEach(elemCur => {
