@@ -374,8 +374,8 @@ class TemplateItem extends TemplateItemClient {
             let tableItemRow = null;
             if (this.isLeaf === true) {
                 tableItemRow = document.createElement('tr');
+                tableOwner.tableBody.appendChild(tableItemRow);
             }
-            tableOwner.tableBody.appendChild(tableItemRow);
 
             this.itemCells[itemCur.Key] = [];
             tableOwner.columns.forEach(colCur => {
