@@ -369,8 +369,8 @@ class TemplateItem extends TemplateItemClient {
         let itemCellsParent = [];
         if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
             this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
-                let cellCur = {...cur};
-                itemCellsParent.push(cellCur);
+                let cellCur1 = {...cur};
+                itemCellsParent.push(cellCur1);
             });
         }
         this.dataItems.forEach(itemCur => {
@@ -381,8 +381,8 @@ class TemplateItem extends TemplateItemClient {
             }
             this.itemCells[itemCur.Key] = itemCellsParent; 
             tableOwner.columns.forEach(colCur => {
-                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
-                if (cellCur == null) {
+                let cellCur2 = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
+                if (cellCur2 == null) {
                     if (tableItemRow != null) {
                         this.itemCells[itemCur.Key].push({
                             Col: colCur, 
@@ -403,9 +403,9 @@ class TemplateItem extends TemplateItemClient {
                 if (valueCur.substring != null) {
                     valueCur = valueCur;
                 }
-                let cellCur = this.itemCells[itemCur.Key].find(cellCur => cellCur.Col === elemCur.Rendering.Label);
-                if (cellCur != null) {
-                    cellCur.Value = valueCur;
+                let cellCur3 = this.itemCells[itemCur.Key].find(cellCur4 => cellCur4.Col === elemCur.Rendering.Label);
+                if (cellCur3 != null) {
+                    cellCur3.Value = valueCur;
                 }
             });
             if (tableItemRow != null) {
@@ -445,12 +445,12 @@ class TemplateItem extends TemplateItemClient {
                     }
                 });
                 */
-                this.itemCells[itemCur.Key].forEach(cellCur => {
-                    if (cellCur.Td == null) {
-                        cellCur.Td = document.createElement('td');
+                this.itemCells[itemCur.Key].forEach(cellCur5 => {
+                    if (cellCur5.Td == null) {
+                        cellCur5.Td = document.createElement('td');
                     }
-                    tableItemRow.appendChild(cellCur.Td);
-                    cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
+                    tableItemRow.appendChild(cellCur5.Td);
+                    cellCur5.Td.appendChild(document.createTextNode(cellCur5.Value));
                 });
             }
         });
