@@ -363,7 +363,7 @@ class TemplateItem extends TemplateItemClient {
     presentTableRows() {
         let tableOwner = this;
         while (tableOwner.tableBody == null) {
-            tableOwner = tableOwner.parent.parent;
+            tableOwner = tableOwner.parent.parent; 
         }
         this.itemCells = {};
         let itemCellsParent = [];
