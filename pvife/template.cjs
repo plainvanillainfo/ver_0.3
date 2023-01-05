@@ -394,7 +394,7 @@ class TemplateItem extends TemplateItemClient {
                         this.itemCells[itemCur.Key].push({
                             Col: colCur, 
                             Value: '', //itemCellsParent != null ? itemCellsParent.itemCells.find(cellCur => cellCur.Col === colCur.Label).Value : '',
-                            Td: null
+                            Td: document.createElement('td')
                         });
                     }
                 }
