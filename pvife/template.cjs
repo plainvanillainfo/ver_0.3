@@ -345,7 +345,7 @@ class TemplateItem extends TemplateItemClient {
                 tableHeadRowHeader.appendChild(document.createTextNode(elem.Rendering.Label));
             }
         } else {
-            this.isLeaf = true;
+            this.isLeaf = false;
             let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
             if (subUseCase != null) {
                 subUseCase.Detail.Elems.forEach(elemCur => {
