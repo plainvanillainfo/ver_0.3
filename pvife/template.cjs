@@ -374,6 +374,7 @@ class TemplateItem extends TemplateItemClient {
             });
         }
         this.dataItems.forEach(itemCur => {
+            console.log("itemCellsParent: ", itemCellsParent);
             this.itemCells[itemCur.Key] = itemCellsParent; 
             tableOwner.columns.forEach(colCur => {
                 let cellCur2 = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
