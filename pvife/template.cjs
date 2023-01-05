@@ -379,7 +379,7 @@ class TemplateItem extends TemplateItemClient {
                 tableItemRow = document.createElement('tr');
                 tableOwner.tableBody.appendChild(tableItemRow);
             }
-            this.itemCells[itemCur.Key] = itemCellsParent; // [];
+            this.itemCells[itemCur.Key] = itemCellsParent; 
             tableOwner.columns.forEach(colCur => {
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
                 if (cellCur == null) {
@@ -392,7 +392,7 @@ class TemplateItem extends TemplateItemClient {
                     } else {
                         this.itemCells[itemCur.Key].push({
                             Col: colCur, 
-                            Value: '', //itemCellsParent != null ? itemCellsParent.itemCells.find(cellCur => cellCur.Col === colCur.Label).Value : '',
+                            Value: '', 
                             Td: document.createElement('td')
                         });
                     }
