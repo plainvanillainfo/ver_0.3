@@ -375,27 +375,21 @@ class TemplateItem extends TemplateItemClient {
         }
         this.dataItems.forEach(itemCur => {
             let tableItemRow = null;
+            /*
             if (this.isLeaf === true) {
                 tableItemRow = document.createElement('tr');
                 tableOwner.tableBody.appendChild(tableItemRow);
             }
+            */
             this.itemCells[itemCur.Key] = itemCellsParent; 
             tableOwner.columns.forEach(colCur => {
                 let cellCur2 = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
                 if (cellCur2 == null) {
-                    if (tableItemRow != null) {
-                        this.itemCells[itemCur.Key].push({
-                            Col: colCur, 
-                            Value: '',
-                            Td: null // document.createElement('td')
-                        });
-                    } else {
-                        this.itemCells[itemCur.Key].push({
-                            Col: colCur, 
-                            Value: '', 
-                            Td: null // document.createElement('td')
-                        });
-                    }
+                    this.itemCells[itemCur.Key].push({
+                        Col: colCur, 
+                        Value: '',
+                        Td: null
+                    });
                 }
             });
             this.useCase.Detail.Elems.forEach(elemCur => {
@@ -408,9 +402,11 @@ class TemplateItem extends TemplateItemClient {
                     cellCur3.Value = valueCur;
                 }
             });
-            //if (tableItemRow != null) {
+            
+        });
 
-            if (this.isLeaf === true) {
+        if (this.isLeaf === true) {
+            this.dataItems.forEach(itemCur => {
                 /*
                 tableItemRow.addEventListener('click', (event) => {
                     event.preventDefault();
@@ -447,16 +443,21 @@ class TemplateItem extends TemplateItemClient {
                     }
                 });
                 */
+
+                tableItemRow = document.createElement('tr');
+                tableOwner.tableBody.appendChild(tableItemRow);
+
                 this.itemCells[itemCur.Key].forEach(cellCur5 => {
                     if (cellCur5.Td == null) {
                         cellCur5.Td = document.createElement('td');
                     }
-                    //tableItemRow.appendChild(cellCur5.Td);
-                    tableOwner.tableBody.lastChild.appendChild(cellCur5.Td);
+                    tableItemRow.appendChild(cellCur5.Td);
+                    //tableOwner.tableBody.lastChild.appendChild(cellCur5.Td);
                     cellCur5.Td.appendChild(document.createTextNode(cellCur5.Value));
                 });
             }
-        });
+        }
+
     }
 
     /*
