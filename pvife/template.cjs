@@ -310,7 +310,6 @@ class TemplateItem extends TemplateItemClient {
         */
 
     presentTable() {
-        //alert(JSON.stringify(this.parent.useCaseElem.Rendering));
         this.tableList = document.createElement('table');
         this.divItem.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
@@ -320,6 +319,7 @@ class TemplateItem extends TemplateItemClient {
         tableHead.appendChild(this.tableHeadRow);
         this.tableBody = document.createElement('tbody');
         this.tableList.appendChild(this.tableBody);
+        this.columns = [];
         this.useCase.Detail.Elems.forEach(elemCur => {
             this.presentTableElem(elemCur);
         });
@@ -336,10 +336,13 @@ class TemplateItem extends TemplateItemClient {
 
     presentTableElem(elem) {
         if (elem.Rendering.Nesting == null || elem.Rendering.Nesting !== 'Coerced') {
-            let tableHeadRowHeader = document.createElement('th');
-            this.tableHeadRow.appendChild(tableHeadRowHeader);
-            tableHeadRowHeader.setAttribute("scope", "col");
-            tableHeadRowHeader.appendChild(document.createTextNode(elem.Rendering.Label));
+            if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
+                this.columns.push(elem.Rendering.Label);
+                let tableHeadRowHeader = document.createElement('th');
+                this.tableHeadRow.appendChild(tableHeadRowHeader);
+                tableHeadRowHeader.setAttribute("scope", "col");
+                tableHeadRowHeader.appendChild(document.createTextNode(elem.Rendering.Label));
+            }
         } else {
             let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
             if (subUseCase != null) {
@@ -356,9 +359,13 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentTableRows() {
+        let tableOwner = this;
+        while (tableOwner.tableBody == null) {
+            tableOwner = tableOwner.parent.parent;
+        }
         this.dataItems.forEach(itemCur => {
             let tableItemRow = document.createElement('tr');
-            this.tableBody.appendChild(tableItemRow);
+            tableOwner.tableBody.appendChild(tableItemRow);
             /*
             tableItemRow.addEventListener('click', (event) => {
                 event.preventDefault();
