@@ -408,7 +408,9 @@ class TemplateItem extends TemplateItemClient {
                     cellCur3.Value = valueCur;
                 }
             });
-            if (tableItemRow != null) {
+            //if (tableItemRow != null) {
+
+            if (this.isLeaf === true) {
                 /*
                 tableItemRow.addEventListener('click', (event) => {
                     event.preventDefault();
@@ -449,7 +451,8 @@ class TemplateItem extends TemplateItemClient {
                     if (cellCur5.Td == null) {
                         cellCur5.Td = document.createElement('td');
                     }
-                    tableItemRow.appendChild(cellCur5.Td);
+                    //tableItemRow.appendChild(cellCur5.Td);
+                    tableOwner.tableBody.lastChild.appendChild(cellCur5.Td);
                     cellCur5.Td.appendChild(document.createTextNode(cellCur5.Value));
                 });
             }
