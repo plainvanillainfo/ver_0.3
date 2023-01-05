@@ -455,7 +455,7 @@ class TemplateItem extends TemplateItemClient {
                     //tableOwner.tableBody.lastChild.appendChild(cellCur5.Td);
                     cellCur5.Td.appendChild(document.createTextNode(cellCur5.Value));
                 });
-            }
+            });
         }
 
     }
