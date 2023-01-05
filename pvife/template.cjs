@@ -374,7 +374,7 @@ class TemplateItem extends TemplateItemClient {
             });
         }
         this.dataItems.forEach(itemCur => {
-            let tableItemRow = null;
+            //let tableItemRow = null;
             /*
             if (this.isLeaf === true) {
                 tableItemRow = document.createElement('tr');
@@ -444,7 +444,7 @@ class TemplateItem extends TemplateItemClient {
                 });
                 */
 
-                tableItemRow = document.createElement('tr');
+                let tableItemRow = document.createElement('tr');
                 tableOwner.tableBody.appendChild(tableItemRow);
 
                 this.itemCells[itemCur.Key].forEach(cellCur5 => {
