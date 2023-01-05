@@ -361,7 +361,6 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentTableRows() {
-        console.log("presentTableRows()");
         let tableOwner = this;
         while (tableOwner.tableBody == null) {
             tableOwner = tableOwner.parent.parent; 
@@ -370,23 +369,18 @@ class TemplateItem extends TemplateItemClient {
         let itemCellsParent = [];
         if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
             this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
-                let cellCur1 = {...cur};
-                itemCellsParent.push(cellCur1);
+                itemCellsParent.push({...cur});
             });
-            console.log("AAAAA");
         }
-        console.log("BBBBB");
         this.dataItems.forEach(itemCur => {
-            console.log("itemCellsParent: ", itemCellsParent);
-            //this.itemCells[itemCur.Key] = [...itemCellsParent]; 
             this.itemCells[itemCur.Key] = [];
             itemCellsParent.forEach(cellCur => {
                 this.itemCells[itemCur.Key].push({...cellCur});
             });
 
             tableOwner.columns.forEach(colCur => {
-                let cellCur2 = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
-                if (cellCur2 == null) {
+                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
+                if (cellCur == null) {
                     this.itemCells[itemCur.Key].push({
                         Col: colCur, 
                         Value: '',
@@ -399,9 +393,9 @@ class TemplateItem extends TemplateItemClient {
                 if (valueCur.substring != null) {
                     valueCur = valueCur;
                 }
-                let cellCur3 = this.itemCells[itemCur.Key].find(cellCur4 => cellCur4.Col === elemCur.Rendering.Label);
-                if (cellCur3 != null) {
-                    cellCur3.Value = valueCur;
+                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
+                if (cellCur != null) {
+                    cellCur.Value = valueCur;
                 }
             });
             
@@ -449,13 +443,12 @@ class TemplateItem extends TemplateItemClient {
                 let tableItemRow = document.createElement('tr');
                 tableOwner.tableBody.appendChild(tableItemRow);
 
-                this.itemCells[itemCur.Key].forEach(cellCur5 => {
-                    if (cellCur5.Td == null) {
-                        cellCur5.Td = document.createElement('td');
+                this.itemCells[itemCur.Key].forEach(cellCur => {
+                    if (cellCur.Td == null) {
+                        cellCur.Td = document.createElement('td');
                     }
-                    tableItemRow.appendChild(cellCur5.Td);
-                    //tableOwner.tableBody.lastChild.appendChild(cellCur5.Td);
-                    cellCur5.Td.appendChild(document.createTextNode(cellCur5.Value));
+                    tableItemRow.appendChild(cellCur.Td);
+                    cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
                 });
             });
         }
