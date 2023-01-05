@@ -310,6 +310,7 @@ class TemplateItem extends TemplateItemClient {
         */
 
     presentTable() {
+        alert(this.useCase.Detail);
         this.tableList = document.createElement('table');
         this.divItem.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
