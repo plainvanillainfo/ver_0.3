@@ -86,7 +86,7 @@ class TemplateItem extends TemplateItemClient {
             divCriteria.appendChild(document.createTextNode('Criteria'));
         }
         if (rendering.Format === 'Table') {
-            if (this.parent.useCaseElemCur == null || this.parent.useCaseElemCur.Rendering.Nesting == null || this.parent.useCaseElemCur.Rendering.Nesting !== 'Coerced') {
+            if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
                 this.presentTable();
             }
         }
@@ -310,7 +310,7 @@ class TemplateItem extends TemplateItemClient {
         */
 
     presentTable() {
-        alert(JSON.stringify(this.parent.useCaseElemCur.Rendering));
+        alert(JSON.stringify(this.parent.useCaseElem.Rendering));
         this.tableList = document.createElement('table');
         this.divItem.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
