@@ -374,13 +374,6 @@ class TemplateItem extends TemplateItemClient {
             });
         }
         this.dataItems.forEach(itemCur => {
-            //let tableItemRow = null;
-            /*
-            if (this.isLeaf === true) {
-                tableItemRow = document.createElement('tr');
-                tableOwner.tableBody.appendChild(tableItemRow);
-            }
-            */
             this.itemCells[itemCur.Key] = itemCellsParent; 
             tableOwner.columns.forEach(colCur => {
                 let cellCur2 = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
