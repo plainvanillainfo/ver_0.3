@@ -369,7 +369,9 @@ class TemplateItem extends TemplateItemClient {
         let itemCellsParent = [];
         if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
             this.parent.parent.itemCells[this.parent.dataItemParent.itemKey].forEach(cur => {
-                itemCellsParent.push({...cur});
+                let cellCur = {...cur};
+                cellCur.Td = document.createElement('td');
+                itemCellsParent.push(cellCur);
             });
         }
         this.dataItems.forEach(itemCur => {
@@ -386,20 +388,20 @@ class TemplateItem extends TemplateItemClient {
                         Value: '',
                         Td: document.createElement('td')
                     });
-                /*
+                
                 } else {
                     this.itemCells[itemCur.Key].push({
                         Col: colCur, 
-                        Value: itemCellsParent != null ? itemCellsParent.itemCells.find(cellCur => cellCur.Col === colCur.Label).Value : '',
+                        Value: '', //itemCellsParent != null ? itemCellsParent.itemCells.find(cellCur => cellCur.Col === colCur.Label).Value : '',
                         Td: null
                     });
-                    */
+                    
                 }
             });
             this.useCase.Detail.Elems.forEach(elemCur => {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
                 if (valueCur.substring != null) {
-                    valueCur = valueCur; //.substring(0,1000);
+                    valueCur = valueCur;
                 }
                 let cellCur = this.itemCells[itemCur.Key].find(cellCur => cellCur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
