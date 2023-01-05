@@ -345,6 +345,7 @@ class TemplateItem extends TemplateItemClient {
                 tableHeadRowHeader.appendChild(document.createTextNode(elem.Rendering.Label));
             }
         } else {
+            this.isLeaf = true;
             let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
             if (subUseCase != null) {
                 subUseCase.Detail.Elems.forEach(elemCur => {
@@ -510,7 +511,7 @@ class TemplateElem extends TemplateElemClient {
         this.divItemParent = divItemParent;
         if (this.useCaseElem.Rendering.Nesting != null && this.useCaseElem.Rendering.Nesting === 'Coerced') {
             this.divElem = this.divItemParent;
-            this.parent.isLeaf = false;
+            //this.parent.isLeaf = false;
         } else {
             this.divElem = document.createElement('div')
             this.divItemParent.appendChild(this.divElem);
