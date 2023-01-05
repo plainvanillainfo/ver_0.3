@@ -366,7 +366,7 @@ class TemplateItem extends TemplateItemClient {
         }
         this.itemCells = {};
         let itemCellsParent = null;
-        if (this.parent.dataItemParent != null) {
+        if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
             itemCellsParent = this.parent.parent.itemCells[this.parent.dataItemParent.itemKey];
         }
         this.dataItems.forEach(itemCur => {
