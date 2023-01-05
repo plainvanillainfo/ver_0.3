@@ -366,7 +366,7 @@ class TemplateItem extends TemplateItemClient {
             tableOwner = tableOwner.parent.parent;
         }
         this.itemCells = {};
-        let itemCellsParent = null;
+        let itemCellsParent = [];
         if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
             itemCellsParent = this.parent.parent.itemCells[this.parent.dataItemParent.itemKey];
         }
@@ -376,8 +376,7 @@ class TemplateItem extends TemplateItemClient {
                 tableItemRow = document.createElement('tr');
                 tableOwner.tableBody.appendChild(tableItemRow);
             }
-
-            this.itemCells[itemCur.Key] = [];
+            this.itemCells[itemCur.Key] = [...itemCellsParent]; // [];
             tableOwner.columns.forEach(colCur => {
                 if (tableItemRow != null) {
                     this.itemCells[itemCur.Key].push({
@@ -385,12 +384,14 @@ class TemplateItem extends TemplateItemClient {
                         Value: '',
                         Td: document.createElement('td')
                     });
+                /*
                 } else {
                     this.itemCells[itemCur.Key].push({
                         Col: colCur, 
                         Value: itemCellsParent != null ? itemCellsParent.itemCells.find(cellCur => cellCur.Col === colCur.Label).Value : '',
                         Td: null
                     });
+                    */
                 }
             });
             this.useCase.Detail.Elems.forEach(elemCur => {
