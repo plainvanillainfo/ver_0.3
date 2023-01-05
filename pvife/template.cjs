@@ -4,6 +4,7 @@ class TemplateItem extends TemplateItemClient {
     constructor(parent, useCase, divItem) {
         super(parent, useCase);
         this.divItem = divItem;
+        this.isLeaf = true;
         /* 
         UI:
         labels
@@ -363,71 +364,86 @@ class TemplateItem extends TemplateItemClient {
         while (tableOwner.tableBody == null) {
             tableOwner = tableOwner.parent.parent;
         }
+        this.itemCells = {};
+        let itemCellsParent = null;
+        if (this.parent.dataItemParent != null) {
+            itemCellsParent = this.parent.parent.itemCells[this.parent.dataItemParent.itemKey];
+        }
         this.dataItems.forEach(itemCur => {
-            let tableItemRow = document.createElement('tr');
+            let tableItemRow = null;
+            if (this.isLeaf === true) {
+                tableItemRow = document.createElement('tr');
+            }
             tableOwner.tableBody.appendChild(tableItemRow);
-            /*
-            tableItemRow.addEventListener('click', (event) => {
-                event.preventDefault();
-                console.log("TemplateList - item picked: ", itemCur.Key);
 
-                this.divTargetSub = document.createElement('div')
-                this.divTargetSub.style.margin = '10px';
-                this.track.divTargetSub.appendChild(this.divTargetSub);
-                let divCur = document.createElement('div');
-                this.divTargetSub.appendChild(divCur);
-                divCur.className = 'mb-3';
-
-                let buttonCur = document.createElement('button');
-                divCur.appendChild(buttonCur);
-                buttonCur.className = 'btn btn-info';
-                buttonCur.setAttribute("type", "button");
-                buttonCur.id = 'backbutton';
-                buttonCur.style.width = "12em";
-                buttonCur.appendChild(document.createTextNode("< Go Back"));
-                
-                buttonCur.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    this.track.popBreadcrumb();
-                    this.track.divTargetSub.removeChild(this.divTargetSub);
-                });
-
-                this.templateSub = new TemplateItem(this, this.divTargetSub);
-                if (this.useCase.Detail.UpdateUseCase != null) {
-                    console.log("TemplateList - item picked: - this.useCase.Detail.UpdateUseCase != null ");
-                    this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.UpdateUseCase);
-                    this.templateSub.setUseCase(this.subUseCase);
-                    this.templateSub.setItemKey(itemCur.Key);
-                    this.track.pushBreadcrumb(this.templateSub);
-                }
-            });
-            */
-
-            let cells = [];
+            this.itemCells[itemCur.Key] = [];
             tableOwner.columns.forEach(colCur => {
-                cells.push({
-                    Col: colCur, 
-                    Value: '',
-                    Td: document.createElement('td')
-                });
+                if (tableItemRow != null) {
+                    this.itemCells[itemCur.Key].push({
+                        Col: colCur, 
+                        Value: '',
+                        Td: document.createElement('td')
+                    });
+                } else {
+                    this.itemCells[itemCur.Key].push({
+                        Col: colCur, 
+                        Value: itemCellsParent != null ? itemCellsParent.itemCells.find(cellCur => cellCur.Col === colCur.Label).Value : '',
+                        Td: null
+                    });
+                }
             });
             this.useCase.Detail.Elems.forEach(elemCur => {
-                //let tableItemRowCell = document.createElement('td');
-                //tableItemRow.appendChild(tableItemRowCell);
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
                 if (valueCur.substring != null) {
-                    valueCur = valueCur.substring(0,1000);
+                    valueCur = valueCur; //.substring(0,1000);
                 }
-                let cellCur = cells.find(cellCur => cellCur.Col === elemCur.Rendering.Label);
+                let cellCur = this.itemCells[itemCur.Key].find(cellCur => cellCur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
                     cellCur.Value = valueCur;
                 }
-                //tableItemRowCell.appendChild(document.createTextNode(valueCur));
             });
-            cells.forEach(cellCur => {
-                tableItemRow.appendChild(cellCur.Td);
-                cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
-            });
+            if (tableItemRow != null) {
+                /*
+                tableItemRow.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    console.log("TemplateList - item picked: ", itemCur.Key);
+    
+                    this.divTargetSub = document.createElement('div')
+                    this.divTargetSub.style.margin = '10px';
+                    this.track.divTargetSub.appendChild(this.divTargetSub);
+                    let divCur = document.createElement('div');
+                    this.divTargetSub.appendChild(divCur);
+                    divCur.className = 'mb-3';
+    
+                    let buttonCur = document.createElement('button');
+                    divCur.appendChild(buttonCur);
+                    buttonCur.className = 'btn btn-info';
+                    buttonCur.setAttribute("type", "button");
+                    buttonCur.id = 'backbutton';
+                    buttonCur.style.width = "12em";
+                    buttonCur.appendChild(document.createTextNode("< Go Back"));
+                    
+                    buttonCur.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        this.track.popBreadcrumb();
+                        this.track.divTargetSub.removeChild(this.divTargetSub);
+                    });
+    
+                    this.templateSub = new TemplateItem(this, this.divTargetSub);
+                    if (this.useCase.Detail.UpdateUseCase != null) {
+                        console.log("TemplateList - item picked: - this.useCase.Detail.UpdateUseCase != null ");
+                        this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.UpdateUseCase);
+                        this.templateSub.setUseCase(this.subUseCase);
+                        this.templateSub.setItemKey(itemCur.Key);
+                        this.track.pushBreadcrumb(this.templateSub);
+                    }
+                });
+                */
+                this.itemCells[itemCur.Key].forEach(cellCur => {
+                    tableItemRow.appendChild(cellCur.Td);
+                    cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
+                });
+            }
         });
     }
 
@@ -494,6 +510,7 @@ class TemplateElem extends TemplateElemClient {
         this.divItemParent = divItemParent;
         if (this.useCaseElem.Rendering.Nesting != null && this.useCaseElem.Rendering.Nesting === 'Coerced') {
             this.divElem = this.divItemParent;
+            this.parent.isLeaf = false;
         } else {
             this.divElem = document.createElement('div')
             this.divItemParent.appendChild(this.divElem);
