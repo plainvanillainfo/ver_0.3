@@ -379,7 +379,7 @@ class TemplateItem extends TemplateItemClient {
         this.dataItems.forEach(itemCur => {
             console.log("itemCellsParent: ", itemCellsParent);
             //this.itemCells[itemCur.Key] = [...itemCellsParent]; 
-
+            this.itemCells[itemCur.Key] = [];
             itemCellsParent.forEach(cellCur => {
                 this.itemCells[itemCur.Key].push({...cellCur});
             });
