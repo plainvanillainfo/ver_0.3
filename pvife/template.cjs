@@ -382,7 +382,7 @@ class TemplateItem extends TemplateItemClient {
             }
             this.itemCells[itemCur.Key] = itemCellsParent; // [];
             tableOwner.columns.forEach(colCur => {
-                let cellCur = this.itemCells.find(cur => cur.Col === colCur);
+                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
                 if (cellCur == null) {
                     if (tableItemRow != null) {
                         this.itemCells[itemCur.Key].push({
