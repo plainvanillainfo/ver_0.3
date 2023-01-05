@@ -418,7 +418,7 @@ class TemplateItem extends TemplateItemClient {
                 if (valueCur.substring != null) {
                     valueCur = valueCur.substring(0,1000);
                 }
-                let cellCur = cells.find(cellCur => {cellCur.Col === elemCiur.Rendering.Label});
+                let cellCur = cells.find(cellCur => {cellCur.Col === elemCur.Rendering.Label});
                 if (cellCur != null) {
                     cellCur.Value = valueCur;
                 }
