@@ -86,7 +86,9 @@ class TemplateItem extends TemplateItemClient {
             divCriteria.appendChild(document.createTextNode('Criteria'));
         }
         if (rendering.Format === 'Table') {
-            this.presentTable();
+            if (this.tableList == null) {
+                this.presentTable();
+            }
         }
     }
     
@@ -466,10 +468,13 @@ class TemplateElem extends TemplateElemClient {
     constructor(parent, dataItemParent, dataElem, useCaseElem,  divItemParent) {
         super(parent, dataItemParent, dataElem, useCaseElem);
         this.divItemParent = divItemParent;
-        this.divElem = document.createElement('div')
-        this.divItemParent.appendChild(this.divElem);
+        if (this.useCase.Rendering.Nesting != null && this.useCase.Rendering.Nesting === 'Coerced') {
+            this.divElem = this.divItemParent;
+        } else {
+            this.divElem = document.createElement('div')
+            this.divItemParent.appendChild(this.divElem);
+        }
         this.visible = false;
-        //this.divElem.appendChild(document.createTextNode(this.useCaseElem.Rendering.Label));
     }
 
     startTemplateItem(message) {
