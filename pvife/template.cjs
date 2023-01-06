@@ -399,7 +399,9 @@ class TemplateItem extends TemplateItemClient {
                     valueCur = valueCur;
                 }
                 if (valueCur !== '') {
-                    itemCur.isEmpty = false;
+                    if (this.isLeaf === true) {
+                        itemCur.isEmpty = false;
+                    }
                 }
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
@@ -456,7 +458,7 @@ class TemplateItem extends TemplateItemClient {
                         tableItemRow.appendChild(cellCur.Td);
                         cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
                     });
-                    ``
+                    
                 }
             });
         }
