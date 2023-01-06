@@ -398,7 +398,7 @@ class TemplateItem extends TemplateItemClient {
                 if (valueCur.substring != null) {
                     valueCur = valueCur;
                 }
-                if (valueCur != '') {
+                if (valueCur !== '') {
                     itemCur.isEmpty = false;
                 }
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
