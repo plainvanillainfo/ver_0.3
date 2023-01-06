@@ -96,9 +96,11 @@ class TemplateItem {
     }
 
     toClient(messageIn) {
+		let parentKey = this.parent.itemParent != null ? this.parent.itemParent.Key : null;
         let messageOut = {
             Action: 'ContinueTemplateItem',
             TemplateItem: {
+				ParentKey: parentKey,
                 UseCaseName: this.useCase.Detail.Name,
                 ...messageIn
             }
