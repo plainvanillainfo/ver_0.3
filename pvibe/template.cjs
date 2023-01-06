@@ -116,7 +116,8 @@ class TemplateItem {
 		this.selectFrom = 'FROM data."' + tableName + '"';
 		if (this.parent.itemParent != null) {
 			let classparent = this.parent.parent.useCase.Detail.Class;
-			let linkTable = classparent + '_CHILD_' + this.parent.useCaseElem.Attribute;
+			//let linkTable = classparent + '_CHILD_' + this.parent.useCaseElem.Attribute;
+			let linkTable = tableName + '_CHILD_' + this.parent.useCaseElem.Attribute;
 			this.selectFrom += ', data."' + linkTable + '"';
 			this.selectWhere = 'WHERE data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ';
 			this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + tableName + '"."Id"';
