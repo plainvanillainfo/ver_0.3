@@ -89,6 +89,10 @@ class TemplateItem extends TemplateItemClient {
         if (rendering.Format === 'Table') {
             if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
                 this.presentTable();
+            } else {
+                if (this.parent.useCaseElem != null && this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
+                    this.isLeaf = false;
+                }
             }
         }
     }
