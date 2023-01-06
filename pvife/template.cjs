@@ -448,9 +448,9 @@ class TemplateItem extends TemplateItemClient {
                 tableOwner.tableBody.appendChild(tableItemRow);
 
                 this.itemCells[itemCur.Key].forEach(cellCur => {
-                    if (cellCur.Td == null) {
+                    //if (cellCur.Td == null) {
                         cellCur.Td = document.createElement('td');
-                    }
+                    //}
                     tableItemRow.appendChild(cellCur.Td);
                     cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
                 });
@@ -522,7 +522,6 @@ class TemplateElem extends TemplateElemClient {
         this.divItemParent = divItemParent;
         if (this.useCaseElem.Rendering.Nesting != null && this.useCaseElem.Rendering.Nesting === 'Coerced') {
             this.divElem = this.divItemParent;
-            //this.parent.isLeaf = false;
         } else {
             this.divElem = document.createElement('div')
             this.divItemParent.appendChild(this.divElem);
