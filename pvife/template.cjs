@@ -382,6 +382,8 @@ class TemplateItem extends TemplateItemClient {
                 this.itemCells[itemCur.Key].push({...cellCur});
             });
 
+            console.log('AAA isLeaf: ', this.isLeaf, '- ', itemCur);
+
             tableOwner.columns.forEach(colCur => {
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
                 if (cellCur == null) {
