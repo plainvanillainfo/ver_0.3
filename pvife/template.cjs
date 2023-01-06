@@ -430,6 +430,7 @@ class TemplateItem extends TemplateItemClient {
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
                     cellCur.Value = valueCur;
+                    cellCur.Rendering = elemCur.Rendering;
                 }
             });
         });
@@ -480,6 +481,14 @@ class TemplateItem extends TemplateItemClient {
                     this.itemCells[itemCur.Key].forEach(cellCur => {
                         cellCur.Td = document.createElement('td');
                         tableItemRow.appendChild(cellCur.Td);
+                        if (cellCur.Rendering.Width != null) {
+                            cellCur.Td.style.width = cellCur.Rendering.Width;
+                        }
+                        if (cellCur.Rendering.Format != null) {
+                            if (cellCur.Rendering.Format === 'Date') {
+                                cellCur.Value = cellCur.Value.substring(0, 20);
+                            }
+                        }
                         cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
                     });
                     
