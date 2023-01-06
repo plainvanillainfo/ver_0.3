@@ -90,9 +90,7 @@ class TemplateItem extends TemplateItemClient {
             if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
                 this.presentTable();
             } else {
-                if (this.parent.useCaseElem != null && this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
-                    this.isLeaf = false;
-                }
+                this.presentTableRootStatus();
             }
         }
     }
@@ -363,6 +361,26 @@ class TemplateItem extends TemplateItemClient {
             }
         }
     }
+
+    presentTableRootStatus() {
+        this.useCase.Detail.Elems.forEach(elemCur => {
+            this.presentTableRootStatusElem(elemCur);
+        });
+    }
+
+    presentTableRootStatusElem(elem) {
+        if (elem.Rendering.Nesting != null && elem.Rendering.Nesting === 'Coerced') {
+            this.isLeaf = false;
+            let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
+            if (subUseCase != null) {
+                subUseCase.Detail.Elems.forEach(elemCur => {
+                    this.presentTableRootStatusElem(elemCur);
+                });
+        
+            }
+        }
+    }
+
 
     presentPickList(dataItem) {
         console.log("TemplateItem::presentPickList");
