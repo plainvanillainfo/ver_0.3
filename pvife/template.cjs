@@ -481,12 +481,14 @@ class TemplateItem extends TemplateItemClient {
                     this.itemCells[itemCur.Key].forEach(cellCur => {
                         cellCur.Td = document.createElement('td');
                         tableItemRow.appendChild(cellCur.Td);
-                        if (cellCur.Rendering.Width != null) {
-                            cellCur.Td.style.width = cellCur.Rendering.Width;
-                        }
-                        if (cellCur.Rendering.Format != null) {
-                            if (cellCur.Rendering.Format === 'Date') {
-                                cellCur.Value = cellCur.Value.substring(0, 19).replace('-', '/').replace('-', '/').replace('T', ' ');
+                        if (cellCur.Rendering != null) {
+                            if (cellCur.Rendering.Width != null) { 
+                                cellCur.Td.style.width = cellCur.Rendering.Width;
+                            }
+                            if (cellCur.Rendering.Format != null) {
+                                if (cellCur.Rendering.Format === 'Date') {
+                                    cellCur.Value = cellCur.Value.substring(0, 19).replace('-', '/').replace('-', '/').replace('T', ' ');
+                                }
                             }
                         }
                         cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
