@@ -117,7 +117,6 @@ class TemplateItem {
 		if (this.parent.itemParent != null) {
 			let classParent = this.parent.parent.useCase.Detail.Class;
 			let parentTableName = this.session.classes.find(cur => cur.Name === classParent).tableName;
-			//let linkTable = classParent + '_CHILD_' + this.parent.useCaseElem.Attribute;
 			let linkTable = parentTableName + '_CHILD_' + this.parent.useCaseElem.Attribute;
 			this.selectFrom += ', data."' + linkTable + '"';
 			this.selectWhere = 'WHERE data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ';

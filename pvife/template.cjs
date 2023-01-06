@@ -392,17 +392,23 @@ class TemplateItem extends TemplateItemClient {
                     });
                 }
             });
+            let isEmpty = true;
             this.useCase.Detail.Elems.forEach(elemCur => {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
                 if (valueCur.substring != null) {
                     valueCur = valueCur;
+                }
+                if (valueCur != '') {
+                    isEmpty = false;
                 }
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
                     cellCur.Value = valueCur;
                 }
             });
-            
+            if (this.isLeaf === true && isEmpty === true) {
+                itemCur.isEmpty = true;
+            }
         });
 
         if (this.isLeaf === true) {
@@ -444,6 +450,7 @@ class TemplateItem extends TemplateItemClient {
                 });
                 */
 
+                if (itemCur.isEmpty == null || itemCur.isEmpty === false) {
                 let tableItemRow = document.createElement('tr');
                 tableOwner.tableBody.appendChild(tableItemRow);
 
@@ -452,6 +459,7 @@ class TemplateItem extends TemplateItemClient {
                     tableItemRow.appendChild(cellCur.Td);
                     cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
                 });
+            ``}
             });
         }
 
