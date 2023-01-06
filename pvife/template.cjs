@@ -448,9 +448,7 @@ class TemplateItem extends TemplateItemClient {
                 tableOwner.tableBody.appendChild(tableItemRow);
 
                 this.itemCells[itemCur.Key].forEach(cellCur => {
-                    //if (cellCur.Td == null) {
-                        cellCur.Td = document.createElement('td');
-                    //}
+                    cellCur.Td = document.createElement('td');
                     tableItemRow.appendChild(cellCur.Td);
                     cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
                 });
