@@ -486,7 +486,7 @@ class TemplateItem extends TemplateItemClient {
                         }
                         if (cellCur.Rendering.Format != null) {
                             if (cellCur.Rendering.Format === 'Date') {
-                                cellCur.Value = cellCur.Value.substring(0, 19).replace('-', '/').replace('T', ' ');
+                                cellCur.Value = cellCur.Value.substring(0, 19).replace('-', '/').replace('-', '/').replace('T', ' ');
                             }
                         }
                         cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
