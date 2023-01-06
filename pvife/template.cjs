@@ -98,6 +98,10 @@ class TemplateItem extends TemplateItemClient {
         if (message.UseCaseElemName != null) {
             console.log(message.TemplateItem, "\n",this.dataItems);
             let dataItemParent = message.TemplateItem.ParentKey != null ? this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) : this.dataItems[0];
+            if (dataItemParent == null) {
+                letx = 1;
+
+            }
             if (this.elemDataItems[dataItemParent.Key] == null) {
                 this.elemDataItems[dataItemParent.Key] = {};
             }
