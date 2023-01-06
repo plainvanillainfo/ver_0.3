@@ -115,9 +115,10 @@ class TemplateItem {
 		this.selectColumns = '';
 		this.selectFrom = 'FROM data."' + tableName + '"';
 		if (this.parent.itemParent != null) {
-			let classparent = this.parent.parent.useCase.Detail.Class;
-			//let linkTable = classparent + '_CHILD_' + this.parent.useCaseElem.Attribute;
-			let linkTable = tableName + '_CHILD_' + this.parent.useCaseElem.Attribute;
+			let classParent = this.parent.parent.useCase.Detail.Class;
+			let parentTableName = this.session.classes.find(cur => cur.Name === classParent).tableName;
+			//let linkTable = classParent + '_CHILD_' + this.parent.useCaseElem.Attribute;
+			let linkTable = parentTableName + '_CHILD_' + this.parent.useCaseElem.Attribute;
 			this.selectFrom += ', data."' + linkTable + '"';
 			this.selectWhere = 'WHERE data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ';
 			this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + tableName + '"."Id"';
