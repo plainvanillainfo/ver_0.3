@@ -62,6 +62,7 @@ class TemplateItem extends TemplateItemClient {
                 this.breadcrumbs = this.parent.breadcrumbs;
             }
         }
+        /*
         if (this.divBreadcrumbs == null) {
             this.divBreadcrumbs = document.createElement('nav');
             this.divItem.appendChild(this.divBreadcrumbs);
@@ -71,6 +72,7 @@ class TemplateItem extends TemplateItemClient {
             this.olBreadcrumbs.className = 'breadcrumb';
             this.breadcrumbs = [];
         }
+        */
         if (rendering.Caption != null) {
             let headingCaption = document.createElement('h3');
             this.divItem.appendChild(headingCaption);
@@ -509,7 +511,16 @@ class TemplateItem extends TemplateItemClient {
     }
 
     pushBreadcrumb(templatePushed) {
-        console.log("Track::pushBreadcrumb");
+        console.log("TemplateItem::pushBreadcrumb");
+        if (this.divBreadcrumbs == null) {
+            this.divBreadcrumbs = document.createElement('nav');
+            this.divItem.prepend(this.divBreadcrumbs);
+            this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
+            this.olBreadcrumbs = document.createElement('ol');
+            this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
+            this.olBreadcrumbs.className = 'breadcrumb';
+            this.breadcrumbs = [];
+        }
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
         this.breadcrumbs.push(templatePushed);
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
@@ -517,7 +528,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     popBreadcrumb() {
-        console.log("Track::popBreadcrumb");
+        console.log("TemplateItem::popBreadcrumb");
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
         this.breadcrumbs.pop();
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
