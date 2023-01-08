@@ -99,6 +99,14 @@ class TemplateItem extends TemplateItemClient {
             } else {
                 this.presentTableRootStatus();
             }
+        } else {
+            if (rendering.Format === 'Form') {
+                if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
+                    this.presentForm();
+                } else {
+                    this.presentFormRootStatus();
+                }
+            }
         }
     }
     
@@ -265,67 +273,67 @@ class TemplateItem extends TemplateItemClient {
         });
     }
 
-        /*
-        let divTableWrapper = document.createElement('div');
-        this.divItem.appendChild(divTableWrapper);
-        divTableWrapper.className = 'table-wrapper';
-        let divTitle = document.createElement('div');
-        divTableWrapper.appendChild(divTitle);
-        divTitle.className = 'table-title';
+    /*
+    let divTableWrapper = document.createElement('div');
+    this.divItem.appendChild(divTableWrapper);
+    divTableWrapper.className = 'table-wrapper';
+    let divTitle = document.createElement('div');
+    divTableWrapper.appendChild(divTitle);
+    divTitle.className = 'table-title';
 
-        let divTitleRow = document.createElement('div');
-        divTitle.appendChild(divTitleRow);
-        divTitleRow.className = 'row';
-        let divTitleRowTitle = document.createElement('div');
-        divTitleRow.appendChild(divTitleRowTitle);
-        divTitleRowTitle.className = 'col-sm-10';
-        let tableCaption = document.createElement('h3');
-        divTitleRowTitle.appendChild(tableCaption);
-        tableCaption.appendChild(document.createTextNode(this.useCase.Detail.Rendering.Caption));
-        let divTitleRowAddButton = document.createElement('div');
-        divTitleRow.appendChild(divTitleRowAddButton);
-        divTitleRowAddButton.className = 'col-sm-2';
-        */
-        /*
-        if (this.useCase.Detail.AddUseCase != null) {
-            let buttonAdd = document.createElement('button');
-            divTitleRowAddButton.appendChild(buttonAdd);
-            buttonAdd.className = 'btn btn-info add-new';
-            buttonAdd.addEventListener('click', (event) => {
+    let divTitleRow = document.createElement('div');
+    divTitle.appendChild(divTitleRow);
+    divTitleRow.className = 'row';
+    let divTitleRowTitle = document.createElement('div');
+    divTitleRow.appendChild(divTitleRowTitle);
+    divTitleRowTitle.className = 'col-sm-10';
+    let tableCaption = document.createElement('h3');
+    divTitleRowTitle.appendChild(tableCaption);
+    tableCaption.appendChild(document.createTextNode(this.useCase.Detail.Rendering.Caption));
+    let divTitleRowAddButton = document.createElement('div');
+    divTitleRow.appendChild(divTitleRowAddButton);
+    divTitleRowAddButton.className = 'col-sm-2';
+    */
+    /*
+    if (this.useCase.Detail.AddUseCase != null) {
+        let buttonAdd = document.createElement('button');
+        divTitleRowAddButton.appendChild(buttonAdd);
+        buttonAdd.className = 'btn btn-info add-new';
+        buttonAdd.addEventListener('click', (event) => {
+            event.preventDefault();
+            console.log("TemplateList - Add New");
+            this.divItemSub = document.createElement('div')
+            this.divItemSub.style.margin = '10px';
+            this.track.divItemSub.appendChild(this.divItemSub);
+            let divCur = document.createElement('div');
+            this.divItemSub.appendChild(divCur);
+            divCur.className = 'mb-3';
+
+            let buttonCur = document.createElement('button');
+            divCur.appendChild(buttonCur);
+            buttonCur.className = 'btn btn-info';
+            buttonCur.setAttribute("type", "button");
+            buttonCur.id = 'backbutton';
+            buttonCur.style.width = "12em";
+            buttonCur.appendChild(document.createTextNode("< Go Back"));
+            buttonCur.addEventListener('click', (event) => {
                 event.preventDefault();
-                console.log("TemplateList - Add New");
-                this.divItemSub = document.createElement('div')
-                this.divItemSub.style.margin = '10px';
-                this.track.divItemSub.appendChild(this.divItemSub);
-                let divCur = document.createElement('div');
-                this.divItemSub.appendChild(divCur);
-                divCur.className = 'mb-3';
-
-                let buttonCur = document.createElement('button');
-                divCur.appendChild(buttonCur);
-                buttonCur.className = 'btn btn-info';
-                buttonCur.setAttribute("type", "button");
-                buttonCur.id = 'backbutton';
-                buttonCur.style.width = "12em";
-                buttonCur.appendChild(document.createTextNode("< Go Back"));
-                buttonCur.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    this.track.popBreadcrumb();
-                    this.track.divItemSub.removeChild(this.divItemSub);
-                });
-
-                this.templateSub = new TemplateItem(this, this.divItemSub);
-                this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.AddUseCase);
-                this.templateSub.setUseCase(this.subUseCase);
-                this.track.pushBreadcrumb(this.templateSub);
+                this.track.popBreadcrumb();
+                this.track.divItemSub.removeChild(this.divItemSub);
             });
-            let iconAdd = document.createElement('i');
-            divTitleRowTitle.appendChild(iconAdd);
-            iconAdd.className = 'fa fa-plus';
-            buttonAdd.appendChild(iconAdd);
-            buttonAdd.appendChild(document.createTextNode('Add New'));
-        }
-        */
+
+            this.templateSub = new TemplateItem(this, this.divItemSub);
+            this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.AddUseCase);
+            this.templateSub.setUseCase(this.subUseCase);
+            this.track.pushBreadcrumb(this.templateSub);
+        });
+        let iconAdd = document.createElement('i');
+        divTitleRowTitle.appendChild(iconAdd);
+        iconAdd.className = 'fa fa-plus';
+        buttonAdd.appendChild(iconAdd);
+        buttonAdd.appendChild(document.createTextNode('Add New'));
+    }
+    */
 
     presentTable() {
         this.tableList = document.createElement('table');
@@ -396,6 +404,66 @@ class TemplateItem extends TemplateItemClient {
         }
     }
 
+    presentForm() {
+        this.tableList = document.createElement('table');
+        if (this.divItem == null) {
+            this.divItem = document.createElement('div');
+            this.divItemSurrounding.appendChild(this.divItem);
+        }
+        this.divItem.appendChild(this.tableList);
+        this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
+        let tableHead = document.createElement('thead');
+        this.tableList.appendChild(tableHead);
+        this.tableHeadRow = document.createElement('tr');
+        tableHead.appendChild(this.tableHeadRow);
+        this.tableBody = document.createElement('tbody');
+        this.tableList.appendChild(this.tableBody);
+        this.columns = [];
+        this.useCase.Detail.Elems.forEach(elemCur => {
+            this.presentFormElem(elemCur);
+        });
+    }
+
+    presentFormElem(elem) {
+        if (elem.Rendering.Nesting == null || elem.Rendering.Nesting !== 'Coerced') {
+            if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
+                this.columns.push(elem.Rendering.Label);
+                let tableHeadRowHeader = document.createElement('th');
+                this.tableHeadRow.appendChild(tableHeadRowHeader);
+                tableHeadRowHeader.setAttribute("scope", "col");
+                tableHeadRowHeader.appendChild(document.createTextNode(elem.Rendering.Label));
+            }
+        } else {
+            this.isLeaf = false;
+            let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
+            if (subUseCase != null) {
+                subUseCase.Detail.Elems.forEach(elemCur => {
+                    this.presentFormElem(elemCur);
+                });
+        
+            }
+        }
+    }
+
+    presentFormRootStatus() {
+        this.useCase.Detail.Elems.forEach(elemCur => {
+            this.presentFormRootStatusElem(elemCur);
+        });
+    }
+
+    presentFormRootStatusElem(elem) {
+        if (elem.Rendering.Nesting != null && elem.Rendering.Nesting === 'Coerced') {
+            this.isLeaf = false;
+            let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
+            if (subUseCase != null) {
+                subUseCase.Detail.Elems.forEach(elemCur => {
+                    this.presentFormRootStatusElem(elemCur);
+                });
+        
+            }
+        }
+    }
+
     presentPickList(dataItem) {
         console.log("TemplateItem::presentPickList");
     }
@@ -448,25 +516,20 @@ class TemplateItem extends TemplateItemClient {
 
         if (this.isLeaf === true) {
             this.dataItems.forEach(itemCur => {
-
                 if (itemCur.isEmpty === false) {
                     let tableItemRow = document.createElement('tr');
                     tableOwner.tableBody.appendChild(tableItemRow);
                     tableItemRow.addEventListener('click', (event) => {
                         event.preventDefault();
                         console.log("presentTableRows - Item picked: ", itemCur.Key);
-                        if (this.useCase.Detail.UpdateUseCase != null) {
+                        if (this.useCase.Detail.SubUseCase != null) {
                             if (this.divItem == null) {
                                 this.divItem = document.createElement('div');
                                 this.divItemSurrounding.appendChild(this.divItem);
                             }
-                            this.templateItemSub = new TemplateItem(this, this.useCase.Detail.UpdateUseCase, this.divItemSub);
-                            /*
-                            console.log("TemplateList - item picked: - this.useCase.Detail.UpdateUseCase != null ");
-                            this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.UpdateUseCase);
-                            this.templateSub.setUseCase(this.subUseCase);
-                            this.templateSub.setItemKey(itemCur.Key);
-                            */
+                            this.divItemSub = document.createElement('div');
+                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === his.useCase.Detail.SubUseCase);
+                            this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
                             this.pushBreadcrumb(this.templateItemSub);
                         }
                     });
@@ -507,7 +570,7 @@ class TemplateItem extends TemplateItemClient {
             this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
             this.olBreadcrumbs.className = 'breadcrumb';
             this.breadcrumbs = [];
-            this.divItemSub = document.createElement('div');
+            //this.divItemSub = document.createElement('div');
             this.divItemSurrounding.appendChild(this.divItemSub);
             this.divItemSub.className = 'mb-3';
             this.divItemSub.style.margin = '10px';
