@@ -291,17 +291,17 @@ class Track {
         this.div = div;
         this.session = this.parent;
         this.track = this;
-        this.breadcrumbs = [];
+        //this.breadcrumbs = [];
         this.fromServer = this.fromServer.bind(this);
         this.toServer = this.toServer.bind(this);
 
-        this.divBreadcrumbs = document.createElement('nav');
-        this.div.appendChild(this.divBreadcrumbs);
-        this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
+        //this.divBreadcrumbs = document.createElement('nav');
+        //this.div.appendChild(this.divBreadcrumbs);
+        //this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
 
-        this.olBreadcrumbs = document.createElement('ol');
-        this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
-        this.olBreadcrumbs.className = 'breadcrumb';
+        //this.olBreadcrumbs = document.createElement('ol');
+        //this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
+        //this.olBreadcrumbs.className = 'breadcrumb';
 
         this.divItem = document.createElement('div');
         this.div.appendChild(this.divItem);

@@ -4,6 +4,10 @@ class TemplateItem extends TemplateItemClient {
     constructor(parent, useCase, divItem) {
         super(parent, useCase);
         this.divItem = divItem;
+        this.divItemSub = document.createElement('div')
+        this.divItemSub.style.margin = '10px';
+        this.divItemSub.style.visibility = 'hidden';        
+        this.divItemSub.style.display = 'non';        
         this.isLeaf = true;
         /* 
         UI:
@@ -36,13 +40,12 @@ class TemplateItem extends TemplateItemClient {
         let rendering = this.useCase.Detail.Rendering;
         if (rendering.Stack != null) {
             if (rendering.Stack === 'Inherit') {
-                if (this.parent.parent.divBreadcrumbs != null) {
-                    this.divBreadcrumbs = this.parent.parent.divBreadcrumbs;
-                    this.breadcrumbs = this.parent.parent.breadcrumbs;
+                if (this.parent.divBreadcrumbs != null) {
+                    this.divBreadcrumbs = this.parent.divBreadcrumbs;
+                    this.breadcrumbs = this.parent.breadcrumbs;
                 }
-            //} else {
-            //    this.breadcrumbs = [];
             }
+            /*
             if (this.divBreadcrumbs == null) {
                 this.divBreadcrumbs = document.createElement('nav');
                 this.divItem.appendChild(this.divBreadcrumbs);
@@ -52,11 +55,21 @@ class TemplateItem extends TemplateItemClient {
                 this.olBreadcrumbs.className = 'breadcrumb';
                 this.breadcrumbs = [];
             }
+            */
         } else {
-            if (this.parent.parent.divBreadcrumbs != null) {
-                this.divBreadcrumbs = this.parent.parent.divBreadcrumbs;
-                this.breadcrumbs = this.parent.parent.breadcrumbs;
+            if (this.parent.divBreadcrumbs != null) {
+                this.divBreadcrumbs = this.parent.divBreadcrumbs;
+                this.breadcrumbs = this.parent.breadcrumbs;
             }
+        }
+        if (this.divBreadcrumbs == null) {
+            this.divBreadcrumbs = document.createElement('nav');
+            this.divItem.appendChild(this.divBreadcrumbs);
+            this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
+            this.olBreadcrumbs = document.createElement('ol');
+            this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
+            this.olBreadcrumbs.className = 'breadcrumb';
+            this.breadcrumbs = [];
         }
         if (rendering.Caption != null) {
             let headingCaption = document.createElement('h3');
@@ -106,10 +119,6 @@ class TemplateItem extends TemplateItemClient {
         if (message.UseCaseElemName != null) {
             console.log(message.TemplateItem, "\n",this.dataItems);
             let dataItemParent = message.TemplateItem.ParentKey != null ? this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) : this.dataItems[0];
-            if (dataItemParent == null) {
-                let x = 1;
-
-            }
             if (this.elemDataItems[dataItemParent.Key] == null) {
                 this.elemDataItems[dataItemParent.Key] = {};
             }
@@ -289,11 +298,11 @@ class TemplateItem extends TemplateItemClient {
             buttonAdd.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("TemplateList - Add New");
-                this.divTargetSub = document.createElement('div')
-                this.divTargetSub.style.margin = '10px';
-                this.track.divTargetSub.appendChild(this.divTargetSub);
+                this.divItemSub = document.createElement('div')
+                this.divItemSub.style.margin = '10px';
+                this.track.divItemSub.appendChild(this.divItemSub);
                 let divCur = document.createElement('div');
-                this.divTargetSub.appendChild(divCur);
+                this.divItemSub.appendChild(divCur);
                 divCur.className = 'mb-3';
 
                 let buttonCur = document.createElement('button');
@@ -306,10 +315,10 @@ class TemplateItem extends TemplateItemClient {
                 buttonCur.addEventListener('click', (event) => {
                     event.preventDefault();
                     this.track.popBreadcrumb();
-                    this.track.divTargetSub.removeChild(this.divTargetSub);
+                    this.track.divItemSub.removeChild(this.divItemSub);
                 });
 
-                this.templateSub = new TemplateItem(this, this.divTargetSub);
+                this.templateSub = new TemplateItem(this, this.divItemSub);
                 this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.AddUseCase);
                 this.templateSub.setUseCase(this.subUseCase);
                 this.track.pushBreadcrumb(this.templateSub);
@@ -408,9 +417,6 @@ class TemplateItem extends TemplateItemClient {
             itemCellsParent.forEach(cellCur => {
                 this.itemCells[itemCur.Key].push({...cellCur});
             });
-
-            //console.log('AAA isLeaf: ', this.isLeaf, '- ', itemCur);
-
             tableOwner.columns.forEach(colCur => {
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
                 if (cellCur == null) {
@@ -448,16 +454,12 @@ class TemplateItem extends TemplateItemClient {
                     tableOwner.tableBody.appendChild(tableItemRow);
                     tableItemRow.addEventListener('click', (event) => {
                         event.preventDefault();
-                        console.log("TemplateList - item picked: ", itemCur.Key);
-                        /*
+                        console.log("presentTableRows - Item picked: ", itemCur.Key);
         
-                        this.divTargetSub = document.createElement('div')
-                        this.divTargetSub.style.margin = '10px';
-                        this.track.divTargetSub.appendChild(this.divTargetSub);
                         let divCur = document.createElement('div');
-                        this.divTargetSub.appendChild(divCur);
+                        this.divItemSub.appendChild(divCur);
                         divCur.className = 'mb-3';
-        
+
                         let buttonCur = document.createElement('button');
                         divCur.appendChild(buttonCur);
                         buttonCur.className = 'btn btn-info';
@@ -468,19 +470,20 @@ class TemplateItem extends TemplateItemClient {
                         
                         buttonCur.addEventListener('click', (event) => {
                             event.preventDefault();
-                            this.track.popBreadcrumb();
-                            this.track.divTargetSub.removeChild(this.divTargetSub);
+                            this.popBreadcrumb();
+                            this.divItemSub.removeChild(this.templateItemSub.divItem);
                         });
-        
-                        this.templateSub = new TemplateItem(this, this.divTargetSub);
+
                         if (this.useCase.Detail.UpdateUseCase != null) {
+                            this.templateItemSub = new TemplateItem(this, this.useCase.Detail.UpdateUseCase, this.divItemSub);
+                            /*
                             console.log("TemplateList - item picked: - this.useCase.Detail.UpdateUseCase != null ");
                             this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.UpdateUseCase);
                             this.templateSub.setUseCase(this.subUseCase);
                             this.templateSub.setItemKey(itemCur.Key);
-                            this.track.pushBreadcrumb(this.templateSub);
+                            */
+                            this.pushBreadcrumb(this.templateItemSub);
                         }
-                        */
                     });
 
                     this.itemCells[itemCur.Key].forEach(cellCur => {
@@ -505,7 +508,6 @@ class TemplateItem extends TemplateItemClient {
 
     }
 
-    /*
     pushBreadcrumb(templatePushed) {
         console.log("Track::pushBreadcrumb");
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
@@ -557,8 +559,6 @@ class TemplateItem extends TemplateItemClient {
             }
         });
     }
-    */
-   
 
 }
 
