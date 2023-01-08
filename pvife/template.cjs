@@ -528,7 +528,7 @@ class TemplateItem extends TemplateItemClient {
                                 this.divItemSurrounding.appendChild(this.divItem);
                             }
                             this.divItemSub = document.createElement('div');
-                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === his.useCase.Detail.SubUseCase);
+                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                             this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
                             this.pushBreadcrumb(this.templateItemSub);
                         }
