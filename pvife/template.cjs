@@ -40,8 +40,8 @@ class TemplateItem extends TemplateItemClient {
                     this.divBreadcrumbs = this.parent.parent.divBreadcrumbs;
                     this.breadcrumbs = this.parent.parent.breadcrumbs;
                 }
-            } else {
-                this.breadcrumbs = [];
+            //} else {
+            //    this.breadcrumbs = [];
             }
             if (this.divBreadcrumbs == null) {
                 this.divBreadcrumbs = document.createElement('nav');
@@ -50,6 +50,7 @@ class TemplateItem extends TemplateItemClient {
                 this.olBreadcrumbs = document.createElement('ol');
                 this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
                 this.olBreadcrumbs.className = 'breadcrumb';
+                this.breadcrumbs = [];
             }
         } else {
             if (this.parent.parent.divBreadcrumbs != null) {
