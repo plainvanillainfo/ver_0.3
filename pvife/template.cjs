@@ -7,7 +7,7 @@ class TemplateItem extends TemplateItemClient {
         divItemSurrounding.appendChild(this.divItem);
         this.divItemSub = document.createElement('div');
         divItemSurrounding.appendChild(this.divItemSub);
-        divItemSub.className = 'mb-3';
+        this.divItemSub.className = 'mb-3';
         this.divItemSub.style.margin = '10px';
         this.divItemSub.style.visibility = 'hidden';        
         this.divItemSub.style.display = 'none';        
