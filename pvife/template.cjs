@@ -1,13 +1,16 @@
 const { TemplateItemClient, TemplateElemClient } = require('../pvibe/template_client.cjs');
 
 class TemplateItem extends TemplateItemClient {
-    constructor(parent, useCase, divItem) {
+    constructor(parent, useCase, divItemSurrounding) {
         super(parent, useCase);
-        this.divItem = divItem;
-        this.divItemSub = document.createElement('div')
+        this.divItem = document.createElement('div');
+        divItemSurrounding.appendChild(this.divItem);
+        this.divItemSub = document.createElement('div');
+        divItemSurrounding.appendChild(this.divItemSub);
+        divItemSub.className = 'mb-3';
         this.divItemSub.style.margin = '10px';
         this.divItemSub.style.visibility = 'hidden';        
-        this.divItemSub.style.display = 'non';        
+        this.divItemSub.style.display = 'none';        
         this.isLeaf = true;
         /* 
         UI:
@@ -45,34 +48,12 @@ class TemplateItem extends TemplateItemClient {
                     this.breadcrumbs = this.parent.breadcrumbs;
                 }
             }
-            /*
-            if (this.divBreadcrumbs == null) {
-                this.divBreadcrumbs = document.createElement('nav');
-                this.divItem.appendChild(this.divBreadcrumbs);
-                this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
-                this.olBreadcrumbs = document.createElement('ol');
-                this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
-                this.olBreadcrumbs.className = 'breadcrumb';
-                this.breadcrumbs = [];
-            }
-            */
         } else {
             if (this.parent.divBreadcrumbs != null) {
                 this.divBreadcrumbs = this.parent.divBreadcrumbs;
                 this.breadcrumbs = this.parent.breadcrumbs;
             }
         }
-        /*
-        if (this.divBreadcrumbs == null) {
-            this.divBreadcrumbs = document.createElement('nav');
-            this.divItem.appendChild(this.divBreadcrumbs);
-            this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
-            this.olBreadcrumbs = document.createElement('ol');
-            this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
-            this.olBreadcrumbs.className = 'breadcrumb';
-            this.breadcrumbs = [];
-        }
-        */
         if (rendering.Caption != null) {
             let headingCaption = document.createElement('h3');
             this.divItem.appendChild(headingCaption);
@@ -458,12 +439,14 @@ class TemplateItem extends TemplateItemClient {
                         event.preventDefault();
                         console.log("presentTableRows - Item picked: ", itemCur.Key);
         
+                        /*
                         let divCur = document.createElement('div');
                         this.divItemSub.appendChild(divCur);
                         divCur.className = 'mb-3';
+                        */
 
                         let buttonCur = document.createElement('button');
-                        divCur.appendChild(buttonCur);
+                        this.divItemSub.appendChild(buttonCur);
                         buttonCur.className = 'btn btn-info';
                         buttonCur.setAttribute("type", "button");
                         buttonCur.id = 'backbutton';
