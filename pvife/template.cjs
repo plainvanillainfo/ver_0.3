@@ -3,8 +3,7 @@ const { TemplateItemClient, TemplateElemClient } = require('../pvibe/template_cl
 class TemplateItem extends TemplateItemClient {
     constructor(parent, useCase, divItemSurrounding) {
         super(parent, useCase);
-        this.divItem = document.createElement('div');
-        divItemSurrounding.appendChild(this.divItem);
+        this.divItemSurrounding = divItemSurrounding;
         this.isLeaf = true;
         /* 
         UI:
@@ -50,11 +49,19 @@ class TemplateItem extends TemplateItemClient {
         }
         if (rendering.Caption != null) {
             let headingCaption = document.createElement('h3');
+            if (this.divItem == null) {
+                this.divItem = document.createElement('div');
+                this.divItemSurrounding.appendChild(this.divItem);
+            }
             this.divItem.appendChild(headingCaption);
             headingCaption.appendChild(document.createTextNode(rendering.Caption));
         }
         if (rendering.Search != null) {
             let divSearch = document.createElement('div');
+            if (this.divItem == null) {
+                this.divItem = document.createElement('div');
+                this.divItemSurrounding.appendChild(this.divItem);
+            }
             this.divItem.appendChild(divSearch);
             let inputSearch = document.createElement('input');
             divSearch.appendChild(inputSearch);
@@ -79,6 +86,10 @@ class TemplateItem extends TemplateItemClient {
         }
         if (rendering.Criteria != null) {
             let divCriteria = document.createElement('div');
+            if (this.divItem == null) {
+                this.divItem = document.createElement('div');
+                this.divItemSurrounding.appendChild(this.divItem);
+            }
             this.divItem.appendChild(divCriteria);
             divCriteria.appendChild(document.createTextNode('Criteria'));
         }
@@ -101,6 +112,10 @@ class TemplateItem extends TemplateItemClient {
             }
             if (this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] == null) {
                 let useCaseElemCur = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.UseCaseElemName);
+                if (this.divItem == null) {
+                    this.divItem = document.createElement('div');
+                    this.divItemSurrounding.appendChild(this.divItem);
+                }
                 let templateElemNew = new TemplateElem(this, dataItemParent, null, useCaseElemCur, this.divItem);
                 this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] = templateElemNew;
             }
@@ -184,6 +199,10 @@ class TemplateItem extends TemplateItemClient {
     presentMenu(dataItem) {
         console.log("TemplateItem::presentMenu");
         this.nav = document.createElement('nav');
+        if (this.divItem == null) {
+            this.divItem = document.createElement('div');
+            this.divItemSurrounding.appendChild(this.divItem);
+        }
         this.divItem.appendChild(this.nav);
         this.nav.className = 'navbar navbar-expand-md navbar-dark bg-primary';
         this.divNav = document.createElement('div');
@@ -310,6 +329,10 @@ class TemplateItem extends TemplateItemClient {
 
     presentTable() {
         this.tableList = document.createElement('table');
+        if (this.divItem == null) {
+            this.divItem = document.createElement('div');
+            this.divItemSurrounding.appendChild(this.divItem);
+        }
         this.divItem.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
         let tableHead = document.createElement('thead');
@@ -433,6 +456,10 @@ class TemplateItem extends TemplateItemClient {
                         event.preventDefault();
                         console.log("presentTableRows - Item picked: ", itemCur.Key);
                         if (this.useCase.Detail.UpdateUseCase != null) {
+                            if (this.divItem == null) {
+                                this.divItem = document.createElement('div');
+                                this.divItemSurrounding.appendChild(this.divItem);
+                            }
                             this.templateItemSub = new TemplateItem(this, this.useCase.Detail.UpdateUseCase, this.divItemSub);
                             /*
                             console.log("TemplateList - item picked: - this.useCase.Detail.UpdateUseCase != null ");
@@ -470,6 +497,10 @@ class TemplateItem extends TemplateItemClient {
         console.log("TemplateItem::pushBreadcrumb");
         if (this.divBreadcrumbs == null) {
             this.divBreadcrumbs = document.createElement('nav');
+            if (this.divItem == null) {
+                this.divItem = document.createElement('div');
+                this.divItemSurrounding.appendChild(this.divItem);
+            }
             this.divItem.prepend(this.divBreadcrumbs);
             this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
             this.olBreadcrumbs = document.createElement('ol');
@@ -477,7 +508,7 @@ class TemplateItem extends TemplateItemClient {
             this.olBreadcrumbs.className = 'breadcrumb';
             this.breadcrumbs = [];
             this.divItemSub = document.createElement('div');
-            divItemSurrounding.appendChild(this.divItemSub);
+            this.divItemSurrounding.appendChild(this.divItemSub);
             this.divItemSub.className = 'mb-3';
             this.divItemSub.style.margin = '10px';
             this.divItemSub.style.visibility = 'hidden';        
