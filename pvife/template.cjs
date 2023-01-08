@@ -5,12 +5,6 @@ class TemplateItem extends TemplateItemClient {
         super(parent, useCase);
         this.divItem = document.createElement('div');
         divItemSurrounding.appendChild(this.divItem);
-        this.divItemSub = document.createElement('div');
-        divItemSurrounding.appendChild(this.divItemSub);
-        this.divItemSub.className = 'mb-3';
-        this.divItemSub.style.margin = '10px';
-        this.divItemSub.style.visibility = 'hidden';        
-        this.divItemSub.style.display = 'none';        
         this.isLeaf = true;
         /* 
         UI:
@@ -438,27 +432,6 @@ class TemplateItem extends TemplateItemClient {
                     tableItemRow.addEventListener('click', (event) => {
                         event.preventDefault();
                         console.log("presentTableRows - Item picked: ", itemCur.Key);
-        
-                        /*
-                        let divCur = document.createElement('div');
-                        this.divItemSub.appendChild(divCur);
-                        divCur.className = 'mb-3';
-                        */
-
-                        let buttonCur = document.createElement('button');
-                        this.divItemSub.appendChild(buttonCur);
-                        buttonCur.className = 'btn btn-info';
-                        buttonCur.setAttribute("type", "button");
-                        buttonCur.id = 'backbutton';
-                        buttonCur.style.width = "12em";
-                        buttonCur.appendChild(document.createTextNode("< Go Back"));
-                        
-                        buttonCur.addEventListener('click', (event) => {
-                            event.preventDefault();
-                            this.popBreadcrumb();
-                            this.divItemSub.removeChild(this.templateItemSub.divItem);
-                        });
-
                         if (this.useCase.Detail.UpdateUseCase != null) {
                             this.templateItemSub = new TemplateItem(this, this.useCase.Detail.UpdateUseCase, this.divItemSub);
                             /*
@@ -503,6 +476,27 @@ class TemplateItem extends TemplateItemClient {
             this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
             this.olBreadcrumbs.className = 'breadcrumb';
             this.breadcrumbs = [];
+            this.divItemSub = document.createElement('div');
+            divItemSurrounding.appendChild(this.divItemSub);
+            this.divItemSub.className = 'mb-3';
+            this.divItemSub.style.margin = '10px';
+            this.divItemSub.style.visibility = 'hidden';        
+            this.divItemSub.style.display = 'none';        
+
+            let buttonCur = document.createElement('button');
+            this.divItemSub.appendChild(buttonCur);
+            buttonCur.className = 'btn btn-info';
+            buttonCur.setAttribute("type", "button");
+            buttonCur.id = 'backbutton';
+            buttonCur.style.width = "12em";
+            buttonCur.appendChild(document.createTextNode("< Go Back"));
+            
+            buttonCur.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.popBreadcrumb();
+                this.divItemSub.removeChild(this.templateItemSub.divItem);
+            });
+
         }
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
         this.breadcrumbs.push(templatePushed);
