@@ -51,6 +51,11 @@ class TemplateItem extends TemplateItemClient {
                 this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
                 this.olBreadcrumbs.className = 'breadcrumb';
             }
+        } else {
+            if (this.parent.parent.divBreadcrumbs != null) {
+                this.divBreadcrumbs = this.parent.parent.divBreadcrumbs;
+                this.breadcrumbs = this.parent.parent.breadcrumbs;
+            }
         }
         if (rendering.Caption != null) {
             let headingCaption = document.createElement('h3');
@@ -380,7 +385,6 @@ class TemplateItem extends TemplateItemClient {
             }
         }
     }
-
 
     presentPickList(dataItem) {
         console.log("TemplateItem::presentPickList");
