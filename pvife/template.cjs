@@ -469,9 +469,9 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentTableRows() {
-        let tableOwner = this;
-        while (tableOwner.tableBody == null) {
-            tableOwner = tableOwner.parent.parent; 
+        this.tableOwner = this;
+        while (this.tableOwner.tableBody == null) {
+            this.tableOwner = this.tableOwner.parent.parent; 
         }
         this.itemCells = {};
         let itemCellsParent = [];
@@ -485,7 +485,7 @@ class TemplateItem extends TemplateItemClient {
             itemCellsParent.forEach(cellCur => {
                 this.itemCells[itemCur.Key].push({...cellCur});
             });
-            tableOwner.columns.forEach(colCur => {
+            this.tableOwner.columns.forEach(colCur => {
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
                 if (cellCur == null) {
                     this.itemCells[itemCur.Key].push({
@@ -518,7 +518,7 @@ class TemplateItem extends TemplateItemClient {
             this.dataItems.forEach(itemCur => {
                 if (itemCur.isEmpty === false) {
                     let tableItemRow = document.createElement('tr');
-                    tableOwner.tableBody.appendChild(tableItemRow);
+                    this.tableOwner.tableBody.appendChild(tableItemRow);
                     tableItemRow.addEventListener('click', (event) => {
                         event.preventDefault();
                         console.log("presentTableRows - Item picked: ", itemCur.Key);
@@ -569,7 +569,7 @@ class TemplateItem extends TemplateItemClient {
             this.olBreadcrumbs = document.createElement('ol');
             this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
             this.olBreadcrumbs.className = 'breadcrumb';
-            this.breadcrumbs = [this];
+            this.breadcrumbs = [thistableOwner != null ? tableOwner : this];
             this.divItemSurrounding.appendChild(this.divItemSub);
             this.divItemSub.className = 'mb-3';
             this.divItemSub.style.margin = '10px';
