@@ -427,7 +427,7 @@ class TemplateItem extends TemplateItemClient {
             let divCur = document.createElement('div');
             this.formList.appendChild(divCur);
             divCur.className = 'mb-3';
-            buttonCur = document.createElement('button');
+            let buttonCur = document.createElement('button');
             divCur.appendChild(buttonCur);
             buttonCur.className = 'btn btn-danger';
             buttonCur.setAttribute("type", "button");
@@ -464,6 +464,7 @@ class TemplateItem extends TemplateItemClient {
             fUpdated = true;
         }
         if (fUpdated) {
+            /*
             let messageOut = {
                 Action: 'UpdateItem',
                 TemplateItem: {
@@ -475,8 +476,9 @@ class TemplateItem extends TemplateItemClient {
                 }
             };
             this.parent.toServer(messageOut);
+            */
         } else {
-            this.track.popBreadcrumb();
+            this.popBreadcrumb();
             //this.track.div.removeChild(this.divTarget);
         }
     }
