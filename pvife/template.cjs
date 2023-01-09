@@ -39,7 +39,21 @@ class TemplateItem extends TemplateItemClient {
                 if (this.parent.divBreadcrumbs != null) {
                     this.divBreadcrumbs = this.parent.divBreadcrumbs;
                     this.breadcrumbs = this.parent.breadcrumbs;
+                } else {
+                    this.divBreadcrumbs = document.createElement('nav');
+                    this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
+                    this.olBreadcrumbs = document.createElement('ol');
+                    this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
+                    this.olBreadcrumbs.className = 'breadcrumb';
+                    this.breadcrumbs = [this];
                 }
+            } else{
+                this.divBreadcrumbs = document.createElement('nav');
+                this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
+                this.olBreadcrumbs = document.createElement('ol');
+                this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
+                this.olBreadcrumbs.className = 'breadcrumb';
+                this.breadcrumbs = [this];
             }
         } else {
             if (this.parent.divBreadcrumbs != null) {
@@ -407,7 +421,6 @@ class TemplateItem extends TemplateItemClient {
         }
     }
 
-
     presentForm() {
         this.formList = document.createElement('form');
         if (this.divItem == null) {
@@ -452,7 +465,6 @@ class TemplateItem extends TemplateItemClient {
                 this.saveFormData();
             });
         }
-
     }
 
     saveFormData() {
@@ -870,17 +882,19 @@ class TemplateItem extends TemplateItemClient {
     pushBreadcrumb(templatePushed) {
         console.log("TemplateItem::pushBreadcrumb");
         if (this.divBreadcrumbs == null) {
-            this.divBreadcrumbs = document.createElement('nav');
+            //this.divBreadcrumbs = document.createElement('nav');
             if (this.divItem == null) {
                 this.divItem = document.createElement('div');
                 this.divItemSurrounding.appendChild(this.divItem);
             }
             this.divItem.prepend(this.divBreadcrumbs);
+            /*
             this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
             this.olBreadcrumbs = document.createElement('ol');
             this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
             this.olBreadcrumbs.className = 'breadcrumb';
             this.breadcrumbs = [this];
+            */
         }
 
         this.divItemSurrounding.appendChild(this.divItemSub);
