@@ -407,10 +407,12 @@ class TemplateItem extends TemplateItemClient {
     presentForm() {
         /*
         this.tableList = document.createElement('table');
+        */
         if (this.divItem == null) {
             this.divItem = document.createElement('div');
             this.divItemSurrounding.appendChild(this.divItem);
         }
+        /*
         this.divItem.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
         let tableHead = document.createElement('thead');
