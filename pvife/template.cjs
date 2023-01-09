@@ -634,7 +634,7 @@ class TemplateItem extends TemplateItemClient {
             this.itemCells[itemCur.Key].forEach(cellCur => {
                 let divField = this.formList.firstChild;
                 while (divField != null) {
-                    if (divField.rendering.Label === cellCur.Col) {
+                    if (divField.rendering != null && divField.rendering.Label === cellCur.Col) {
                         let inputCur;
                         if (divField.rendering.Format != null) {
                             switch (divField.rendering.Format) {
