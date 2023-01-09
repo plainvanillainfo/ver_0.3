@@ -573,8 +573,6 @@ class TemplateItem extends TemplateItemClient {
             this.divItemSurrounding.appendChild(this.divItemSub);
             this.divItemSub.className = 'mb-3';
             this.divItemSub.style.margin = '10px';
-            //this.divItemSub.style.visibility = 'hidden';        
-            //this.divItemSub.style.display = 'none';        
 
             let buttonCur = document.createElement('button');
             this.divItemSub.appendChild(buttonCur);
@@ -586,8 +584,10 @@ class TemplateItem extends TemplateItemClient {
             
             buttonCur.addEventListener('click', (event) => {
                 event.preventDefault();
-                this.popBreadcrumb();
-                this.divItemSub.removeChild(this.templateItemSub.divItem);
+                templatePushed.popBreadcrumb();
+                if (templateItemSub.divItem != null) {
+                    this.divItemSub.removeChild(templateItemSub.divItem);
+                }
             });
 
         }
