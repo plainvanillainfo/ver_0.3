@@ -573,8 +573,8 @@ class TemplateItem extends TemplateItemClient {
             this.divItemSurrounding.appendChild(this.divItemSub);
             this.divItemSub.className = 'mb-3';
             this.divItemSub.style.margin = '10px';
-            this.divItemSub.style.visibility = 'hidden';        
-            this.divItemSub.style.display = 'none';        
+            //this.divItemSub.style.visibility = 'hidden';        
+            //this.divItemSub.style.display = 'none';        
 
             let buttonCur = document.createElement('button');
             this.divItemSub.appendChild(buttonCur);
