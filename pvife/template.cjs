@@ -405,6 +405,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentForm() {
+        /*
         this.tableList = document.createElement('table');
         if (this.divItem == null) {
             this.divItem = document.createElement('div');
@@ -419,6 +420,7 @@ class TemplateItem extends TemplateItemClient {
         this.tableBody = document.createElement('tbody');
         this.tableList.appendChild(this.tableBody);
         this.columns = [];
+        */
         this.useCase.Detail.Elems.forEach(elemCur => {
             this.presentFormElem(elemCur);
         });
@@ -426,6 +428,7 @@ class TemplateItem extends TemplateItemClient {
 
     presentFormElem(elem) {
         if (elem.Rendering.Nesting == null || elem.Rendering.Nesting !== 'Coerced') {
+            /*
             if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
                 this.columns.push(elem.Rendering.Label);
                 let tableHeadRowHeader = document.createElement('th');
@@ -433,6 +436,8 @@ class TemplateItem extends TemplateItemClient {
                 tableHeadRowHeader.setAttribute("scope", "col");
                 tableHeadRowHeader.appendChild(document.createTextNode(elem.Rendering.Label));
             }
+            */
+            this.divItem.appendChild(document.createTextNode(elem.Rendering.Label));
         } else {
             this.isLeaf = false;
             let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
