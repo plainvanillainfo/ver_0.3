@@ -569,8 +569,7 @@ class TemplateItem extends TemplateItemClient {
             this.olBreadcrumbs = document.createElement('ol');
             this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
             this.olBreadcrumbs.className = 'breadcrumb';
-            this.breadcrumbs = [];
-            //this.divItemSub = document.createElement('div');
+            this.breadcrumbs = [this];
             this.divItemSurrounding.appendChild(this.divItemSub);
             this.divItemSub.className = 'mb-3';
             this.divItemSub.style.margin = '10px';
@@ -592,9 +591,9 @@ class TemplateItem extends TemplateItemClient {
             });
 
         }
-        if (this.breadcrumbs.length > 0) {
-            this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
-        }
+        //if (this.breadcrumbs.length > 0) {
+        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
+        //}
         this.breadcrumbs.push(templatePushed);
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
         this.showCrumbs();
