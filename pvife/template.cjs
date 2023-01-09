@@ -58,6 +58,7 @@ class TemplateItem extends TemplateItemClient {
         } else {
             if (this.parent.divBreadcrumbs != null) {
                 this.divBreadcrumbs = this.parent.divBreadcrumbs;
+                this.olBreadcrumbs = this.parent.olBreadcrumbs;
                 this.breadcrumbs = this.parent.breadcrumbs;
             }
         }
@@ -882,19 +883,11 @@ class TemplateItem extends TemplateItemClient {
     pushBreadcrumb(templatePushed) {
         console.log("TemplateItem::pushBreadcrumb");
         if (this.divBreadcrumbs == null) {
-            //this.divBreadcrumbs = document.createElement('nav');
             if (this.divItem == null) {
                 this.divItem = document.createElement('div');
                 this.divItemSurrounding.appendChild(this.divItem);
             }
             this.divItem.prepend(this.divBreadcrumbs);
-            /*
-            this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
-            this.olBreadcrumbs = document.createElement('ol');
-            this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
-            this.olBreadcrumbs.className = 'breadcrumb';
-            this.breadcrumbs = [this];
-            */
         }
 
         this.divItemSurrounding.appendChild(this.divItemSub);
@@ -987,6 +980,7 @@ class TemplateElem extends TemplateElemClient {
         }
         if (this.parent.divBreadcrumbs != null) {
             this.divBreadcrumbs = this.parent.divBreadcrumbs;
+            this.olBreadcrumbs = this.parent.olBreadcrumbs;
             this.breadcrumbs = this.parent.breadcrumbs;
         }
         this.visible = false;
