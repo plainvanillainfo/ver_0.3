@@ -912,9 +912,9 @@ class TemplateItem extends TemplateItemClient {
 
     popBreadcrumb() {
         console.log("TemplateItem::popBreadcrumb");
-        this.divItemSurrounding.removeChild(this.divItemSub);
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
         this.breadcrumbs.pop();
+        this.breadcrumbs[this.breadcrumbs.length-1].divItemSurrounding.removeChild(this.breadcrumbs[this.breadcrumbs.length-1].divItemSub);
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
         this.showCrumbs();
     }
