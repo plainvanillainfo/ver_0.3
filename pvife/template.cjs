@@ -573,24 +573,23 @@ class TemplateItem extends TemplateItemClient {
             this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
             this.olBreadcrumbs.className = 'breadcrumb';
             this.breadcrumbs = [this];
-
-
-            let buttonCur = document.createElement('button');
-            this.divItemSub.appendChild(buttonCur);
-            buttonCur.className = 'btn btn-info';
-            buttonCur.setAttribute("type", "button");
-            buttonCur.id = 'backbutton';
-            buttonCur.style.width = "12em";
-            buttonCur.appendChild(document.createTextNode("< Go Back"));
-            
-            buttonCur.addEventListener('click', (event) => {
-                event.preventDefault();
-                this.popBreadcrumb();
-                this.divItemSurrounding.removeChild(this.divItemSub);
-            });
-
         }
+
         this.divItemSurrounding.appendChild(this.divItemSub);
+        let buttonCur = document.createElement('button');
+        this.divItemSub.appendChild(buttonCur);
+        buttonCur.className = 'btn btn-info';
+        buttonCur.setAttribute("type", "button");
+        buttonCur.id = 'backbutton';
+        buttonCur.style.width = "12em";
+        buttonCur.appendChild(document.createTextNode("< Go Back"));
+
+        buttonCur.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.popBreadcrumb();
+            this.divItemSurrounding.removeChild(this.divItemSub);
+        });
+
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
         this.breadcrumbs.push(templatePushed);
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
