@@ -592,7 +592,9 @@ class TemplateItem extends TemplateItemClient {
             });
 
         }
-        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
+        if (this.breadcrumbs.length > 0) {
+            this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
+        }
         this.breadcrumbs.push(templatePushed);
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
         this.showCrumbs();
@@ -640,6 +642,17 @@ class TemplateItem extends TemplateItemClient {
                 }
             }
         });
+    }
+
+    setVisibility(trueOrFalse) {
+        console.log("TemplateItem::setVisibility", trueOrFalse);
+        if (trueOrFalse === true) {
+                this.divItem.style.visibility = 'visible';
+                this.divItem.style.display = 'block';
+        } else {
+                this.divItem.style.visibility = 'hidden';
+                this.divItem.style.display = 'none';
+        }
     }
 
 }
