@@ -430,6 +430,7 @@ class TemplateItem extends TemplateItemClient {
         }
         this.divItem.appendChild(this.formList);
         this.columns = [];
+        this.formData = {};
         this.fFormEditable = (this.useCase.Detail.Editable != null && this.useCase.Detail.Editable === 'Yes') ? true : false;
         this.useCase.Detail.Elems.forEach(elemCur => {
             this.presentFormElem(elemCur);
@@ -664,7 +665,31 @@ class TemplateItem extends TemplateItemClient {
                                         inputCur.disabled = true;
                                     }
                                     break;
-                                /*
+                                case 'Date':
+                                    let divDate = document.createElement('div');
+                                    divField.appendChild(divDate);
+                                    divDate.className = 'input-group date';
+                                    divDate.style.display = 'inline';
+                                    inputCur = document.createElement('input');
+                                    divDate.appendChild(inputCur);
+                                    inputCur.setAttribute("type", "date");
+                                    if (cellCur.Value != null && cellCur.Value > '') {
+                                        let valueCur = new Date(cellCur.Value);
+                                        inputCur.value = valueCur.toISOString();
+                                    } else {
+                                        inputCur.value = '';
+                                    }
+                                    inputCur.style.width = '70%';
+                                    inputCur.addEventListener('blur', (event) => {
+                                        event.preventDefault();
+                                        this.formData[event.target.id] = event.target.value;
+                                    });
+                                    let itemImgCal = document.createElement('i');
+                                    divDate.appendChild(itemImgCal);
+                                    itemImgCal.className = 'bi bi-calendar';
+                                    itemImgCal.style.marginLeft = "10px";
+                                    break;
+                                    /*
                                 case 'Json':
                                     inputCur = document.createElement('textarea');
                                     divCur.appendChild(inputCur);
@@ -747,30 +772,6 @@ class TemplateItem extends TemplateItemClient {
                                     inputLabel.className = 'form-check-label';
                                     inputLabel.setAttribute("for", "flexCheckDisabled");
                                     inputLabel.appendChild(document.createTextNode(labelText));
-                                    break;
-                                case 'Date':
-                                    let divDate = document.createElement('div');
-                                    divCur.appendChild(divDate);
-                                    divDate.className = 'input-group date';
-                                    divDate.style.display = 'inline';
-                                    inputCur = document.createElement('input');
-                                    divDate.appendChild(inputCur);
-                                    inputCur.setAttribute("type", "date");
-                                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
-                                        let valueCur = new Date(this.item.Attrs[elemCur.Name]);
-                                        inputCur.value = valueCur.toISOString();
-                                    } else {
-                                        inputCur.value = '';
-                                    }
-                                    inputCur.style.width = '70%';
-                                    inputCur.addEventListener('blur', (event) => {
-                                        event.preventDefault();
-                                        this.formData[event.target.id] = event.target.value;
-                                    });
-                                    let itemImgCal = document.createElement('i');
-                                    divDate.appendChild(itemImgCal);
-                                    itemImgCal.className = 'bi bi-calendar';
-                                    itemImgCal.style.marginLeft = "10px";
                                     break;
                                 case 'Dropdown':
                                     inputCur = document.createElement('select');
