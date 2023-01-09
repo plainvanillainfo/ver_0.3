@@ -779,7 +779,7 @@ class TemplateItem extends TemplateItemClient {
         if (elem.Rendering.Nesting == null || elem.Rendering.Nesting !== 'Coerced') {
             if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
                 this.columns.push(elem.Rendering.Label);
-                divCur = document.createElement('div');
+                let divCur = document.createElement('div');
                 this.formList.appendChild(divCur);
                 divCur.style.marginBottom = "10px";
                 let labelText = elem.Label;
