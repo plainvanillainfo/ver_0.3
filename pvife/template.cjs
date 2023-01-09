@@ -793,14 +793,14 @@ class TemplateItem extends TemplateItemClient {
                 let inputCur;
                 let inputLabel;
                 if (elem.Rendering.Format == null) {
-                    elemCur.Rendering.Format = 'Text';
+                    elem.Rendering.Format = 'Text';
                 }
-                if (elemCur.Rendering.Format != null) {
+                if (elem.Rendering.Format != null) {
                 }
                 if (inputCur != null) {
-                    inputCur.id = elemCur.Name;
+                    inputCur.id = elem.Name;
                     if (!this.fFormEditable) {
-                        if (elemCur.Editable == null || elemCur.Editable === 'No') {
+                        if (elem.Editable == null || elem.Editable === 'No') {
                             inputCur.disabled = true;
                         }
                     }
