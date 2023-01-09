@@ -932,6 +932,97 @@ class TemplateItem extends TemplateItemClient {
 
     }
 
+    presentFormRows() {
+        this.tableOwner = this;
+        while (this.tableOwner.tableBody == null) {
+            this.tableOwner = this.tableOwner.parent.parent; 
+        }
+        this.itemCells = {};
+        let itemCellsParent = [];
+        if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
+            this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
+                itemCellsParent.push({...cur});
+            });
+        }
+        this.dataItems.forEach(itemCur => {
+            this.itemCells[itemCur.Key] = [];
+            itemCellsParent.forEach(cellCur => {
+                this.itemCells[itemCur.Key].push({...cellCur});
+            });
+            this.tableOwner.columns.forEach(colCur => {
+                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
+                if (cellCur == null) {
+                    this.itemCells[itemCur.Key].push({
+                        Col: colCur, 
+                        Value: '',
+                        Td: null
+                    });
+                }
+            });
+            itemCur.isEmpty = true;
+            this.useCase.Detail.Elems.forEach(elemCur => {
+                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
+                if (valueCur.substring != null) {
+                    valueCur = valueCur;
+                }
+                if (valueCur !== '') {
+                    if (this.isLeaf === true) {
+                        itemCur.isEmpty = false;
+                    }
+                }
+                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
+                if (cellCur != null) {
+                    cellCur.Value = valueCur;
+                    cellCur.Rendering = elemCur.Rendering;
+                }
+            });
+        });
+
+        if (this.isLeaf === true) {
+            this.dataItems.forEach(itemCur => {
+                if (itemCur.isEmpty === false) {
+                    let tableItemRow = document.createElement('tr');
+                    this.tableOwner.tableBody.appendChild(tableItemRow);
+                    tableItemRow.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        console.log("presentTableRows - Item picked: ", itemCur.Key);
+                        if (this.useCase.Detail.SubUseCase != null) {
+                            if (this.divItem == null) {
+                                this.divItem = document.createElement('div');
+                                this.divItemSurrounding.appendChild(this.divItem);
+                            }
+                            this.tableOwner.divItemSub = document.createElement('div');
+                            this.tableOwner.divItemSub.className = 'mb-3';
+                            this.tableOwner.divItemSub.style.margin = '10px';
+                
+                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
+                            this.templateItemSub = new TemplateItem(this, subUseCase, this.tableOwner.divItemSub);
+                            this.tableOwner.pushBreadcrumb(this.templateItemSub);
+                        }
+                    });
+
+                    this.itemCells[itemCur.Key].forEach(cellCur => {
+                        cellCur.Td = document.createElement('td');
+                        tableItemRow.appendChild(cellCur.Td);
+                        if (cellCur.Rendering != null) {
+                            if (cellCur.Rendering.Width != null) {
+                                cellCur.Td.style.width = cellCur.Rendering.Width;
+                            }
+                            if (cellCur.Rendering.Format != null) {
+                                if (cellCur.Rendering.Format === 'Date') {
+                                    cellCur.Value = cellCur.Value.substring(0, 19).replace('-', '/').replace('-', '/').replace('T', ' ');
+                                }
+                            }
+                        }
+                        cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
+                    });
+
+                }
+            });
+        }
+
+    }
+
     pushBreadcrumb(templatePushed) {
         console.log("TemplateItem::pushBreadcrumb");
         if (this.divBreadcrumbs == null) {
