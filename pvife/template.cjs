@@ -1176,8 +1176,8 @@ class TemplateItem extends TemplateItemClient {
                 let divField = this.formList.firstChild;
                 while (divField != null) {
                     if (divField.rendering.Label === cellCur.Col) {
-                        if (elem.Rendering.Format != null) {
-                            switch (elem.Rendering.Format) {
+                        if (divField.rendering.Format != null) {
+                            switch (divField.rendering.Format) {
                                 case 'Text':
                                     inputCur = document.createElement('input');
                                     divField.appendChild(inputCur);
@@ -1188,7 +1188,7 @@ class TemplateItem extends TemplateItemClient {
                                         event.preventDefault();
                                         this.formData[event.target.id] = event.target.value
                                     });
-                                    if (elem.Rendering.Editable != null && elem.Rendering.Editable.toLowerCase() === 'no') {
+                                    if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
                                         inputCur.disabled = true;
                                     }
                                     break;
@@ -1394,7 +1394,7 @@ class TemplateItem extends TemplateItemClient {
                                 event.preventDefault();
                                 this.formData[event.target.id] = event.target.value
                             });
-                            if (elem.Rendering.Editable != null && elem.Rendering.Editable.toLowerCase() === 'no') {
+                            if (rendering.rendering.Editable != null && rendering.rendering.Editable.toLowerCase() === 'no') {
                                 inputCur.disabled = true;
                             }
                         }
