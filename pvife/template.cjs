@@ -1395,7 +1395,7 @@ class TemplateItem extends TemplateItemClient {
                                 event.preventDefault();
                                 this.formData[event.target.id] = event.target.value
                             });
-                            if (rendering.rendering.Editable != null && rendering.rendering.Editable.toLowerCase() === 'no') {
+                            if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
                                 inputCur.disabled = true;
                             }
                         }
