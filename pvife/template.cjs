@@ -528,6 +528,9 @@ class TemplateItem extends TemplateItemClient {
                                 this.divItemSurrounding.appendChild(this.divItem);
                             }
                             this.tableOwner.divItemSub = document.createElement('div');
+                            this.tableOwner.divItemSub.className = 'mb-3';
+                            this.tableOwner.divItemSub.style.margin = '10px';
+                
                             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                             this.templateItemSub = new TemplateItem(this, subUseCase, this.tableOwner.divItemSub);
                             this.tableOwner.pushBreadcrumb(this.templateItemSub);
@@ -570,9 +573,7 @@ class TemplateItem extends TemplateItemClient {
             this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
             this.olBreadcrumbs.className = 'breadcrumb';
             this.breadcrumbs = [this];
-            this.divItemSurrounding.appendChild(this.divItemSub);
-            this.divItemSub.className = 'mb-3';
-            this.divItemSub.style.margin = '10px';
+
 
             let buttonCur = document.createElement('button');
             this.divItemSub.appendChild(buttonCur);
@@ -589,9 +590,8 @@ class TemplateItem extends TemplateItemClient {
             });
 
         }
-        //if (this.breadcrumbs.length > 0) {
+        this.divItemSurrounding.appendChild(this.divItemSub);
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
-        //}
         this.breadcrumbs.push(templatePushed);
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
         this.showCrumbs();
