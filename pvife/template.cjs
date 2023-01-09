@@ -689,7 +689,23 @@ class TemplateItem extends TemplateItemClient {
                                     itemImgCal.className = 'bi bi-calendar';
                                     itemImgCal.style.marginLeft = "10px";
                                     break;
-                                    /*
+                                case 'Textarea':
+                                    inputCur = document.createElement('textarea');
+                                    divField.appendChild(inputCur);
+                                    if (divField.rendering.Rows != null) {
+                                        inputCur.setAttribute("rows", divField.rendering.Rows);
+                                    }
+                                    inputCur.value = cellCur.Value;
+                                    inputCur.style.width = '70%';
+                                    inputCur.addEventListener('blur', (event) => {
+                                        event.preventDefault();
+                                        this.formData[event.target.id] = event.target.value
+                                    });
+                                    if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
+                                        inputCur.disabled = true;
+                                    }
+                                    break;
+                                        /*
                                 case 'Json':
                                     inputCur = document.createElement('textarea');
                                     divCur.appendChild(inputCur);
