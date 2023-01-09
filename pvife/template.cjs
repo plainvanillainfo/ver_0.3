@@ -783,6 +783,7 @@ class TemplateItem extends TemplateItemClient {
                 this.formList.appendChild(divCur);
                 divCur.style.marginBottom = "10px";
                 let labelText = elem.Rendering.Label;
+                divCur.rendering = elem.Rendering;
                 let labelCur = document.createTextNode(labelText + ": ");
                 let labelSpan = document.createElement('span');
                 labelSpan.appendChild(labelCur);
@@ -790,12 +791,241 @@ class TemplateItem extends TemplateItemClient {
                 labelSpan.style.display = "inline-block";
                 labelSpan.style.verticalAlign = "top";
                 labelSpan.style.width = "25%";
+
                 let inputCur;
                 let inputLabel;
                 if (elem.Rendering.Format == null) {
                     elem.Rendering.Format = 'Text';
                 }
                 if (elem.Rendering.Format != null) {
+                    switch (elem.Rendering.Format) {
+                        case 'Text':
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.setAttribute("type", "input");
+                            if (this.item != null && this.item.Attrs != null && this.item.Attrs[elem.Name] != null) {
+                                inputCur.value = this.item.Attrs[elem.Name];
+                            } else {
+                                inputCur.value = '';
+                            }
+                            inputCur.style.width = '70%';
+                            inputCur.addEventListener('blur', (event) => {
+                                event.preventDefault();
+                                //this.formData[event.target.id] = event.target.value
+                            });
+                            if (elem.Editable != null && elem.Editable.toLowerCase() === 'no') {
+                                inputCur.disabled = true;
+                            }
+                            break;
+/*
+                        case 'Json':
+                            inputCur = document.createElement('textarea');
+                            divCur.appendChild(inputCur);
+                            inputCur.setAttribute("rows", "4");
+                            if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                                inputCur.value = JSON.stringify(this.item.Attrs[elemCur.Name]);
+                            } else {
+                                inputCur.value = '';
+                            }
+                            inputCur.style.width = '70%';
+                            inputCur.addEventListener('blur', (event) => {
+                                event.preventDefault();
+                                this.formData[event.target.id] = event.target.value
+                            });
+                            if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+                                inputCur.disabled = true;
+                            }
+                            break;
+                        case 'Textarea':
+                            inputCur = document.createElement('textarea');
+                            divCur.appendChild(inputCur);
+                            inputCur.setAttribute("rows", "4");
+                            if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                                inputCur.value = this.item.Attrs[elemCur.Name];
+                            } else {
+                                inputCur.value = '';
+                            }
+                            inputCur.style.width = '70%';
+                            inputCur.addEventListener('blur', (event) => {
+                                event.preventDefault();
+                                this.formData[event.target.id] = event.target.value
+                            });
+                            if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+                                inputCur.disabled = true;
+                            }
+                            break;
+                        case 'Checkbox':
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'form-check-input';
+                            inputCur.setAttribute("type", "checkbox");
+                            if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
+                                inputCur.checked = true
+                            } else {
+                                inputCur.checked = false;
+                            }
+                            inputCur.style.marginRight = "1em";
+                            inputCur.addEventListener('blur', (event) => {
+                                event.preventDefault();
+                                this.formData[event.target.id] = event.target.checked;
+                            });
+    
+                            inputLabel = document.createElement('label');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'form-check-label';
+                            inputLabel.setAttribute("for", "flexCheckDisabled");
+                            if (elemCur.Legend != null) {
+                                inputLabel.appendChild(document.createTextNode(elemCur.Legend));
+                            }
+                            break;
+                        case 'Radio':
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'form-check-input';
+                            inputCur.setAttribute("type", "radio");
+                            inputCur.style.width = '70%';
+                            if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
+                                inputCur.checked = true
+                            } else {
+                                inputCur.checked = false;
+                            }
+                            inputCur.style.marginRight = "1em";
+                            inputCur.addEventListener('blur', (event) => {
+                                event.preventDefault();
+                                //this.formData[event.target.id] = event.target.checked;
+                            });
+    
+                            inputLabel = document.createElement('label');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'form-check-label';
+                            inputLabel.setAttribute("for", "flexCheckDisabled");
+                            inputLabel.appendChild(document.createTextNode(labelText));
+                            break;
+                        case 'Date':
+                            let divDate = document.createElement('div');
+                            divCur.appendChild(divDate);
+                            divDate.className = 'input-group date';
+                            divDate.style.display = 'inline';
+                            inputCur = document.createElement('input');
+                            divDate.appendChild(inputCur);
+                            inputCur.setAttribute("type", "date");
+                            if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                                let valueCur = new Date(this.item.Attrs[elemCur.Name]);
+                                inputCur.value = valueCur.toISOString();
+                            } else {
+                                inputCur.value = '';
+                            }
+                            inputCur.style.width = '70%';
+                            inputCur.addEventListener('blur', (event) => {
+                                event.preventDefault();
+                                this.formData[event.target.id] = event.target.value;
+                            });
+                            let itemImgCal = document.createElement('i');
+                            divDate.appendChild(itemImgCal);
+                            itemImgCal.className = 'bi bi-calendar';
+                            itemImgCal.style.marginLeft = "10px";
+                            break;
+                        case 'Dropdown':
+                            inputCur = document.createElement('select');
+                            divCur.appendChild(inputCur);
+                            let valuePicked = '';
+                            if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                                valuePicked = this.item.Attrs[elemCur.Name];
+                            }
+                            if (elemCur.ValueSet != null) {
+                                elemCur.ValueSet.forEach(itemCur => {
+                                    let option = document.createElement('option');
+                                    inputCur.appendChild(option);
+                                    if (itemCur === valuePicked) {
+                                        option.setAttribute('selected', 'selected');
+                                    }
+                                    let spanAttr = document.createElement('span');
+                                    option.appendChild(spanAttr);
+                                    spanAttr.appendChild(document.createTextNode(itemCur));
+                                });
+                            }
+                            inputCur.addEventListener('change', (event) => {
+                                event.preventDefault();
+                                console.log("click on option", event.target.value);
+                                this.formData[elemCur.Name] = event.target.value;
+                            });
+                            break;
+                        case 'DrillDown':
+                            inputCur = document.createElement('button');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'btn btn-primary';
+                            inputCur.setAttribute("type", "button");
+                            inputCur.style.width = "22em";
+                            inputCur.appendChild(document.createTextNode(labelText));
+                            inputCur.addEventListener('click', (event) => {
+                                event.preventDefault();
+                                console.log("TemplateItem - DrillDown: ");
+    
+                                this.divTargetSub = document.createElement('div')
+                                this.divTargetSub.style.margin = '10px';
+                                this.track.divTargetSub.appendChild(this.divTargetSub);
+                                let divCur = document.createElement('div');
+                                this.divTargetSub.appendChild(divCur);
+                                divCur.className = 'mb-3';
+                                if (this.elems[elemCur.Name] == null) {
+                                    let buttonCur = document.createElement('button');
+                                    divCur.appendChild(buttonCur);
+                                    buttonCur.className = 'btn btn-info';
+                                    buttonCur.setAttribute("type", "button");
+                                    buttonCur.id = 'backbutton';
+                                    buttonCur.style.width = "12em";
+                                    buttonCur.appendChild(document.createTextNode("< Go Back"));
+                                        buttonCur.addEventListener('click', (event) => {
+                                        event.preventDefault();
+                                        this.track.popBreadcrumb();
+                                    });
+                                    this.elems[elemCur.Name] = new TemplateElem(this, elemCur, this.divTargetSub, true);
+                                    //this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                                } else {
+                                    this.elems[elemCur.Name].show();
+                                }
+                                this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                            });
+                            break;
+                        case 'Context':
+                            this.elems[elemCur.Name] = new TemplateElem(this, elemCur, divCur, false);
+                            break;
+                        case 'PickList':
+                            inputCur = document.createElement('div');
+                            divCur.appendChild(inputCur);
+                            inputCur.style.display = "inline-block";
+                            inputCur.style.width = '70%';
+                            elemPicked = this.useCase.elems[elemCur.Name];
+                            break;
+                        case 'InPlace':
+                            inputCur = document.createElement('div');
+                            divCur.appendChild(inputCur);
+                            inputCur.style.display = "inline-block";
+                            inputCur.style.width = '70%';
+                            elemPicked = this.useCase.elems[elemCur.Name];
+                            break;
+
+*/
+                        default:
+                            break;
+                    }
+                } else {
+                    inputCur = document.createElement('input');
+                    divCur.appendChild(inputCur);
+                    inputCur.setAttribute("type", "input");
+                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elem.Name] != null) {
+                        inputCur.value = this.item.Attrs[elem.Name];
+                    } else {
+                        inputCur.value = '';
+                    }
+                    inputCur.style.width = '70%';
+                    inputCur.addEventListener('blur', (event) => {
+                        event.preventDefault();
+                        //this.formData[event.target.id] = event.target.value
+                    });
+                    if (elem.Editable != null && elem.Editable.toLowerCase() === 'no') {
+                        inputCur.disabled = true;
+                    }
                 }
                 if (inputCur != null) {
                     inputCur.id = elem.Name;
@@ -906,6 +1136,9 @@ class TemplateItem extends TemplateItemClient {
                 
                             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                             this.templateItemSub = new TemplateItem(this, subUseCase, this.tableOwner.divItemSub);
+                            this.templateItemSub.itemCells = {};
+                            this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
+                            this.templateItemSub.setDataItems([itemCur]);
                             this.tableOwner.pushBreadcrumb(this.templateItemSub);
                         }
                     });
@@ -933,94 +1166,230 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentFormRows() {
-        this.tableOwner = this;
-        while (this.tableOwner.tableBody == null) {
-            this.tableOwner = this.tableOwner.parent.parent; 
-        }
-        this.itemCells = {};
-        let itemCellsParent = [];
-        if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
-            this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
-                itemCellsParent.push({...cur});
-            });
-        }
         this.dataItems.forEach(itemCur => {
-            this.itemCells[itemCur.Key] = [];
-            itemCellsParent.forEach(cellCur => {
-                this.itemCells[itemCur.Key].push({...cellCur});
-            });
-            this.tableOwner.columns.forEach(colCur => {
-                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
-                if (cellCur == null) {
-                    this.itemCells[itemCur.Key].push({
-                        Col: colCur, 
-                        Value: '',
-                        Td: null
-                    });
-                }
-            });
-            itemCur.isEmpty = true;
-            this.useCase.Detail.Elems.forEach(elemCur => {
-                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
-                if (valueCur.substring != null) {
-                    valueCur = valueCur;
-                }
-                if (valueCur !== '') {
-                    if (this.isLeaf === true) {
-                        itemCur.isEmpty = false;
+            this.itemCells[itemCur.Key].forEach(cellCur => {
+                let divField = this.formList.firstChild;
+                while (divField != null) {
+                    if (divField.rendering.Label === cellCur.Col) {
+
+                        if (elem.Rendering.Format != null) {
+                            switch (elem.Rendering.Format) {
+                                case 'Text':
+                                    inputCur = document.createElement('input');
+                                    divField.appendChild(inputCur);
+                                    inputCur.setAttribute("type", "input");
+                                    inputCur.value = cellCur.Value;
+                                    inputCur.style.width = '70%';
+                                    inputCur.addEventListener('blur', (event) => {
+                                        event.preventDefault();
+                                        this.formData[event.target.id] = event.target.value
+                                    });
+                                    if (elem.Rendering.Editable != null && elem.Rendering.Editable.toLowerCase() === 'no') {
+                                        inputCur.disabled = true;
+                                    }
+                                    break;
+                                /*
+                                case 'Json':
+                                    inputCur = document.createElement('textarea');
+                                    divCur.appendChild(inputCur);
+                                    inputCur.setAttribute("rows", "4");
+                                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                                        inputCur.value = JSON.stringify(this.item.Attrs[elemCur.Name]);
+                                    } else {
+                                        inputCur.value = '';
+                                    }
+                                    inputCur.style.width = '70%';
+                                    inputCur.addEventListener('blur', (event) => {
+                                        event.preventDefault();
+                                        this.formData[event.target.id] = event.target.value
+                                    });
+                                    if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+                                        inputCur.disabled = true;
+                                    }
+                                    break;
+                                case 'Textarea':
+                                    inputCur = document.createElement('textarea');
+                                    divCur.appendChild(inputCur);
+                                    inputCur.setAttribute("rows", "4");
+                                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                                        inputCur.value = this.item.Attrs[elemCur.Name];
+                                    } else {
+                                        inputCur.value = '';
+                                    }
+                                    inputCur.style.width = '70%';
+                                    inputCur.addEventListener('blur', (event) => {
+                                        event.preventDefault();
+                                        this.formData[event.target.id] = event.target.value
+                                    });
+                                    if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+                                        inputCur.disabled = true;
+                                    }
+                                    break;
+                                case 'Checkbox':
+                                    inputCur = document.createElement('input');
+                                    divCur.appendChild(inputCur);
+                                    inputCur.className = 'form-check-input';
+                                    inputCur.setAttribute("type", "checkbox");
+                                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
+                                        inputCur.checked = true
+                                    } else {
+                                        inputCur.checked = false;
+                                    }
+                                    inputCur.style.marginRight = "1em";
+                                    inputCur.addEventListener('blur', (event) => {
+                                        event.preventDefault();
+                                        this.formData[event.target.id] = event.target.checked;
+                                    });
+            
+                                    inputLabel = document.createElement('label');
+                                    divCur.appendChild(inputLabel);
+                                    inputLabel.className = 'form-check-label';
+                                    inputLabel.setAttribute("for", "flexCheckDisabled");
+                                    if (elemCur.Legend != null) {
+                                        inputLabel.appendChild(document.createTextNode(elemCur.Legend));
+                                    }
+                                    break;
+                                case 'Radio':
+                                    inputCur = document.createElement('input');
+                                    divCur.appendChild(inputCur);
+                                    inputCur.className = 'form-check-input';
+                                    inputCur.setAttribute("type", "radio");
+                                    inputCur.style.width = '70%';
+                                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
+                                        inputCur.checked = true
+                                    } else {
+                                        inputCur.checked = false;
+                                    }
+                                    inputCur.style.marginRight = "1em";
+                                    inputCur.addEventListener('blur', (event) => {
+                                        event.preventDefault();
+                                        //this.formData[event.target.id] = event.target.checked;
+                                    });
+            
+                                    inputLabel = document.createElement('label');
+                                    divCur.appendChild(inputLabel);
+                                    inputLabel.className = 'form-check-label';
+                                    inputLabel.setAttribute("for", "flexCheckDisabled");
+                                    inputLabel.appendChild(document.createTextNode(labelText));
+                                    break;
+                                case 'Date':
+                                    let divDate = document.createElement('div');
+                                    divCur.appendChild(divDate);
+                                    divDate.className = 'input-group date';
+                                    divDate.style.display = 'inline';
+                                    inputCur = document.createElement('input');
+                                    divDate.appendChild(inputCur);
+                                    inputCur.setAttribute("type", "date");
+                                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                                        let valueCur = new Date(this.item.Attrs[elemCur.Name]);
+                                        inputCur.value = valueCur.toISOString();
+                                    } else {
+                                        inputCur.value = '';
+                                    }
+                                    inputCur.style.width = '70%';
+                                    inputCur.addEventListener('blur', (event) => {
+                                        event.preventDefault();
+                                        this.formData[event.target.id] = event.target.value;
+                                    });
+                                    let itemImgCal = document.createElement('i');
+                                    divDate.appendChild(itemImgCal);
+                                    itemImgCal.className = 'bi bi-calendar';
+                                    itemImgCal.style.marginLeft = "10px";
+                                    break;
+                                case 'Dropdown':
+                                    inputCur = document.createElement('select');
+                                    divCur.appendChild(inputCur);
+                                    let valuePicked = '';
+                                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                                        valuePicked = this.item.Attrs[elemCur.Name];
+                                    }
+                                    if (elemCur.ValueSet != null) {
+                                        elemCur.ValueSet.forEach(itemCur => {
+                                            let option = document.createElement('option');
+                                            inputCur.appendChild(option);
+                                            if (itemCur === valuePicked) {
+                                                option.setAttribute('selected', 'selected');
+                                            }
+                                            let spanAttr = document.createElement('span');
+                                            option.appendChild(spanAttr);
+                                            spanAttr.appendChild(document.createTextNode(itemCur));
+                                        });
+                                    }
+                                    inputCur.addEventListener('change', (event) => {
+                                        event.preventDefault();
+                                        console.log("click on option", event.target.value);
+                                        this.formData[elemCur.Name] = event.target.value;
+                                    });
+                                    break;
+                                case 'DrillDown':
+                                    inputCur = document.createElement('button');
+                                    divCur.appendChild(inputCur);
+                                    inputCur.className = 'btn btn-primary';
+                                    inputCur.setAttribute("type", "button");
+                                    inputCur.style.width = "22em";
+                                    inputCur.appendChild(document.createTextNode(labelText));
+                                    inputCur.addEventListener('click', (event) => {
+                                        event.preventDefault();
+                                        console.log("TemplateItem - DrillDown: ");
+            
+                                        this.divTargetSub = document.createElement('div')
+                                        this.divTargetSub.style.margin = '10px';
+                                        this.track.divTargetSub.appendChild(this.divTargetSub);
+                                        let divCur = document.createElement('div');
+                                        this.divTargetSub.appendChild(divCur);
+                                        divCur.className = 'mb-3';
+                                        if (this.elems[elemCur.Name] == null) {
+                                            let buttonCur = document.createElement('button');
+                                            divCur.appendChild(buttonCur);
+                                            buttonCur.className = 'btn btn-info';
+                                            buttonCur.setAttribute("type", "button");
+                                            buttonCur.id = 'backbutton';
+                                            buttonCur.style.width = "12em";
+                                            buttonCur.appendChild(document.createTextNode("< Go Back"));
+                                                buttonCur.addEventListener('click', (event) => {
+                                                event.preventDefault();
+                                                this.track.popBreadcrumb();
+                                            });
+                                            this.elems[elemCur.Name] = new TemplateElem(this, elemCur, this.divTargetSub, true);
+                                            //this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                                        } else {
+                                            this.elems[elemCur.Name].show();
+                                        }
+                                        this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                                    });
+                                    break;
+                                case 'Context':
+                                    this.elems[elemCur.Name] = new TemplateElem(this, elemCur, divCur, false);
+                                    break;
+                                case 'PickList':
+                                    inputCur = document.createElement('div');
+                                    divCur.appendChild(inputCur);
+                                    inputCur.style.display = "inline-block";
+                                    inputCur.style.width = '70%';
+                                    elemPicked = this.useCase.elems[elemCur.Name];
+                                    break;
+                                case 'InPlace':
+                                    inputCur = document.createElement('div');
+                                    divCur.appendChild(inputCur);
+                                    inputCur.style.display = "inline-block";
+                                    inputCur.style.width = '70%';
+                                    elemPicked = this.useCase.elems[elemCur.Name];
+                                    break;
+        
+                                */
+                                default:
+                                    break;
+                            }
+                        } else {
+
+                        }
+                        break;
+                    } else {
+                        divField = divField.nextSibling;
                     }
-                }
-                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
-                if (cellCur != null) {
-                    cellCur.Value = valueCur;
-                    cellCur.Rendering = elemCur.Rendering;
                 }
             });
         });
-
-        if (this.isLeaf === true) {
-            this.dataItems.forEach(itemCur => {
-                if (itemCur.isEmpty === false) {
-                    let tableItemRow = document.createElement('tr');
-                    this.tableOwner.tableBody.appendChild(tableItemRow);
-                    tableItemRow.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        console.log("presentTableRows - Item picked: ", itemCur.Key);
-                        if (this.useCase.Detail.SubUseCase != null) {
-                            if (this.divItem == null) {
-                                this.divItem = document.createElement('div');
-                                this.divItemSurrounding.appendChild(this.divItem);
-                            }
-                            this.tableOwner.divItemSub = document.createElement('div');
-                            this.tableOwner.divItemSub.className = 'mb-3';
-                            this.tableOwner.divItemSub.style.margin = '10px';
-                
-                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
-                            this.templateItemSub = new TemplateItem(this, subUseCase, this.tableOwner.divItemSub);
-                            this.tableOwner.pushBreadcrumb(this.templateItemSub);
-                        }
-                    });
-
-                    this.itemCells[itemCur.Key].forEach(cellCur => {
-                        cellCur.Td = document.createElement('td');
-                        tableItemRow.appendChild(cellCur.Td);
-                        if (cellCur.Rendering != null) {
-                            if (cellCur.Rendering.Width != null) {
-                                cellCur.Td.style.width = cellCur.Rendering.Width;
-                            }
-                            if (cellCur.Rendering.Format != null) {
-                                if (cellCur.Rendering.Format === 'Date') {
-                                    cellCur.Value = cellCur.Value.substring(0, 19).replace('-', '/').replace('-', '/').replace('T', ' ');
-                                }
-                            }
-                        }
-                        cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
-                    });
-
-                }
-            });
-        }
-
     }
 
     pushBreadcrumb(templatePushed) {
