@@ -193,6 +193,9 @@ class TemplateItem extends TemplateItemClient {
                     case 'Table':
                         this.presentTableRows();
                         break;
+                    case 'Form':
+                        this.presentFormRows();
+                        break;
                     default:
                         break;
                 }
@@ -792,6 +795,7 @@ class TemplateItem extends TemplateItemClient {
                 labelSpan.style.verticalAlign = "top";
                 labelSpan.style.width = "25%";
 
+                /*
                 let inputCur;
                 let inputLabel;
                 if (elem.Rendering.Format == null) {
@@ -817,7 +821,7 @@ class TemplateItem extends TemplateItemClient {
                                 inputCur.disabled = true;
                             }
                             break;
-/*
+
                         case 'Json':
                             inputCur = document.createElement('textarea');
                             divCur.appendChild(inputCur);
@@ -1005,7 +1009,7 @@ class TemplateItem extends TemplateItemClient {
                             elemPicked = this.useCase.elems[elemCur.Name];
                             break;
 
-*/
+
                         default:
                             break;
                     }
@@ -1035,6 +1039,7 @@ class TemplateItem extends TemplateItemClient {
                         }
                     }
                 }
+                */
             }
         } else {
             this.isLeaf = false;
