@@ -985,6 +985,10 @@ class TemplateElem extends TemplateElemClient {
             this.divElem = document.createElement('div')
             this.divItemParent.appendChild(this.divElem);
         }
+        if (this.parent.divBreadcrumbs != null) {
+            this.divBreadcrumbs = this.parent.divBreadcrumbs;
+            this.breadcrumbs = this.parent.breadcrumbs;
+        }
         this.visible = false;
     }
 
