@@ -705,7 +705,46 @@ class TemplateItem extends TemplateItemClient {
                                         inputCur.disabled = true;
                                     }
                                     break;
+                                case 'DrillDown':
+                                    inputCur = document.createElement('button');
+                                    divField.appendChild(inputCur);
+                                    inputCur.className = 'btn btn-primary';
+                                    inputCur.setAttribute("type", "button");
+                                    inputCur.style.width = "22em";
+                                    inputCur.appendChild(document.createTextNode(divField.rendering.Label));
+                                    inputCur.addEventListener('click', (event) => {
+                                        event.preventDefault();
+                                        console.log("TemplateItem - DrillDown: ");
+
                                         /*
+                                        this.divTargetSub = document.createElement('div')
+                                        this.divTargetSub.style.margin = '10px';
+                                        this.track.divTargetSub.appendChild(this.divTargetSub);
+                                        let divCur = document.createElement('div');
+                                        this.divTargetSub.appendChild(divCur);
+                                        divCur.className = 'mb-3';
+                                        if (this.elems[elemCur.Name] == null) {
+                                            let buttonCur = document.createElement('button');
+                                            divCur.appendChild(buttonCur);
+                                            buttonCur.className = 'btn btn-info';
+                                            buttonCur.setAttribute("type", "button");
+                                            buttonCur.id = 'backbutton';
+                                            buttonCur.style.width = "12em";
+                                            buttonCur.appendChild(document.createTextNode("< Go Back"));
+                                            buttonCur.addEventListener('click', (event) => {
+                                                event.preventDefault();
+                                                this.track.popBreadcrumb();
+                                            });
+                                            this.elems[elemCur.Name] = new TemplateElem(this, elemCur, this.divTargetSub, true);
+                                            //this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                                        } else {
+                                            this.elems[elemCur.Name].show();
+                                        }
+                                        this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                                        */
+                                    });
+                                    break;
+                                /*
                                 case 'Json':
                                     inputCur = document.createElement('textarea');
                                     divCur.appendChild(inputCur);
