@@ -530,7 +530,7 @@ class TemplateItem extends TemplateItemClient {
                             this.tableOwner.divItemSub = document.createElement('div');
                             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                             this.templateItemSub = new TemplateItem(this, subUseCase, this.tableOwner.divItemSub);
-                            this.pushBreadcrumb(this.templateItemSub);
+                            this.tableOwner.pushBreadcrumb(this.templateItemSub);
                         }
                     });
 
@@ -569,7 +569,7 @@ class TemplateItem extends TemplateItemClient {
             this.olBreadcrumbs = document.createElement('ol');
             this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
             this.olBreadcrumbs.className = 'breadcrumb';
-            this.breadcrumbs = [this.tableOwner != null ? this.tableOwner : this];
+            this.breadcrumbs = [this];
             this.divItemSurrounding.appendChild(this.divItemSub);
             this.divItemSub.className = 'mb-3';
             this.divItemSub.style.margin = '10px';
