@@ -782,7 +782,7 @@ class TemplateItem extends TemplateItemClient {
                 let divCur = document.createElement('div');
                 this.formList.appendChild(divCur);
                 divCur.style.marginBottom = "10px";
-                let labelText = elem.Label;
+                let labelText = elem.Rendering.Label;
                 let labelCur = document.createTextNode(labelText + ": ");
                 let labelSpan = document.createElement('span');
                 labelSpan.appendChild(labelCur);
@@ -800,7 +800,7 @@ class TemplateItem extends TemplateItemClient {
                 if (inputCur != null) {
                     inputCur.id = elem.Name;
                     if (!this.fFormEditable) {
-                        if (elem.Editable == null || elem.Editable === 'No') {
+                        if (elem.Rendering.Editable == null || elem.Rendering.Editable === 'No') {
                             inputCur.disabled = true;
                         }
                     }
