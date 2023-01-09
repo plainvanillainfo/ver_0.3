@@ -806,7 +806,6 @@ class TemplateItem extends TemplateItemClient {
                     }
                 }
             }
-            //this.divItem.appendChild(document.createTextNode(elem.Rendering.Label));
         } else {
             this.isLeaf = false;
             let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
