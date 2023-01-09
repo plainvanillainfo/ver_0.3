@@ -527,9 +527,9 @@ class TemplateItem extends TemplateItemClient {
                                 this.divItem = document.createElement('div');
                                 this.divItemSurrounding.appendChild(this.divItem);
                             }
-                            this.divItemSub = document.createElement('div');
+                            this.tableOwner.divItemSub = document.createElement('div');
                             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
-                            this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
+                            this.templateItemSub = new TemplateItem(this, subUseCase, this.tableOwner.divItemSub);
                             this.pushBreadcrumb(this.templateItemSub);
                         }
                     });
