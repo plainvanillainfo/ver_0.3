@@ -424,7 +424,7 @@ class TemplateItem extends TemplateItemClient {
         let fFormEditable = (this.useCase.Detail.Editable != null && this.useCase.Detail.Editable === 'Yes') ? true : false;
 
         if (fFormEditable) {
-            divCur = document.createElement('div');
+            let divCur = document.createElement('div');
             this.formList.appendChild(divCur);
             divCur.className = 'mb-3';
             buttonCur = document.createElement('button');
