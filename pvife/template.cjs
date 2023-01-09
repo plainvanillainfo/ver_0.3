@@ -492,7 +492,6 @@ class TemplateItem extends TemplateItemClient {
             */
         } else {
             this.popBreadcrumb();
-            //this.track.div.removeChild(this.divTarget);
         }
     }
 
@@ -891,7 +890,7 @@ class TemplateItem extends TemplateItemClient {
         }
         this.divItemSurrounding.appendChild(this.divItemSub);
         let buttonCur = document.createElement('button');
-        this.divItemSub.appendChild(buttonCur);
+        this.divItemSub.prepend(buttonCur);
         buttonCur.className = 'btn btn-info';
         buttonCur.setAttribute("type", "button");
         buttonCur.id = 'backbutton';
@@ -901,7 +900,6 @@ class TemplateItem extends TemplateItemClient {
         buttonCur.addEventListener('click', (event) => {
             event.preventDefault();
             this.popBreadcrumb();
-            //this.divItemSurrounding.removeChild(this.divItemSub);
         });
 
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
