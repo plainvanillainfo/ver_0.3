@@ -1171,7 +1171,6 @@ class TemplateItem extends TemplateItemClient {
                 let divField = this.formList.firstChild;
                 while (divField != null) {
                     if (divField.rendering.Label === cellCur.Col) {
-
                         if (elem.Rendering.Format != null) {
                             switch (elem.Rendering.Format) {
                                 case 'Text':
@@ -1381,7 +1380,18 @@ class TemplateItem extends TemplateItemClient {
                                     break;
                             }
                         } else {
-
+                            inputCur = document.createElement('input');
+                            divField.appendChild(inputCur);
+                            inputCur.setAttribute("type", "input");
+                            inputCur.value = cellCur.Value;
+                            inputCur.style.width = '70%';
+                            inputCur.addEventListener('blur', (event) => {
+                                event.preventDefault();
+                                this.formData[event.target.id] = event.target.value
+                            });
+                            if (elem.Rendering.Editable != null && elem.Rendering.Editable.toLowerCase() === 'no') {
+                                inputCur.disabled = true;
+                            }
                         }
                         break;
                     } else {
