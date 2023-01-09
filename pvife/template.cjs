@@ -585,9 +585,7 @@ class TemplateItem extends TemplateItemClient {
             buttonCur.addEventListener('click', (event) => {
                 event.preventDefault();
                 this.popBreadcrumb();
-                if (templatePushed.divItem != null) {
-                    this.divItemSub.removeChild(templatePushed.divItem);
-                }
+                this.divItemSurrounding.removeChild(this.divItemSub);
             });
 
         }
