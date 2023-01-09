@@ -569,7 +569,7 @@ class TemplateItem extends TemplateItemClient {
             this.olBreadcrumbs = document.createElement('ol');
             this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
             this.olBreadcrumbs.className = 'breadcrumb';
-            this.breadcrumbs = [thistableOwner != null ? tableOwner : this];
+            this.breadcrumbs = [this.tableOwner != null ? this.tableOwner : this];
             this.divItemSurrounding.appendChild(this.divItemSub);
             this.divItemSub.className = 'mb-3';
             this.divItemSub.style.margin = '10px';
