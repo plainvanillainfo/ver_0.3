@@ -780,7 +780,7 @@ class TemplateItem extends TemplateItemClient {
             if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
                 this.columns.push(elem.Rendering.Label);
                 divCur = document.createElement('div');
-                this.form.appendChild(divCur);
+                this.formList.appendChild(divCur);
                 divCur.style.marginBottom = "10px";
                 let labelText = elem.Label;
                 let labelCur = document.createTextNode(labelText + ": ");
