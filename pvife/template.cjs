@@ -1176,6 +1176,7 @@ class TemplateItem extends TemplateItemClient {
                 let divField = this.formList.firstChild;
                 while (divField != null) {
                     if (divField.rendering.Label === cellCur.Col) {
+                        let inputCur;
                         if (divField.rendering.Format != null) {
                             switch (divField.rendering.Format) {
                                 case 'Text':
