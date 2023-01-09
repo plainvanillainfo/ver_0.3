@@ -404,25 +404,372 @@ class TemplateItem extends TemplateItemClient {
         }
     }
 
+    setUseCaseForm() {
+        console.log("TemplateItem::setUseCaseForm");
+        if (this.form != null) {
+            this.divTarget.removeChild(this.form);
+        }
+        this.form = document.createElement('form');
+        this.divTarget.appendChild(this.form);
+        this.formData = {};
+        let divCur;
+        let buttonCur;
+        let fFormEditable = (this.useCase.Detail.Editable != null && this.useCase.Detail.Editable === 'Yes') ? true : false;
+        this.useCase.Detail.Elems.forEach( (elemCur, elemIndex) => {
+            divCur = document.createElement('div');
+            this.form.appendChild(divCur);
+            divCur.style.marginBottom = "10px";
+            let labelText = elemCur.Label;
+            let labelCur = document.createTextNode(labelText + ": ");
+            let labelSpan = document.createElement('span');
+            labelSpan.appendChild(labelCur);
+            divCur.appendChild(labelSpan);
+            labelSpan.style.display = "inline-block";
+            labelSpan.style.verticalAlign = "top";
+            labelSpan.style.width = "25%";
+            let inputCur;
+            let inputLabel;
+            if (elemCur.Format == null) {
+                elemCur.Format = 'Text';
+            }
+            if (elemCur.Format != null) {
+                switch (elemCur.Format) {
+                    case 'Text':
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.setAttribute("type", "input");
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                            inputCur.value = this.item.Attrs[elemCur.Name];
+                        } else {
+                            if (elemCur.ParentKey != null && elemCur.ParentKey === 'Yes') {
+                                inputCur.value = this.parent.parent.parent.item.Key;
+                                this.formData[elemCur.Name] = inputCur.value;
+                            } else {
+                                inputCur.value = '';
+                            }
+                        }
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value
+                        });
+                        if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+                            inputCur.disabled = true;
+                        }
+                        break;
+                    case 'Json':
+                        inputCur = document.createElement('textarea');
+                        divCur.appendChild(inputCur);
+                        inputCur.setAttribute("rows", "4");
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                            inputCur.value = JSON.stringify(this.item.Attrs[elemCur.Name]);
+                        } else {
+                            inputCur.value = '';
+                        }
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value
+                        });
+                        if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+                            inputCur.disabled = true;
+                        }
+                        break;
+                    case 'Textarea':
+                        inputCur = document.createElement('textarea');
+                        divCur.appendChild(inputCur);
+                        inputCur.setAttribute("rows", "4");
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                            inputCur.value = this.item.Attrs[elemCur.Name];
+                        } else {
+                            inputCur.value = '';
+                        }
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value
+                        });
+                        if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+                            inputCur.disabled = true;
+                        }
+                        break;
+                    case 'Checkbox':
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.className = 'form-check-input';
+                        inputCur.setAttribute("type", "checkbox");
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
+                            inputCur.checked = true
+                        } else {
+                            inputCur.checked = false;
+                        }
+                        inputCur.style.marginRight = "1em";
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.checked;
+                        });
+
+                        inputLabel = document.createElement('label');
+                        divCur.appendChild(inputLabel);
+                        inputLabel.className = 'form-check-label';
+                        inputLabel.setAttribute("for", "flexCheckDisabled");
+                        if (elemCur.Legend != null) {
+                            inputLabel.appendChild(document.createTextNode(elemCur.Legend));
+                        }
+                        break;
+                    case 'Radio':
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.className = 'form-check-input';
+                        inputCur.setAttribute("type", "radio");
+                        inputCur.style.width = '70%';
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
+                            inputCur.checked = true
+                        } else {
+                            inputCur.checked = false;
+                        }
+                        inputCur.style.marginRight = "1em";
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            //this.formData[event.target.id] = event.target.checked;
+                        });
+
+                        inputLabel = document.createElement('label');
+                        divCur.appendChild(inputLabel);
+                        inputLabel.className = 'form-check-label';
+                        inputLabel.setAttribute("for", "flexCheckDisabled");
+                        //if (itemAttrCur.elemCur.Legend != null) {
+                        inputLabel.appendChild(document.createTextNode(labelText));
+                        //}
+
+                        break;
+                    case 'Date':
+                        let divDate = document.createElement('div');
+                        divCur.appendChild(divDate);
+                        divDate.className = 'input-group date';
+                        divDate.style.display = 'inline';
+                        inputCur = document.createElement('input');
+                        divDate.appendChild(inputCur);
+                        inputCur.setAttribute("type", "date");
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                            let valueCur = new Date(this.item.Attrs[elemCur.Name]);
+                            inputCur.value = valueCur.toISOString();
+                        } else {
+                            inputCur.value = '';
+                        }
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value;
+                        });
+                        let itemImgCal = document.createElement('i');
+                        divDate.appendChild(itemImgCal);
+                        itemImgCal.className = 'bi bi-calendar';
+                        itemImgCal.style.marginLeft = "10px";
+                        break;
+                    case 'Dropdown':
+                        inputCur = document.createElement('select');
+                        divCur.appendChild(inputCur);
+                        let valuePicked = '';
+                        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                            valuePicked = this.item.Attrs[elemCur.Name];
+                        }
+                        if (elemCur.ValueSet != null) {
+                            elemCur.ValueSet.forEach(itemCur => {
+                                let option = document.createElement('option');
+                                inputCur.appendChild(option);
+                                if (itemCur === valuePicked) {
+                                    option.setAttribute('selected', 'selected');
+                                }
+                                let spanAttr = document.createElement('span');
+                                option.appendChild(spanAttr);
+                                spanAttr.appendChild(document.createTextNode(itemCur));
+                            });
+                        }
+                        inputCur.addEventListener('change', (event) => {
+                            event.preventDefault();
+                            console.log("click on option", event.target.value);
+                            this.formData[elemCur.Name] = event.target.value;
+                        });
+                        break;
+                    case 'DrillDown':
+                        inputCur = document.createElement('button');
+                        divCur.appendChild(inputCur);
+                        inputCur.className = 'btn btn-primary';
+                        inputCur.setAttribute("type", "button");
+                        inputCur.style.width = "22em";
+                        inputCur.appendChild(document.createTextNode(labelText));
+                        inputCur.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            console.log("TemplateItem - DrillDown: ");
+
+                            this.divTargetSub = document.createElement('div')
+                            this.divTargetSub.style.margin = '10px';
+                            this.track.divTargetSub.appendChild(this.divTargetSub);
+                            let divCur = document.createElement('div');
+                            this.divTargetSub.appendChild(divCur);
+                            divCur.className = 'mb-3';
+
+                            /*
+                            let buttonCur = document.createElement('button');
+                            divCur.appendChild(buttonCur);
+                            buttonCur.className = 'btn btn-info';
+                            buttonCur.setAttribute("type", "button");
+                            buttonCur.id = 'backbutton';
+                            buttonCur.style.width = "12em";
+                            buttonCur.appendChild(document.createTextNode("< Go Back"));
+
+                            buttonCur.addEventListener('click', (event) => {
+                                event.preventDefault();
+                                this.track.popBreadcrumb();
+                            });
+                            */
+
+                            if (this.elems[elemCur.Name] == null) {
+                                let buttonCur = document.createElement('button');
+                                divCur.appendChild(buttonCur);
+                                buttonCur.className = 'btn btn-info';
+                                buttonCur.setAttribute("type", "button");
+                                buttonCur.id = 'backbutton';
+                                buttonCur.style.width = "12em";
+                                buttonCur.appendChild(document.createTextNode("< Go Back"));
+                                    buttonCur.addEventListener('click', (event) => {
+                                    event.preventDefault();
+                                    this.track.popBreadcrumb();
+                                });
+                                this.elems[elemCur.Name] = new TemplateElem(this, elemCur, this.divTargetSub, true);
+                                //this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                            } else {
+                                this.elems[elemCur.Name].show();
+                            }
+                            this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                        });
+                        break;
+                    case 'Context':
+                        this.elems[elemCur.Name] = new TemplateElem(this, elemCur, divCur, false);
+                        break;
+                    case 'PickList':
+                        inputCur = document.createElement('div');
+                        divCur.appendChild(inputCur);
+                        inputCur.style.display = "inline-block";
+                        inputCur.style.width = '70%';
+                        elemPicked = this.useCase.elems[elemCur.Name];
+                        /*
+                        this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
+                        this.elems[elemCur.Name].initiateTrigger();
+                        */
+                        break;
+                    case 'InPlace':
+                        inputCur = document.createElement('div');
+                        divCur.appendChild(inputCur);
+                        inputCur.style.display = "inline-block";
+                        inputCur.style.width = '70%';
+                        elemPicked = this.useCase.elems[elemCur.Name];
+                        /*
+                        this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
+                        this.elems[elemCur.Name].trigger();
+                        */
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                /*
+                inputCur = document.createElement('input');
+                divCur.appendChild(inputCur);
+                inputCur.setAttribute("type", "input");
+                if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+                    inputCur.value = this.item.Attrs[elemCur.Name];
+                } else {
+                    inputCur.value = '';
+                }
+                inputCur.style.width = '70%';
+                inputCur.addEventListener('blur', (event) => {
+                    event.preventDefault();
+                    this.formData[event.target.id] = event.target.value
+                });
+                if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+                    inputCur.disabled = true;
+                }
+                */
+            }
+            if (inputCur != null) {
+                inputCur.id = elemCur.Name;
+                if (!fFormEditable) {
+                    if (elemCur.Editable == null || elemCur.Editable === 'No') {
+                        inputCur.disabled = true;
+                    }
+                }
+            }
+        });
+
+        if (fFormEditable) {
+            divCur = document.createElement('div');
+            this.form.appendChild(divCur);
+            divCur.className = 'mb-3';
+            buttonCur = document.createElement('button');
+            divCur.appendChild(buttonCur);
+            buttonCur.className = 'btn btn-danger';
+            buttonCur.setAttribute("type", "button");
+            buttonCur.id = 'cancelbutton';
+            buttonCur.style.width = "12em";
+            buttonCur.style.marginLeft = '25%';
+            buttonCur.style.marginRight = '30px';
+            buttonCur.appendChild(document.createTextNode("Cancel"));
+            buttonCur.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.track.popBreadcrumb();
+                //this.track.div.removeChild(this.divTarget);
+            });
+            buttonCur = document.createElement('button');
+            divCur.appendChild(buttonCur);
+            buttonCur.className = 'btn btn-success';
+            buttonCur.setAttribute("type", "button");
+            buttonCur.id = 'savebutton';
+            buttonCur.style.width = "12em";
+            buttonCur.appendChild(document.createTextNode("Save"));
+            buttonCur.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.saveFormData();
+            });
+        }
+    }
+
+    saveFormData() {
+        let attrs = {};
+        let fUpdated = false;
+        for (let formAttrCur in this.formData) {
+            let formAttrDetail = this.formData[formAttrCur];
+            attrs[formAttrCur] = {Type: 'P', Value: formAttrDetail};
+            fUpdated = true;
+        }
+        if (fUpdated) {
+            let messageOut = {
+                Action: 'UpdateItem',
+                TemplateItem: {
+                    ItemData: {
+                        ItemKey: this.itemKey,
+                        Attrs: attrs,
+                        ChildItems: {}
+                    }
+                }
+            };
+            this.parent.toServer(messageOut);
+        } else {
+            this.track.popBreadcrumb();
+            //this.track.div.removeChild(this.divTarget);
+        }
+    }
+
     presentForm() {
-        /*
-        this.tableList = document.createElement('table');
-        */
+        this.formList = document.createElement('form');
         if (this.divItem == null) {
             this.divItem = document.createElement('div');
             this.divItemSurrounding.appendChild(this.divItem);
         }
-        /*
-        this.divItem.appendChild(this.tableList);
-        this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
-        let tableHead = document.createElement('thead');
-        this.tableList.appendChild(tableHead);
-        this.tableHeadRow = document.createElement('tr');
-        tableHead.appendChild(this.tableHeadRow);
-        this.tableBody = document.createElement('tbody');
-        this.tableList.appendChild(this.tableBody);
+        this.divItem.appendChild(this.formList);
         this.columns = [];
-        */
+        this.fFormEditable = (this.useCase.Detail.Editable != null && this.useCase.Detail.Editable === 'Yes') ? true : false;
         this.useCase.Detail.Elems.forEach(elemCur => {
             this.presentFormElem(elemCur);
         });
@@ -430,16 +777,36 @@ class TemplateItem extends TemplateItemClient {
 
     presentFormElem(elem) {
         if (elem.Rendering.Nesting == null || elem.Rendering.Nesting !== 'Coerced') {
-            /*
             if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
                 this.columns.push(elem.Rendering.Label);
-                let tableHeadRowHeader = document.createElement('th');
-                this.tableHeadRow.appendChild(tableHeadRowHeader);
-                tableHeadRowHeader.setAttribute("scope", "col");
-                tableHeadRowHeader.appendChild(document.createTextNode(elem.Rendering.Label));
+                divCur = document.createElement('div');
+                this.form.appendChild(divCur);
+                divCur.style.marginBottom = "10px";
+                let labelText = elem.Label;
+                let labelCur = document.createTextNode(labelText + ": ");
+                let labelSpan = document.createElement('span');
+                labelSpan.appendChild(labelCur);
+                divCur.appendChild(labelSpan);
+                labelSpan.style.display = "inline-block";
+                labelSpan.style.verticalAlign = "top";
+                labelSpan.style.width = "25%";
+                let inputCur;
+                let inputLabel;
+                if (elem.Rendering.Format == null) {
+                    elemCur.Rendering.Format = 'Text';
+                }
+                if (elemCur.Rendering.Format != null) {
+                }
+                if (inputCur != null) {
+                    inputCur.id = elemCur.Name;
+                    if (!this.fFormEditable) {
+                        if (elemCur.Editable == null || elemCur.Editable === 'No') {
+                            inputCur.disabled = true;
+                        }
+                    }
+                }
             }
-            */
-            this.divItem.appendChild(document.createTextNode(elem.Rendering.Label));
+            //this.divItem.appendChild(document.createTextNode(elem.Rendering.Label));
         } else {
             this.isLeaf = false;
             let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
