@@ -950,22 +950,22 @@ class TemplateItem extends TemplateItemClient {
             this.divItem.prepend(this.divBreadcrumbs);
         }
         this.divItemSurrounding.appendChild(this.divItemSub);
-        this.buttonBack = document.createElement('button');
+        this.divItemSurrounding.buttonBack = document.createElement('button');
         this.divItemSub.prepend(this.buttonBack);
-        this.buttonBack.className = 'btn btn-info';
-        this.buttonBack.setAttribute("type", "button");
-        this.buttonBack.style.width = "12em";
-        this.buttonBack.appendChild(document.createTextNode("< Go Back"));
-        this.buttonBack.addEventListener('click', (event) => {
+        this.divItemSurrounding.buttonBack.className = 'btn btn-info';
+        this.divItemSurrounding.buttonBack.setAttribute("type", "button");
+        this.divItemSurrounding.buttonBack.style.width = "12em";
+        this.divItemSurrounding.buttonBack.appendChild(document.createTextNode("< Go Back"));
+        this.divItemSurrounding.buttonBack.addEventListener('click', (event) => {
             event.preventDefault();
             this.popBreadcrumb();
         });
         let crumbTip = this.breadcrumbs[this.breadcrumbs.length-1];
         crumbTip.setVisibility(false);
-        if (crumbTip.buttonBack != null) {
-            crumbTip.buttonBack.style.visibility = 'hidden';
-            crumbTip.buttonBack.style.display = 'none';
-        }
+        //if (crumbTip.buttonBack != null) {
+        //    crumbTip.buttonBack.style.visibility = 'hidden';
+        //    crumbTip.buttonBack.style.display = 'none';
+        //}
 
         this.breadcrumbs.push(templatePushed);
         crumbTip = this.breadcrumbs[this.breadcrumbs.length-1];
@@ -1025,17 +1025,17 @@ class TemplateItem extends TemplateItemClient {
         if (trueOrFalse === true) {
             this.divItem.style.visibility = 'visible';
             this.divItem.style.display = 'block';
-            if (this.divItemSub != null && this.divItemSub.buttonBack != null) {
+            //if (this.divItemSub != null && this.divItemSub.buttonBack != null) {
                 //this.divItemSub.buttonBack.style.visibility = 'visible';
                 //this.divItemSub.buttonBack.style.display = 'inline';
-            }
+            //}
         } else {
             this.divItem.style.visibility = 'hidden';
             this.divItem.style.display = 'none';
-            if (this.buttonBack != null) {
+            //if (this.buttonBack != null) {
                 //this.buttonBack.style.visibility = 'hidden';
                 //this.buttonBack.style.display = 'none';
-            }
+            //}
         }
     }
 
