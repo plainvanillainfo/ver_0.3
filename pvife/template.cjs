@@ -590,6 +590,7 @@ class TemplateItem extends TemplateItemClient {
                 if (cellCur != null) {
                     cellCur.Value = valueCur;
                     cellCur.Rendering = elemCur.Rendering;
+                    cellCur.elem = elemCur;
                 }
             });
         });
@@ -742,173 +743,37 @@ class TemplateItem extends TemplateItemClient {
                                         }
                                         this.track.pushBreadcrumb(this.elems[elemCur.Name]);
                                         */
-                                    });
-                                    break;
-                                /*
-                                case 'Json':
-                                    inputCur = document.createElement('textarea');
-                                    divCur.appendChild(inputCur);
-                                    inputCur.setAttribute("rows", "4");
-                                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
-                                        inputCur.value = JSON.stringify(this.item.Attrs[elemCur.Name]);
-                                    } else {
-                                        inputCur.value = '';
-                                    }
-                                    inputCur.style.width = '70%';
-                                    inputCur.addEventListener('blur', (event) => {
-                                        event.preventDefault();
-                                        this.formData[event.target.id] = event.target.value
-                                    });
-                                    if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
-                                        inputCur.disabled = true;
-                                    }
-                                    break;
-                                case 'Textarea':
-                                    inputCur = document.createElement('textarea');
-                                    divCur.appendChild(inputCur);
-                                    inputCur.setAttribute("rows", "4");
-                                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
-                                        inputCur.value = this.item.Attrs[elemCur.Name];
-                                    } else {
-                                        inputCur.value = '';
-                                    }
-                                    inputCur.style.width = '70%';
-                                    inputCur.addEventListener('blur', (event) => {
-                                        event.preventDefault();
-                                        this.formData[event.target.id] = event.target.value
-                                    });
-                                    if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
-                                        inputCur.disabled = true;
-                                    }
-                                    break;
-                                case 'Checkbox':
-                                    inputCur = document.createElement('input');
-                                    divCur.appendChild(inputCur);
-                                    inputCur.className = 'form-check-input';
-                                    inputCur.setAttribute("type", "checkbox");
-                                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
-                                        inputCur.checked = true
-                                    } else {
-                                        inputCur.checked = false;
-                                    }
-                                    inputCur.style.marginRight = "1em";
-                                    inputCur.addEventListener('blur', (event) => {
-                                        event.preventDefault();
-                                        this.formData[event.target.id] = event.target.checked;
-                                    });
-            
-                                    inputLabel = document.createElement('label');
-                                    divCur.appendChild(inputLabel);
-                                    inputLabel.className = 'form-check-label';
-                                    inputLabel.setAttribute("for", "flexCheckDisabled");
-                                    if (elemCur.Legend != null) {
-                                        inputLabel.appendChild(document.createTextNode(elemCur.Legend));
-                                    }
-                                    break;
-                                case 'Radio':
-                                    inputCur = document.createElement('input');
-                                    divCur.appendChild(inputCur);
-                                    inputCur.className = 'form-check-input';
-                                    inputCur.setAttribute("type", "radio");
-                                    inputCur.style.width = '70%';
-                                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
-                                        inputCur.checked = true
-                                    } else {
-                                        inputCur.checked = false;
-                                    }
-                                    inputCur.style.marginRight = "1em";
-                                    inputCur.addEventListener('blur', (event) => {
-                                        event.preventDefault();
-                                        //this.formData[event.target.id] = event.target.checked;
-                                    });
-            
-                                    inputLabel = document.createElement('label');
-                                    divCur.appendChild(inputLabel);
-                                    inputLabel.className = 'form-check-label';
-                                    inputLabel.setAttribute("for", "flexCheckDisabled");
-                                    inputLabel.appendChild(document.createTextNode(labelText));
-                                    break;
-                                case 'Dropdown':
-                                    inputCur = document.createElement('select');
-                                    divCur.appendChild(inputCur);
-                                    let valuePicked = '';
-                                    if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
-                                        valuePicked = this.item.Attrs[elemCur.Name];
-                                    }
-                                    if (elemCur.ValueSet != null) {
-                                        elemCur.ValueSet.forEach(itemCur => {
-                                            let option = document.createElement('option');
-                                            inputCur.appendChild(option);
-                                            if (itemCur === valuePicked) {
-                                                option.setAttribute('selected', 'selected');
+
+                                        /*
+                                        let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
+                                        this.templateItemSub = new TemplateItem(this, subUseCase, this.tableOwner.divItemSub);
+                                        this.templateItemSub.itemCells = {};
+                                        this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
+                                        this.templateItemSub.setDataItems([itemCur]);
+                                        this.tableOwner.pushBreadcrumb(this.templateItemSub);
+                                        */
+
+                                        /*
+                                        let messageOut = {
+                                            Action: 'StartTemplateList',
+                                            TemplateElem: {
+                                                UseCaseName: this.useCase.Detail.Name
                                             }
-                                            let spanAttr = document.createElement('span');
-                                            option.appendChild(spanAttr);
-                                            spanAttr.appendChild(document.createTextNode(itemCur));
-                                        });
-                                    }
-                                    inputCur.addEventListener('change', (event) => {
-                                        event.preventDefault();
-                                        console.log("click on option", event.target.value);
-                                        this.formData[elemCur.Name] = event.target.value;
+                                        };
+                                        this.parent.toServer(messageOut);
+                                        */
+
+                                        let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === divField.elem.SubUseCase);
+                                        this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
+                                        //this.templateItemSub.itemCells = {};
+                                        //this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
+                                        //this.templateItemSub.setDataItems([itemCur]);
+                                        this.pushBreadcrumb(this.templateItemSub);
+
+
+
                                     });
                                     break;
-                                case 'DrillDown':
-                                    inputCur = document.createElement('button');
-                                    divCur.appendChild(inputCur);
-                                    inputCur.className = 'btn btn-primary';
-                                    inputCur.setAttribute("type", "button");
-                                    inputCur.style.width = "22em";
-                                    inputCur.appendChild(document.createTextNode(labelText));
-                                    inputCur.addEventListener('click', (event) => {
-                                        event.preventDefault();
-                                        console.log("TemplateItem - DrillDown: ");
-            
-                                        this.divTargetSub = document.createElement('div')
-                                        this.divTargetSub.style.margin = '10px';
-                                        this.track.divTargetSub.appendChild(this.divTargetSub);
-                                        let divCur = document.createElement('div');
-                                        this.divTargetSub.appendChild(divCur);
-                                        divCur.className = 'mb-3';
-                                        if (this.elems[elemCur.Name] == null) {
-                                            let buttonCur = document.createElement('button');
-                                            divCur.appendChild(buttonCur);
-                                            buttonCur.className = 'btn btn-info';
-                                            buttonCur.setAttribute("type", "button");
-                                            buttonCur.id = 'backbutton';
-                                            buttonCur.style.width = "12em";
-                                            buttonCur.appendChild(document.createTextNode("< Go Back"));
-                                                buttonCur.addEventListener('click', (event) => {
-                                                event.preventDefault();
-                                                this.track.popBreadcrumb();
-                                            });
-                                            this.elems[elemCur.Name] = new TemplateElem(this, elemCur, this.divTargetSub, true);
-                                            //this.track.pushBreadcrumb(this.elems[elemCur.Name]);
-                                        } else {
-                                            this.elems[elemCur.Name].show();
-                                        }
-                                        this.track.pushBreadcrumb(this.elems[elemCur.Name]);
-                                    });
-                                    break;
-                                case 'Context':
-                                    this.elems[elemCur.Name] = new TemplateElem(this, elemCur, divCur, false);
-                                    break;
-                                case 'PickList':
-                                    inputCur = document.createElement('div');
-                                    divCur.appendChild(inputCur);
-                                    inputCur.style.display = "inline-block";
-                                    inputCur.style.width = '70%';
-                                    elemPicked = this.useCase.elems[elemCur.Name];
-                                    break;
-                                case 'InPlace':
-                                    inputCur = document.createElement('div');
-                                    divCur.appendChild(inputCur);
-                                    inputCur.style.display = "inline-block";
-                                    inputCur.style.width = '70%';
-                                    elemPicked = this.useCase.elems[elemCur.Name];
-                                    break;
-        
-                                */
                                 default:
                                     break;
                             }
@@ -934,6 +799,172 @@ class TemplateItem extends TemplateItemClient {
             });
         });
     }
+
+    /*
+    case 'Json':
+        inputCur = document.createElement('textarea');
+        divCur.appendChild(inputCur);
+        inputCur.setAttribute("rows", "4");
+        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+            inputCur.value = JSON.stringify(this.item.Attrs[elemCur.Name]);
+        } else {
+            inputCur.value = '';
+        }
+        inputCur.style.width = '70%';
+        inputCur.addEventListener('blur', (event) => {
+            event.preventDefault();
+            this.formData[event.target.id] = event.target.value
+        });
+        if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+            inputCur.disabled = true;
+        }
+        break;
+    case 'Textarea':
+        inputCur = document.createElement('textarea');
+        divCur.appendChild(inputCur);
+        inputCur.setAttribute("rows", "4");
+        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+            inputCur.value = this.item.Attrs[elemCur.Name];
+        } else {
+            inputCur.value = '';
+        }
+        inputCur.style.width = '70%';
+        inputCur.addEventListener('blur', (event) => {
+            event.preventDefault();
+            this.formData[event.target.id] = event.target.value
+        });
+        if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
+            inputCur.disabled = true;
+        }
+        break;
+    case 'Checkbox':
+        inputCur = document.createElement('input');
+        divCur.appendChild(inputCur);
+        inputCur.className = 'form-check-input';
+        inputCur.setAttribute("type", "checkbox");
+        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
+            inputCur.checked = true
+        } else {
+            inputCur.checked = false;
+        }
+        inputCur.style.marginRight = "1em";
+        inputCur.addEventListener('blur', (event) => {
+            event.preventDefault();
+            this.formData[event.target.id] = event.target.checked;
+        });
+ 
+        inputLabel = document.createElement('label');
+        divCur.appendChild(inputLabel);
+        inputLabel.className = 'form-check-label';
+        inputLabel.setAttribute("for", "flexCheckDisabled");
+        if (elemCur.Legend != null) {
+            inputLabel.appendChild(document.createTextNode(elemCur.Legend));
+        }
+        break;
+    case 'Radio':
+        inputCur = document.createElement('input');
+        divCur.appendChild(inputCur);
+        inputCur.className = 'form-check-input';
+        inputCur.setAttribute("type", "radio");
+        inputCur.style.width = '70%';
+        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
+            inputCur.checked = true
+        } else {
+            inputCur.checked = false;
+        }
+        inputCur.style.marginRight = "1em";
+        inputCur.addEventListener('blur', (event) => {
+            event.preventDefault();
+            //this.formData[event.target.id] = event.target.checked;
+        });
+ 
+        inputLabel = document.createElement('label');
+        divCur.appendChild(inputLabel);
+        inputLabel.className = 'form-check-label';
+        inputLabel.setAttribute("for", "flexCheckDisabled");
+        inputLabel.appendChild(document.createTextNode(labelText));
+        break;
+    case 'Dropdown':
+        inputCur = document.createElement('select');
+        divCur.appendChild(inputCur);
+        let valuePicked = '';
+        if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
+            valuePicked = this.item.Attrs[elemCur.Name];
+        }
+        if (elemCur.ValueSet != null) {
+            elemCur.ValueSet.forEach(itemCur => {
+                let option = document.createElement('option');
+                inputCur.appendChild(option);
+                if (itemCur === valuePicked) {
+                    option.setAttribute('selected', 'selected');
+                }
+                let spanAttr = document.createElement('span');
+                option.appendChild(spanAttr);
+                spanAttr.appendChild(document.createTextNode(itemCur));
+            });
+        }
+        inputCur.addEventListener('change', (event) => {
+            event.preventDefault();
+            console.log("click on option", event.target.value);
+            this.formData[elemCur.Name] = event.target.value;
+        });
+        break;
+    case 'DrillDown':
+        inputCur = document.createElement('button');
+        divCur.appendChild(inputCur);
+        inputCur.className = 'btn btn-primary';
+        inputCur.setAttribute("type", "button");
+        inputCur.style.width = "22em";
+        inputCur.appendChild(document.createTextNode(labelText));
+        inputCur.addEventListener('click', (event) => {
+            event.preventDefault();
+            console.log("TemplateItem - DrillDown: ");
+ 
+            this.divTargetSub = document.createElement('div')
+            this.divTargetSub.style.margin = '10px';
+            this.track.divTargetSub.appendChild(this.divTargetSub);
+            let divCur = document.createElement('div');
+            this.divTargetSub.appendChild(divCur);
+            divCur.className = 'mb-3';
+            if (this.elems[elemCur.Name] == null) {
+                let buttonCur = document.createElement('button');
+                divCur.appendChild(buttonCur);
+                buttonCur.className = 'btn btn-info';
+                buttonCur.setAttribute("type", "button");
+                buttonCur.id = 'backbutton';
+                buttonCur.style.width = "12em";
+                buttonCur.appendChild(document.createTextNode("< Go Back"));
+                    buttonCur.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    this.track.popBreadcrumb();
+                });
+                this.elems[elemCur.Name] = new TemplateElem(this, elemCur, this.divTargetSub, true);
+                //this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+            } else {
+                this.elems[elemCur.Name].show();
+            }
+            this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+        });
+        break;
+    case 'Context':
+        this.elems[elemCur.Name] = new TemplateElem(this, elemCur, divCur, false);
+        break;
+    case 'PickList':
+        inputCur = document.createElement('div');
+        divCur.appendChild(inputCur);
+        inputCur.style.display = "inline-block";
+        inputCur.style.width = '70%';
+        elemPicked = this.useCase.elems[elemCur.Name];
+        break;
+    case 'InPlace':
+        inputCur = document.createElement('div');
+        divCur.appendChild(inputCur);
+        inputCur.style.display = "inline-block";
+        inputCur.style.width = '70%';
+        elemPicked = this.useCase.elems[elemCur.Name];
+        break;
+ 
+    */
 
     pushBreadcrumb(templatePushed) {
         console.log("TemplateItem::pushBreadcrumb");
