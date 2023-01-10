@@ -962,9 +962,9 @@ class TemplateItem extends TemplateItemClient {
         });
         let crumbTip = this.breadcrumbs[this.breadcrumbs.length-1];
         crumbTip.setVisibility(false);
-        if (crumbTip.divItemSurrounding != null && crumbTip.divItemSurrounding.buttonBack != null) {
-            crumbTip.divItemSurrounding.buttonBack.style.visibility = 'hidden';
-            crumbTip.divItemSurrounding.buttonBack.style.display = 'none';
+        if (crumbTip.buttonBack != null) {
+            crumbTip.buttonBack.style.visibility = 'hidden';
+            crumbTip.buttonBack.style.display = 'none';
         }
 
         this.breadcrumbs.push(templatePushed);
