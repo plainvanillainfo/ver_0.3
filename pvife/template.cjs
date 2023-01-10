@@ -960,23 +960,27 @@ class TemplateItem extends TemplateItemClient {
             event.preventDefault();
             this.popBreadcrumb();
         });
-        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
-        if (this.breadcrumbs[this.breadcrumbs.length-1].divItemSurrounding != null && this.breadcrumbs[this.breadcrumbs.length-1].divItemSurrounding.buttonBack != null) {
-            this.breadcrumbs[this.breadcrumbs.length-1].divItemSurrounding.buttonBack.style.visibility = 'hidden';
-            this.breadcrumbs[this.breadcrumbs.length-1].divItemSurrounding.buttonBack.style.display = 'none';
+        let crumbTip = this.breadcrumbs[this.breadcrumbs.length-1];
+        crumbTip.setVisibility(false);
+        if (crumbTip.divItemSurrounding != null && crumbTip.divItemSurrounding.buttonBack != null) {
+            crumbTip.divItemSurrounding.buttonBack.style.visibility = 'hidden';
+            crumbTip.divItemSurrounding.buttonBack.style.display = 'none';
         }
 
         this.breadcrumbs.push(templatePushed);
-        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
+        crumbTip = this.breadcrumbs[this.breadcrumbs.length-1];
+        crumbTip.setVisibility(true);
         this.showCrumbs();
     }
 
     popBreadcrumb() {
         console.log("TemplateItem::popBreadcrumb");
-        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
+        let crumbTip = this.breadcrumbs[this.breadcrumbs.length-1];
+        crumbTip.setVisibility(false);
         this.breadcrumbs.pop();
-        this.breadcrumbs[this.breadcrumbs.length-1].divItemSurrounding.removeChild(this.breadcrumbs[this.breadcrumbs.length-1].divItemSub);
-        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
+        crumbTip = this.breadcrumbs[this.breadcrumbs.length-1];
+        crumbTip.divItemSurrounding.removeChild(crumbTip.divItemSub);
+        crumbTip.setVisibility(true);
         this.showCrumbs();
     }
 
