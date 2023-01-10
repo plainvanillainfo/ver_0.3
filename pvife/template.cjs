@@ -962,11 +962,13 @@ class TemplateItem extends TemplateItemClient {
         });
         let crumbTip = this.breadcrumbs[this.breadcrumbs.length-1];
         crumbTip.setVisibility(false);
-        //if (crumbTip.buttonBack != null) {
-        //    crumbTip.buttonBack.style.visibility = 'hidden';
-        //    crumbTip.buttonBack.style.display = 'none';
-        //}
-
+        if (this.breadcrumbs.length > 1) {
+            let crumbPrev = this.breadcrumbs[this.breadcrumbs.length-2];
+            if (crumbPrev.divItemSurrounding != null && crumbPrev.divItemSurrounding.buttonBack != null) {
+                crumbPrev.divItemSurrounding.buttonBack.style.visibility = 'hidden';
+                crumbPrev.divItemSurrounding.buttonBack.style.display = 'none';
+            }
+        }
         this.breadcrumbs.push(templatePushed);
         crumbTip = this.breadcrumbs[this.breadcrumbs.length-1];
         crumbTip.setVisibility(true);
