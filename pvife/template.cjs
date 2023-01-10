@@ -1014,19 +1014,19 @@ class TemplateItem extends TemplateItemClient {
     setVisibility(trueOrFalse) {
         console.log("TemplateItem::setVisibility", trueOrFalse);
         if (trueOrFalse === true) {
-                this.divItem.style.visibility = 'visible';
-                this.divItem.style.display = 'block';
-                if (this.buttonBack != null) {
-                    this.buttonBack.style.visibility = 'visible';
-                    this.buttonBack.style.display = 'inline';                   
-                }
+            this.divItem.style.visibility = 'visible';
+            this.divItem.style.display = 'block';
+            if (this.divItemSub != null && this.divItemSub.buttonBack != null) {
+                this.divItemSub.buttonBack.style.visibility = 'visible';
+                this.divItemSub.buttonBack.style.display = 'inline';
+            }
         } else {
-                this.divItem.style.visibility = 'hidden';
-                this.divItem.style.display = 'none';
-                if (this.buttonBack != null) {
-                    this.buttonBack.style.visibility = 'hidden';
-                    this.buttonBack.style.display = 'none';                   
-                }
+            this.divItem.style.visibility = 'hidden';
+            this.divItem.style.display = 'none';
+            if (this.divItemSub != null && this.divItemSub.buttonBack != null) {
+                this.divItemSub.buttonBack.style.visibility = 'hidden';
+                this.divItemSub.buttonBack.style.display = 'none';
+            }
         }
     }
 
