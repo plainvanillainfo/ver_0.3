@@ -951,7 +951,7 @@ class TemplateItem extends TemplateItemClient {
         }
         this.divItemSurrounding.appendChild(this.divItemSub);
         this.divItemSurrounding.buttonBack = document.createElement('button');
-        this.divItemSub.prepend(this.buttonBack);
+        this.divItemSub.prepend(this.divItemSurrounding.buttonBack);
         this.divItemSurrounding.buttonBack.className = 'btn btn-info';
         this.divItemSurrounding.buttonBack.setAttribute("type", "button");
         this.divItemSurrounding.buttonBack.style.width = "12em";
