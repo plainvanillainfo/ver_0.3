@@ -983,6 +983,13 @@ class TemplateItem extends TemplateItemClient {
         crumbTip = this.breadcrumbs[this.breadcrumbs.length-1];
         crumbTip.divItemSurrounding.removeChild(crumbTip.divItemSub);
         crumbTip.setVisibility(true);
+        if (this.breadcrumbs.length > 1) {
+            let crumbPrev = this.breadcrumbs[this.breadcrumbs.length-2];
+            if (crumbPrev.divItemSurrounding != null && crumbPrev.divItemSurrounding.buttonBack != null) {
+                crumbPrev.divItemSurrounding.buttonBack.style.visibility = 'visible';
+                crumbPrev.divItemSurrounding.buttonBack.style.display = 'inline';
+            }
+        }
         this.showCrumbs();
     }
 
@@ -1027,17 +1034,9 @@ class TemplateItem extends TemplateItemClient {
         if (trueOrFalse === true) {
             this.divItem.style.visibility = 'visible';
             this.divItem.style.display = 'block';
-            //if (this.divItemSub != null && this.divItemSub.buttonBack != null) {
-                //this.divItemSub.buttonBack.style.visibility = 'visible';
-                //this.divItemSub.buttonBack.style.display = 'inline';
-            //}
         } else {
             this.divItem.style.visibility = 'hidden';
             this.divItem.style.display = 'none';
-            //if (this.buttonBack != null) {
-                //this.buttonBack.style.visibility = 'hidden';
-                //this.buttonBack.style.display = 'none';
-            //}
         }
     }
 
