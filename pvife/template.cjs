@@ -719,42 +719,6 @@ class TemplateItem extends TemplateItemClient {
                                         console.log("TemplateItem - DrillDown: ");
 
                                         /*
-                                        this.divTargetSub = document.createElement('div')
-                                        this.divTargetSub.style.margin = '10px';
-                                        this.track.divTargetSub.appendChild(this.divTargetSub);
-                                        let divCur = document.createElement('div');
-                                        this.divTargetSub.appendChild(divCur);
-                                        divCur.className = 'mb-3';
-                                        if (this.elems[elemCur.Name] == null) {
-                                            let buttonCur = document.createElement('button');
-                                            divCur.appendChild(buttonCur);
-                                            buttonCur.className = 'btn btn-info';
-                                            buttonCur.setAttribute("type", "button");
-                                            buttonCur.id = 'backbutton';
-                                            buttonCur.style.width = "12em";
-                                            buttonCur.appendChild(document.createTextNode("< Go Back"));
-                                            buttonCur.addEventListener('click', (event) => {
-                                                event.preventDefault();
-                                                this.track.popBreadcrumb();
-                                            });
-                                            this.elems[elemCur.Name] = new TemplateElem(this, elemCur, this.divTargetSub, true);
-                                            //this.track.pushBreadcrumb(this.elems[elemCur.Name]);
-                                        } else {
-                                            this.elems[elemCur.Name].show();
-                                        }
-                                        this.track.pushBreadcrumb(this.elems[elemCur.Name]);
-                                        */
-
-                                        /*
-                                        let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
-                                        this.templateItemSub = new TemplateItem(this, subUseCase, this.tableOwner.divItemSub);
-                                        this.templateItemSub.itemCells = {};
-                                        this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
-                                        this.templateItemSub.setDataItems([itemCur]);
-                                        this.tableOwner.pushBreadcrumb(this.templateItemSub);
-                                        */
-
-                                        /*
                                         let messageOut = {
                                             Action: 'StartTemplateList',
                                             TemplateElem: {
@@ -986,19 +950,16 @@ class TemplateItem extends TemplateItemClient {
             this.divItem.prepend(this.divBreadcrumbs);
         }
         this.divItemSurrounding.appendChild(this.divItemSub);
-        let buttonCur = document.createElement('button');
-        this.divItemSub.prepend(buttonCur);
-        buttonCur.className = 'btn btn-info';
-        buttonCur.setAttribute("type", "button");
-        buttonCur.id = 'backbutton';
-        buttonCur.style.width = "12em";
-        buttonCur.appendChild(document.createTextNode("< Go Back"));
-
-        buttonCur.addEventListener('click', (event) => {
+        this.buttonBack = document.createElement('button');
+        this.divItemSub.prepend(this.buttonBack);
+        this.buttonBack.className = 'btn btn-info';
+        this.buttonBack.setAttribute("type", "button");
+        this.buttonBack.style.width = "12em";
+        this.buttonBack.appendChild(document.createTextNode("< Go Back"));
+        this.buttonBack.addEventListener('click', (event) => {
             event.preventDefault();
             this.popBreadcrumb();
         });
-
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
         this.breadcrumbs.push(templatePushed);
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
@@ -1055,9 +1016,17 @@ class TemplateItem extends TemplateItemClient {
         if (trueOrFalse === true) {
                 this.divItem.style.visibility = 'visible';
                 this.divItem.style.display = 'block';
+                if (this.buttonBack != null) {
+                    this.buttonBack.style.visibility = 'visible';
+                    this.buttonBack.style.display = 'inline';                   
+                }
         } else {
                 this.divItem.style.visibility = 'hidden';
                 this.divItem.style.display = 'none';
+                if (this.buttonBack != null) {
+                    this.buttonBack.style.visibility = 'hidden';
+                    this.buttonBack.style.display = 'none';                   
+                }
         }
     }
 
