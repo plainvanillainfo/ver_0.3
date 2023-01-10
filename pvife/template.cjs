@@ -505,6 +505,7 @@ class TemplateItem extends TemplateItemClient {
                 divCur.style.marginBottom = "10px";
                 let labelText = elem.Rendering.Label;
                 divCur.rendering = elem.Rendering;
+                divCur.elem = elem;
                 let labelCur = document.createTextNode(labelText + ": ");
                 let labelSpan = document.createElement('span');
                 labelSpan.appendChild(labelCur);
@@ -590,7 +591,7 @@ class TemplateItem extends TemplateItemClient {
                 if (cellCur != null) {
                     cellCur.Value = valueCur;
                     cellCur.Rendering = elemCur.Rendering;
-                    cellCur.elem = elemCur;
+                    cellCur.Elem = elemCur;
                 }
             });
         });
