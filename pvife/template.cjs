@@ -764,6 +764,15 @@ class TemplateItem extends TemplateItemClient {
                                         this.parent.toServer(messageOut);
                                         */
 
+                                        if (this.divItem == null) {
+                                            this.divItem = document.createElement('div');
+                                            this.divItemSurrounding.appendChild(this.divItem);
+                                        }
+                                        this.divItemSub = document.createElement('div');
+                                        this.divItemSub.className = 'mb-3';
+                                        this.divItemSub.style.margin = '10px';
+            
+
                                         let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === divField.elem.SubUseCase);
                                         this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
                                         //this.templateItemSub.itemCells = {};
