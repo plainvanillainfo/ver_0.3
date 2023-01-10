@@ -1023,9 +1023,9 @@ class TemplateItem extends TemplateItemClient {
         } else {
             this.divItem.style.visibility = 'hidden';
             this.divItem.style.display = 'none';
-            if (this.divItemSub != null && this.divItemSub.buttonBack != null) {
-                this.divItemSub.buttonBack.style.visibility = 'hidden';
-                this.divItemSub.buttonBack.style.display = 'none';
+            if (this.buttonBack != null) {
+                this.buttonBack.style.visibility = 'hidden';
+                this.buttonBack.style.display = 'none';
             }
         }
     }
