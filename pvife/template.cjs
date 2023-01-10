@@ -961,6 +961,11 @@ class TemplateItem extends TemplateItemClient {
             this.popBreadcrumb();
         });
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
+        if (this.breadcrumbs[this.breadcrumbs.length-1].divItemSurrounding != null && this.breadcrumbs[this.breadcrumbs.length-1].divItemSurrounding.buttonBack != null) {
+            this.breadcrumbs[this.breadcrumbs.length-1].divItemSurrounding.buttonBack.style.visibility = 'hidden';
+            this.breadcrumbs[this.breadcrumbs.length-1].divItemSurrounding.buttonBack.style.display = 'none';
+        }
+
         this.breadcrumbs.push(templatePushed);
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
         this.showCrumbs();
@@ -1017,8 +1022,8 @@ class TemplateItem extends TemplateItemClient {
             this.divItem.style.visibility = 'visible';
             this.divItem.style.display = 'block';
             if (this.divItemSub != null && this.divItemSub.buttonBack != null) {
-                this.divItemSub.buttonBack.style.visibility = 'visible';
-                this.divItemSub.buttonBack.style.display = 'inline';
+                //this.divItemSub.buttonBack.style.visibility = 'visible';
+                //this.divItemSub.buttonBack.style.display = 'inline';
             }
         } else {
             this.divItem.style.visibility = 'hidden';
