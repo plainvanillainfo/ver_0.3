@@ -621,7 +621,6 @@ class TemplateItem extends TemplateItemClient {
                             this.tableOwner.pushBreadcrumb(this.templateItemSub);
                         }
                     });
-
                     this.itemCells[itemCur.Key].forEach(cellCur => {
                         cellCur.Td = document.createElement('td');
                         tableItemRow.appendChild(cellCur.Td);
@@ -641,7 +640,6 @@ class TemplateItem extends TemplateItemClient {
                 }
             });
         }
-
     }
 
     presentFormRows() {
@@ -735,17 +733,15 @@ class TemplateItem extends TemplateItemClient {
                                         this.divItemSub = document.createElement('div');
                                         this.divItemSub.className = 'mb-3';
                                         this.divItemSub.style.margin = '10px';
-            
-
                                         let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === divField.elem.SubUseCase);
                                         this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
-                                        //this.templateItemSub.itemCells = {};
-                                        //this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
-                                        //this.templateItemSub.setDataItems([itemCur]);
+                                        if (this.dataElem == null) {
+                                            this.toServer({
+                                                Action: 'Start',
+                                                Context: {}
+                                            });
+                                        }
                                         this.pushBreadcrumb(this.templateItemSub);
-
-
-
                                     });
                                     break;
                                 default:
