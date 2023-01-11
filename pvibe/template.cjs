@@ -257,7 +257,14 @@ class TemplateElem {
 					}
 					this.startTemplateItem();
                     break;
-                default:
+				case 'ContinueTemplateItem':
+                    if (message.TemplateItem != null) {
+						if (this.templateItem != null) {
+							this.templateItem.fromClient(message.TemplateItem);
+						}
+					}
+					break;
+				default:
                     break;
 			}
 		}
