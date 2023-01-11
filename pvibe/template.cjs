@@ -260,11 +260,14 @@ class TemplateElem {
 				case 'ContinueTemplateItem':
                     if (message.TemplateItem != null) {
 						if (this.templateItem == null) {
+							let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
 							this.templateItem = new TemplateItem(this, useCaseFound);
 							this.templateItem.constructSelect();
 							this.templateItem.sendToDbSelect();
 						}
-						this.templateItem.fromClient(message.TemplateItem);
+						if (this.templateItem != null) {
+							this.templateItem.fromClient(message.TemplateItem);
+						}
 					}
 					break;
 				default:
