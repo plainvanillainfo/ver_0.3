@@ -247,7 +247,7 @@ class TemplateElem {
     }
 
     fromClient(message) {
-        console.log("TemplateElem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem, "\n");
+        console.log("TemplateElem::fromClient(): ", message); //, "\nthis.useCaseElem: ", this.useCaseElem, "\n");
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
@@ -259,9 +259,12 @@ class TemplateElem {
                     break;
 				case 'ContinueTemplateItem':
                     if (message.TemplateItem != null) {
-						if (this.templateItem != null) {
-							this.templateItem.fromClient(message.TemplateItem);
+						if (this.templateItem == null) {
+							this.templateItem = new TemplateItem(this, useCaseFound);
+							this.templateItem.constructSelect();
+							this.templateItem.sendToDbSelect();
 						}
+						this.templateItem.fromClient(message.TemplateItem);
 					}
 					break;
 				default:
