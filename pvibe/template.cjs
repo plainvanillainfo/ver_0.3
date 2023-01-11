@@ -263,7 +263,8 @@ class TemplateElem {
 							let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
 							this.templateItem = new TemplateItem(this, useCaseFound);
 							this.templateItem.constructSelect();
-							this.templateItem.sendToDbSelect();
+							//this.templateItem.sendToDbSelect();
+							console.log("TemplateElem::fromClient() - this.templateItem.selectQuery:\n", this.templateItem.selectQuery);
 						}
 						if (this.templateItem != null) {
 							this.templateItem.fromClient(message.TemplateItem);
@@ -294,10 +295,8 @@ class TemplateElem {
             if (useCaseFound != null) {
 				//console.log("useCaseFound:\n", useCaseFound, "\n");
 				this.templateItem = new TemplateItem(this, useCaseFound);
-				if (this.selectQuery == null) {
-					this.templateItem.constructSelect();
-					this.templateItem.sendToDbSelect();
-				}
+				this.templateItem.constructSelect();
+				this.templateItem.sendToDbSelect();
 			}
 		}
 	}
