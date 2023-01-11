@@ -294,8 +294,10 @@ class TemplateElem {
             if (useCaseFound != null) {
 				//console.log("useCaseFound:\n", useCaseFound, "\n");
 				this.templateItem = new TemplateItem(this, useCaseFound);
-				this.templateItem.constructSelect();
-				this.templateItem.sendToDbSelect();
+				if (this.selectQuery == null) {
+					this.templateItem.constructSelect();
+					this.templateItem.sendToDbSelect();
+				}
 			}
 		}
 	}
