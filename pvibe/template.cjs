@@ -68,7 +68,7 @@ class TemplateItem {
                     break;
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
-						console.log("TemplateItem::fromClient() - AAAAA");
+						console.log("TemplateItem::fromClient() - aaaaa");
 						let useCaseElemName = message.TemplateElem.UseCaseElemName;
 						let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === useCaseElemName);
 						if (useCaseElemFound != null && useCaseElemFound.SubUseCase != null) {
@@ -274,8 +274,12 @@ class TemplateElem {
 								if (useCaseFound.Detail.SubUseCase != null && message.TemplateItem.TemplateItem != null) {
 									// This is a case of drilldown from list to form, where the form is presenting the same Item as the row
 									// in the parent list, which was selected for drilldown
-									this.templateItem = this.parent;
-									this.templateItem.fromClient(message.TemplateItem.TemplateItem);
+									//this.templateItem = this.parent;
+									let subUseCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === useCaseFound.Detail.SubUseCase);
+									if (subUseCaseFound != null) {
+										this.templateItem = new TemplateItem(this, subUseCaseFound);
+										this.templateItem.fromClient(message.TemplateItem.TemplateItem);
+									}
 								}
 							}
 						} else {
