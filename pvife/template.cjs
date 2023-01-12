@@ -131,7 +131,7 @@ class TemplateItem extends TemplateItemClient {
             console.log(message.TemplateItem, "\n",this.dataItems);
 
             if (this.templateItemSub != null && this.templateItemSub.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey)) {
-                this.templateItemSub.fromServer(message.TemplateItem);
+                this.templateItemSub.fromServer(message.TemplateItem.DataItems);
             } else {
 
                 let dataItemParent = message.TemplateItem.ParentKey != null ? this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) : this.dataItems[0];
