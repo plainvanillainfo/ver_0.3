@@ -289,8 +289,13 @@ class TemplateElem {
 								}
 							}
 						} else {
-							this.templateItem.fromClient(message.TemplateItem);
-						}
+							//this.templateItem.fromClient(message.TemplateItem);
+							if (message.TemplateItem.TemplateItem != null) {
+								this.templateItem.fromClient(message.TemplateItem.TemplateItem);
+							} else {
+								this.templateItem.fromClient(message.TemplateItem);
+							}
+			}
 					}
 					break;
 				default:
