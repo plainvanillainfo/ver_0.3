@@ -728,11 +728,11 @@ class TemplateItem extends TemplateItemClient {
                                             this.toServer({
                                                 Action: 'ContinueTemplateElem',
                                                 TemplateElem: {
-                                                    ItemKey: this.Key,
+                                                    ItemKey: itemCur.Key,
                                                     UseCaseElemName: divField.elem.Name,
                                                     Action: 'ContinueTemplateItem',
                                                     TemplateItem: {
-                                                      UseCaseName: subUseCase.Name,
+                                                      UseCaseName: subUseCase.Detail.Name,
                                                       Action: 'Start'
                                                     }
                                                 }
