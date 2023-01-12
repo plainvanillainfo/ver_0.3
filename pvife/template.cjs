@@ -556,7 +556,8 @@ class TemplateItem extends TemplateItemClient {
         }
         this.itemCells = {};
         let itemCellsParent = [];
-        if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
+        if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null && 
+                this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
             this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
                 itemCellsParent.push({...cur});
             });
