@@ -272,6 +272,7 @@ class TemplateElem {
 							if (useCaseFound != null) {
 								console.log("TemplateElem::fromClient() - useCaseFound ", useCaseFound);
 								if (useCaseFound.Detail.SubUseCase != null && message.TemplateItem.TemplateItem != null) {
+									console.log("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
 									// This is a case of drilldown from list to form, where the form is presenting the same Item as the row
 									// in the parent list, which was selected for drilldown
 									//this.templateItem = this.parent;
