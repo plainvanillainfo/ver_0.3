@@ -271,15 +271,20 @@ class TemplateElem {
 							let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
 							if (useCaseFound != null) {
 								console.log("TemplateElem::fromClient() - useCaseFound ", useCaseFound);
-								if (useCaseFound.Detail.SubUseCase != null && message.TemplateItem.TemplateItem != null) {
+								if (useCaseFound.Detail.SubUseCase != null {
 									console.log("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
 									// This is a case of drilldown from list to form, where the form is presenting the same Item as the row
 									// in the parent list, which was selected for drilldown
 									//this.templateItem = this.parent;
 									let subUseCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === useCaseFound.Detail.SubUseCase);
 									if (subUseCaseFound != null) {
+										console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 										this.templateItem = new TemplateItem(this, subUseCaseFound);
-										this.templateItem.fromClient(message.TemplateItem.TemplateItem);
+										if (message.TemplateItem.TemplateItem != null) {
+											this.templateItem.fromClient(message.TemplateItem.TemplateItem);
+										} else {
+											this.templateItem.fromClient(message.TemplateItem);
+										}
 									}
 								}
 							}
