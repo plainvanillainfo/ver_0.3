@@ -1063,6 +1063,7 @@ class TemplateElem extends TemplateElemClient {
             // HERE:
 
             let r = 6;
+            this.templateItem.setDataItems(message.DataItems);
         }
     }
 
