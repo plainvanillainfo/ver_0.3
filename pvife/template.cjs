@@ -726,8 +726,15 @@ class TemplateItem extends TemplateItemClient {
                                         this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
                                         if (this.dataElem == null) {
                                             this.toServer({
-                                                Action: 'Start',
-                                                Context: {}
+                                                Action: 'ContinueTemplateElem',
+                                                TemplateElem: {
+                                                    ItemKey: this.Key,
+                                                    UseCaseElemName: divField.elem.Name,
+                                                    Action: 'ContinueTemplateItem',
+                                                    TemplateItem: {
+                                                      UseCaseName: subUseCase.Name,
+                                                      Action: 'Start'
+                                                }
                                             });
                                         }
                                         this.pushBreadcrumb(this.templateItemSub);
