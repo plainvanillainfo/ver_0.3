@@ -274,7 +274,7 @@ class TemplateElem {
 								if (useCaseFound.Detail.SubUseCase != null) {
 									// This is a case of drilldown from list to form, where the form is presenting the same Item as the row
 									// in the parent list, which was selected for drilldown
-									this.templateItem = this.itemParent;
+									this.templateItem = this.parent;
 								} else {
 									this.templateItem = new TemplateItem(this, useCaseFound);
 									this.templateItem.constructSelect();
