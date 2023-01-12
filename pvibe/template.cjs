@@ -270,6 +270,7 @@ class TemplateElem {
 						if (this.templateItem == null) {
 							let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
 							if (useCaseFound != null) {
+								console.log("TemplateElem::fromClient() - useCaseFound ", useCaseFound);
 								if (useCaseFound.SubUseCase != null) {
 									// This is a case of drilldown from list to form, where the form is presenting the same Item as the row
 									// in the parent list, which was selected for drilldown
