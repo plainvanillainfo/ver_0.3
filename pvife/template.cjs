@@ -734,6 +734,7 @@ class TemplateItem extends TemplateItemClient {
                                                     TemplateItem: {
                                                       UseCaseName: subUseCase.Name,
                                                       Action: 'Start'
+                                                    }
                                                 }
                                             });
                                         }
