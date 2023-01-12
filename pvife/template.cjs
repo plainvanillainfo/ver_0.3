@@ -129,21 +129,27 @@ class TemplateItem extends TemplateItemClient {
         console.log("TemplateItem::continueTemplateElem");
         if (message.UseCaseElemName != null) {
             console.log(message.TemplateItem, "\n",this.dataItems);
-            let dataItemParent = message.TemplateItem.ParentKey != null ? this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) : this.dataItems[0];
-            if (this.elemDataItems[dataItemParent.Key] == null) {
-                this.elemDataItems[dataItemParent.Key] = {};
-            }
-            if (this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] == null) {
-                let useCaseElemCur = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.UseCaseElemName);
-                if (this.divItem == null) {
-                    this.divItem = document.createElement('div');
-                    this.divItemSurrounding.appendChild(this.divItem);
+
+            if (this.templateItemSub != null && this.templateItemSub.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey)) {
+                this.templateItemSub.fromServer(message.TemplateItem);
+            } else {
+
+                let dataItemParent = message.TemplateItem.ParentKey != null ? this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) : this.dataItems[0];
+                if (this.elemDataItems[dataItemParent.Key] == null) {
+                    this.elemDataItems[dataItemParent.Key] = {};
                 }
-                let templateElemNew = new TemplateElem(this, dataItemParent, null, useCaseElemCur, this.divItem);
-                this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] = templateElemNew;
-            }
-            if (this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] != null) {
-                this.elemDataItems[dataItemParent.Key][message.UseCaseElemName].fromServer(message);
+                if (this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] == null) {
+                    let useCaseElemCur = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.UseCaseElemName);
+                    if (this.divItem == null) {
+                        this.divItem = document.createElement('div');
+                        this.divItemSurrounding.appendChild(this.divItem);
+                    }
+                    let templateElemNew = new TemplateElem(this, dataItemParent, null, useCaseElemCur, this.divItem);
+                    this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] = templateElemNew;
+                }
+                if (this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] != null) {
+                    this.elemDataItems[dataItemParent.Key][message.UseCaseElemName].fromServer(message);
+                }
             }
         }
     }
