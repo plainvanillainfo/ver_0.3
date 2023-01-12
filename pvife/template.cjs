@@ -715,17 +715,6 @@ class TemplateItem extends TemplateItemClient {
                                     inputCur.addEventListener('click', (event) => {
                                         event.preventDefault();
                                         console.log("TemplateItem - DrillDown: ");
-
-                                        /*
-                                        let messageOut = {
-                                            Action: 'StartTemplateList',
-                                            TemplateElem: {
-                                                UseCaseName: this.useCase.Detail.Name
-                                            }
-                                        };
-                                        this.parent.toServer(messageOut);
-                                        */
-
                                         if (this.divItem == null) {
                                             this.divItem = document.createElement('div');
                                             this.divItemSurrounding.appendChild(this.divItem);

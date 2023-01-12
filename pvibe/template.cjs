@@ -255,7 +255,7 @@ class TemplateElem {
     }
 
     fromClient(message) {
-        console.log("TemplateElem::fromClient(): ", message); //, "\nthis.useCaseElem: ", this.useCaseElem, "\n");
+        console.log("TemplateElem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem, "\n");
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
