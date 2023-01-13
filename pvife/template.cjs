@@ -584,15 +584,13 @@ class TemplateItem extends TemplateItemClient {
                 }
             });
             itemCur.isEmpty = true;
+
+            /*
             this.useCase.Detail.Elems.forEach(elemCur => {
+
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
-                if (valueCur.substring != null) {
-                    valueCur = valueCur;
-                }
-                if (valueCur !== '') {
-                    if (this.isLeaf === true) {
-                        itemCur.isEmpty = false;
-                    }
+                if (this.isLeaf === true && valueCur !== '') {
+                    itemCur.isEmpty = false;
                 }
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
@@ -600,7 +598,10 @@ class TemplateItem extends TemplateItemClient {
                     cellCur.Rendering = elemCur.Rendering;
                     cellCur.Elem = elemCur;
                 }
+
             });
+            */
+            this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
         });
 
         if (this.isLeaf === true) {
@@ -647,6 +648,28 @@ class TemplateItem extends TemplateItemClient {
                 }
             });
         }
+    }
+
+    presentTableRowsSetCellValue(itemCur, elems) {
+        elems.forEach(elemCur => {
+            if (elemCur.Rendering.SubUseCase == null) {
+                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
+                if (this.isLeaf === true && valueCur !== '') {
+                    itemCur.isEmpty = false;
+                }
+                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
+                if (cellCur != null) {
+                    cellCur.Value = valueCur;
+                    cellCur.Rendering = elemCur.Rendering;
+                    cellCur.Elem = elemCur;
+                }
+            } else {
+                let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === elemCur.SubUseCase);
+                if (elemCur.Rendering.Nesting != null && elemCur.Rendering.Nesting === 'Flattened') {
+                    this.presentTableRowsSetCellValue(itemCur, subUseCase.Detail.Elems);
+                }
+            }
+        });
     }
 
     presentFormRows() {
