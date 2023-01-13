@@ -145,17 +145,17 @@ class TemplateItem {
 	constructSelectAddColumn(elemColumn) {
         //console.log("TemplateItem::constructSelectAddColumn() - elemColumn: ", elemColumn.Name);
         let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemColumn.Attribute);
+		let ucClass = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
         if (elemAttribute != null) {
 			switch (elemAttribute.Type) {
 				case 'Primitive':
 					if (elemAttribute.Path.length === 1) {
-						this.selectColumns += (',"' + elemAttribute.Path[0] + '"' );
+						this.selectColumns += (', "' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '"' );
 					}
 					break;
 				case 'Embedded':
 					if (elemAttribute.Path.length === 1) {
 				        console.log("TemplateItem::constructSelectAddColumn() - Embedded: ", elemAttribute);
-						let ucClass = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
 						let embeddedComponent = ucClass.Components.find(cur => cur.Name === elemAttribute.Path[0]);
 						let embeddedTableName = this.session.classes.find(cur => cur.Name === embeddedComponent.EmbeddedClass).tableName;
 
