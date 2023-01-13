@@ -652,7 +652,7 @@ class TemplateItem extends TemplateItemClient {
 
     presentTableRowsSetCellValue(itemCur, elems) {
         elems.forEach(elemCur => {
-            if (elemCur.Rendering.SubUseCase == null) {
+            if (elemCur.SubUseCase == null) {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
                 if (this.isLeaf === true && valueCur !== '') {
                     itemCur.isEmpty = false;
