@@ -154,6 +154,7 @@ class TemplateItem {
 					break;
 				case 'Embedded':
 					if (elemAttribute.Path.length === 1) {
+				        console.log("TemplateItem::constructSelectAddColumn() - Embedded: ", elemAttribute);
 						let embeddedTableName = this.session.classes.find(cur => cur.Name === elemAttribute.EmbeddedClass).tableName;
 						this.selectFrom += ', data."' + embeddedTableName + '"';
 						this.selectWhere += (' AND data."' + embeddedTableName + '"."Id" = data."' + tableName + '"' + elemAttribute.Path[0] + '"');
