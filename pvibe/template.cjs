@@ -155,9 +155,12 @@ class TemplateItem {
 				case 'Embedded':
 					if (elemAttribute.Path.length === 1) {
 				        console.log("TemplateItem::constructSelectAddColumn() - Embedded: ", elemAttribute);
-						let embeddedTableName = this.session.classes.find(cur => cur.Name === elemAttribute.EmbeddedClass).tableName;
+						let ucClass = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
+						let embeddedComponent = ucClass.Components.find(cur => cur.Name === elemAttribute.Path[0]);
+						let embeddedTableName = this.session.classes.find(cur => cur.Name === embeddedComponent.EmbeddedClass).tableName;
+
 						this.selectFrom += ', data."' + embeddedTableName + '"';
-						this.selectWhere += (' AND data."' + embeddedTableName + '"."Id" = data."' + tableName + '"' + elemAttribute.Path[0] + '"');
+						this.selectWhere += (' AND data."' + embeddedTableName + '"."Id" = data."' + tableName + '"' + embeddedTableName + '"');
 						this.selectColumns += (', data."' + embeddedTableName + '".*' );
 					}
 					break;
