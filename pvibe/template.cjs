@@ -160,7 +160,7 @@ class TemplateItem {
 						let embeddedTableName = this.session.classes.find(cur => cur.Name === embeddedComponent.EmbeddedClass).tableName;
 
 						this.selectFrom += ', data."' + embeddedTableName + '"';
-						this.selectWhere += (' AND data."' + embeddedTableName + '"."Id" = data."' + ucClass.tableName + '."' + elemAttribute.Path[0] + '"');
+						this.selectWhere += (' AND data."' + embeddedTableName + '"."Id" = data."' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '"');
 						this.selectColumns += (', data."' + embeddedTableName + '".*' );
 					}
 					break;
