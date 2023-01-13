@@ -127,8 +127,8 @@ class TemplateItem {
 			let parentTableName = this.session.classes.find(cur => cur.Name === classParent).tableName;
 			let linkTable = parentTableName + '_CHILD_' + this.parent.useCaseElem.Attribute;
 			this.selectFrom += ', data."' + linkTable + '"';
-			this.selectWhere = 'WHERE data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ';
-			this.selectWhere += ' data."' + linkTable + '"."ChildId" = data."' + tableName + '"."Id"';
+			this.selectWhere = 'WHERE data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\'';
+			this.selectWhere += (' AND data."' + linkTable + '"."ChildId" = data."' + tableName + '"."Id"');
 			// HERE: 
 			this.constructSelectApplyContext();
 
@@ -153,6 +153,12 @@ class TemplateItem {
 					}
 					break;
 				case 'Embedded':
+					if (elemAttribute.Path.length === 1) {
+						let embeddedTableName = this.session.classes.find(cur => cur.Name === elemAttribute.EmbeddedClass).tableName;
+						this.selectFrom += ', data."' + embeddedTableName + '"';
+						this.selectWhere += (' AND data."' + embeddedTableName + '"."Id" = data."' + tableName + '"' + elemAttribute.Path[0] + '"');
+						this.selectColumns += (', data."' + embeddedTableName + '".*' );
+					}
 					break;
 				case 'Reference':
 					break;
