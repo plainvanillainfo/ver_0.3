@@ -139,14 +139,15 @@ class TemplateItem {
 		} else {
 			this.selectWhere += ' 1=1';
 		}
+		let ucClass = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
 		this.useCase.Detail.Elems.forEach(elemCur => {
 			let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
-			this.constructSelectAddColumn(elemCur, elemAttribute);
+			this.constructSelectAddColumn(elemCur, elemAttribute, ucClass);
 		});
 		this.selectQuery += (this.selectColumns + ' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
 	}
 
-	constructSelectAddColumn(elemColumn, elemAttribute) {
+	constructSelectAddColumn(elemColumn, elemAttribute, ucClass) {
         //console.log("TemplateItem::constructSelectAddColumn() - elemColumn: ", elemColumn.Name);
         //let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemColumn.Attribute);
 		let ucClass = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
@@ -166,12 +167,10 @@ class TemplateItem {
 						if (useCaseFound != null) {
 							this.selectFrom += (', data."' + embeddedTableName + '"');
 							this.selectWhere += (' AND data."' + embeddedTableName + '"."Id" = data."' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '"');
-
-							//this.selectColumns += (', "' + embeddedTableName + '".*' );
-
+							let ucClassCur = this.session.classes.find(cur => cur.Name === useCaseFound.Detail.Class);
 							useCaseFound.Detail.Elems.forEach(elemCur => {
 								let elemAttributeCur = useCaseFound.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
-								this.constructSelectAddColumn(elemCur, elemAttributeCur);
+								this.constructSelectAddColumn(elemCur, elemAttributeCur, ucClassCur);
 							});
 					
 						}
