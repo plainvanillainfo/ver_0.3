@@ -121,7 +121,7 @@ class TemplateItem {
 		let tableName = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class).tableName;
 
 		this.selectQuery = 'SELECT "' + 
-			tableName + '"."Id" AS "' + tableName + '_Id", "' +
+			tableName + '"."Id"' +
 			tableName + '"."Extension" AS "'  + tableName + '_Extension"';
 		this.selectColumns = '';
 		this.selectFrom = 'FROM data."' + tableName + '"';
