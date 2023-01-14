@@ -140,14 +140,15 @@ class TemplateItem {
 			this.selectWhere += ' 1=1';
 		}
 		this.useCase.Detail.Elems.forEach(elemCur => {
-			this.constructSelectAddColumn(elemCur);
+			let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
+			this.constructSelectAddColumn(elemCur, elemAttribute);
 		});
 		this.selectQuery += (this.selectColumns + ' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
 	}
 
-	constructSelectAddColumn(elemColumn) {
+	constructSelectAddColumn(elemColumn, elemAttribute) {
         //console.log("TemplateItem::constructSelectAddColumn() - elemColumn: ", elemColumn.Name);
-        let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemColumn.Attribute);
+        //let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemColumn.Attribute);
 		let ucClass = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
         if (elemAttribute != null) {
 			switch (elemAttribute.Type) {
@@ -163,13 +164,14 @@ class TemplateItem {
 						let embeddedTableName = this.session.classes.find(cur => cur.Name === embeddedComponent.EmbeddedClass).tableName;
 						let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === elemColumn.SubUseCase);
 						if (useCaseFound != null) {
-							this.selectFrom += ', data."' + embeddedTableName + '"';
+							this.selectFrom += (', data."' + embeddedTableName + '"');
 							this.selectWhere += (' AND data."' + embeddedTableName + '"."Id" = data."' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '"');
 
 							//this.selectColumns += (', "' + embeddedTableName + '".*' );
 
 							useCaseFound.Detail.Elems.forEach(elemCur => {
-								this.constructSelectAddColumn(elemCur);
+								let elemAttributeCur = useCaseFound.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
+								this.constructSelectAddColumn(elemCur, elemAttributeCur);
 							});
 					
 						}
