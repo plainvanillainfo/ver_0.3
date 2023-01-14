@@ -150,6 +150,7 @@ class TemplateItem {
 	}
 
 	constructSelectAddColumn(elemColumn, elemAttribute, ucClass) {
+		console.log("TemplateItem::constructSelectAddColumn(): ", elemColumn, elemAttribute, ucClass);
         if (elemAttribute != null) {
 			switch (elemAttribute.Type) {
 				case 'Primitive':
