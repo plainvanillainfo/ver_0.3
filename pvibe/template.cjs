@@ -170,7 +170,7 @@ class TemplateItem {
 							let ucClassCur = this.session.classes.find(cur => cur.Name === useCaseFound.Detail.Class);
 							useCaseFound.Detail.Elems.forEach(elemCur => {
 								let elemAttributeCur = useCaseFound.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
-								this.constructSelectAddColumn(elemCur, elemAttributeCur, ucClassCur, elemAttribute.tableName);
+								this.constructSelectAddColumn(elemCur, elemAttributeCur, ucClassCur, elemAttribute.Name);
 							});
 					
 						}
