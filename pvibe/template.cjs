@@ -154,7 +154,7 @@ class TemplateItem {
 			switch (elemAttribute.Type) {
 				case 'Primitive':
 					if (elemAttribute.Path.length === 1) {
-						this.selectColumns += (', "' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '" AS "' +  '"' + ucClass.tableName + '_' + elemAttribute.Path[0] + '"');
+						this.selectColumns += (', "' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '" AS "' + ucClass.tableName + '_' + elemAttribute.Path[0] + '"');
 					}
 					break;
 				case 'Embedded':
