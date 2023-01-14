@@ -148,9 +148,6 @@ class TemplateItem {
 	}
 
 	constructSelectAddColumn(elemColumn, elemAttribute, ucClass) {
-        //console.log("TemplateItem::constructSelectAddColumn() - elemColumn: ", elemColumn.Name);
-        //let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemColumn.Attribute);
-		let ucClass = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
         if (elemAttribute != null) {
 			switch (elemAttribute.Type) {
 				case 'Primitive':
