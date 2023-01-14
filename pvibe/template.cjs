@@ -166,7 +166,7 @@ class TemplateItem {
 						let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === elemColumn.SubUseCase);
 						if (useCaseFound != null) {
 							this.selectFrom += (', data."' + embeddedTableName + '" "' + elemAttribute.Name + '"');
-							this.selectWhere += (' AND "' + elemAttribute.Name + '"."Id" = data."' + tableAlias + '"."' + elemAttribute.Path[0] + '"');
+							this.selectWhere += (' AND "' + elemAttribute.Name + '"."Id" = "' + tableAlias + '"."' + elemAttribute.Path[0] + '"');
 							let ucClassCur = this.session.classes.find(cur => cur.Name === useCaseFound.Detail.Class);
 							useCaseFound.Detail.Elems.forEach(elemCur => {
 								let elemAttributeCur = useCaseFound.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
