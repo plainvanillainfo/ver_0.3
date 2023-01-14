@@ -122,7 +122,7 @@ class TemplateItem {
 
 		this.selectQuery = 'SELECT "' + 
 			tableName + '"."Id", "' +
-			tableName + '"."Extension" AS "'  + tableName + '_Extension"';
+			tableName + '"."Extension"';
 		this.selectColumns = '';
 		this.selectFrom = 'FROM data."' + tableName + '"';
 		this.selectWhere = 'WHERE';
