@@ -144,18 +144,18 @@ class TemplateItem {
 		let ucClass = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
 		this.useCase.Detail.Elems.forEach(elemCur => {
 			let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
-			this.constructSelectAddColumn(elemCur, elemAttribute, ucClass);
+			this.constructSelectAddColumn(elemCur, elemAttribute, ucClass, ucClass.tableName);
 		});
 		this.selectQuery += (this.selectColumns + ' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
 	}
 
-	constructSelectAddColumn(elemColumn, elemAttribute, ucClass) {
+	constructSelectAddColumn(elemColumn, elemAttribute, ucClass, tableAlias) {
 		console.log("TemplateItem::constructSelectAddColumn(): ", elemColumn, elemAttribute);
         if (elemAttribute != null) {
 			switch (elemAttribute.Type) {
 				case 'Primitive':
 					if (elemAttribute.Path.length === 1) {
-						this.selectColumns += (', "' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '" AS "' + elemColumn.Name + '"');
+						this.selectColumns += (', "' + tableAlias + '"."' + elemAttribute.Path[0] + '" AS "' + elemColumn.Name + '"');
 					}
 					break;
 				case 'Embedded':
@@ -165,12 +165,12 @@ class TemplateItem {
 						let embeddedTableName = this.session.classes.find(cur => cur.Name === embeddedComponent.EmbeddedClass).tableName;
 						let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === elemColumn.SubUseCase);
 						if (useCaseFound != null) {
-							this.selectFrom += (', data."' + embeddedTableName + '" ' + elemAttribute.Name);
-							this.selectWhere += (' AND "' + elemAttribute.Name + '"."Id" = data."' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '"');
+							this.selectFrom += (', data."' + embeddedTableName + '" "' + elemAttribute.Name + '"');
+							this.selectWhere += (' AND "' + elemAttribute.Name + '"."Id" = data."' + tableAlias + '"."' + elemAttribute.Path[0] + '"');
 							let ucClassCur = this.session.classes.find(cur => cur.Name === useCaseFound.Detail.Class);
 							useCaseFound.Detail.Elems.forEach(elemCur => {
 								let elemAttributeCur = useCaseFound.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
-								this.constructSelectAddColumn(elemCur, elemAttributeCur, ucClassCur);
+								this.constructSelectAddColumn(elemCur, elemAttributeCur, ucClassCur, ucClassCur.tableName);
 							});
 					
 						}
