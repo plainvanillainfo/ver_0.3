@@ -390,12 +390,21 @@ class TemplateItem extends TemplateItemClient {
 
     presentTableElem(elem) {
         if (elem.Rendering.Nesting == null || elem.Rendering.Nesting !== 'Coerced') {
-            if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
-                this.columns.push(elem.Rendering.Label);
-                let tableHeadRowHeader = document.createElement('th');
-                this.tableHeadRow.appendChild(tableHeadRowHeader);
-                tableHeadRowHeader.setAttribute("scope", "col");
-                tableHeadRowHeader.appendChild(document.createTextNode(elem.Rendering.Label));
+            if (elem.SubUseCase == null) {
+                if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
+                    this.columns.push(elem.Rendering.Label);
+                    let tableHeadRowHeader = document.createElement('th');
+                    this.tableHeadRow.appendChild(tableHeadRowHeader);
+                    tableHeadRowHeader.setAttribute("scope", "col");
+                    tableHeadRowHeader.appendChild(document.createTextNode(elem.Rendering.Label));
+                }
+            } else {
+                let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === elem.SubUseCase);
+                if (elem.Rendering.Nesting != null && elem.Rendering.Nesting === 'Flattened') {
+                    subUseCase.Detail.Elems.forEach(elemCur => {
+                        this.presentTableElem(elemCur);
+                    });
+                }
             }
         } else {
             this.isLeaf = false;
@@ -404,7 +413,6 @@ class TemplateItem extends TemplateItemClient {
                 subUseCase.Detail.Elems.forEach(elemCur => {
                     this.presentTableElem(elemCur);
                 });
-        
             }
         }
     }
