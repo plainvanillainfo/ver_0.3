@@ -120,7 +120,9 @@ class TemplateItem {
 		console.log("TemplateItem::constructSelect():");
 		let tableName = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class).tableName;
 
-		this.selectQuery = 'SELECT "' + tableName + '"."Id", "' + tableName + '"."Extension"';
+		this.selectQuery = 'SELECT "' + 
+			tableName + '"."Id" AS "' + tableName + '_Id, "';
+			tableName + '"."Extension" AS "'  + tableName + '_Extension"';
 		this.selectColumns = '';
 		this.selectFrom = 'FROM data."' + tableName + '"';
 		this.selectWhere = 'WHERE';
@@ -152,7 +154,7 @@ class TemplateItem {
 			switch (elemAttribute.Type) {
 				case 'Primitive':
 					if (elemAttribute.Path.length === 1) {
-						this.selectColumns += (', "' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '"' );
+						this.selectColumns += (', "' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '" AS "' +  '"' + ucClass.tableName + '_' + elemAttribute.Path[0] + '"');
 					}
 					break;
 				case 'Embedded':
