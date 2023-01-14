@@ -592,23 +592,6 @@ class TemplateItem extends TemplateItemClient {
                 }
             });
             itemCur.isEmpty = true;
-
-            /*
-            this.useCase.Detail.Elems.forEach(elemCur => {
-
-                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
-                if (this.isLeaf === true && valueCur !== '') {
-                    itemCur.isEmpty = false;
-                }
-                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
-                if (cellCur != null) {
-                    cellCur.Value = valueCur;
-                    cellCur.Rendering = elemCur.Rendering;
-                    cellCur.Elem = elemCur;
-                }
-
-            });
-            */
             this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
         });
 
