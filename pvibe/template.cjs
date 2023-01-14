@@ -150,7 +150,7 @@ class TemplateItem {
 	}
 
 	constructSelectAddColumn(elemColumn, elemAttribute, ucClass) {
-		console.log("TemplateItem::constructSelectAddColumn(): ", elemColumn, elemAttribute, ucClass);
+		console.log("TemplateItem::constructSelectAddColumn(): ", elemColumn, elemAttribute);
         if (elemAttribute != null) {
 			switch (elemAttribute.Type) {
 				case 'Primitive':
@@ -165,8 +165,8 @@ class TemplateItem {
 						let embeddedTableName = this.session.classes.find(cur => cur.Name === embeddedComponent.EmbeddedClass).tableName;
 						let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === elemColumn.SubUseCase);
 						if (useCaseFound != null) {
-							this.selectFrom += (', data."' + embeddedTableName + '"');
-							this.selectWhere += (' AND data."' + embeddedTableName + '"."Id" = data."' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '"');
+							this.selectFrom += (', data."' + embeddedTableName + '" ' + elemAttribute.Name);
+							this.selectWhere += (' AND "' + elemAttribute.Name + '"."Id" = data."' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '"');
 							let ucClassCur = this.session.classes.find(cur => cur.Name === useCaseFound.Detail.Class);
 							useCaseFound.Detail.Elems.forEach(elemCur => {
 								let elemAttributeCur = useCaseFound.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
