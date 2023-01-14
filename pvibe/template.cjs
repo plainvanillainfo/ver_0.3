@@ -119,23 +119,26 @@ class TemplateItem {
 	constructSelect() {
 		console.log("TemplateItem::constructSelect():");
 		let tableName = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class).tableName;
+
 		this.selectQuery = 'SELECT "' + tableName + '"."Id", "' + tableName + '"."Extension"';
 		this.selectColumns = '';
 		this.selectFrom = 'FROM data."' + tableName + '"';
+		this.selectWhere = 'WHERE';
+		this.selectOrderBy = '';
+
 		if (this.parent.itemParent != null) {
 			let classParent = this.parent.parent.useCase.Detail.Class;
 			let parentTableName = this.session.classes.find(cur => cur.Name === classParent).tableName;
 			let linkTable = parentTableName + '_CHILD_' + this.parent.useCaseElem.Attribute;
-			this.selectFrom += ', data."' + linkTable + '"';
-			this.selectWhere = 'WHERE data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\'';
+			this.selectFrom += (', data."' + linkTable + '"');
+			this.selectWhere += (' data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\'');
 			this.selectWhere += (' AND data."' + linkTable + '"."ChildId" = data."' + tableName + '"."Id"');
-			// HERE: 
+			// HERE - filtration: 
 			this.constructSelectApplyContext();
 
 		} else {
-			this.selectWhere = 'WHERE 1=1';
+			this.selectWhere += ' 1=1';
 		}
-		this.selectOrderBy = '';
 		this.useCase.Detail.Elems.forEach(elemCur => {
 			this.constructSelectAddColumn(elemCur);
 		});
@@ -158,10 +161,18 @@ class TemplateItem {
 				        console.log("TemplateItem::constructSelectAddColumn() - Embedded: ", elemAttribute);
 						let embeddedComponent = ucClass.Components.find(cur => cur.Name === elemAttribute.Path[0]);
 						let embeddedTableName = this.session.classes.find(cur => cur.Name === embeddedComponent.EmbeddedClass).tableName;
+						let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === elemColumn.SubUseCase);
+						if (useCaseFound != null) {
+							this.selectFrom += ', data."' + embeddedTableName + '"';
+							this.selectWhere += (' AND data."' + embeddedTableName + '"."Id" = data."' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '"');
 
-						this.selectFrom += ', data."' + embeddedTableName + '"';
-						this.selectWhere += (' AND data."' + embeddedTableName + '"."Id" = data."' + ucClass.tableName + '"."' + elemAttribute.Path[0] + '"');
-						this.selectColumns += (', data."' + embeddedTableName + '".*' );
+							//this.selectColumns += (', "' + embeddedTableName + '".*' );
+
+							useCaseFound.Detail.Elems.forEach(elemCur => {
+								this.constructSelectAddColumn(elemCur);
+							});
+					
+						}
 					}
 					break;
 				case 'Reference':
