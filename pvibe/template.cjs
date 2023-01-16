@@ -162,11 +162,13 @@ class TemplateItem {
 				case 'Reference':
 						if (elemAttribute.Path.length === 1) {
 				        console.log("TemplateItem::constructSelectAddColumn() - Embedded: ", elemAttribute);
-						let embeddedOrReferredComponent = ucClass.Components.find(cur => cur.Name === elemAttribute.Path[0]);
+						let embeddedOrReferredComponent;
 						let embeddedOrReferredTableName;
 						if (elemAttribute.Type === 'Embedded') {
+							embeddedOrReferredComponent = ucClass.Components.find(cur => cur.Name === elemAttribute.Path[0]);
 							embeddedOrReferredTableName = this.session.classes.find(cur => cur.Name === embeddedOrReferredComponent.EmbeddedClass).tableName;
 						} else {
+							embeddedOrReferredComponent = ucClass.References.find(cur => cur.Name === elemAttribute.Path[0]);
 							embeddedOrReferredTableName = this.session.classes.find(cur => cur.Name === embeddedOrReferredComponent.ReferredClass).tableName;
 						}
 
