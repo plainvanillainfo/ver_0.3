@@ -159,7 +159,8 @@ class TemplateItem {
 					}
 					break;
 				case 'Embedded':
-					if (elemAttribute.Path.length === 1) {
+				case 'Reference':
+						if (elemAttribute.Path.length === 1) {
 				        console.log("TemplateItem::constructSelectAddColumn() - Embedded: ", elemAttribute);
 						let embeddedComponent = ucClass.Components.find(cur => cur.Name === elemAttribute.Path[0]);
 						let embeddedTableName = this.session.classes.find(cur => cur.Name === embeddedComponent.EmbeddedClass).tableName;
@@ -175,8 +176,6 @@ class TemplateItem {
 					
 						}
 					}
-					break;
-				case 'Reference':
 					break;
 				case 'Child':
 					break;
