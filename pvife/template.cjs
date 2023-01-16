@@ -487,8 +487,7 @@ class TemplateItem extends TemplateItemClient {
         let attrs = {};
         let fUpdated = false;
         for (let formAttrCur in this.formData) {
-            let formAttrDetail = this.formData[formAttrCur];
-            attrs[formAttrCur] = {Type: 'P', Value: formAttrDetail};
+            attrs[formAttrCur] = this.formData[formAttrCur];
             fUpdated = true;
         }
         if (fUpdated) {
@@ -503,7 +502,22 @@ class TemplateItem extends TemplateItemClient {
                     }
                 }
             };
-            this.parent.toServer(messageOut);
+            this.parent.toServerdrilldo(messageOut);
+            */
+
+            /*
+            this.toServer({
+                Action: 'ContinueTemplateElem',
+                TemplateElem: {
+                    ItemKey: itemCur.Key,
+                    UseCaseElemName: divField.elem.Name,
+                    Action: 'ContinueTemplateItem',
+                    TemplateItem: {
+                        UseCaseName: subUseCase.Detail.Name,
+                        Action: 'Start'
+                    }
+                }
+            });
             */
         } else {
             this.popBreadcrumb();
