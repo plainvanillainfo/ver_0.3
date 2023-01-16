@@ -162,11 +162,17 @@ class TemplateItem {
 				case 'Reference':
 						if (elemAttribute.Path.length === 1) {
 				        console.log("TemplateItem::constructSelectAddColumn() - Embedded: ", elemAttribute);
-						let embeddedComponent = ucClass.Components.find(cur => cur.Name === elemAttribute.Path[0]);
-						let embeddedTableName = this.session.classes.find(cur => cur.Name === embeddedComponent.EmbeddedClass).tableName;
+						let embeddedOrReferredComponent = ucClass.Components.find(cur => cur.Name === elemAttribute.Path[0]);
+						let embeddedOrReferredTableName;
+						if (elemAttribute.Type === 'Embedded') {
+							embeddedOrReferredTableName = this.session.classes.find(cur => cur.Name === embeddedOrReferredComponent.EmbeddedClass).tableName;
+						} else {
+							embeddedOrReferredTableName = this.session.classes.find(cur => cur.Name === embeddedOrReferredComponent.ReferredClass).tableName;
+						}
+
 						let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === elemColumn.SubUseCase);
 						if (useCaseFound != null) {
-							this.selectFrom += (', data."' + embeddedTableName + '" "' + elemAttribute.Name + '"');
+							this.selectFrom += (', data."' + embeddedOrReferredTableName + '" "' + elemAttribute.Name + '"');
 							this.selectWhere += (' AND "' + elemAttribute.Name + '"."Id" = "' + tableAlias + '"."' + elemAttribute.Path[0] + '"');
 							let ucClassCur = this.session.classes.find(cur => cur.Name === useCaseFound.Detail.Class);
 							useCaseFound.Detail.Elems.forEach(elemCur => {
