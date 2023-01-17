@@ -688,6 +688,7 @@ class TemplateItem extends TemplateItemClient {
                             switch (divField.rendering.Format) {
                                 case 'Text':
                                     inputCur = document.createElement('input');
+                                    inputCur.id = cellCur.Elem.Name;
                                     divField.appendChild(inputCur);
                                     inputCur.setAttribute("type", "input");
                                     inputCur.value = cellCur.Value;
@@ -706,6 +707,7 @@ class TemplateItem extends TemplateItemClient {
                                     divDate.className = 'input-group date';
                                     divDate.style.display = 'inline';
                                     inputCur = document.createElement('input');
+                                    inputCur.id = cellCur.Elem.Name;
                                     divDate.appendChild(inputCur);
                                     inputCur.setAttribute("type", "date");
                                     if (cellCur.Value != null && cellCur.Value > '') {
@@ -726,6 +728,7 @@ class TemplateItem extends TemplateItemClient {
                                     break;
                                 case 'Textarea':
                                     inputCur = document.createElement('textarea');
+                                    inputCur.id = cellCur.Elem.Name;
                                     divField.appendChild(inputCur);
                                     if (divField.rendering.Rows != null) {
                                         inputCur.setAttribute("rows", divField.rendering.Rows);
@@ -742,6 +745,7 @@ class TemplateItem extends TemplateItemClient {
                                     break;
                                 case 'DrillDown':
                                     inputCur = document.createElement('button');
+                                    inputCur.id = cellCur.Elem.Name;
                                     divField.appendChild(inputCur);
                                     inputCur.className = 'btn btn-primary';
                                     inputCur.setAttribute("type", "button");
@@ -781,6 +785,7 @@ class TemplateItem extends TemplateItemClient {
                             }
                         } else {
                             inputCur = document.createElement('input');
+                            inputCur.id = cellCur.Elem.Name;
                             divField.appendChild(inputCur);
                             inputCur.setAttribute("type", "input");
                             inputCur.value = cellCur.Value;
