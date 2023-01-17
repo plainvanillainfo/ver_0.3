@@ -62,6 +62,7 @@ class TemplateItem {
 					*/
 					if (message.TemplateItem != null && message.TemplateItem.ItemKey != null && message.TemplateItem.Attrs != null) {
 						let itemListEntry = this.itemList[message.TemplateItem.ItemKey];
+						console.log("JJJJ:", itemListEntry);
 					}
 					break;
                 case 'Refresh':
