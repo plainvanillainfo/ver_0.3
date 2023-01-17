@@ -493,7 +493,7 @@ class TemplateItem extends TemplateItemClient {
         if (fUpdated) {
             // Assuming a dataItem array of just 1. Generalize for multiple items
             this.toServer({
-                Action: 'Save',
+                Action: 'Put',
                 ItemKey: this.dataItems[0].Key,
                 Attrs: attrs
             });
