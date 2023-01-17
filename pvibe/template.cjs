@@ -313,8 +313,10 @@ class TemplateElem {
 										console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 										this.templateItem = new TemplateItem(this, subUseCaseFound);
 										if (message.TemplateItem.TemplateItem != null) {
+											console.log("aaaaaaaaaaaaaaaaaaaaaa");
 											this.templateItem.fromClient(message.TemplateItem.TemplateItem);
 										} else {
+											console.log("bbbbbbbbbbbbbbbbbbb");
 											this.templateItem.fromClient(message.TemplateItem);
 										}
 									}
