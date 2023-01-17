@@ -519,6 +519,18 @@ class TemplateItem extends TemplateItemClient {
                 }
             });
             */
+          /*
+            this.toServer({
+                Action: 'Start',
+                Context: {}
+            });
+          */
+            this.toServer({
+                Action: 'Save',
+                ItemKey: itemCur.Key,
+                Attrs: attrs
+            });
+
         } else {
             this.popBreadcrumb();
         }
