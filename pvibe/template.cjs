@@ -60,8 +60,8 @@ class TemplateItem {
 						}
 					}
 					*/
-					if (message.TemplateItem != null && message.TemplateItem.Attrs != null) {
-						
+					if (message.TemplateItem != null && message.TemplateItem.ItemKey != null && message.TemplateItem.Attrs != null) {
+						let itemListEntry = this.itemList[message.TemplateItem.ItemKey];
 					}
 					break;
                 case 'Refresh':
