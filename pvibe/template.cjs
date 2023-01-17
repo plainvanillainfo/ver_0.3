@@ -60,7 +60,9 @@ class TemplateItem {
 						}
 					}
 					*/
-
+					if (message.TemplateItem != null && message.TemplateItem.Attrs != null) {
+						
+					}
 					break;
                 case 'Refresh':
                     break;
