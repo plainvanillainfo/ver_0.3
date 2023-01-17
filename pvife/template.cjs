@@ -491,43 +491,10 @@ class TemplateItem extends TemplateItemClient {
             fUpdated = true;
         }
         if (fUpdated) {
-            /*
-            let messageOut = {
-                Action: 'UpdateItem',
-                TemplateItem: {
-                    ItemData: {
-                        ItemKey: this.itemKey,
-                        Attrs: attrs,
-                        ChildItems: {}
-                    }
-                }
-            };
-            this.parent.toServerdrilldo(messageOut);
-            */
-
-            /*
-            this.toServer({
-                Action: 'ContinueTemplateElem',
-                TemplateElem: {
-                    ItemKey: itemCur.Key,
-                    UseCaseElemName: divField.elem.Name,
-                    Action: 'ContinueTemplateItem',
-                    TemplateItem: {
-                        UseCaseName: subUseCase.Detail.Name,
-                        Action: 'Start'
-                    }
-                }
-            });
-            */
-          /*
-            this.toServer({
-                Action: 'Start',
-                Context: {}
-            });
-          */
+            // Assuming a dataItem array of just 1. Generalize for multiple items
             this.toServer({
                 Action: 'Save',
-                ItemKey: itemCur.Key,
+                ItemKey: this.dataItems[0].Key,
                 Attrs: attrs
             });
 
