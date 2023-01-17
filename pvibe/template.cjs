@@ -62,7 +62,7 @@ class TemplateItem {
 					*/
 					if (message.ItemKey != null && message.Attrs != null) {
 						let itemListEntry = this.itemList[message.ItemKey];
-						console.log("JJJJ:", itemListEntry);
+						console.log("this.itemList:", this.itemList, "\nthis.dataItems: ", this.dataItems);
 					}
 					break;
                 case 'Refresh':
