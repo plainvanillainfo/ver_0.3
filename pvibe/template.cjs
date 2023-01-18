@@ -16,7 +16,7 @@ class TemplateItem {
     }
 
     fromClient(message) {
-        console.log("TemplateItem::fromClient(): ", message);
+        console.log("TemplateItem::fromClient(): ", message, "\n this.itemList: ", this.itemList);
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
@@ -312,9 +312,7 @@ class TemplateElem {
 										console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 										this.templateItem = new TemplateItem(this, subUseCaseFound);
 										if (message.TemplateItem.TemplateItem != null) {
-											console.log("aaaaaaaaaaaaaaaaaaaaaa:\n", this.itemParent,
-											"\n", this.itemParent.Elems, "\n", this.itemParent.Elems[this.useCaseElem.Name].templateItem);
-
+											console.log("aaaaaaaaaaaaaaaaaaaaaa:\n"); //, this.itemParent,
 
 											this.templateItem.fromClient(message.TemplateItem.TemplateItem);
 										} else {
