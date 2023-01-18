@@ -224,6 +224,7 @@ class TemplateItem {
 							itemListEntry.Elems[elemChild.Name].startTemplateItem();
 						}
 					});
+					console.log("TemplateItem::stepDownToChild() - elemChild: ", elemChild.Name, "\n this.itemList: ", this.itemList);
 					break;
 				default:
 					break;
