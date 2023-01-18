@@ -62,7 +62,8 @@ class TemplateItem {
 					*/
 					if (message.ItemKey != null && message.Attrs != null) {
 						let itemListEntry = this.itemList[message.ItemKey];
-						console.log("this.itemList:", this.itemList, "\nthis.dataItems: ", this.dataItems);
+						console.log("this.itemList[]:", this.itemList[message.ItemKey], 
+							"\nthis.dataItems[]: ", this.dataItems.find(cur => cur.Key === message.ItemKey));
 					}
 					break;
                 case 'Refresh':
