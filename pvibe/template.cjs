@@ -88,29 +88,29 @@ class TemplateItem {
                     break;
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
-						//console.log("TemplateItem::fromClient() - aaaaa");
+						console.log("TemplateItem::fromClient() - aaaaa");
 						let useCaseElemName = message.TemplateElem.UseCaseElemName;
 						let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === useCaseElemName);
 						if (useCaseElemFound != null && useCaseElemFound.SubUseCase != null) {
-							//console.log("TemplateItem::fromClient() - AAAAA");
+							console.log("TemplateItem::fromClient() - AAAAA");
 							let itemListEntry;
 							if (this.itemList[message.TemplateElem.ItemKey] == null) {
-								//console.log("TemplateItem::fromClient() - BBBBB");
+								console.log("TemplateItem::fromClient() - BBBBB");
 								itemListEntry = {Key: message.TemplateElem.ItemKey, Elems: {}};
 								this.itemList[message.TemplateElem.ItemKey] = itemListEntry;
 							} else {
-								//console.log("TemplateItem::fromClient() - CCCCC");
+								console.log("TemplateItem::fromClient() - CCCCC");
 								itemListEntry = this.itemList[message.TemplateElem.ItemKey];
 							}
-							//console.log("TemplateItem::fromClient() - DDDDD");
+							console.log("TemplateItem::fromClient() - DDDDD");
 	                        if (itemListEntry.Elems[useCaseElemName] == null) {
-								//console.log("TemplateItem::fromClient() - EEEEE");
+								console.log("TemplateItem::fromClient() - EEEEE");
                                 let templateElemNew = new TemplateElem(this, useCaseElemFound, itemListEntry);
                                 itemListEntry.Elems[useCaseElemName] = templateElemNew;
 	                        }
-							//console.log("TemplateItem::fromClient() - FFFFF");
+							console.log("TemplateItem::fromClient() - FFFFF");
 	                        if (itemListEntry.Elems[useCaseElemName] != null) {
-								//console.log("TemplateItem::fromClient() - GGGGG");
+								console.log("TemplateItem::fromClient() - GGGGG");
 	                            itemListEntry.Elems[useCaseElemName].fromClient(message.TemplateElem);
 	                        }
 						}
