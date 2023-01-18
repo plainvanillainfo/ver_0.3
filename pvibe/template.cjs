@@ -16,7 +16,7 @@ class TemplateItem {
     }
 
     fromClient(message) {
-        console.log("TemplateItem::fromClient(): ", message, "\n this.itemList: ", this.itemList);
+        console.log("TemplateItem::fromClient(): ", message);
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
@@ -251,7 +251,7 @@ class TemplateItem {
 
     async receiveFromDb(result) {
 		result.forEach(resultCur => {
-			console.log("TemplateItem::receiveFromDb() - resultCur:\n", resultCur);
+			//console.log("TemplateItem::receiveFromDb() - resultCur:\n", resultCur);
 			let dataItemCur = {
 				Key: resultCur.Id,
 				Attrs: {...resultCur}
