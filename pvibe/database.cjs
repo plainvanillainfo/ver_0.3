@@ -70,8 +70,8 @@ class Database {
         )        
     }
 
-    async doUpdate(view, filter, data, doneUpdate) {
-        let query = 'UPDATE data."' + view + '" SET ' + data + ' WHERE ' + filter + ' RETURNING * ';
+    async doUpdate(query, /*view, filter, data,*/ doneUpdate) {
+        //let query = 'UPDATE data."' + view + '" SET ' + data + ' WHERE ' + filter + ' RETURNING * ';
         console.log("Database::putData() - query: ", query);
         this.client.query(
             query, 

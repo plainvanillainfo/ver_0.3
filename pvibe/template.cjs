@@ -259,7 +259,7 @@ class TemplateItem {
     }
 
     async sendToDbUpdate(filter, data) {
-        await this.session.database.doUpdate(this.useCase.Detail.UpdateView, filter, data, this.receiveFromDb);
+        await this.session.database.doUpdate(this.updateQuery, /*this.useCase.Detail.UpdateView, filter,*/ data, this.receiveFromDb);
     }
 
     async sendToDbInsert(filter, data) {
