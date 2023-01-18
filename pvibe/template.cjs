@@ -153,7 +153,7 @@ class TemplateItem {
 	}
 
 	constructSelectAddColumn(elemColumn, elemAttribute, ucClass, tableAlias) {
-		console.log("TemplateItem::constructSelectAddColumn(): ", elemColumn, elemAttribute);
+		//console.log("TemplateItem::constructSelectAddColumn(): ", elemColumn, elemAttribute);
         if (elemAttribute != null) {
 			switch (elemAttribute.Type) {
 				case 'Primitive':
@@ -208,8 +208,9 @@ class TemplateItem {
         if (elemAttribute != null) {
 			switch (elemAttribute.Type) {
 				case 'Child':
-					//console.log("TemplateItem::stepDownToChild() - elemChild: ", elemChild.Name);
+					console.log("TemplateItem::stepDownToChild() - elemChild: ", elemChild.Name);
 					this.dataItems.forEach(dataItemCur => {
+						console.log("TemplateItem::stepDownToChild() - dataItemCur.Key: ", dataItemCur.Key);
 						let itemListEntry;
 						if (this.itemList[dataItemCur.Key] == null) {
 							itemListEntry = {Key: dataItemCur.Key, Elems: {}};
@@ -224,7 +225,7 @@ class TemplateItem {
 							itemListEntry.Elems[elemChild.Name].startTemplateItem();
 						}
 					});
-					console.log("TemplateItem::stepDownToChild() - elemChild: ", elemChild.Name, "\n this.itemList: ", this.itemList);
+					console.log("TemplateItem::stepDownToChild() - this.itemList: ", this.itemList);
 					break;
 				default:
 					break;
