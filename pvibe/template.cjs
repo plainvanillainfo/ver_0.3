@@ -27,43 +27,59 @@ class TemplateItem {
                     break;
 				case 'Put':
 
-					/*
-					if (itemKey != null && message.TemplateItem.ItemData.Attrs != null) {
-						console.log(" message.TemplateItem.ItemData: ", message.TemplateItem.ItemData);
-						let data = '';
-						if (itemKey !== '') {
-							for (let attrCur in message.TemplateItem.ItemData.Attrs) {
-								let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
+					if (message.ItemKey != null && message.Attrs != null) {
+						//console.log("this.itemList[]:", this.itemList[message.ItemKey], 
+						//	"\nthis.dataItems[]: ", this.dataItems.find(cur => cur.Key === message.ItemKey));
+						if (this.itemList[message.ItemKey] != null) {
+							let itemListEntry = this.itemList[message.ItemKey];
+							/*
+							if (itemKey != null && message.TemplateItem.ItemData.Attrs != null) {
+								console.log(" message.TemplateItem.ItemData: ", message.TemplateItem.ItemData);
+								let data = '';
+								if (itemKey !== '') {
+									for (let attrCur in message.TemplateItem.ItemData.Attrs) {
+										let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
+										data += ('"' + attrCur + '" = ');
+										data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
+									}
+									if (data.length > 0) {
+										let filter = '"' + this.keyName + "\" = '" + itemKey + "'";
+										data = data.slice(0, -1);
+										this.childItemTemplates[itemKey].requestUpdateToDB(filter, data);
+									}
+								} else {
+									let columns = '(';
+									data = '';
+									for (let attrCur in message.TemplateItem.ItemData.Attrs) {
+										let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
+										columns += ('"' + attrCur + '",');
+										data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
+									}
+									if (data.length > 0) {
+										columns = columns.slice(0, -1);
+										columns += ') VALUES (';
+										data = data.slice(0, -1);
+										data += ')';
+										this.requestInsertToDB(addView, columns + data);
+									}
+								}
+							}
+							*/
+
+							let data = '';
+							for (let attrCur in message.Attrs) {
+								let attrDetail = message.Attrs[attrCur];
 								data += ('"' + attrCur + '" = ');
 								data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
 							}
 							if (data.length > 0) {
 								let filter = '"' + this.keyName + "\" = '" + itemKey + "'";
 								data = data.slice(0, -1);
-								this.childItemTemplates[itemKey].requestUpdateToDB(filter, data);
+								this.sendToDbUpdate(filter, data);
 							}
-						} else {
-							let columns = '(';
-							data = '';
-							for (let attrCur in message.TemplateItem.ItemData.Attrs) {
-								let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
-								columns += ('"' + attrCur + '",');
-								data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
-							}
-							if (data.length > 0) {
-								columns = columns.slice(0, -1);
-								columns += ') VALUES (';
-								data = data.slice(0, -1);
-								data += ')';
-								this.requestInsertToDB(addView, columns + data);
-							}
+
+
 						}
-					}
-					*/
-					if (message.ItemKey != null && message.Attrs != null) {
-						let itemListEntry = this.itemList[message.ItemKey];
-						console.log("this.itemList[]:", this.itemList[message.ItemKey], 
-							"\nthis.dataItems[]: ", this.dataItems.find(cur => cur.Key === message.ItemKey));
 					}
 					break;
                 case 'Refresh':
@@ -313,14 +329,13 @@ class TemplateElem {
 									//this.templateItem = this.parent;
 									let subUseCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === useCaseFound.Detail.SubUseCase);
 									if (subUseCaseFound != null) {
-										console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+										//console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 										this.templateItem = new TemplateItem(this, subUseCaseFound);
 										if (message.TemplateItem.TemplateItem != null) {
-											console.log("aaaaaaaaaaaaaaaaaaaaaa:\n"); //, this.itemParent,
-
+											//console.log("aaaaaaaaaaaaaaaaaaaaaa:\n"); //, this.itemParent,
 											this.templateItem.fromClient(message.TemplateItem.TemplateItem);
 										} else {
-											console.log("bbbbbbbbbbbbbbbbbbb");
+											//console.log("bbbbbbbbbbbbbbbbbbb");
 											this.templateItem.fromClient(message.TemplateItem);
 										}
 									}
