@@ -312,8 +312,10 @@ class TemplateElem {
 										console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 										this.templateItem = new TemplateItem(this, subUseCaseFound);
 										if (message.TemplateItem.TemplateItem != null) {
-											console.log("aaaaaaaaaaaaaaaaaaaaaa:", this.itemParent,
-												"\n", this.itemParent.Elems[this.useCaseElem.Name]);
+											console.log("aaaaaaaaaaaaaaaaaaaaaa:\n", this.itemParent,
+											"\n", this.itemParent.Elems);
+
+
 											this.templateItem.fromClient(message.TemplateItem.TemplateItem);
 										} else {
 											console.log("bbbbbbbbbbbbbbbbbbb");
