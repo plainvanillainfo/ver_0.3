@@ -91,7 +91,7 @@ class TemplateItem {
 						console.log("TemplateItem::fromClient() - aaaaa");
 						let useCaseElemName = message.TemplateElem.UseCaseElemName;
 						let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === useCaseElemName);
-						if (useCaseElemFound != null && useCaseElemFound.SubUseCase != null) {
+						if (useCaseElemFound != null) { //} && useCaseElemFound.SubUseCase != null) {
 							console.log("TemplateItem::fromClient() - AAAAA");
 							let itemListEntry;
 							if (this.itemList[message.TemplateElem.ItemKey] == null) {
