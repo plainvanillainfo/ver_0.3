@@ -114,7 +114,6 @@ class TemplateItem {
 	                            itemListEntry.Elems[useCaseElemName].fromClient(message.TemplateElem);
 	                        }
 						}
-						
                     }
                     break;
                 default:
@@ -343,7 +342,7 @@ class TemplateElem {
 								}
 							}
 						} else {
-							console.log("TemplateElem::fromClient() - this.templateItem != null ", this.templateItem);
+							console.log("TemplateElem::fromClient() - this.templateItem != null "); //, this.templateItem);
 							if (message.TemplateItem.TemplateItem != null) {
 								this.templateItem.fromClient(message.TemplateItem.TemplateItem);
 							} else {
