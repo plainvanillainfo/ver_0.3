@@ -313,7 +313,7 @@ class TemplateElem {
 										this.templateItem = new TemplateItem(this, subUseCaseFound);
 										if (message.TemplateItem.TemplateItem != null) {
 											console.log("aaaaaaaaaaaaaaaaaaaaaa:\n", this.itemParent,
-											"\n", this.itemParent.Elems);
+											"\n", this.itemParent.Elems, "\n", this.itemParent.Elems[this.useCaseElem.Name].templateItem);
 
 
 											this.templateItem.fromClient(message.TemplateItem.TemplateItem);
