@@ -320,6 +320,7 @@ class TemplateElem {
 				case 'ContinueTemplateItem':
                     if (message.TemplateItem != null) {
 						if (this.templateItem == null) {
+							console.log("TemplateElem::fromClient() - this.templateItem == null ");
 							let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
 							if (useCaseFound != null) {
 								console.log("TemplateElem::fromClient() - useCaseFound ", useCaseFound);
@@ -342,7 +343,7 @@ class TemplateElem {
 								}
 							}
 						} else {
-							console.log("TemplateElem::fromClient() - this.templateItem != null ");
+							console.log("TemplateElem::fromClient() - this.templateItem != null ", this.templateItem);
 							if (message.TemplateItem.TemplateItem != null) {
 								this.templateItem.fromClient(message.TemplateItem.TemplateItem);
 							} else {
