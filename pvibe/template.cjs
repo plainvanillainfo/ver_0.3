@@ -214,6 +214,7 @@ class TemplateItem {
 						let itemListEntry;
 						if (this.itemList[dataItemCur.Key] == null) {
 							itemListEntry = {Key: dataItemCur.Key, Elems: {}};
+							this.itemList[dataItemCur.Key] = itemListEntry;
 						} else {
 							itemListEntry = this.itemList[dataItemCur.Key];
 						}
