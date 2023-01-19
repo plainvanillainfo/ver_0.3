@@ -630,10 +630,32 @@ class TemplateItem extends TemplateItemClient {
                             }
                         }
                         if (cellCur.Rendering != null && cellCur.Rendering.Format != null && cellCur.Rendering.Format === 'URL') {
-                            let aCur = document.createElement('a');
-                            aCur.setAttribute("href", cellCur.Value);
-                            aCur.appendChild(document.createTextNode("Welcome Letter"));
-                            cellCur.Td.appendChild(aCur);
+
+                            let fileName = cellCur.Value.substring(cellCur.Value.lastIndexOf('/')+1);
+                            let fileExt = fileName.substring(fileName.lastIndexOf('.')+1);
+
+                            switch (fileExt.toLowerCase()) {
+                                case 'pdf':
+                                    let aCur = document.createElement('a');
+                                    aCur.setAttribute("href", cellCur.Value);
+                                    aCur.setAttribute("download", fileName);
+                                    aCur.appendChild(document.createTextNode(fileName));
+                                    cellCur.Td.appendChild(aCur);
+                                    break;
+                                case 'jpg':
+                                case 'jpeg':
+                                case 'gif':
+                                case 'png':
+                                    let imgCur = document.createElement('img');
+                                    imgCur.setAttribute("src", cellCur.Value);
+                                    imgCur.setAttribute("width", 'auto');
+                                    cellCur.Td.appendChild(imgCur);
+                                    break;
+                                default:
+                                    break;
+                            }
+
+
                         } else {
                             cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
 
