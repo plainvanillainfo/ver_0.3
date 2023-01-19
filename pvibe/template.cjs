@@ -320,7 +320,17 @@ class TemplateElem {
                     if (message.TemplateItem != null) {
 						if (this.templateItem == null) {
 							console.log("TemplateElem::fromClient() - this.templateItem == null ");
-							let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
+							//let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
+
+							let useCaseFound;
+							if (message.TemplateItem.TemplateItem == null) {
+								useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
+
+							} else {
+								useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === message.TemplateItem.UseCaseName);
+							
+							}
+
 							if (useCaseFound != null) {
 								console.log("TemplateElem::fromClient() - useCaseFound ", useCaseFound);
 								if (useCaseFound.Detail.SubUseCase != null) {
