@@ -625,11 +625,19 @@ class TemplateItem extends TemplateItemClient {
                                     cellCur.Value = cellCur.Value.substring(0, 19).replace('-', '/').replace('-', '/').replace('T', ' ');
                                 }
                                 if (cellCur.Rendering.Format === 'URL') {
-                                    cellCur.Value = '<a href="' + cellCur.Value + '">' + cellCur.Value + '</a>';
+                                    //cellCur.Value = '<a href="' + cellCur.Value + '">' + cellCur.Value + '</a>';
                                 }
                             }
                         }
-                        cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
+                        if (cellCur.Rendering != null && cellCur.Rendering.Format != null && cellCur.Rendering.Format === 'URL') {
+                            let aCur = document.createElement('a');
+                            aCur.setAttribute("href", "cellCur.Value");
+                            aCur.appendChild(document.createTextNode(cellCur.Value));
+                            cellCur.Td.appendChild(aCur);
+                        } else {
+                            cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
+
+                        }
                     });
 
                 }
