@@ -323,7 +323,7 @@ class TemplateElem {
 							//let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
 
 							let useCaseFound;
-							if (message.TemplateItem.TemplateItem == null) {
+							if (message.TemplateItem.TemplateItem != null) {
 								useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
 
 							} else {
