@@ -504,7 +504,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentFormElem(elem) {
-        if (elem.Rendering.Nesting == null || (elem.Rendering.Nesting !== 'Coerced'&& elem.Rendering.Nesting !== 'Flattened' )) {
+        if (elem.Rendering.Nesting == null || (elem.Rendering.Nesting !== 'Coerced' && elem.Rendering.Nesting !== 'Flattened' )) {
             if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
                 this.columns.push(elem.Rendering.Label);
                 let divCur = document.createElement('div');
