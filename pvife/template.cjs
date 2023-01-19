@@ -632,7 +632,7 @@ class TemplateItem extends TemplateItemClient {
                         if (cellCur.Rendering != null && cellCur.Rendering.Format != null && cellCur.Rendering.Format === 'URL') {
                             let aCur = document.createElement('a');
                             aCur.setAttribute("href", cellCur.Value);
-                            aCur.appendChild(document.createTextNode(cellCur.Value));
+                            aCur.appendChild(document.createTextNode("Welcome Letter"));
                             cellCur.Td.appendChild(aCur);
                         } else {
                             cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
