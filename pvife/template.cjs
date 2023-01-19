@@ -631,7 +631,7 @@ class TemplateItem extends TemplateItemClient {
                         }
                         if (cellCur.Rendering != null && cellCur.Rendering.Format != null && cellCur.Rendering.Format === 'URL') {
                             let aCur = document.createElement('a');
-                            aCur.setAttribute("href", "cellCur.Value");
+                            aCur.setAttribute("href", cellCur.Value);
                             aCur.appendChild(document.createTextNode(cellCur.Value));
                             cellCur.Td.appendChild(aCur);
                         } else {
