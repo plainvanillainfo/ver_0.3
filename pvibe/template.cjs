@@ -171,7 +171,7 @@ class TemplateItem {
 	}
 
 	constructUpdate(message) {
-		console.log("TemplateItem::constructUpdate():");
+		console.log("TemplateItem::constructUpdate() this.selectFrom\n", this.selectFrom, "this.selectWhere : \n", this.selectWhere, "this.selectColumns : \n", this.selectColumns );
 		this.arrUpdateSegs = [];
 		if (this.arrUpdateSegs.length > 0) {
 			this.updateQuery = 'WITH ';
