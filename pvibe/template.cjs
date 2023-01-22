@@ -144,12 +144,12 @@ class TemplateItem {
 							this.selectFrom += (', data."' + embeddedOrReferredTableName + '" "' + elemAttribute.Name + '"');
 							this.selectWhere += (' AND "' + elemAttribute.Name + '"."Id" = "' + tableAlias + '"."' + elemAttribute.Path[0] + '"');
 
-							this.selectColumns += (', "' + tableAlias + '"."' + elemAttribute.Path[0] + '" AS "' + elemColumn.Name + '"');
+							this.selectColumns += (', "' + elemAttribute.Name + '"."Id" AS "' + elemColumn.Name + '"');
 
 							let ucClassCur = this.session.classes.find(cur => cur.Name === useCaseFound.Detail.Class);
 							useCaseFound.Detail.Elems.forEach(elemCur => {
 								let elemAttributeCur = useCaseFound.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
-								this.constructSelectAddColumn(elemCur, elemAttributeCur, ucClassCur, embeddedOrReferredTableName); // elemAttribute.Name);
+								this.constructSelectAddColumn(elemCur, elemAttributeCur, ucClassCur, elemAttribute.Name);
 							});
 					
 						}
