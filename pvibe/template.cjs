@@ -9,6 +9,7 @@ class TemplateItem {
         this.itemList = {};
         this.itemList[key] = {Key: key, Elems: {}};
         this.selectQuery = null;
+        this.updateQuery = null;
         this.listenQuery = null;
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
@@ -26,59 +27,10 @@ class TemplateItem {
 					}
                     break;
 				case 'Put':
-
-					if (message.ItemKey != null && message.Attrs != null) {
-						//console.log("this.itemList[]:", this.itemList[message.ItemKey], 
-						//	"\nthis.dataItems[]: ", this.dataItems.find(cur => cur.Key === message.ItemKey));
-						if (this.itemList[message.ItemKey] != null) {
-							let itemListEntry = this.itemList[message.ItemKey];
-							/*
-							if (itemKey != null && message.TemplateItem.ItemData.Attrs != null) {
-								console.log(" message.TemplateItem.ItemData: ", message.TemplateItem.ItemData);
-								let data = '';
-								if (itemKey !== '') {
-									for (let attrCur in message.TemplateItem.ItemData.Attrs) {
-										let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
-										data += ('"' + attrCur + '" = ');
-										data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
-									}
-									if (data.length > 0) {
-										let filter = '"' + this.keyName + "\" = '" + itemKey + "'";
-										data = data.slice(0, -1);
-										this.childItemTemplates[itemKey].requestUpdateToDB(filter, data);
-									}
-								} else {
-									let columns = '(';
-									data = '';
-									for (let attrCur in message.TemplateItem.ItemData.Attrs) {
-										let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
-										columns += ('"' + attrCur + '",');
-										data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
-									}
-									if (data.length > 0) {
-										columns = columns.slice(0, -1);
-										columns += ') VALUES (';
-										data = data.slice(0, -1);
-										data += ')';
-										this.requestInsertToDB(addView, columns + data);
-									}
-								}
-							}
-							*/
-
-							let data = '';
-							for (let attrCur in message.Attrs) {
-								let attrDetail = message.Attrs[attrCur];
-								data += ('"' + attrCur + '" = ');
-								data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
-							}
-							if (data.length > 0) {
-								let filter = '"' + this.keyName + "\" = '" + itemKey + "'";
-								data = data.slice(0, -1);
-								this.sendToDbUpdate(filter, data);
-							}
-
-
+					if (message.ItemKey != null && this.itemList[message.ItemKey] != null && message.Attrs != null) {
+						this.constructUpdate(message);
+						if (this.updateQuery != null) {
+							this.sendToDbUpdate();
 						}
 					}
 					break;
@@ -91,7 +43,7 @@ class TemplateItem {
 						console.log("TemplateItem::fromClient() - aaaaa");
 						let useCaseElemName = message.TemplateElem.UseCaseElemName;
 						let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === useCaseElemName);
-						if (useCaseElemFound != null) { //} && useCaseElemFound.SubUseCase != null) {
+						if (useCaseElemFound != null) {
 							console.log("TemplateItem::fromClient() - AAAAA");
 							let itemListEntry;
 							if (this.itemList[message.TemplateElem.ItemKey] == null) {
@@ -138,15 +90,11 @@ class TemplateItem {
 	constructSelect() {
 		console.log("TemplateItem::constructSelect():");
 		let tableName = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class).tableName;
-
-		this.selectQuery = 'SELECT "' + 
-			tableName + '"."Id", "' +
-			tableName + '"."Extension"';
+		this.selectQuery = 'SELECT "' + tableName + '"."Id", "' + tableName + '"."Extension"';
 		this.selectColumns = '';
 		this.selectFrom = 'FROM data."' + tableName + '"';
 		this.selectWhere = 'WHERE';
 		this.selectOrderBy = '';
-
 		if (this.parent.itemParent != null) {
 			let classParent = this.parent.parent.useCase.Detail.Class;
 			let parentTableName = this.session.classes.find(cur => cur.Name === classParent).tableName;
@@ -195,10 +143,13 @@ class TemplateItem {
 						if (useCaseFound != null) {
 							this.selectFrom += (', data."' + embeddedOrReferredTableName + '" "' + elemAttribute.Name + '"');
 							this.selectWhere += (' AND "' + elemAttribute.Name + '"."Id" = "' + tableAlias + '"."' + elemAttribute.Path[0] + '"');
+
+							this.selectColumns += (', "' + tableAlias + '"."' + elemAttribute.Path[0] + '" AS "' + elemColumn.Name + '"');
+
 							let ucClassCur = this.session.classes.find(cur => cur.Name === useCaseFound.Detail.Class);
 							useCaseFound.Detail.Elems.forEach(elemCur => {
 								let elemAttributeCur = useCaseFound.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
-								this.constructSelectAddColumn(elemCur, elemAttributeCur, ucClassCur, elemAttribute.Name);
+								this.constructSelectAddColumn(elemCur, elemAttributeCur, ucClassCur, embeddedOrReferredTableName); // elemAttribute.Name);
 							});
 					
 						}
@@ -218,6 +169,156 @@ class TemplateItem {
 		this.parent.context;
 		
 	}
+
+	constructUpdate(message) {
+		console.log("TemplateItem::constructUpdate():");
+		this.arrUpdateSegs = [];
+		if (this.arrUpdateSegs.length > 0) {
+			this.updateQuery = 'WITH ';
+
+
+			this.arrUpdateSegs.forEach((segCur, segIndex) => {
+				this.updateQuery += segCur.updateQuery;
+				if ((segIndex+1) < this.arrUpdateSegs.length) {
+					this.updateQuery += ',';
+				}
+			});
+			this.arrUpdateSegs.forEach((segCur, segIndex) => {
+				this.updateQuery += segCur.selectQuery;
+				if ((segIndex+1) < this.arrUpdateSegs.length) {
+					this.updateQuery += ' UNION ALL ';
+				}
+			});
+		} else {
+			this.updateQuery = null;
+		}
+
+	}
+
+	constructUpdateAddSeg() {
+
+	}
+
+	/*
+		let data = '';
+		for (let attrCur in message.Attrs) {
+			let attrDetail = message.Attrs[attrCur];
+			data += ('"' + attrCur + '" = ');
+			data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
+		}
+		if (data.length > 0) {
+			data = data.slice(0, -1);
+		}
+
+
+		let tableName = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class).tableName;
+		let filter = '"' + this.keyName + "\" = '" + itemListEntry.Key + "'";
+		this.updateQuery = 'UPDATE data."' + tableName + '" SET ';
+		this.updateColumns = '';
+		this.updateWhere = 'WHERE';
+
+		 + data + ' WHERE "Id" = \'' + key + '\' RETURNING * ';
+		
+		//let query = 'UPDATE data."' + view + '" SET ' + data + ' WHERE ' + filter + ' RETURNING * ';
+
+		if (itemKey != null && message.TemplateItem.ItemData.Attrs != null) {
+			console.log(" message.TemplateItem.ItemData: ", message.TemplateItem.ItemData);
+			let data = '';
+			if (itemKey !== '') {
+				for (let attrCur in message.TemplateItem.ItemData.Attrs) {
+					let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
+					data += ('"' + attrCur + '" = ');
+					data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
+				}
+				if (data.length > 0) {
+					let filter = '"' + this.keyName + "\" = '" + itemKey + "'";
+					data = data.slice(0, -1);
+					this.childItemTemplates[itemKey].requestUpdateToDB(filter, data);
+				}
+			} else {
+				let columns = '(';
+				data = '';
+				for (let attrCur in message.TemplateItem.ItemData.Attrs) {
+					let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
+					columns += ('"' + attrCur + '",');
+					data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
+				}
+				if (data.length > 0) {
+					columns = columns.slice(0, -1);
+					columns += ') VALUES (';
+					data = data.slice(0, -1);
+					data += ')';
+					this.requestInsertToDB(addView, columns + data);
+				}
+			}
+		}
+		
+
+		let itemListEntry = this.itemList[message.ItemKey];
+		for (let attrCur in message.Attrs) {
+			let attrDetail = message.Attrs[attrCur];
+			data += ('"' + attrCur + '" = ');
+			data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
+		}
+		if (data.length > 0) {
+			let filter = '"' + this.keyName + "\" = '" + itemListEntry.Key + "'";
+			data = data.slice(0, -1);
+			//this.sendToDbUpdate(filter, data);
+		}
+
+		this.updateQuery += ('');
+	*/	
+
+	/*
+https://postgrespro.com/list/thread-id/2544851
+Re: Slick way to update multiple tables.
+From
+Paul Jungwirth
+Date:
+01 April 2021, 22:37:06
+
+On 4/1/21 11:54 AM, Michael Lewis wrote:
+> postgresql.org/docs/current/sql-createview.html 
+> <http://postgresql.org/docs/current/sql-createview.html>
+> 
+> My apologies. It seems INSTEAD OF triggers are required to implement 
+> updates across multiple tables. I thought not if all were simple joins. 
+> My mistake.
+
+Even with INSTEAD OF triggers, if you use a view then I suppose you 
+would be forced to update some of the records more often that necessary? 
+(Unless your tables are 1-to-1-to-1 of course.) Or if there is some 
+trick to avoid that I'd be curious to know about it.
+
+Here is something I've done in the past:
+
+WITH
+update1(ok) AS (
+   UPDATE foo SET ... WHERE ...
+   RETURNING 'ok'
+),
+update2(ok) AS (
+   UPDATE bar SET ... WHERE ...
+   RETURNING 'ok'
+),
+update3(ok) AS (
+   UPDATE baz SET ... WHERE ...
+   RETURNING 'ok'
+)
+SELECT ok FROM update1
+UNION ALL
+SELECT ok FROM update2
+UNION ALL
+SELECT ok FROM update3
+;
+
+You could even select different messages from each update if you want to 
+know how many rows you touched in each table.
+
+-- 
+Paul              ~{:-)
+	*/
+
 
 	stepDownToChild(elemChild) {
         let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemChild.Attribute);
@@ -257,8 +358,9 @@ class TemplateItem {
         await this.session.database.doSelect(this.selectQuery, this.receiveFromDb);
     }
 
-    async sendToDbUpdate(filter, data) {
-        await this.session.database.doUpdate(this.updateQuery, /*this.useCase.Detail.UpdateView, filter,*/ data, this.receiveFromDb);
+    async sendToDbUpdate() { //filter, data) {
+        //await this.session.database.doUpdate(this.updateQuery, /*this.useCase.Detail.UpdateView, filter,*/ data, this.receiveFromDb);
+        await this.session.database.doUpdate(this.updateQuery, receiveFromDb);
     }
 
     async sendToDbInsert(filter, data) {
@@ -267,7 +369,7 @@ class TemplateItem {
 
     async receiveFromDb(result) {
 		result.forEach(resultCur => {
-			//console.log("TemplateItem::receiveFromDb() - resultCur:\n", resultCur);
+			console.log("TemplateItem::receiveFromDb() - resultCur:\n", resultCur);
 			let dataItemCur = {
 				Key: resultCur.Id,
 				Attrs: {...resultCur}
