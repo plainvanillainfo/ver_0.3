@@ -112,17 +112,13 @@ class TemplateItem {
 				Table: this.tableBase['ParentToThisLinkTableName'],
 				Alias: this.tableBase['ParentToThisLinkTableName']
 			});
-			this.selectWhere += (' "' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\'');
-			//this.selectWhere += (' AND "' + this.tableBase['ParentToThisLinkTableName'] + '"."ChildId" = "' + this.tableBase['Name']  + '"."Id"');
-			this.selectWhere += ' AND ';
-
+			this.selectWhere += (' "' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ');
 			this.tableBase['WhereJoins'].push({
 				TableLeft: this.tableBase['ParentToThisLinkTableName'],
 				ColumnLeft: 'ChildId', 
 				TableRight: this.tableBase['Name'],
 				ColumnRight: 'Id'
 			});
-
 			this.constructSelectApplyContext();	// HERE - filtration: 
 		} else {
 			this.selectWhere += ' 1=1';
@@ -149,8 +145,6 @@ class TemplateItem {
 				this.selecselectWheretFrom += ' AND ';
 			}
 		});
-
-
 		this.selectQuery += (' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
 	}
 
@@ -160,7 +154,6 @@ class TemplateItem {
 			switch (elemAttribute.Type) {
 				case 'Primitive':
 					if (elemAttribute.Path.length === 1) {
-						//this.selectColumns += (', "' + tableAlias + '"."' + elemAttribute.Path[0] + '" AS "' + elemColumn.Name + '"');
 						this.tableBase['SelectColumns'].push({
 							As: elemColumn.Name,
 							Table: tableAlias,
@@ -192,15 +185,12 @@ class TemplateItem {
 								Table: embeddedOrReferredTableName,
 								Alias: elemAttribute.Name
 							});
-							//this.selectWhere += (' AND "' + elemAttribute.Name + '"."Id" = "' + tableAlias + '"."' + elemAttribute.Path[0] + '"');
 							this.tableBase['WhereJoins'].push({
 								TableLeft: elemAttribute.Name,
 								ColumnLeft: 'Id', 
 								TableRight: tableAlias,
 								ColumnRight: elemAttribute.Path[0]
 							});
-				
-
 							let ucClassCur = this.session.classes.find(cur => cur.Name === useCaseFound.Detail.Class);
 							useCaseFound.Detail.Elems.forEach(elemCur => {
 								let elemAttributeCur = useCaseFound.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
