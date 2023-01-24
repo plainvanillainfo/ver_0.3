@@ -98,20 +98,33 @@ class TemplateItem {
 		];
 		//this.selectQuery = 'SELECT "' + this.tableBase['Name']  + '"."Id", "' + this.tableBase['Name']  + '"."Extension"';
 		this.selectQuery = 'SELECT ';
-		this.selectColumns = '';
-		this.selectFrom = 'FROM data."' + this.tableBase['Name']  + '"';
+		//this.selectColumns = '';
+
+
+		//this.selectFrom = 'FROM data."' + this.tableBase['Name']  + '"';
+		this.selectFrom = 'FROM ';
+		this.tableBase['FromTables'] = [
+			{Table: this.tableBase['Name'], Alias: this.tableBase['Name']}
+		];
+
+
 		this.selectWhere = 'WHERE';
 		this.selectOrderBy = '';
 		if (this.parent.itemParent != null) {
 			let classParent = this.parent.parent.useCase.Detail.Class;
 			this.tableBase['ParentTableName'] = this.session.classes.find(cur => cur.Name === classParent).tableName;
 			this.tableBase['ParentToThisLinkTableName'] = this.tableBase['ParentTableName'] + '_CHILD_' + this.parent.useCaseElem.Attribute;
-			this.selectFrom += (', data."' + this.tableBase['ParentToThisLinkTableName'] + '"');
+
+
+			//this.selectFrom += (', data."' + this.tableBase['ParentToThisLinkTableName'] + '"');
+			this.tableBase['FromTables'].push({
+				Table: this.tableBase['ParentToThisLinkTableName'],
+				Alias: this.tableBase['ParentToThisLinkTableName']
+			});
+
 			this.selectWhere += (' data."' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\'');
 			this.selectWhere += (' AND data."' + this.tableBase['ParentToThisLinkTableName'] + '"."ChildId" = data."' + this.tableBase['Name']  + '"."Id"');
-			// HERE - filtration: 
-			this.constructSelectApplyContext();
-
+			this.constructSelectApplyContext();	// HERE - filtration: 
 		} else {
 			this.selectWhere += ' 1=1';
 		}
@@ -125,7 +138,14 @@ class TemplateItem {
 				this.selectQuery += ', ';
 			}
 		});
-		//this.selectQuery += (this.selectColumns + ' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
+		this.tableBase['FromTables'].forEach((tableCur, tableIndex) => {
+			this.selectFrom += ('data."' + tableCur.Table + '" "' + tableCur.Alias + '"');
+			if ((tableIndex+1) < this.tableBase['FromTables'].length) {
+				this.selectFrom += ', ';
+			}
+		});
+
+
 		this.selectQuery += (' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
 	}
 
@@ -135,7 +155,7 @@ class TemplateItem {
 			switch (elemAttribute.Type) {
 				case 'Primitive':
 					if (elemAttribute.Path.length === 1) {
-						this.selectColumns += (', "' + tableAlias + '"."' + elemAttribute.Path[0] + '" AS "' + elemColumn.Name + '"');
+						//this.selectColumns += (', "' + tableAlias + '"."' + elemAttribute.Path[0] + '" AS "' + elemColumn.Name + '"');
 						this.tableBase['SelectColumns'].push({
 							As: elemColumn.Name,
 							Table: tableAlias,
@@ -159,10 +179,20 @@ class TemplateItem {
 
 						let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === elemColumn.SubUseCase);
 						if (useCaseFound != null) {
-							this.selectFrom += (', data."' + embeddedOrReferredTableName + '" "' + elemAttribute.Name + '"');
+
+
+							//this.selectFrom += (', data."' + embeddedOrReferredTableName + '" "' + elemAttribute.Name + '"');
+							this.tableBase['FromTables'].push({
+								Table: embeddedOrReferredTableName,
+								Alias: elemAttribute.Name
+							});
+				
+
 							this.selectWhere += (' AND "' + elemAttribute.Name + '"."Id" = "' + tableAlias + '"."' + elemAttribute.Path[0] + '"');
 
-							this.selectColumns += (', "' + elemAttribute.Name + '"."Id" AS "' + elemColumn.Name + '"');
+
+
+							//this.selectColumns += (', "' + elemAttribute.Name + '"."Id" AS "' + elemColumn.Name + '"');
 							this.tableBase['SelectColumns'].push({
 								As: elemColumn.Name,
 								Table: elemAttribute.Name,
