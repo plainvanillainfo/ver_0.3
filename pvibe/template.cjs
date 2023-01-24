@@ -8,6 +8,7 @@ class TemplateItem {
         this.dataItems = [];
         this.itemList = {};
         this.itemList[key] = {Key: key, Elems: {}};
+		this.tableBase = {};
         this.selectQuery = null;
         this.updateQuery = null;
         this.listenQuery = null;
@@ -89,31 +90,43 @@ class TemplateItem {
     
 	constructSelect() {
 		console.log("TemplateItem::constructSelect():");
-		let tableName = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class).tableName;
-		this.selectQuery = 'SELECT "' + tableName + '"."Id", "' + tableName + '"."Extension"';
+		this.tableBase['Class'] = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
+		this.tableBase['Name'] = this.tableBase['Class'].tableName;
+		this.tableBase['SelectColumns'] = [
+			{As: 'Id', Table: this.tableBase['Name'], Column: 'Id'},
+			{As: 'Extension', Table: this.tableBase['Name'], Column: 'Extension'}
+		];
+		//this.selectQuery = 'SELECT "' + this.tableBase['Name']  + '"."Id", "' + this.tableBase['Name']  + '"."Extension"';
+		this.selectQuery = 'SELECT ';
 		this.selectColumns = '';
-		this.selectFrom = 'FROM data."' + tableName + '"';
+		this.selectFrom = 'FROM data."' + this.tableBase['Name']  + '"';
 		this.selectWhere = 'WHERE';
 		this.selectOrderBy = '';
 		if (this.parent.itemParent != null) {
 			let classParent = this.parent.parent.useCase.Detail.Class;
-			let parentTableName = this.session.classes.find(cur => cur.Name === classParent).tableName;
-			let linkTable = parentTableName + '_CHILD_' + this.parent.useCaseElem.Attribute;
-			this.selectFrom += (', data."' + linkTable + '"');
-			this.selectWhere += (' data."' + linkTable + '"."ParentId" = \'' + this.parent.itemParent.Key + '\'');
-			this.selectWhere += (' AND data."' + linkTable + '"."ChildId" = data."' + tableName + '"."Id"');
+			this.tableBase['ParentTableName'] = this.session.classes.find(cur => cur.Name === classParent).tableName;
+			this.tableBase['ParentToThisLinkTableName'] = this.tableBase['ParentTableName'] + '_CHILD_' + this.parent.useCaseElem.Attribute;
+			this.selectFrom += (', data."' + this.tableBase['ParentToThisLinkTableName'] + '"');
+			this.selectWhere += (' data."' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\'');
+			this.selectWhere += (' AND data."' + this.tableBase['ParentToThisLinkTableName'] + '"."ChildId" = data."' + this.tableBase['Name']  + '"."Id"');
 			// HERE - filtration: 
 			this.constructSelectApplyContext();
 
 		} else {
 			this.selectWhere += ' 1=1';
 		}
-		let ucClass = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
 		this.useCase.Detail.Elems.forEach(elemCur => {
 			let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
-			this.constructSelectAddColumn(elemCur, elemAttribute, ucClass, ucClass.tableName);
+			this.constructSelectAddColumn(elemCur, elemAttribute, this.tableBase['Class'], this.tableBase['Name']);
 		});
-		this.selectQuery += (this.selectColumns + ' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
+		this.tableBase['SelectColumns'].forEach((colCur, colIndex) => {
+			this.selectQuery += ('"' + colCur.Table + '"."' + colCur.Column + '" AS "' + colCur.As + '"');
+			if ((colIndex+1) < this.tableBase['SelectColumns'].length) {
+				this.selectQuery += ', ';
+			}
+		});
+		//this.selectQuery += (this.selectColumns + ' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
+		this.selectQuery += (' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
 	}
 
 	constructSelectAddColumn(elemColumn, elemAttribute, ucClass, tableAlias) {
@@ -123,6 +136,11 @@ class TemplateItem {
 				case 'Primitive':
 					if (elemAttribute.Path.length === 1) {
 						this.selectColumns += (', "' + tableAlias + '"."' + elemAttribute.Path[0] + '" AS "' + elemColumn.Name + '"');
+						this.tableBase['SelectColumns'].push({
+							As: elemColumn.Name,
+							Table: tableAlias,
+							Column: elemAttribute.Path[0]
+						});
 					}
 					break;
 				case 'Embedded':
@@ -145,7 +163,12 @@ class TemplateItem {
 							this.selectWhere += (' AND "' + elemAttribute.Name + '"."Id" = "' + tableAlias + '"."' + elemAttribute.Path[0] + '"');
 
 							this.selectColumns += (', "' + elemAttribute.Name + '"."Id" AS "' + elemColumn.Name + '"');
-
+							this.tableBase['SelectColumns'].push({
+								As: elemColumn.Name,
+								Table: elemAttribute.Name,
+								Column: 'Id'
+							});
+	
 							let ucClassCur = this.session.classes.find(cur => cur.Name === useCaseFound.Detail.Class);
 							useCaseFound.Detail.Elems.forEach(elemCur => {
 								let elemAttributeCur = useCaseFound.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
@@ -171,7 +194,8 @@ class TemplateItem {
 	}
 
 	constructUpdate(message) {
-		console.log("TemplateItem::constructUpdate() this.selectFrom\n", this.selectFrom, "\nthis.selectWhere : \n", this.selectWhere, "\nthis.selectColumns : \n", this.selectColumns );
+		console.log("TemplateItem::constructUpdate() this.selectFrom\n", this.selectFrom, "\nthis.selectWhere : \n", 
+			this.selectWhere, "\nthis.selectColumns : \n", this.selectColumns, "\nthis.tableBase : \n", JSON.stringify(this.tableBase) );
 		this.arrUpdateSegs = [];
 		if (this.arrUpdateSegs.length > 0) {
 			this.updateQuery = 'WITH ';
