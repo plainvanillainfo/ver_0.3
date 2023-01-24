@@ -142,7 +142,7 @@ class TemplateItem {
 		this.tableBase['WhereJoins'].forEach((joinCur, joinIndex) => {
 			this.selectWhere += ('"' + joinCur.TableLeft + '"."' + joinCur.ColumnLeft + '" = "' + joinCur.TableRight + '"."' + joinCur.ColumnRight + '"');
 			if ((joinIndex+1) < this.tableBase['WhereJoins'].length) {
-				this.selecselectWheretFrom += ' AND ';
+				this.selectWhere += ' AND ';
 			}
 		});
 		this.selectQuery += (' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
