@@ -122,8 +122,10 @@ class TemplateItem {
 				Alias: this.tableBase['ParentToThisLinkTableName']
 			});
 
-			this.selectWhere += (' data."' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\'');
-			this.selectWhere += (' AND data."' + this.tableBase['ParentToThisLinkTableName'] + '"."ChildId" = data."' + this.tableBase['Name']  + '"."Id"');
+			//this.selectWhere += (' data."' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\'');
+			//this.selectWhere += (' AND data."' + this.tableBase['ParentToThisLinkTableName'] + '"."ChildId" = data."' + this.tableBase['Name']  + '"."Id"');
+			this.selectWhere += (' "' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\'');
+			this.selectWhere += (' AND "' + this.tableBase['ParentToThisLinkTableName'] + '"."ChildId" = "' + this.tableBase['Name']  + '"."Id"');
 			this.constructSelectApplyContext();	// HERE - filtration: 
 		} else {
 			this.selectWhere += ' 1=1';
