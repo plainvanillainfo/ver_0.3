@@ -252,8 +252,7 @@ class TemplateItem {
 				}
 			});
 			queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
-			//console.log(queryCur.QueryString);
-			withString += (' update' + (queryIndex+1).toString() + '(ok) AS { ' + queryCur.QueryString + ' RETURNING \'ok\' }');
+			withString += (' update' + (queryIndex+1).toString() + '(ok) AS ( ' + queryCur.QueryString + ' RETURNING \'ok\' )');
 			if ((queryIndex+1) < updateQueries.length) {
 				withString += ',';
 			}
@@ -269,131 +268,6 @@ class TemplateItem {
 		this.updateQuery = withString;
 		console.log(withString);
 	}
-
-	constructUpdateAddSeg() {
-
-	}
-
-	/*
-		let data = '';
-		for (let attrCur in message.Attrs) {
-			let attrDetail = message.Attrs[attrCur];
-			data += ('"' + attrCur + '" = ');
-			data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
-		}
-		if (data.length > 0) {
-			data = data.slice(0, -1);
-		}
-
-
-		let tableName = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class).tableName;
-		let filter = '"' + this.keyName + "\" = '" + itemListEntry.Key + "'";
-		this.updateQuery = 'UPDATE data."' + tableName + '" SET ';
-		this.updateColumns = '';
-		this.updateWhere = 'WHERE';
-
-		 + data + ' WHERE "Id" = \'' + key + '\' RETURNING * ';
-		
-		//let query = 'UPDATE data."' + view + '" SET ' + data + ' WHERE ' + filter + ' RETURNING * ';
-
-		if (itemKey != null && message.TemplateItem.ItemData.Attrs != null) {
-			console.log(" message.TemplateItem.ItemData: ", message.TemplateItem.ItemData);
-			let data = '';
-			if (itemKey !== '') {
-				for (let attrCur in message.TemplateItem.ItemData.Attrs) {
-					let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
-					data += ('"' + attrCur + '" = ');
-					data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
-				}
-				if (data.length > 0) {
-					let filter = '"' + this.keyName + "\" = '" + itemKey + "'";
-					data = data.slice(0, -1);
-					this.childItemTemplates[itemKey].requestUpdateToDB(filter, data);
-				}
-			} else {
-				let columns = '(';
-				data = '';
-				for (let attrCur in message.TemplateItem.ItemData.Attrs) {
-					let attrDetail = message.TemplateItem.ItemData.Attrs[attrCur];
-					columns += ('"' + attrCur + '",');
-					data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
-				}
-				if (data.length > 0) {
-					columns = columns.slice(0, -1);
-					columns += ') VALUES (';
-					data = data.slice(0, -1);
-					data += ')';
-					this.requestInsertToDB(addView, columns + data);
-				}
-			}
-		}
-		
-
-		let itemListEntry = this.itemList[message.ItemKey];
-		for (let attrCur in message.Attrs) {
-			let attrDetail = message.Attrs[attrCur];
-			data += ('"' + attrCur + '" = ');
-			data += ("E'" + jsesc(attrDetail.Value, { 'quotes': 'single' }) + "',");
-		}
-		if (data.length > 0) {
-			let filter = '"' + this.keyName + "\" = '" + itemListEntry.Key + "'";
-			data = data.slice(0, -1);
-			//this.sendToDbUpdate(filter, data);
-		}
-
-		this.updateQuery += ('');
-	*/	
-
-	/*
-https://postgrespro.com/list/thread-id/2544851
-Re: Slick way to update multiple tables.
-From
-Paul Jungwirth
-Date:
-01 April 2021, 22:37:06
-
-On 4/1/21 11:54 AM, Michael Lewis wrote:
-> postgresql.org/docs/current/sql-createview.html 
-> <http://postgresql.org/docs/current/sql-createview.html>
-> 
-> My apologies. It seems INSTEAD OF triggers are required to implement 
-> updates across multiple tables. I thought not if all were simple joins. 
-> My mistake.
-
-Even with INSTEAD OF triggers, if you use a view then I suppose you 
-would be forced to update some of the records more often that necessary? 
-(Unless your tables are 1-to-1-to-1 of course.) Or if there is some 
-trick to avoid that I'd be curious to know about it.
-
-Here is something I've done in the past:
-
-WITH
-update1(ok) AS (
-   UPDATE foo SET ... WHERE ...
-   RETURNING 'ok'
-),
-update2(ok) AS (
-   UPDATE bar SET ... WHERE ...
-   RETURNING 'ok'
-),
-update3(ok) AS (
-   UPDATE baz SET ... WHERE ...
-   RETURNING 'ok'
-)
-SELECT ok FROM update1
-UNION ALL
-SELECT ok FROM update2
-UNION ALL
-SELECT ok FROM update3
-;
-
-You could even select different messages from each update if you want to 
-know how many rows you touched in each table.
-
--- 
-Paul              ~{:-)
-	*/
-
 
 	stepDownToChild(elemChild) {
         let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemChild.Attribute);
