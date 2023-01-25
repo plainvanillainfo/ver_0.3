@@ -271,6 +271,7 @@ class TemplateItem {
 				}
 			});
 			queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
+			console.log(queryCur.QueryString);
 		});
 		console.log("updateQueries: \n", JSON.stringify(updateQueries));
 	}
