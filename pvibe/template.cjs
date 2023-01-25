@@ -29,6 +29,7 @@ class TemplateItem {
                     break;
 				case 'Put':
 					if (message.ItemKey != null && this.itemList[message.ItemKey] != null && message.Attrs != null) {
+						this.updateQuery = null;
 						this.constructUpdate(message);
 						if (this.updateQuery != null) {
 							this.sendToDbUpdate();
@@ -251,8 +252,7 @@ class TemplateItem {
 				}
 			});
 			queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
-			console.log(queryCur.QueryString);
-
+			//console.log(queryCur.QueryString);
 			withString += (' update' + (queryIndex+1).toString() + '(ok) AS { ' + queryCur.QueryString + ' RETURNING \'ok\' }');
 			if ((queryIndex+1) < updateQueries.length) {
 				withString += ',';
@@ -266,6 +266,7 @@ class TemplateItem {
 				withString += ' UNION ALL ';
 			}
 		});
+		this.updateQuery = withString;
 		console.log(withString);
 	}
 
@@ -432,7 +433,7 @@ Paul              ~{:-)
         await this.session.database.doSelect(this.selectQuery, this.receiveFromDb);
     }
 
-    async sendToDbUpdate() { //filter, data) {
+    async sendToDbUpdate() {
         //await this.session.database.doUpdate(this.updateQuery, /*this.useCase.Detail.UpdateView, filter,*/ data, this.receiveFromDb);
         await this.session.database.doUpdate(this.updateQuery, receiveFromDb);
     }
