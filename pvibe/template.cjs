@@ -242,10 +242,10 @@ class TemplateItem {
 		this.tableBase.SelectColumns.forEach(colCur => {
 			if (message.Attrs[colCur.Column] != null) {
 				let tableCur = this.tableBase.FromTables.find(cur => cur.Alias === colCur.Table);
-				let updateQueryCur = updateQueries.find(cur => cur.Table === tableCur);
+				let updateQueryCur = updateQueries.find(cur => cur.Table === tableCur.Alias);
 				if (updateQueryCur == null) {
 					updateQueryCur = {
-						Table: tableCur,
+						Table: tableCur.Table,
 						Sets: [],
 						WhereId: message.ItemKey,
 						QueryString: ''
@@ -257,6 +257,7 @@ class TemplateItem {
 					setCur = {
 						Column: colCur.Column
 					}
+					updateQueryCur.Sets.push(setCur);
 				}
 				setCur.Value = message.Attrs[colCur.Column];
 			}
