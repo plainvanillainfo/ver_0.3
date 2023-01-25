@@ -238,6 +238,40 @@ class TemplateItem {
 			this.updateQuery = null;
 		}
 
+		let updateQueries = [];
+		this.tableBase.SelectColumns.forEach(colCur => {
+			if (message.Attrs[colCur.Column] != null) {
+				let tableCur = this.tableBase.FromTables.find(cur => cur.Alias === colCur.Table);
+				let updateQueryCur = updateQueries.find(cur => cur.Table === tableCur);
+				if (updateQueryCur == null) {
+					updateQueryCur = {
+						Table: tableCur,
+						Sets: [],
+						WhereId: message.ItemKey,
+						QueryString: ''
+					};
+					updateQueries.push(updateQueryCur);
+				}
+				let setCur = updateQueryCur.Sets.find(cur => cur.Column === colCur.Column);
+				if (setCur == null) {
+					setCur = {
+						Column: colCur.Column
+					}
+				}
+				setCur.Value = message.Attrs[colCur.Column];
+			}
+		});
+		updateQueries.forEach((queryCur, queryIndex) => {
+			queryCur.QueryString = 'UPDATE data."' + queryCur.Table + '" SET ';
+			queryCur.Sets.forEach((setCur, setIndex) => {
+				queryCur.QueryString += ('"' + setCur.Column + '"=\'' + setCur.Value + '\'');
+				if ((setIndex+1) < queryCur.Sets.length) {
+					queryCur.QueryString += ', ';
+				}
+			});
+			queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
+		});
+		console.log("updateQueries: \n", JSON.stringify(updateQueries));
 	}
 
 	constructUpdateAddSeg() {
