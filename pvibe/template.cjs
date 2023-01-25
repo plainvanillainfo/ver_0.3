@@ -435,7 +435,7 @@ Paul              ~{:-)
 
     async sendToDbUpdate() {
         //await this.session.database.doUpdate(this.updateQuery, /*this.useCase.Detail.UpdateView, filter,*/ data, this.receiveFromDb);
-        await this.session.database.doUpdate(this.updateQuery, receiveFromDb);
+        await this.session.database.doUpdate(this.updateQuery, this.receiveFromDb);
     }
 
     async sendToDbInsert(filter, data) {
