@@ -217,27 +217,6 @@ class TemplateItem {
 	constructUpdate(message) {
 		console.log("TemplateItem::constructUpdate() this.selectFrom\n", this.selectFrom, "\nthis.selectWhere : \n", 
 			this.selectWhere, "\nthis.selectColumns : \n", this.selectColumns, "\nthis.tableBase : \n", JSON.stringify(this.tableBase) );
-		this.arrUpdateSegs = [];
-		if (this.arrUpdateSegs.length > 0) {
-			this.updateQuery = 'WITH ';
-
-
-			this.arrUpdateSegs.forEach((segCur, segIndex) => {
-				this.updateQuery += segCur.updateQuery;
-				if ((segIndex+1) < this.arrUpdateSegs.length) {
-					this.updateQuery += ',';
-				}
-			});
-			this.arrUpdateSegs.forEach((segCur, segIndex) => {
-				this.updateQuery += segCur.selectQuery;
-				if ((segIndex+1) < this.arrUpdateSegs.length) {
-					this.updateQuery += ' UNION ALL ';
-				}
-			});
-		} else {
-			this.updateQuery = null;
-		}
-
 		let updateQueries = [];
 		this.tableBase.SelectColumns.forEach(colCur => {
 			if (message.Attrs[colCur.Column] != null) {
@@ -262,6 +241,7 @@ class TemplateItem {
 				setCur.Value = message.Attrs[colCur.Column];
 			}
 		});
+		let withString = 'WITH ';
 		updateQueries.forEach((queryCur, queryIndex) => {
 			queryCur.QueryString = 'UPDATE data."' + queryCur.Table + '" SET ';
 			queryCur.Sets.forEach((setCur, setIndex) => {
@@ -272,8 +252,21 @@ class TemplateItem {
 			});
 			queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
 			console.log(queryCur.QueryString);
+
+			withString += (' update' + (queryIndex+1).toString + '(ok) AS { ' + queryCur.QueryString + ' RETURNING \'ok\' }');
+			if ((queryIndex+1) < updateQueries.length) {
+				withString += ',';
+			}
+			withString += ' ';
+
 		});
-		console.log("updateQueries: \n", JSON.stringify(updateQueries));
+		updateQueries.forEach((queryCur, queryIndex) => {
+			withString += ('SELECT ok FROM update' + (queryIndex+1).toString);
+			if ((queryIndex+1) < updateQueries.length) {
+				withString += ' UNION ALL ';
+			}
+		});
+		console.log(withString);
 	}
 
 	constructUpdateAddSeg() {
