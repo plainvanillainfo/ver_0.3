@@ -253,7 +253,7 @@ class TemplateItem {
 			queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
 			console.log(queryCur.QueryString);
 
-			withString += (' update' + (queryIndex+1).toString + '(ok) AS { ' + queryCur.QueryString + ' RETURNING \'ok\' }');
+			withString += (' update' + (queryIndex+1).toString() + '(ok) AS { ' + queryCur.QueryString + ' RETURNING \'ok\' }');
 			if ((queryIndex+1) < updateQueries.length) {
 				withString += ',';
 			}
@@ -261,7 +261,7 @@ class TemplateItem {
 
 		});
 		updateQueries.forEach((queryCur, queryIndex) => {
-			withString += ('SELECT ok FROM update' + (queryIndex+1).toString);
+			withString += ('SELECT ok FROM update' + (queryIndex+1).toString());
 			if ((queryIndex+1) < updateQueries.length) {
 				withString += ' UNION ALL ';
 			}
