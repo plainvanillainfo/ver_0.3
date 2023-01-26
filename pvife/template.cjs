@@ -789,6 +789,28 @@ class TemplateItem extends TemplateItemClient {
                                                 }
                                             });
                                         }
+
+                                        /*
+                                        let useCaseElemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
+                                        let templateElemPicked = null;
+                                        if (this.elemDataItems[dataItem.Key] == null) {
+                                            this.elemDataItems[dataItem.Key] = {};
+                                        }
+                                        if (this.elemDataItems[dataItem.Key][menuItemCur.Name] == null) {
+                                            templateElemPicked = new TemplateElem(this, dataItem, null, useCaseElemPicked, this.divMenuOptionPicked);
+                                            this.elemDataItems[dataItem.Key][menuItemCur.Name] = templateElemPicked;
+                                        } else {
+                                            templateElemPicked = this.elemDataItems[dataItem.Key][menuItemCur.Name];
+                                        }
+                                        for (let elemCur in this.elemDataItems[dataItem.Key]) {
+                                            let elemDetail = this.elemDataItems[dataItem.Key][elemCur];
+                                            if (elemDetail.useCaseElem != null && elemDetail.useCaseElem.Name !== menuItemCur.Name) {
+                                                elemDetail.hide();
+                                            }
+                                        }
+                                        templateElemPicked.show();
+                                        */
+
                                         this.pushBreadcrumb(this.templateItemSub);
                                     });
                                     break;
