@@ -30,7 +30,7 @@ class TemplateItem {
 				case 'Put':
 					if (message.ItemKey != null && this.itemList[message.ItemKey] != null && message.Attrs != null) {
 						this.updateQuery = null;
-						dataItemCur = this.dataItems.find(cur => cur.Key === message.ItemKey);
+						let dataItemCur = this.dataItems.find(cur => cur.Key === message.ItemKey);
 						this.constructUpdate(message, dataItemCur);
 						if (this.updateQuery != null) {
 							this.sendToDbUpdate();
