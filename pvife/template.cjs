@@ -764,8 +764,11 @@ class TemplateItem extends TemplateItemClient {
                                         } else {
                                             templateElemPicked = this.elemDataItems[dataItem.Key][divField.elem.Name];
                                         }
-                                        templateElemPicked.show();
-
+                                        templateElemPicked.toServer({
+                                            Action: 'Start',
+                                            Context: {}
+                                        });
+                            
 										/*
                                         this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
                                         if (this.dataElem == null) {
@@ -783,19 +786,6 @@ class TemplateItem extends TemplateItemClient {
                                             });
                                         }
                                         */
-
-                                        /*
-                                        for (let elemCur in this.elemDataItems[dataItem.Key]) {
-                                            let elemDetail = this.elemDataItems[dataItem.Key][elemCur];
-                                            if (elemDetail.useCaseElem != null && elemDetail.useCaseElem.Name !== menuItemCur.Name) {
-                                                elemDetail.hide();
-                                            }
-                                        }
-                                        templateElemPicked.show();
-                                        */
-
-                                        //this.pushBreadcrumb(this.templateItemSub);
-                                        //this.pushBreadcrumb(templateElemPicked);
                                     });
                                     break;
                                 default:
