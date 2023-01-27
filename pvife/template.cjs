@@ -1117,8 +1117,8 @@ class TemplateElem extends TemplateElemClient {
                         if (this.templateItem == null) {
                             this.fromServer(message.TemplateElem);
                         } else {
-                            if (this.templateItem.templateItem != null) {
-                                this.templateItem.templateItem.continueTemplateElem(message.TemplateElem);
+                            if (this.templateItem.templateItemSub != null) {
+                                this.templateItem.templateItemSub.continueTemplateElem(message.TemplateElem);
                             } else {
                                 this.templateItem.continueTemplateElem(message.TemplateElem);
                             }
