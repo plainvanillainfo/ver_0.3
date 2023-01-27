@@ -244,8 +244,8 @@ class TemplateItem {
 					}
 					updateQueryCur.Sets.push(setCur);
 				}
+				setCur.Value = message.Attrs[colCur.Column];
 			}
-			setCur.Value = message.Attrs[colCur.Column];
 		});
 		let withString = 'WITH ';
 		updateQueries.forEach((queryCur, queryIndex) => {
