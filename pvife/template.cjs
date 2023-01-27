@@ -1100,7 +1100,9 @@ class TemplateElem extends TemplateElemClient {
             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
             this.templateItem = new TemplateItem(this, subUseCase, this.divElem);
             this.templateItem.setDataItems(message.DataItems);
-            //this.parent.pushBreadcrumb(this.templateItem);
+            if (this.useCaseElem.Rendering.Format != null && this.useCaseElem.Rendering.Format === 'DrillDown') {
+                this.parent.pushBreadcrumb(this.templateItem);
+            }
 
         } else {
             // HERE:
