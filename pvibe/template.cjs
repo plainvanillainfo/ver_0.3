@@ -30,7 +30,8 @@ class TemplateItem {
 				case 'Put':
 					if (message.ItemKey != null && this.itemList[message.ItemKey] != null && message.Attrs != null) {
 						this.updateQuery = null;
-						this.constructUpdate(message);
+						dataItemCur = this.dataItems.find(cur => cur.Key === message.ItemKey);
+						this.constructUpdate(message, dataItemCur);
 						if (this.updateQuery != null) {
 							this.sendToDbUpdate();
 						}
@@ -215,19 +216,22 @@ class TemplateItem {
 		
 	}
 
-	constructUpdate(message) {
+	constructUpdate(message, dataItemCur) {
 		console.log("TemplateItem::constructUpdate() this.selectFrom\n", this.selectFrom, "\nthis.selectWhere : \n", 
-			this.selectWhere, "\nthis.selectColumns : \n", this.selectColumns, "\nthis.tableBase : \n", JSON.stringify(this.tableBase) );
+			this.selectWhere, "\nthis.tableBase : \n", JSON.stringify(this.tableBase) );
 		let updateQueries = [];
 		this.tableBase.SelectColumns.forEach(colCur => {
 			if (message.Attrs[colCur.Column] != null) {
 				let tableCur = this.tableBase.FromTables.find(cur => cur.Alias === colCur.Table);
-				let updateQueryCur = updateQueries.find(cur => cur.Table === tableCur.Alias);
+				let updateQueryCur = updateQueries.find(cur => cur.Alias === tableCur.Alias);
 				if (updateQueryCur == null) {
 					updateQueryCur = {
+						Alias: tableCur.Alias,
 						Table: tableCur.Table,
 						Sets: [],
-						WhereId: message.ItemKey,
+
+						WhereId: dataItemCur.Attrs[colCur.As],
+						
 						QueryString: ''
 					};
 					updateQueries.push(updateQueryCur);
