@@ -759,15 +759,12 @@ class TemplateItem extends TemplateItemClient {
 
                                         let templateElemPicked = null;
                                         if (this.elemDataItems[dataItem.Key][divField.elem.Name] == null) {
-                                            templateElemPicked = new TemplateElem(this, dataItem, divField.elem.Name, subUseCase, this.divItemSub);
+                                            templateElemPicked = new TemplateElem(this, dataItem, null, divField.elem, this.divItemSub);
                                             this.elemDataItems[dataItem.Key][divField.elem.Name] = templateElemPicked;
                                         } else {
                                             templateElemPicked = this.elemDataItems[dataItem.Key][divField.elem.Name];
                                         }
-                                        templateElemPicked.toServer({
-                                            Action: 'Start',
-                                            Context: {}
-                                        });
+                                        templateElemPicked.show();
                             
 										/*
                                         this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
