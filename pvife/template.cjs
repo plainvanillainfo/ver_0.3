@@ -764,10 +764,10 @@ class TemplateItem extends TemplateItemClient {
                                         } else {
                                             templateElemPicked = this.elemDataItems[dataItem.Key][divField.elem.Name];
                                         }
-                                        templateElemPicked.show();
+                                        //templateElemPicked.show();
                             
-										/*
-                                        this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
+										/* */
+                                        //this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
                                         if (this.dataElem == null) {
                                             this.toServer({
                                                 Action: 'ContinueTemplateElem',
@@ -782,7 +782,7 @@ class TemplateItem extends TemplateItemClient {
                                                 }
                                             });
                                         }
-                                        */
+                                        /**/
                                     });
                                     break;
                                 default:
