@@ -759,7 +759,7 @@ class TemplateItem extends TemplateItemClient {
 
                                         let templateElemPicked = null;
                                         if (this.elemDataItems[dataItem.Key][divField.elem.Name] == null) {
-                                            templateElemPicked = new TemplateElem(this, dataItem, null, subUseCase, this.divItemSub);
+                                            templateElemPicked = new TemplateElem(this, dataItem, divField.elem.Name, subUseCase, this.divItemSub);
                                             this.elemDataItems[dataItem.Key][divField.elem.Name] = templateElemPicked;
                                         } else {
                                             templateElemPicked = this.elemDataItems[dataItem.Key][divField.elem.Name];
