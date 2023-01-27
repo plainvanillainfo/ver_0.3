@@ -129,8 +129,13 @@ class TemplateItem extends TemplateItemClient {
         console.log("TemplateItem::continueTemplateElem");
         if (message.UseCaseElemName != null) {
             console.log(message.TemplateItem, "\n",this.dataItems);
-            if (this.templateItemSub != null && this.templateItemSub.templateItemSub != null && this.templateItemSub.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey)) {
-                this.templateItemSub.templateItemSub.setDataItems(message.TemplateItem.DataItems);
+            //if (this.templateItemSub != null && this.templateItemSub.templateItemSub != null && this.templateItemSub.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey)) {
+            if (this.templateItemSub != null && this.templateItemSub.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey)) {
+
+                //this.templateItemSub.templateItemSub.setDataItems(message.TemplateItem.DataItems);
+                this.templateItemSub.setDataItems(message.TemplateItem.DataItems);
+
+
             } else {
                 let dataItemParent = message.TemplateItem.ParentKey != null ? this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) : this.dataItems[0];
                 if (this.elemDataItems[dataItemParent.Key] == null) {
