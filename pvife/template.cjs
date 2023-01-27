@@ -129,11 +129,9 @@ class TemplateItem extends TemplateItemClient {
         console.log("TemplateItem::continueTemplateElem");
         if (message.UseCaseElemName != null) {
             console.log(message.TemplateItem, "\n",this.dataItems);
-
             if (this.templateItemSub != null && this.templateItemSub.templateItemSub != null && this.templateItemSub.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey)) {
                 this.templateItemSub.templateItemSub.setDataItems(message.TemplateItem.DataItems);
             } else {
-
                 let dataItemParent = message.TemplateItem.ParentKey != null ? this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) : this.dataItems[0];
                 if (this.elemDataItems[dataItemParent.Key] == null) {
                     this.elemDataItems[dataItemParent.Key] = {};
@@ -174,7 +172,7 @@ class TemplateItem extends TemplateItemClient {
             case 'Parallel':
                 switch (this.useCase.Detail.Rendering.Format) {
                     case 'Menu':
-                        this.presentMenu(this.dataItems[0]);
+                        this.presentMenu(this.dataItems[0]);		// For forms with multiple items, [0] will change to [i]
                         break;
                     case 'Radio':
                         break;
@@ -297,27 +295,6 @@ class TemplateItem extends TemplateItemClient {
         });
     }
 
-    /*
-    let divTableWrapper = document.createElement('div');
-    this.divItem.appendChild(divTableWrapper);
-    divTableWrapper.className = 'table-wrapper';
-    let divTitle = document.createElement('div');
-    divTableWrapper.appendChild(divTitle);
-    divTitle.className = 'table-title';
-
-    let divTitleRow = document.createElement('div');
-    divTitle.appendChild(divTitleRow);
-    divTitleRow.className = 'row';
-    let divTitleRowTitle = document.createElement('div');
-    divTitleRow.appendChild(divTitleRowTitle);
-    divTitleRowTitle.className = 'col-sm-10';
-    let tableCaption = document.createElement('h3');
-    divTitleRowTitle.appendChild(tableCaption);
-    tableCaption.appendChild(document.createTextNode(this.useCase.Detail.Rendering.Caption));
-    let divTitleRowAddButton = document.createElement('div');
-    divTitleRow.appendChild(divTitleRowAddButton);
-    divTitleRowAddButton.className = 'col-sm-2';
-    */
     /*
     if (this.useCase.Detail.AddUseCase != null) {
         let buttonAdd = document.createElement('button');
@@ -774,6 +751,22 @@ class TemplateItem extends TemplateItemClient {
                                         this.divItemSub.className = 'mb-3';
                                         this.divItemSub.style.margin = '10px';
                                         let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === divField.elem.SubUseCase);
+                                        
+                                        let dataItem = this.dataItems[0];		// For forms with multiple items, [0] will change to [i]
+                                        if (this.elemDataItems[dataItem.Key] == null) {
+                                            this.elemDataItems[dataItem.Key] = {};
+                                        }
+
+                                        let templateElemPicked = null;
+                                        if (this.elemDataItems[dataItem.Key][divField.elem.Name] == null) {
+                                            templateElemPicked = new TemplateElem(this, dataItem, null, subUseCase, this.divItemSub);
+                                            this.elemDataItems[dataItem.Key][divField.elem.Name] = templateElemPicked;
+                                        } else {
+                                            templateElemPicked = this.elemDataItems[dataItem.Key][divField.elem.Name];
+                                        }
+                                        templateElemPicked.show();
+
+										/*
                                         this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
                                         if (this.dataElem == null) {
                                             this.toServer({
@@ -789,19 +782,9 @@ class TemplateItem extends TemplateItemClient {
                                                 }
                                             });
                                         }
+                                        */
 
                                         /*
-                                        let useCaseElemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
-                                        let templateElemPicked = null;
-                                        if (this.elemDataItems[dataItem.Key] == null) {
-                                            this.elemDataItems[dataItem.Key] = {};
-                                        }
-                                        if (this.elemDataItems[dataItem.Key][menuItemCur.Name] == null) {
-                                            templateElemPicked = new TemplateElem(this, dataItem, null, useCaseElemPicked, this.divMenuOptionPicked);
-                                            this.elemDataItems[dataItem.Key][menuItemCur.Name] = templateElemPicked;
-                                        } else {
-                                            templateElemPicked = this.elemDataItems[dataItem.Key][menuItemCur.Name];
-                                        }
                                         for (let elemCur in this.elemDataItems[dataItem.Key]) {
                                             let elemDetail = this.elemDataItems[dataItem.Key][elemCur];
                                             if (elemDetail.useCaseElem != null && elemDetail.useCaseElem.Name !== menuItemCur.Name) {
@@ -811,7 +794,8 @@ class TemplateItem extends TemplateItemClient {
                                         templateElemPicked.show();
                                         */
 
-                                        this.pushBreadcrumb(this.templateItemSub);
+                                        //this.pushBreadcrumb(this.templateItemSub);
+                                        this.pushBreadcrumb(templateElemPicked);
                                     });
                                     break;
                                 default:
