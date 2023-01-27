@@ -221,21 +221,22 @@ class TemplateItem {
 			this.selectWhere, "\nthis.tableBase : \n", JSON.stringify(this.tableBase) );
 		let updateQueries = [];
 		this.tableBase.SelectColumns.forEach(colCur => {
-			if (message.Attrs[colCur.Column] != null) {
-				let tableCur = this.tableBase.FromTables.find(cur => cur.Alias === colCur.Table);
-				let updateQueryCur = updateQueries.find(cur => cur.Alias === tableCur.Alias);
-				if (updateQueryCur == null) {
-					updateQueryCur = {
-						Alias: tableCur.Alias,
-						Table: tableCur.Table,
-						Sets: [],
+			let tableCur = this.tableBase.FromTables.find(cur => cur.Alias === colCur.Table);
+			let updateQueryCur = updateQueries.find(cur => cur.Alias === tableCur.Alias);
+			if (updateQueryCur == null) {
+				//let joinColumn = this.tableBase.WhereJoin.find(cur => cur.ColumnRight === colCur.As);
+				updateQueryCur = {
+					Alias: tableCur.Alias,
+					Table: tableCur.Table,
+					Sets: [],
 
-						WhereId: dataItemCur.Attrs[colCur.As],
-						
-						QueryString: ''
-					};
-					updateQueries.push(updateQueryCur);
-				}
+					WhereId: dataItemCur.Attrs[colCur.As],
+
+					QueryString: ''
+				};
+				updateQueries.push(updateQueryCur);
+			}
+			if (message.Attrs[colCur.Column] != null) {
 				let setCur = updateQueryCur.Sets.find(cur => cur.Column === colCur.Column);
 				if (setCur == null) {
 					setCur = {
@@ -243,25 +244,26 @@ class TemplateItem {
 					}
 					updateQueryCur.Sets.push(setCur);
 				}
-				setCur.Value = message.Attrs[colCur.Column];
 			}
+			setCur.Value = message.Attrs[colCur.Column];
 		});
 		let withString = 'WITH ';
 		updateQueries.forEach((queryCur, queryIndex) => {
-			queryCur.QueryString = 'UPDATE data."' + queryCur.Table + '" SET ';
-			queryCur.Sets.forEach((setCur, setIndex) => {
-				queryCur.QueryString += ('"' + setCur.Column + '"=\'' + setCur.Value + '\'');
-				if ((setIndex+1) < queryCur.Sets.length) {
-					queryCur.QueryString += ', ';
+			if (queryCur.Sets.length > 0) {
+				queryCur.QueryString = 'UPDATE data."' + queryCur.Table + '" SET ';
+				queryCur.Sets.forEach((setCur, setIndex) => {
+					queryCur.QueryString += ('"' + setCur.Column + '"=\'' + setCur.Value + '\'');
+					if ((setIndex + 1) < queryCur.Sets.length) {
+						queryCur.QueryString += ', ';
+					}
+				});
+				queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
+				withString += (' update' + (queryIndex + 1).toString() + '(ok) AS ( ' + queryCur.QueryString + ' RETURNING \'ok\' )');
+				if ((queryIndex + 1) < updateQueries.length) {
+					withString += ',';
 				}
-			});
-			queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
-			withString += (' update' + (queryIndex+1).toString() + '(ok) AS ( ' + queryCur.QueryString + ' RETURNING \'ok\' )');
-			if ((queryIndex+1) < updateQueries.length) {
-				withString += ',';
+				withString += ' ';
 			}
-			withString += ' ';
-
 		});
 		updateQueries.forEach((queryCur, queryIndex) => {
 			withString += ('SELECT ok FROM update' + (queryIndex+1).toString());
