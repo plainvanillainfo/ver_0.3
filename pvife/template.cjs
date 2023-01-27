@@ -795,7 +795,7 @@ class TemplateItem extends TemplateItemClient {
                                         */
 
                                         //this.pushBreadcrumb(this.templateItemSub);
-                                        this.pushBreadcrumb(templateElemPicked);
+                                        //this.pushBreadcrumb(templateElemPicked);
                                     });
                                     break;
                                 default:
