@@ -1097,7 +1097,7 @@ class TemplateElem extends TemplateElemClient {
     constructor(parent, dataItemParent, dataElem, useCaseElem,  divItemParent) {
         super(parent, dataItemParent, dataElem, useCaseElem);
         this.divItemParent = divItemParent;
-        if (this.useCaseElem.Rendering.Nesting != null && this.useCaseElem.Rendering.Nesting === 'Coerced') {
+        if (this.useCaseElem.Rendering != null && this.useCaseElem.Rendering.Nesting != null &&  this.useCaseElem.Rendering.Nesting === 'Coerced') {
             this.divElem = this.divItemParent;
         } else {
             this.divElem = document.createElement('div')
