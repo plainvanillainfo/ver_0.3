@@ -266,9 +266,11 @@ class TemplateItem {
 			}
 		});
 		updateQueries.forEach((queryCur, queryIndex) => {
-			withString += ('SELECT ok FROM update' + (queryIndex+1).toString());
-			if ((queryIndex+1) < updateQueries.length) {
-				withString += ' UNION ALL ';
+			if (queryCur.Sets.length > 0) {
+				withString += ('SELECT ok FROM update' + (queryIndex+1).toString());
+				if ((queryIndex+1) < updateQueries.length) {
+					withString += ' UNION ALL ';
+				}
 			}
 		});
 		this.updateQuery = withString;
