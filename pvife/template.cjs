@@ -129,11 +129,11 @@ class TemplateItem extends TemplateItemClient {
         console.log("TemplateItem::continueTemplateElem");
         if (message.UseCaseElemName != null) {
             console.log(message.TemplateItem, "\n",this.dataItems);
-            //if (this.templateItemSub != null && this.templateItemSub.templateItemSub != null && this.templateItemSub.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey)) {
-            if (this.templateItemSub != null && this.templateItemSub.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey)) {
+            if (this.templateItemSub != null && this.templateItemSub.templateItemSub != null && this.templateItemSub.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey)) {
+            //if (this.templateItemSub != null && this.templateItemSub.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey)) {
 
-                //this.templateItemSub.templateItemSub.setDataItems(message.TemplateItem.DataItems);
-                this.templateItemSub.setDataItems(message.TemplateItem.DataItems);
+                this.templateItemSub.templateItemSub.setDataItems(message.TemplateItem.DataItems);
+                //this.templateItemSub.setDataItems(message.TemplateItem.DataItems);
 
 
             } else {
@@ -769,10 +769,6 @@ class TemplateItem extends TemplateItemClient {
                                         } else {
                                             templateElemPicked = this.elemDataItems[dataItem.Key][divField.elem.Name];
                                         }
-                                        //templateElemPicked.show();
-                            
-										/* */
-                                        //this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
                                         if (this.dataElem == null) {
                                             this.toServer({
                                                 Action: 'ContinueTemplateElem',
@@ -787,7 +783,6 @@ class TemplateItem extends TemplateItemClient {
                                                 }
                                             });
                                         }
-                                        /**/
                                     });
                                     break;
                                 default:
