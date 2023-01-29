@@ -348,7 +348,7 @@ class TemplateItem extends TemplateItemClient {
             let iconAdd = document.createElement('i');
             iconAdd.className = 'bi bi-plus-circle';
             buttonAdd.appendChild(iconAdd);
-            buttonAdd.appendChild(document.createTextNode(createSpec.Label));
+            buttonAdd.appendChild(document.createTextNode("&nbsp;&nbsp;"+createSpec.Label));
             buttonAdd.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("TemplateItem - Add New");
