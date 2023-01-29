@@ -351,7 +351,7 @@ class TemplateItem extends TemplateItemClient {
                 console.log("TemplateItem - Add New");
                 if (this.useCase.Detail.SubUseCase != null) {
                     this.divItemSub = document.createElement('div');
-                    this..divItemSub.className = 'mb-3';
+                    this.divItemSub.className = 'mb-3';
                     this.divItemSub.style.margin = '10px';
 
                     let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
