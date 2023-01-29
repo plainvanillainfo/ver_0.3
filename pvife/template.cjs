@@ -346,7 +346,7 @@ class TemplateItem extends TemplateItemClient {
             this.divItem.appendChild(buttonAdd);
             buttonAdd.className = 'btn btn-info add-new';
             let iconAdd = document.createElement('i');
-            iconAdd.className = 'fa fa-plus';
+            iconAdd.className = 'bi bi-plus-circle';
             buttonAdd.appendChild(iconAdd);
             buttonAdd.appendChild(document.createTextNode(createSpec.Label));
             buttonAdd.addEventListener('click', (event) => {
