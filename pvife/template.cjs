@@ -298,39 +298,6 @@ class TemplateItem extends TemplateItemClient {
 
 
     presentTable() {
-
-        /*
-        if (this.useCase.Detail.AddUseCase != null) {
-            buttonAdd.addEventListener('click', (event) => {
-                event.preventDefault();
-                console.log("TemplateList - Add New");
-                this.divItemSub = document.createElement('div')
-                this.divItemSub.style.margin = '10px';
-                this.track.divItemSub.appendChild(this.divItemSub);
-                let divCur = document.createElement('div');
-                this.divItemSub.appendChild(divCur);
-                divCur.className = 'mb-3';
-    
-                let buttonCur = document.createElement('button');
-                divCur.appendChild(buttonCur);
-                buttonCur.className = 'btn btn-info';
-                buttonCur.setAttribute("type", "button");
-                buttonCur.id = 'backbutton';
-                buttonCur.style.width = "12em";
-                buttonCur.appendChild(document.createTextNode("< Go Back"));
-                buttonCur.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    this.track.popBreadcrumb();
-                    this.track.divItemSub.removeChild(this.divItemSub);
-                });
-    
-                this.templateSub = new TemplateItem(this, this.divItemSub);
-                this.subUseCase = this.track.parent.useCases.find(useCaseCur => useCaseCur.Detail.Name === this.useCase.Detail.AddUseCase);
-                this.templateSub.setUseCase(this.subUseCase);
-                this.track.pushBreadcrumb(this.templateSub);
-            });
-        }
-        */
         if (this.divItem == null) {
             this.divItem = document.createElement('div');
             this.divItemSurrounding.appendChild(this.divItem);
@@ -357,6 +324,7 @@ class TemplateItem extends TemplateItemClient {
                     let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                     this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
                     this.templateItemSub.itemCells = {};
+                    let itemCur = {Key: '00000000-0000-0000-0000-000000000000', Attrs: {}}
                     //this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];    // New record key and data
                     //this.templateItemSub.setDataItems([itemCur]);
                     this.pushBreadcrumb(this.templateItemSub);
