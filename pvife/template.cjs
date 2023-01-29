@@ -301,9 +301,6 @@ class TemplateItem extends TemplateItemClient {
 
         /*
         if (this.useCase.Detail.AddUseCase != null) {
-            let buttonAdd = document.createElement('button');
-            divTitleRowAddButton.appendChild(buttonAdd);
-            buttonAdd.className = 'btn btn-info add-new';
             buttonAdd.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("TemplateList - Add New");
@@ -332,13 +329,12 @@ class TemplateItem extends TemplateItemClient {
                 this.templateSub.setUseCase(this.subUseCase);
                 this.track.pushBreadcrumb(this.templateSub);
             });
-            let iconAdd = document.createElement('i');
-            divTitleRowTitle.appendChild(iconAdd);
-            iconAdd.className = 'fa fa-plus';
-            buttonAdd.appendChild(iconAdd);
-            buttonAdd.appendChild(document.createTextNode('Add New'));
         }
         */
+        if (this.divItem == null) {
+            this.divItem = document.createElement('div');
+            this.divItemSurrounding.appendChild(this.divItem);
+        }
         let createSpec = null;
         if (this.useCase.Detail.Rendering.Actions != null) {
             createSpec = this.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'Create');
@@ -353,14 +349,21 @@ class TemplateItem extends TemplateItemClient {
             buttonAdd.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("TemplateItem - Add New");
+                if (this.useCase.Detail.SubUseCase != null) {
+                    this.divItemSub = document.createElement('div');
+                    this..divItemSub.className = 'mb-3';
+                    this.divItemSub.style.margin = '10px';
+
+                    let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
+                    this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
+                    this.templateItemSub.itemCells = {};
+                    //this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];    // New record key and data
+                    //this.templateItemSub.setDataItems([itemCur]);
+                    this.pushBreadcrumb(this.templateItemSub);
+                }
             });
         }
-
         this.tableList = document.createElement('table');
-        if (this.divItem == null) {
-            this.divItem = document.createElement('div');
-            this.divItemSurrounding.appendChild(this.divItem);
-        }
         this.divItem.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
         let tableHead = document.createElement('thead');
