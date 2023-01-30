@@ -526,44 +526,27 @@ class TemplateItem extends TemplateItemClient {
                 itemCellsParent.push({...cur});
             });
         }
-        /*
-        this.dataItems.forEach(itemCur => {
-            this.itemCells[itemCur.Key] = [];
-            itemCellsParent.forEach(cellCur => {
-                this.itemCells[itemCur.Key].push({...cellCur});
-            });
-            this.tableOwner.columns.forEach(colCur => {
-                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
-                if (cellCur == null) {
-                    this.itemCells[itemCur.Key].push({
-                        Col: colCur, 
-                        Value: '',
-                        Td: null
-                    });
-                }
-            });
-            itemCur.isEmpty = true;
-        });
-        */
         
         this.dataItems.forEach(itemCur => {
 
-            this.itemCells[itemCur.Key] = [];
-            itemCellsParent.forEach(cellCur => {
-                this.itemCells[itemCur.Key].push({...cellCur});
+            this.dataItems.forEach(itemCur => {
+                this.itemCells[itemCur.Key] = [];
+                itemCellsParent.forEach(cellCur => {
+                    this.itemCells[itemCur.Key].push({...cellCur});
+                });
+                this.tableOwner.columns.forEach(colCur => {
+                    let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
+                    if (cellCur == null) {
+                        this.itemCells[itemCur.Key].push({
+                            Col: colCur, 
+                            Value: '',
+                            Td: null
+                        });
+                    }
+                });
+                itemCur.isEmpty = true;
             });
-            this.tableOwner.columns.forEach(colCur => {
-                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
-                if (cellCur == null) {
-                    this.itemCells[itemCur.Key].push({
-                        Col: colCur, 
-                        Value: '',
-                        Td: null
-                    });
-                }
-            });
-            itemCur.isEmpty = true;
-
+    
             if (this.isLeaf === true) {
                 this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
                 if (itemCur.isEmpty === false) {
@@ -597,8 +580,8 @@ class TemplateItem extends TemplateItemClient {
                         tableItemRow.appendChild(cellCur.Td);
                     });
                 }
-            });
-    }
+            };
+        });
     }
 
     presentTableRowsSetCellValue(itemCur, elems) {
