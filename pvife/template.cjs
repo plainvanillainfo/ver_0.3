@@ -296,7 +296,6 @@ class TemplateItem extends TemplateItemClient {
         });
     }
 
-
     presentTable() {
         if (this.divItem == null) {
             this.divItem = document.createElement('div');
@@ -543,10 +542,11 @@ class TemplateItem extends TemplateItemClient {
                 }
             });
             itemCur.isEmpty = true;
-            this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
+            //this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
         });
         if (this.isLeaf === true) {
             this.dataItems.forEach(itemCur => {
+                this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
                 if (itemCur.isEmpty === false) {
                     let tableItemRow = document.createElement('tr');
                     this.tableOwner.tableBody.appendChild(tableItemRow);
@@ -562,7 +562,6 @@ class TemplateItem extends TemplateItemClient {
                                 this.tableOwner.divItemSub = document.createElement('div');
                                 this.tableOwner.divItemSub.className = 'mb-3';
                                 this.tableOwner.divItemSub.style.margin = '10px';
-
                                 let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                                 this.templateItemSub = new TemplateItem(this, subUseCase, this.tableOwner.divItemSub);
                                 this.templateItemSub.itemCells = {};
@@ -573,9 +572,10 @@ class TemplateItem extends TemplateItemClient {
                         });
                     }
                     this.itemCells[itemCur.Key].forEach(cellCur => {
-                        cellCur.Td = document.createElement('td');
+                        //cellCur.Td = document.createElement('td');
                         tableItemRow.appendChild(cellCur.Td);
                         if (cellCur.Rendering != null) {
+                            /*
                             if (cellCur.Rendering.Width != null) {
                                 cellCur.Td.style.width = cellCur.Rendering.Width;
                             }
@@ -587,12 +587,12 @@ class TemplateItem extends TemplateItemClient {
                                     //cellCur.Value = '<a href="' + cellCur.Value + '">' + cellCur.Value + '</a>';
                                 }
                             }
+                            */
                         }
+                        /*
                         if (cellCur.Rendering != null && cellCur.Rendering.Format != null && cellCur.Rendering.Format === 'URL') {
-
                             let fileName = cellCur.Value.substring(cellCur.Value.lastIndexOf('/')+1);
                             let fileExt = fileName.substring(fileName.lastIndexOf('.')+1);
-
                             switch (fileExt.toLowerCase()) {
                                 case 'pdf':
                                     let aCur = document.createElement('a');
@@ -613,12 +613,10 @@ class TemplateItem extends TemplateItemClient {
                                 default:
                                     break;
                             }
-
-
                         } else {
                             cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
-
                         }
+                        */
                     });
                 }
             });
@@ -629,14 +627,49 @@ class TemplateItem extends TemplateItemClient {
         elems.forEach(elemCur => {
             if (elemCur.SubUseCase == null) {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
-                if (this.isLeaf === true && valueCur !== '') {
+                if (/*this.isLeaf === true && */ valueCur !== '') {
                     itemCur.isEmpty = false;
-                }
-                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
-                if (cellCur != null) {
-                    cellCur.Value = valueCur;
-                    cellCur.Rendering = elemCur.Rendering;
-                    cellCur.Elem = elemCur;
+                    let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
+                    if (cellCur != null) {
+                        cellCur.Td = document.createElement('td');
+                        cellCur.Rendering = elemCur.Rendering;
+                        cellCur.Elem = elemCur;
+                        cellCur.Value = valueCur;
+                        if (cellCur.Rendering.Width != null) {
+                            cellCur.Td.style.width = cellCur.Rendering.Width;
+                        }
+                        if (cellCur.Rendering.Format != null) {
+                            if (cellCur.Rendering.Format === 'Date') {
+                                cellCur.Value = cellCur.Value.substring(0, 19).replace('-', '/').replace('-', '/').replace('T', ' ');
+                            }
+                        }
+                        if (cellCur.Rendering.Format === 'URL') {
+                            let fileName = cellCur.Value.substring(cellCur.Value.lastIndexOf('/') + 1);
+                            let fileExt = fileName.substring(fileName.lastIndexOf('.') + 1);
+                            switch (fileExt.toLowerCase()) {
+                                case 'pdf':
+                                    let aCur = document.createElement('a');
+                                    aCur.setAttribute("href", cellCur.Value);
+                                    aCur.setAttribute("download", fileName);
+                                    aCur.appendChild(document.createTextNode(fileName));
+                                    cellCur.Td.appendChild(aCur);
+                                    break;
+                                case 'jpg':
+                                case 'jpeg':
+                                case 'gif':
+                                case 'png':
+                                    let imgCur = document.createElement('img');
+                                    imgCur.setAttribute("src", cellCur.Value);
+                                    imgCur.setAttribute("width", 'auto');
+                                    cellCur.Td.appendChild(imgCur);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        } else {
+                            cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
+                        }
+                    }
                 }
             } else {
                 let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === elemCur.SubUseCase);
