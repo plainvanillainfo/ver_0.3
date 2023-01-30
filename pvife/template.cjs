@@ -202,7 +202,7 @@ class TemplateItem extends TemplateItemClient {
             case 'Parallel':
                 switch (this.useCase.Detail.Rendering.Format) {
                     case 'PickList':
-                        this.presentPickList(dataItem);
+                        this.presentPickList();
                         break;
                     default:
                         break;
@@ -509,7 +509,7 @@ class TemplateItem extends TemplateItemClient {
         }
     }
 
-    presentPickList(dataItem) {
+    presentPickList() {
         console.log("TemplateItem::presentPickList");
     }
 
@@ -526,6 +526,7 @@ class TemplateItem extends TemplateItemClient {
                 itemCellsParent.push({...cur});
             });
         }
+        /*
         this.dataItems.forEach(itemCur => {
             this.itemCells[itemCur.Key] = [];
             itemCellsParent.forEach(cellCur => {
@@ -542,10 +543,28 @@ class TemplateItem extends TemplateItemClient {
                 }
             });
             itemCur.isEmpty = true;
-            //this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
         });
-        if (this.isLeaf === true) {
-            this.dataItems.forEach(itemCur => {
+        */
+        
+        this.dataItems.forEach(itemCur => {
+
+            this.itemCells[itemCur.Key] = [];
+            itemCellsParent.forEach(cellCur => {
+                this.itemCells[itemCur.Key].push({...cellCur});
+            });
+            this.tableOwner.columns.forEach(colCur => {
+                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
+                if (cellCur == null) {
+                    this.itemCells[itemCur.Key].push({
+                        Col: colCur, 
+                        Value: '',
+                        Td: null
+                    });
+                }
+            });
+            itemCur.isEmpty = true;
+
+            if (this.isLeaf === true) {
                 this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
                 if (itemCur.isEmpty === false) {
                     let tableItemRow = document.createElement('tr');
@@ -572,59 +591,14 @@ class TemplateItem extends TemplateItemClient {
                         });
                     }
                     this.itemCells[itemCur.Key].forEach(cellCur => {
-                        //cellCur.Td = document.createElement('td');
                         if (cellCur.Td == null) {
                             cellCur.Td = document.createElement('td');
-                            //cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
                         }
                         tableItemRow.appendChild(cellCur.Td);
-                        if (cellCur.Rendering != null) {
-                            /*
-                            if (cellCur.Rendering.Width != null) {
-                                cellCur.Td.style.width = cellCur.Rendering.Width;
-                            }
-                            if (cellCur.Rendering.Format != null) {
-                                if (cellCur.Rendering.Format === 'Date') {
-                                    cellCur.Value = cellCur.Value.substring(0, 19).replace('-', '/').replace('-', '/').replace('T', ' ');
-                                }
-                                if (cellCur.Rendering.Format === 'URL') {
-                                    //cellCur.Value = '<a href="' + cellCur.Value + '">' + cellCur.Value + '</a>';
-                                }
-                            }
-                            */
-                        }
-                        /*
-                        if (cellCur.Rendering != null && cellCur.Rendering.Format != null && cellCur.Rendering.Format === 'URL') {
-                            let fileName = cellCur.Value.substring(cellCur.Value.lastIndexOf('/')+1);
-                            let fileExt = fileName.substring(fileName.lastIndexOf('.')+1);
-                            switch (fileExt.toLowerCase()) {
-                                case 'pdf':
-                                    let aCur = document.createElement('a');
-                                    aCur.setAttribute("href", cellCur.Value);
-                                    aCur.setAttribute("download", fileName);
-                                    aCur.appendChild(document.createTextNode(fileName));
-                                    cellCur.Td.appendChild(aCur);
-                                    break;
-                                case 'jpg':
-                                case 'jpeg':
-                                case 'gif':
-                                case 'png':
-                                    let imgCur = document.createElement('img');
-                                    imgCur.setAttribute("src", cellCur.Value);
-                                    imgCur.setAttribute("width", 'auto');
-                                    cellCur.Td.appendChild(imgCur);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        } else {
-                            cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
-                        }
-                        */
                     });
                 }
             });
-        }
+    }
     }
 
     presentTableRowsSetCellValue(itemCur, elems) {
@@ -640,9 +614,6 @@ class TemplateItem extends TemplateItemClient {
                 if (/*this.isLeaf === true && */ valueCur !== '') {
                     itemCur.isEmpty = false;
                     if (cellCur != null) {
-                        //cellCur.Td = document.createElement('td');
-                        //cellCur.Rendering = elemCur.Rendering;
-                        //cellCur.Elem = elemCur;
                         cellCur.Value = valueCur;
                         if (cellCur.Rendering.Width != null) {
                             cellCur.Td.style.width = cellCur.Rendering.Width;
