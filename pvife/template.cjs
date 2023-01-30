@@ -631,13 +631,18 @@ class TemplateItem extends TemplateItemClient {
         elems.forEach(elemCur => {
             if (elemCur.SubUseCase == null) {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
+                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
+                if (cellCur != null) {
+                    cellCur.Td = document.createElement('td');
+                    cellCur.Rendering = elemCur.Rendering;
+                    cellCur.Elem = elemCur;
+                }
                 if (/*this.isLeaf === true && */ valueCur !== '') {
                     itemCur.isEmpty = false;
-                    let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
                     if (cellCur != null) {
-                        cellCur.Td = document.createElement('td');
-                        cellCur.Rendering = elemCur.Rendering;
-                        cellCur.Elem = elemCur;
+                        //cellCur.Td = document.createElement('td');
+                        //cellCur.Rendering = elemCur.Rendering;
+                        //cellCur.Elem = elemCur;
                         cellCur.Value = valueCur;
                         if (cellCur.Rendering.Width != null) {
                             cellCur.Td.style.width = cellCur.Rendering.Width;
