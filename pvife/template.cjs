@@ -529,7 +529,7 @@ class TemplateItem extends TemplateItemClient {
         
         this.dataItems.forEach(itemCur => {
 
-            this.dataItems.forEach(itemCur => {
+            //this.dataItems.forEach(itemCur => {
                 this.itemCells[itemCur.Key] = [];
                 itemCellsParent.forEach(cellCur => {
                     this.itemCells[itemCur.Key].push({...cellCur});
@@ -545,7 +545,7 @@ class TemplateItem extends TemplateItemClient {
                     }
                 });
                 itemCur.isEmpty = true;
-            });
+            //});
     
             if (this.isLeaf === true) {
                 this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
