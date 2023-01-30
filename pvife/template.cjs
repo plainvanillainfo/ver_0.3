@@ -573,6 +573,10 @@ class TemplateItem extends TemplateItemClient {
                     }
                     this.itemCells[itemCur.Key].forEach(cellCur => {
                         //cellCur.Td = document.createElement('td');
+                        if (cellCur.Td == null) {
+                            cellCur.Td = document.createElement('td');
+                            //cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
+                        }
                         tableItemRow.appendChild(cellCur.Td);
                         if (cellCur.Rendering != null) {
                             /*
