@@ -36,9 +36,11 @@ class TemplateItem {
 							this.sendToDbUpdate();
 						}
 					} else {
-						console.log("TemplateItem::fromClient() - Put - this.itemList:\n", this.parent.parent.itemList, "\n", 
-							this.parent.parent.itemList['11111111-1111-1111-1111-111111111111'].Elems['ManagementCompanies'].templateItem.dataItems,
-							"\nthis.parent:\n", this.parent);
+						console.log("TemplateItem::fromClient() - Put - this.itemList:\n", this.parent.parent.itemList, "\n");
+							//this.parent.parent.itemList['11111111-1111-1111-1111-111111111111'].Elems['ManagementCompanies'].templateItem.dataItems,
+							//"\nthis.parent:\n", this.parent);
+
+
 					}
 					break;
                 case 'Refresh':
@@ -289,20 +291,26 @@ class TemplateItem {
 					//console.log("TemplateItem::stepDownToChild() - elemChild: ", elemChild.Name);
 					this.dataItems.forEach(dataItemCur => {
 						//console.log("TemplateItem::stepDownToChild() - dataItemCur.Key: ", dataItemCur.Key);
+						console.log("TemplateItem::fromClient() - AAAAA 11111");
 						let itemListEntry;
 						if (this.itemList[dataItemCur.Key] == null) {
+							console.log("TemplateItem::fromClient() - BBBBB 11111");
 							itemListEntry = {Key: dataItemCur.Key, Elems: {}};
 							this.itemList[dataItemCur.Key] = itemListEntry;
 						} else {
+							console.log("TemplateItem::fromClient() - CCCCC 11111");
 							itemListEntry = this.itemList[dataItemCur.Key];
 						}
+						console.log("TemplateItem::fromClient() - DDDDD 11111");
 						if (itemListEntry.Elems[elemChild.Name] == null) {
+							console.log("TemplateItem::fromClient() - EEEEE 11111");
 							let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === elemChild.Name);
 							itemListEntry.Elems[elemChild.Name] = new TemplateElem(this, useCaseElemFound, itemListEntry);
 							// HERE: 
 							itemListEntry.Elems[elemChild.Name].context = this.parent.context;
 							itemListEntry.Elems[elemChild.Name].startTemplateItem();
 						}
+						console.log("TemplateItem::fromClient() - FFFFF 11111");
 					});
 					//console.log("TemplateItem::stepDownToChild() - this.itemList: ", this.itemList);
 					break;
@@ -383,17 +391,12 @@ class TemplateElem {
                     if (message.TemplateItem != null) {
 						if (this.templateItem == null) {
 							console.log("TemplateElem::fromClient() - this.templateItem == null ");
-							//let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
-
 							let useCaseFound;
 							if (message.TemplateItem.TemplateItem != null) {
 								useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
-
 							} else {
 								useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === message.TemplateItem.UseCaseName);
-							
 							}
-
 							if (useCaseFound != null) {
 								console.log("TemplateElem::fromClient() - useCaseFound ", useCaseFound);
 								if (useCaseFound.Detail.SubUseCase != null) {
