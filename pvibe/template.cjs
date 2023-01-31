@@ -344,6 +344,19 @@ class TemplateItem {
 				Attrs: {...resultCur}
 			};
             this.dataItems.push(dataItemCur);
+
+
+			let itemListEntry;
+			if (this.itemList[dataItemCur.Key] == null) {
+				console.log("receiveFromDb - lllllll");
+				itemListEntry = {Key: dataItemCur.Key, Elems: {}};
+				this.itemList[dataItemCur.Key] = itemListEntry;
+			} else {
+				console.log("receiveFromDb - mmmmmm");
+				//itemListEntry = this.itemList[dataItemCur.Key];
+			}
+
+
 		});
 		if (this.dataItems.length > 0) {
 			let parentKey = this.parent.itemParent != null ? this.parent.itemParent.Key : null;
