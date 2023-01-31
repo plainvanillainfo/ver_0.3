@@ -37,7 +37,8 @@ class TemplateItem {
 						}
 					} else {
 						console.log("TemplateItem::fromClient() - Put - this.itemList:\n", this.parent.parent.itemList, "\n", 
-							this.parent.parent.itemList['11111111-1111-1111-1111-111111111111'].Elems['ManagementCompanies'].templateItem);
+							//this.parent.parent.itemList['11111111-1111-1111-1111-111111111111'].Elems['ManagementCompanies'].templateItem.dataItems);
+							this.parent.parent.dataItems);
 					}
 					break;
                 case 'Refresh':
