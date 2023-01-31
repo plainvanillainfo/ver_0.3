@@ -36,7 +36,7 @@ class TemplateItem {
 							this.sendToDbUpdate();
 						}
 					} else {
-						console.log("TemplateItem::fromClient() - Put - this.itemList:\n", this.parent.parent.itemList);
+						console.log("TemplateItem::fromClient() - Put - this.itemList:\n", this.parent.parent.itemList, "\nthis.parent.parent.dataItems:\n", this.parent.parent.dataItems);
 					}
 					break;
                 case 'Refresh':
