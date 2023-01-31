@@ -35,6 +35,8 @@ class TemplateItem {
 						if (this.updateQuery != null) {
 							this.sendToDbUpdate();
 						}
+					} else {
+						console.log("TemplateItem::fromClient() - Put - this.itemList:\n", this.itemList);
 					}
 					break;
                 case 'Refresh':

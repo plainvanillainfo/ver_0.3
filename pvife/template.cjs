@@ -326,7 +326,7 @@ class TemplateItem extends TemplateItemClient {
                     let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                     this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
                     this.templateItemSub.itemCells = {};
-                    let itemCur = {Key: '00000000-0000-0000-0000-000000000000', Attrs: {}};     // New record key and data
+                    let itemCur = {Key: '00000000-0000-0000-0000-000000000001', Attrs: {}};     // New record key and data
                     this.dataItems.push(itemCur);
                     this.presentTableRowsCreateCells(itemCur, this.itemCellsParent);
                     this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
