@@ -5,6 +5,7 @@ class TemplateItem extends TemplateItemClient {
         super(parent, useCase);
         this.divItemSurrounding = divItemSurrounding;
         this.isLeaf = true;
+        this.itemCells = {};
         /* 
         UI:
         labels
