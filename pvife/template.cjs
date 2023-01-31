@@ -323,13 +323,14 @@ class TemplateItem extends TemplateItemClient {
                     this.divItemSub = document.createElement('div');
                     this.divItemSub.className = 'mb-3';
                     this.divItemSub.style.margin = '10px';
-
                     let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                     this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub);
                     this.templateItemSub.itemCells = {};
-                    let itemCur = {Key: '00000000-0000-0000-0000-000000000000', Attrs: {}}
-                    //this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];    // New record key and data
-                    //this.templateItemSub.setDataItems([itemCur]);
+                    let itemCur = {Key: '00000000-0000-0000-0000-000000000000', Attrs: {}};     // New record key and data
+                    this.dataItems.push(itemCur);
+                    this.presentTableRowsCreateCells(itemCur, this.itemCellsParent);
+                    this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
+                    this.templateItemSub.setDataItems([itemCur]);
                     this.pushBreadcrumb(this.templateItemSub);
                 }
             });
@@ -343,13 +344,6 @@ class TemplateItem extends TemplateItemClient {
         tableHead.appendChild(this.tableHeadRow);
         this.tableBody = document.createElement('tbody');
         this.tableList.appendChild(this.tableBody);
-        //this.columns = [];
-        //this.tableOwner = this;
-        //this.itemCells = {};
-        //this.itemCellsParent = [];
-        //while (this.tableOwner.tableBody == null) {
-        //    this.tableOwner = this.tableOwner.parent.parent; 
-        //}
         if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null && 
                 this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
             this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
@@ -530,20 +524,6 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentTableRows() {
-        /*
-        this.tableOwner = this;
-        while (this.tableOwner.tableBody == null) {
-            this.tableOwner = this.tableOwner.parent.parent; 
-        }
-        this.itemCells = {};
-        let itemCellsParent = [];
-        if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null && 
-                this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
-            this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
-                itemCellsParent.push({...cur});
-            });
-        }
-        */
         while (this.tableOwner.tableBody == null) {
             this.tableOwner = this.tableOwner.parent.parent; 
         }
@@ -602,7 +582,7 @@ class TemplateItem extends TemplateItemClient {
                 });
             }
         };
-}
+    }
 
     presentTableRowsSetCellValue(itemCur, elems) {
         elems.forEach(elemCur => {
