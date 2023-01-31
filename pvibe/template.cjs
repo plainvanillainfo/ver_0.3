@@ -11,6 +11,7 @@ class TemplateItem {
 		this.tableBase = {};
         this.selectQuery = null;
         this.updateQuery = null;
+        this.insertQuery = null;
         this.listenQuery = null;
         this.fromClient = this.fromClient.bind(this);
         this.toClient = this.toClient.bind(this);
@@ -37,10 +38,12 @@ class TemplateItem {
 						}
 					} else {
 						console.log("TemplateItem::fromClient() - Put - this.itemList:\n", this.itemList, "\nthis.parent.parent.itemList:\n", this.parent.parent.itemList, "\n");
-							//this.parent.parent.itemList['11111111-1111-1111-1111-111111111111'].Elems['ManagementCompanies'].templateItem.dataItems,
-							//"\nthis.parent:\n", this.parent);
-
-
+						this.insertQuery = null;
+						let dataItemCur = {Key: '', Attrs: {}};
+						this.constructInsert(message, dataItemCur);
+						if (this.insertQuery != null) {
+							this.sendToDbInsert();
+						}
 					}
 					break;
                 case 'Refresh':
@@ -222,7 +225,6 @@ class TemplateItem {
 
 	constructSelectApplyContext() {
 		this.parent.context;
-		
 	}
 
 	constructUpdate(message, dataItemCur) {
@@ -233,14 +235,11 @@ class TemplateItem {
 			let tableCur = this.tableBase.FromTables.find(cur => cur.Alias === colCur.Table);
 			let updateQueryCur = updateQueries.find(cur => cur.Alias === tableCur.Alias);
 			if (updateQueryCur == null) {
-				//let joinColumn = this.tableBase.WhereJoin.find(cur => cur.ColumnRight === colCur.As);
 				updateQueryCur = {
 					Alias: tableCur.Alias,
 					Table: tableCur.Table,
 					Sets: [],
-
 					WhereId: dataItemCur.Attrs[colCur.As],
-
 					QueryString: ''
 				};
 				updateQueries.push(updateQueryCur);
@@ -284,6 +283,9 @@ class TemplateItem {
 		});
 		this.updateQuery = withString;
 		console.log(withString);
+	}
+
+	constructInsert(message, dataItemCur) {
 	}
 
 	stepDownToChild(elemChild) {
@@ -333,12 +335,11 @@ class TemplateItem {
     }
 
     async sendToDbUpdate() {
-        //await this.session.database.doUpdate(this.updateQuery, /*this.useCase.Detail.UpdateView, filter,*/ data, this.receiveFromDb);
         await this.session.database.doUpdate(this.updateQuery, this.receiveFromDb);
     }
 
     async sendToDbInsert(filter, data) {
-        await this.session.database.doInsert(this.useCase.Detail.UpdateView, filter, data, this.receiveFromDb);
+        await this.session.database.doInsert(this.insertQuery, this.receiveFromDb);
     }
 
     async receiveFromDb(result) {

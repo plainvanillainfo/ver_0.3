@@ -45,7 +45,6 @@ class Database {
     }
 
     async doSelect(query, doneSelect) {
-        //let query = 'SELECT * FROM data."' + view + '" WHERE '+filter;
         console.log("Database::doSelect() - query: ", query);
         this.client.query(
             query, 
@@ -70,8 +69,7 @@ class Database {
         )        
     }
 
-    async doUpdate(query, /*view, filter, data,*/ doneUpdate) {
-        //let query = 'UPDATE data."' + view + '" SET ' + data + ' WHERE ' + filter + ' RETURNING * ';
+    async doUpdate(query, doneUpdate) {
         console.log("Database::putData() - query: ", query);
         this.client.query(
             query, 
@@ -83,8 +81,7 @@ class Database {
         });
     }
 
-    async doInsert(view, columnsAnddata, doneInsert) {
-        let query = 'INSERT INTO data."' + view + '" ' + columnsAnddata + ' RETURNING * ';
+    async doInsert(query, doneInsert) {
         console.log("Database::addData() - query: ", query);
         this.client.query(
             query, 
