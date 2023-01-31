@@ -36,7 +36,7 @@ class TemplateItem {
 							this.sendToDbUpdate();
 						}
 					} else {
-						console.log("TemplateItem::fromClient() - Put - this.itemList:\n", this.parent.parent.itemList, "\n");
+						console.log("TemplateItem::fromClient() - Put - this.itemList:\n", this.itemList, "\nthis.parent.parent.itemList:\n", this.parent.parent.itemList, "\n");
 							//this.parent.parent.itemList['11111111-1111-1111-1111-111111111111'].Elems['ManagementCompanies'].templateItem.dataItems,
 							//"\nthis.parent:\n", this.parent);
 
