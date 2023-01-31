@@ -7,9 +7,6 @@ class TemplateItem extends TemplateItemClient {
         this.isLeaf = true;
         this.columns = [];
         this.tableOwner = this;
-        while (this.tableOwner.tableBody == null) {
-            this.tableOwner = this.tableOwner.parent.parent; 
-        }
         this.itemCells = {};
         this.itemCellsParent = [];
         /* 
@@ -350,6 +347,9 @@ class TemplateItem extends TemplateItemClient {
         //this.tableOwner = this;
         //this.itemCells = {};
         //this.itemCellsParent = [];
+        //while (this.tableOwner.tableBody == null) {
+        //    this.tableOwner = this.tableOwner.parent.parent; 
+        //}
         if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null && 
                 this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
             this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
@@ -544,6 +544,9 @@ class TemplateItem extends TemplateItemClient {
             });
         }
         */
+        while (this.tableOwner.tableBody == null) {
+            this.tableOwner = this.tableOwner.parent.parent; 
+        }
         this.dataItems.forEach(itemCur => {
             this.presentTableRowsCreateCells(itemCur, this.itemCellsParent);
         });
