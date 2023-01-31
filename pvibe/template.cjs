@@ -306,7 +306,7 @@ class TemplateItem {
 							itemListEntry = this.itemList[dataItemCur.Key];
 						}
 						*/
-						let itemListEntry = this.itemList[message.TemplateElem.ItemKey];
+						let itemListEntry = this.itemList[dataItemCur.Key];
 						console.log("stepDownToChild - DDDDD 11111");
 						if (itemListEntry.Elems[elemChild.Name] == null) {
 							console.log("stepDownToChild - EEEEE 11111");
