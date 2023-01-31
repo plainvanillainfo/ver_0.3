@@ -5,6 +5,8 @@ class TemplateItem extends TemplateItemClient {
         super(parent, useCase);
         this.divItemSurrounding = divItemSurrounding;
         this.isLeaf = true;
+        this.columns = [];
+        this.tableOwner = this;
         this.itemCells = {};
         this.itemCellsParent = [];
         /* 
@@ -341,9 +343,9 @@ class TemplateItem extends TemplateItemClient {
         tableHead.appendChild(this.tableHeadRow);
         this.tableBody = document.createElement('tbody');
         this.tableList.appendChild(this.tableBody);
-        this.columns = [];
-        this.tableOwner = this;
-        this.itemCells = {};
+        //this.columns = [];
+        //this.tableOwner = this;
+        //this.itemCells = {};
         while (this.tableOwner.tableBody == null) {
             this.tableOwner = this.tableOwner.parent.parent; 
         }
