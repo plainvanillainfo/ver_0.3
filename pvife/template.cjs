@@ -6,6 +6,7 @@ class TemplateItem extends TemplateItemClient {
         this.divItemSurrounding = divItemSurrounding;
         this.isLeaf = true;
         this.itemCells = {};
+        this.itemCellsParent = [];
         /* 
         UI:
         labels
@@ -346,7 +347,7 @@ class TemplateItem extends TemplateItemClient {
         while (this.tableOwner.tableBody == null) {
             this.tableOwner = this.tableOwner.parent.parent; 
         }
-        this.itemCellsParent = [];
+        //this.itemCellsParent = [];
         if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null && 
                 this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
             this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
