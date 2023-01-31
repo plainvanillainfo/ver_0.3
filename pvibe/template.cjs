@@ -352,7 +352,6 @@ class TemplateItem {
 
 			if (this.itemList[dataItemCur.Key] == null) {
 				console.log("receiveFromDb - lllllll");
-				itemListEntry = {Key: dataItemCur.Key, Elems: {}};
 				this.itemList[dataItemCur.Key] = {Key: dataItemCur.Key, Elems: {}};
 			} else {
 				console.log("receiveFromDb - mmmmmm");
