@@ -53,6 +53,7 @@ class TemplateItem {
 						let useCaseElemName = message.TemplateElem.UseCaseElemName;
 						let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === useCaseElemName);
 						if (useCaseElemFound != null) {
+							/*
 							console.log("TemplateItem::fromClient() - AAAAA");
 							let itemListEntry;
 							if (this.itemList[message.TemplateElem.ItemKey] == null) {
@@ -63,6 +64,8 @@ class TemplateItem {
 								console.log("TemplateItem::fromClient() - CCCCC");
 								itemListEntry = this.itemList[message.TemplateElem.ItemKey];
 							}
+							*/
+							let itemListEntry = this.itemList[message.TemplateElem.ItemKey];
 							console.log("TemplateItem::fromClient() - DDDDD");
 	                        if (itemListEntry.Elems[useCaseElemName] == null) {
 								console.log("TemplateItem::fromClient() - EEEEE");
@@ -290,6 +293,7 @@ class TemplateItem {
 				case 'Child':
 					//console.log("TemplateItem::stepDownToChild() - elemChild: ", elemChild.Name);
 					this.dataItems.forEach(dataItemCur => {
+						/*
 						//console.log("TemplateItem::stepDownToChild() - dataItemCur.Key: ", dataItemCur.Key);
 						console.log("TemplateItem::fromClient() - AAAAA 11111");
 						let itemListEntry;
@@ -301,18 +305,19 @@ class TemplateItem {
 							console.log("TemplateItem::fromClient() - CCCCC 11111");
 							itemListEntry = this.itemList[dataItemCur.Key];
 						}
-						console.log("TemplateItem::fromClient() - DDDDD 11111");
+						*/
+						let itemListEntry = this.itemList[message.TemplateElem.ItemKey];
+						console.log("stepDownToChild - DDDDD 11111");
 						if (itemListEntry.Elems[elemChild.Name] == null) {
-							console.log("TemplateItem::fromClient() - EEEEE 11111");
+							console.log("stepDownToChild - EEEEE 11111");
 							let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === elemChild.Name);
 							itemListEntry.Elems[elemChild.Name] = new TemplateElem(this, useCaseElemFound, itemListEntry);
 							// HERE: 
 							itemListEntry.Elems[elemChild.Name].context = this.parent.context;
 							itemListEntry.Elems[elemChild.Name].startTemplateItem();
 						}
-						console.log("TemplateItem::fromClient() - FFFFF 11111");
+						console.log("stepDownToChild - FFFFF 11111");
 					});
-					//console.log("TemplateItem::stepDownToChild() - this.itemList: ", this.itemList);
 					break;
 				default:
 					break;
@@ -345,17 +350,14 @@ class TemplateItem {
 			};
             this.dataItems.push(dataItemCur);
 
-
-			let itemListEntry;
 			if (this.itemList[dataItemCur.Key] == null) {
 				console.log("receiveFromDb - lllllll");
 				itemListEntry = {Key: dataItemCur.Key, Elems: {}};
-				this.itemList[dataItemCur.Key] = itemListEntry;
+				this.itemList[dataItemCur.Key] = {Key: dataItemCur.Key, Elems: {}};
 			} else {
 				console.log("receiveFromDb - mmmmmm");
-				//itemListEntry = this.itemList[dataItemCur.Key];
-			}
 
+			}
 
 		});
 		if (this.dataItems.length > 0) {
