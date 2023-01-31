@@ -345,11 +345,11 @@ class TemplateItem extends TemplateItemClient {
         while (this.tableOwner.tableBody == null) {
             this.tableOwner = this.tableOwner.parent.parent; 
         }
-        let itemCellsParent = [];
+        this.itemCellsParent = [];
         if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null && 
                 this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
             this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
-                itemCellsParent.push({...cur});
+                thois.itemCellsParent.push({...cur});
             });
         }
         this.useCase.Detail.Elems.forEach(elemCur => {
@@ -541,7 +541,7 @@ class TemplateItem extends TemplateItemClient {
         }
         */
         this.dataItems.forEach(itemCur => {
-            this.presentTableRowsCreateCells(itemCur, itemCellsParent);
+            this.presentTableRowsCreateCells(itemCur, this.itemCellsParent);
         });
     }
 
