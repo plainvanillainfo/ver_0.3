@@ -349,7 +349,7 @@ class TemplateItem extends TemplateItemClient {
         if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null && 
                 this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
             this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
-                thois.itemCellsParent.push({...cur});
+                this.itemCellsParent.push({...cur});
             });
         }
         this.useCase.Detail.Elems.forEach(elemCur => {
