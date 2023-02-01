@@ -474,7 +474,7 @@ class TemplateItem extends TemplateItemClient {
                                 immediateOrigin: '1861470447',
                                 immediateOriginName: 'IHC',
                                 companyName: 'IHC',
-                                fileCreationDate: '230201',
+                                effectiveEntryDate: '230201',
                                 destinationRouting: '122105320',
                                 companyIdentification: 'IHCLAKEORION',
                                 companyEntryDescription: 'IHC DISTR',
