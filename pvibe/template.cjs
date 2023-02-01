@@ -335,9 +335,9 @@ class TemplateItem {
 		let withString = 'WITH ';
 		insertQueries.forEach((queryCur, queryIndex) => {
 			if (queryCur.Sets.length > 0) {
-				queryCur.QueryString = 'INSERT INTO data."' + queryCur.Table + '" ';
+				queryCur.QueryString = 'INSERT INTO data."' + queryCur.Table + '" (';
 				if ((queryIndex+1) < insertQueries.length) {
-					queryCur.QueryString += '("Id", "Extension", ';
+					queryCur.QueryString += '"Id", "Extension", ';
 				}
 				queryCur.Sets.forEach((setCur, setIndex) => {
 					queryCur.QueryString += ('"' + setCur.Column + '"');
