@@ -316,14 +316,22 @@ class TemplateItem {
 		let withString = 'WITH ';
 		insertQueries.forEach((queryCur, queryIndex) => {
 			if (queryCur.Sets.length > 0) {
-				queryCur.QueryString = 'INSERT INTO data."' + queryCur.Table + '" SET ';
+				queryCur.QueryString = 'INSERT INTO data."' + queryCur.Table + '" (';
 				queryCur.Sets.forEach((setCur, setIndex) => {
-					queryCur.QueryString += ('"' + setCur.Column + '"=\'' + setCur.Value + '\'');
+					queryCur.QueryString += ('"' + setCur.Column + '"');
 					if ((setIndex + 1) < queryCur.Sets.length) {
 						queryCur.QueryString += ', ';
 					}
 				});
-				queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
+				queryCur.QueryString += ') VALUES(';
+				queryCur.Sets.forEach((setCur, setIndex) => {
+					queryCur.QueryString += ('\'' + setCur.Value + '\'');
+					if ((setIndex + 1) < queryCur.Sets.length) {
+						queryCur.QueryString += ', ';
+					}
+				});
+				queryCur.QueryString += ') ';
+				//queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
 				withString += (' insert' + (queryIndex + 1).toString() + '(ok) AS ( ' + queryCur.QueryString + ' RETURNING \'ok\' )');
 				if ((queryIndex + 1) < insertQueries.length) {
 					withString += ',';
