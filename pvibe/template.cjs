@@ -322,10 +322,10 @@ class TemplateItem {
 				queryCur.Sets.forEach((setCur, setIndex) => {
 					queryCur.QueryString += ('"' + setCur.Column + '"');
 					if ((setIndex + 1) < queryCur.Sets.length) {
-						queryCur.QueryString += ', ';
+						queryCur.QueryString += ', "Extension", ';
 					}
 				});
-				queryCur.QueryString += ') VALUES(\'' + idNew + '\', ';
+				queryCur.QueryString += ') VALUES(\'' + idNew + '\', \'[]\'';
 				queryCur.Sets.forEach((setCur, setIndex) => {
 					queryCur.QueryString += ('\'' + setCur.Value + '\'');
 					if ((setIndex + 1) < queryCur.Sets.length) {
