@@ -42,7 +42,7 @@ class TemplateItem {
 						let dataItemCur = {Key: '', Attrs: {}};
 						this.constructInsert(message, dataItemCur);
 						if (this.insertQuery != null) {
-							this.sendToDbInsert();
+							//this.sendToDbInsert();
 						}
 					}
 					break;
@@ -286,6 +286,61 @@ class TemplateItem {
 	}
 
 	constructInsert(message, dataItemCur) {
+		console.log("TemplateItem::constructInsert() this.selectFrom\n", this.selectFrom, "\nthis.selectWhere : \n", 
+			this.selectWhere, "\nthis.tableBase : \n", JSON.stringify(this.tableBase) );
+		let insertQueries = [];
+		this.tableBase.SelectColumns.forEach(colCur => {
+			let tableCur = this.tableBase.FromTables.find(cur => cur.Alias === colCur.Table);
+			let insertQueryCur = insertQueries.find(cur => cur.Alias === tableCur.Alias);
+			if (insertQueryCur == null) {
+				insertQueryCur = {
+					Alias: tableCur.Alias,
+					Table: tableCur.Table,
+					Sets: [],
+					WhereId: dataItemCur.Attrs[colCur.As],
+					QueryString: ''
+				};
+				insertQueries.push(insertQueryCur);
+			}
+			if (message.Attrs[colCur.Column] != null) {
+				let setCur = insertQueryCur.Sets.find(cur => cur.Column === colCur.Column);
+				if (setCur == null) {
+					setCur = {
+						Column: colCur.Column
+					}
+					insertQueryCur.Sets.push(setCur);
+				}
+				setCur.Value = message.Attrs[colCur.Column];
+			}
+		});
+		let withString = 'WITH ';
+		insertQueries.forEach((queryCur, queryIndex) => {
+			if (queryCur.Sets.length > 0) {
+				queryCur.QueryString = 'INSERT INTO data."' + queryCur.Table + '" SET ';
+				queryCur.Sets.forEach((setCur, setIndex) => {
+					queryCur.QueryString += ('"' + setCur.Column + '"=\'' + setCur.Value + '\'');
+					if ((setIndex + 1) < queryCur.Sets.length) {
+						queryCur.QueryString += ', ';
+					}
+				});
+				queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
+				withString += (' insert' + (queryIndex + 1).toString() + '(ok) AS ( ' + queryCur.QueryString + ' RETURNING \'ok\' )');
+				if ((queryIndex + 1) < updateQueries.length) {
+					withString += ',';
+				}
+				withString += ' ';
+			}
+		});
+		insertQueries.forEach((queryCur, queryIndex) => {
+			if (queryCur.Sets.length > 0) {
+				withString += ('SELECT ok FROM insert' + (queryIndex+1).toString());
+				if ((queryIndex+1) < insertQueries.length) {
+					withString += ' UNION ALL ';
+				}
+			}
+		});
+		this.insertQuery = withString;
+		console.log(withString);
 	}
 
 	stepDownToChild(elemChild) {
