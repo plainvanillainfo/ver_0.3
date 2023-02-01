@@ -465,6 +465,14 @@ class TemplateItem extends TemplateItemClient {
                     buttonCur.appendChild(document.createTextNode(actionCur.Label));
                 buttonCur.addEventListener('click', (event) => {
                     event.preventDefault();
+
+                    let attrs = {};
+                    let fUpdated = false;
+                    for (let formAttrCur in this.formData) {
+                        attrs[formAttrCur] = this.formData[formAttrCur];
+                        fUpdated = true;
+                    }
+            
                     this.session.appConfig.WebAppCustomCode[actionCur.ActionFunction](
                         {
                             Action: actionCur.Name,
@@ -484,17 +492,18 @@ class TemplateItem extends TemplateItemClient {
                             }
                             */
                             opt: {
-                                Fund: '126',
+                                Fund: attrs['Fund'],
+                                effectiveEntryDate: attrs['EntryDate'],
+                                routing: attrs['RoutingNumber'],
+                                account: attrs['AccountNumber'],
+                                amount: attrs['Amount'],
+                                acct_name: attrs['AccountName'],
+                                TransactionCode: attrs['AccountType'],
+
                                 immediateOriginName: 'IHC',
                                 companyName: 'IHC',
-                                effectiveEntryDate: '230201',
                                 companyEntryDescription: 'IHC DISTR',
-                                routing: '072000326',
-                                account: '270259705',
-                                amount: 5000.00,
-                                user_id: '',
-                                acct_name: 'Aurora Securities',
-                                TransactionCode: '22'
+                                user_id: ''
                             }
                         },
                          this.actionCallback
