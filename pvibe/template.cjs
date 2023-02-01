@@ -318,11 +318,11 @@ class TemplateItem {
 		let withString = 'WITH ';
 		insertQueries.forEach((queryCur, queryIndex) => {
 			if (queryCur.Sets.length > 0) {
-				queryCur.QueryString = 'INSERT INTO data."' + queryCur.Table + '" ("Id", ';
+				queryCur.QueryString = 'INSERT INTO data."' + queryCur.Table + '" ("Id", "Extension", ';
 				queryCur.Sets.forEach((setCur, setIndex) => {
 					queryCur.QueryString += ('"' + setCur.Column + '"');
 					if ((setIndex + 1) < queryCur.Sets.length) {
-						queryCur.QueryString += ', "Extension", ';
+						queryCur.QueryString += ', ';
 					}
 				});
 				queryCur.QueryString += ') VALUES(\'' + idNew + '\', \'[]\', ';
