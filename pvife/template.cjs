@@ -127,6 +127,8 @@ class TemplateItem extends TemplateItemClient {
                 }
             }
         }
+        this.actionResult = '';
+        this.actionCallback = this.actionCallback.bind(this);
     }
     
     continueTemplateElem(message) {
@@ -418,7 +420,6 @@ class TemplateItem extends TemplateItemClient {
         });
 
         let fFormEditable = (this.useCase.Detail.Editable != null && this.useCase.Detail.Editable === 'Yes') ? true : false;
-
         if (fFormEditable) {
             let divCur = document.createElement('div');
             this.formList.appendChild(divCur);
@@ -448,6 +449,39 @@ class TemplateItem extends TemplateItemClient {
                 this.saveFormData();
             });
         }
+        if (this.useCase.Detail.Rendering.Actions != null) {
+            let divCur = document.createElement('div');
+            this.formList.appendChild(divCur);
+            divCur.className = 'mb-3';
+            this.useCase.Detail.Rendering.Actions.forEach(actionCur => {
+                buttonCur = document.createElement('button');
+                divCur.appendChild(buttonCur);
+                buttonCur.className = 'btn btn-success';
+                buttonCur.setAttribute("type", "button");
+                buttonCur.id = actionCur.Name;
+                buttonCur.style.width = "12em";
+                buttonCur.appendChild(document.createTextNode(actionCur.Label));
+                buttonCur.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    this.actionResult = this.session.appConfig.WebAppCustomCode[actionCur.ActionFunction](
+                        {
+                            Action: actionCur.Name,
+                            opt: {
+                                destinationRouting: '1111111111'
+                            }
+                        },
+                         this.actionCallback
+                    );
+                });
+
+                let aCur = document.createElement('a');
+                aCur.setAttribute("href", "data:text/plain;charset=utf-8," + this.actionResult);
+                aCur.setAttribute("download", "downloaded.txt");
+                aCur.appendChild(document.createTextNode("Download"));
+                divCur.appendChild(aCur);
+
+            });
+        }
     }
 
     saveFormData() {
@@ -468,6 +502,10 @@ class TemplateItem extends TemplateItemClient {
         } else {
             this.popBreadcrumb();
         }
+    }
+
+    actionCallback() {
+
     }
 
     presentFormElem(elem) {

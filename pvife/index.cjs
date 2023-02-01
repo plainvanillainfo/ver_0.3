@@ -109,6 +109,7 @@ class ClientWeb {
     constructor(parent, name) {
         this.parent = parent;
         this.name = name;
+        this.appConfig = parent.appConfig;
         this.tracks = {};
         this.useCases = null;
         this.fromServer = this.fromServer.bind(this);
