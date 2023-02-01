@@ -315,14 +315,9 @@ class TemplateItem {
 			}
 		});
 		let idNew = uuidv4();
-		let idLink = uuidv4();
 		insertQueryCur = {
 			Table: this.tableBase['ParentToThisLinkTableName'],
 			Sets: [
-				{
-					Column: 'Id',
-					Value: idLink
-				},
 				{
 					Column: 'ParentId',
 					Value: this.parent.itemParent.Key
