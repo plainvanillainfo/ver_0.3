@@ -468,24 +468,33 @@ class TemplateItem extends TemplateItemClient {
                     this.session.appConfig.WebAppCustomCode[actionCur.ActionFunction](
                         {
                             Action: actionCur.Name,
+                            /*
                             opt: {
                                 Fund: '111',
-                                //destinationRouting: '1111111111',
-                                //destinationName: 'NB Arizona',
-                                //immediateOrigin: '1861470447',
                                 immediateOriginName: 'IHC',
                                 companyName: 'IHC',
                                 effectiveEntryDate: '230201',
-                                //destinationRouting: '122105320',
-                                //companyIdentification: 'IHCLAKEORION',
                                 companyEntryDescription: 'IHC DISTR',
-                                //traceTop8: null,
                                 routing: '121143273',
                                 account: '8803096275',
                                 amount: 3000.00,
                                 user_id: '',
                                 acct_name: 'The Wimer Family Trust',
                                 TransactionCode: '32'
+                            }
+                            */
+                            opt: {
+                                Fund: '126',
+                                immediateOriginName: 'IHC',
+                                companyName: 'IHC',
+                                effectiveEntryDate: '230201',
+                                companyEntryDescription: 'IHC DISTR',
+                                routing: '072000326',
+                                account: '270259705',
+                                amount: 5000.00,
+                                user_id: '',
+                                acct_name: 'Aurora Securities',
+                                TransactionCode: '22'
                             }
                         },
                          this.actionCallback
