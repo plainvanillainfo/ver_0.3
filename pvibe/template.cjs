@@ -43,7 +43,7 @@ class TemplateItem {
 						let dataItemCur = {Key: '', Attrs: {}};
 						this.constructInsert(message, dataItemCur);
 						if (this.insertQuery != null) {
-							//this.sendToDbInsert();
+							this.sendToDbInsert();
 						}
 					}
 					break;
