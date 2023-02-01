@@ -469,7 +469,22 @@ class TemplateItem extends TemplateItemClient {
                         {
                             Action: actionCur.Name,
                             opt: {
-                                destinationRouting: '1111111111'
+                                destinationRouting: '1111111111',
+                                destinationName: 'NB Arizona',
+                                immediateOrigin: '1861470447',
+                                immediateOriginName: 'IHC',
+                                companyName: 'IHC',
+                                fileCreationDate: '230201',
+                                destinationRouting: '122105320',
+                                companyIdentification: 'IHCLAKEORION',
+                                companyEntryDescription: 'IHC DISTR',
+                                traceTop8: null,
+                                routing: '121143273',
+                                account: '8803096275',
+                                amount: 3000.00,
+                                user_id: '',
+                                acct_name: 'The Wimer Family Trust',
+                                TransactionCode: '32'
                             }
                         },
                          this.actionCallback
@@ -477,7 +492,6 @@ class TemplateItem extends TemplateItemClient {
                 });
 
                 this.aCur = document.createElement('a');
-                //this.aCur.setAttribute("href", "data:text/plain;charset=utf-8," + this.actionResult);
                 this.aCur.setAttribute("download", "downloaded.txt");
                 this.aCur.appendChild(document.createTextNode("Download File"));
                 divCur.appendChild(this.aCur);
