@@ -199,7 +199,7 @@ class Application {
                 let embeddedClass = this.classesAll.find(cur => cur.Name === componentCur.EmbeddedClass);
                 this.sqlScriptData += ('ALTER TABLE ONLY data."' + classInfo.tableName + '"\n');
                 this.sqlScriptData += ('    ADD CONSTRAINT "' + componentCur.Name + '_EMBED" ');
-                this.sqlScriptData += ('FOREIGN KEY ("' + componentCur.Name + '") REFERENCES data."' + embeddedClass.tableName + '"("Id") NOT VALIDDEFERRABLE INITIALLY DEFERRED ;\n');
+                this.sqlScriptData += ('FOREIGN KEY ("' + componentCur.Name + '") REFERENCES data."' + embeddedClass.tableName + '"("Id") NOT VALID DEFERRABLE INITIALLY DEFERRED ;\n');
             }
         });
 		classInfo.Extensions.forEach(extensionCur => {
