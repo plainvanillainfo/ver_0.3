@@ -1,4 +1,5 @@
 const jsesc = require("jsesc");
+const uuidv4 = require("uuid").v4;
 
 class TemplateItem {
     constructor(parent, useCase, key) {
@@ -313,17 +314,18 @@ class TemplateItem {
 				setCur.Value = message.Attrs[colCur.Column];
 			}
 		});
+		let idNew = uuidv4();
 		let withString = 'WITH ';
 		insertQueries.forEach((queryCur, queryIndex) => {
 			if (queryCur.Sets.length > 0) {
-				queryCur.QueryString = 'INSERT INTO data."' + queryCur.Table + '" (';
+				queryCur.QueryString = 'INSERT INTO data."' + queryCur.Table + '" ("Id", ';
 				queryCur.Sets.forEach((setCur, setIndex) => {
 					queryCur.QueryString += ('"' + setCur.Column + '"');
 					if ((setIndex + 1) < queryCur.Sets.length) {
 						queryCur.QueryString += ', ';
 					}
 				});
-				queryCur.QueryString += ') VALUES(';
+				queryCur.QueryString += ') VALUES(\'' + idNew + '\', ';
 				queryCur.Sets.forEach((setCur, setIndex) => {
 					queryCur.QueryString += ('\'' + setCur.Value + '\'');
 					if ((setIndex + 1) < queryCur.Sets.length) {
