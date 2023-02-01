@@ -498,7 +498,7 @@ class TemplateItem extends TemplateItemClient {
                                 account: attrs['AccountNumber'],
                                 amount: attrs['Amount'],
                                 acct_name: attrs['AccountName'],
-                                TransactionCode: attrs['AccountType'],
+                                transactionCode: attrs['AccountType'],
 
                                 immediateOriginName: 'IHC',
                                 companyName: 'IHC',
