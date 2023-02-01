@@ -331,7 +331,7 @@ class TemplateItem {
 					Column: 'ChildId',
 					Value: idNew
 				}
-			];
+			],
 			QueryString: ''
 		};
 		insertQueries.push(insertQueryCur);
