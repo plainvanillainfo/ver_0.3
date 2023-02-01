@@ -290,15 +290,15 @@ class TemplateItem {
 		console.log("TemplateItem::constructInsert() this.selectFrom\n", this.selectFrom, "\nthis.selectWhere : \n", 
 			this.selectWhere, "\nthis.tableBase : \n", JSON.stringify(this.tableBase) );
 		let insertQueries = [];
+		let insertQueryCur;
 		this.tableBase.SelectColumns.forEach(colCur => {
 			let tableCur = this.tableBase.FromTables.find(cur => cur.Alias === colCur.Table);
-			let insertQueryCur = insertQueries.find(cur => cur.Alias === tableCur.Alias);
+			insertQueryCur = insertQueries.find(cur => cur.Alias === tableCur.Alias);
 			if (insertQueryCur == null) {
 				insertQueryCur = {
 					Alias: tableCur.Alias,
 					Table: tableCur.Table,
 					Sets: [],
-					WhereId: dataItemCur.Attrs[colCur.As],
 					QueryString: ''
 				};
 				insertQueries.push(insertQueryCur);
@@ -315,6 +315,27 @@ class TemplateItem {
 			}
 		});
 		let idNew = uuidv4();
+		let idLink = uuidv4();
+		insertQueryCur = {
+			Table: this.tableBase['ParentToThisLinkTableName'],
+			Sets: [
+				{
+					Column: 'Id',
+					Value: idLink
+				},
+				{
+					Column: 'ParentId',
+					Value: this.parent.itemParent.Key
+				},
+				{
+					Column: 'ChildId',
+					Value: idNew
+				}
+			];
+			QueryString: ''
+		};
+		insertQueries.push(insertQueryCur);
+
 		let withString = 'WITH ';
 		insertQueries.forEach((queryCur, queryIndex) => {
 			if (queryCur.Sets.length > 0) {
@@ -333,7 +354,6 @@ class TemplateItem {
 					}
 				});
 				queryCur.QueryString += ') ';
-				//queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
 				withString += (' insert' + (queryIndex + 1).toString() + '(ok) AS ( ' + queryCur.QueryString + ' RETURNING \'ok\' )');
 				if ((queryIndex + 1) < insertQueries.length) {
 					withString += ',';
@@ -349,6 +369,29 @@ class TemplateItem {
 				}
 			}
 		});
+
+		/*
+		if (this.parent.itemParent != null) {
+			let classParent = this.parent.parent.useCase.Detail.Class;
+			this.tableBase['ParentTableName'] = this.session.classes.find(cur => cur.Name === classParent).tableName;
+			this.tableBase['ParentToThisLinkTableName'] = this.tableBase['ParentTableName'] + '_CHILD_' + this.parent.useCaseElem.Attribute;
+			this.tableBase['FromTables'].push({
+				Table: this.tableBase['ParentToThisLinkTableName'],
+				Alias: this.tableBase['ParentToThisLinkTableName']
+			});
+			this.selectWhere += (' "' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ');
+			this.tableBase['WhereJoins'].push({
+				TableLeft: this.tableBase['ParentToThisLinkTableName'],
+				ColumnLeft: 'ChildId', 
+				TableRight: this.tableBase['Name'],
+				ColumnRight: 'Id'
+			});
+			this.constructSelectApplyContext();	// HERE - filtration: 
+		} else {
+			this.selectWhere += ' 1=1';
+		}
+		*/
+
 		this.insertQuery = withString;
 		console.log(withString);
 	}
