@@ -171,7 +171,7 @@ class Application {
 			this.sqlScriptData += '    "ChildId" uuid NOT NULL\n);\n';
 
 			this.sqlScriptData += ('ALTER TABLE ONLY data."' + childTableName + '"\n');
-			this.sqlScriptData += ('    ADD CONSTRAINT "' + childTableName + '_pkey" DEFERRABLE INITIALLY DEFERRED ');
+			this.sqlScriptData += ('    ADD CONSTRAINT "' + childTableName + '_pkey" ');
 			this.sqlScriptData += ('PRIMARY KEY ("ParentId", "ChildId") ;\n');
 
 			this.sqlScriptData += ('ALTER TABLE ONLY data."' + childTableName + '"\n');
