@@ -460,10 +460,12 @@ class TemplateItem extends TemplateItemClient {
                 buttonCur.setAttribute("type", "button");
                 buttonCur.id = actionCur.Name;
                 buttonCur.style.width = "12em";
-                buttonCur.appendChild(document.createTextNode(actionCur.Label));
+                buttonCur.style.marginLeft = '25%';
+                buttonCur.style.marginRight = '30px';
+                    buttonCur.appendChild(document.createTextNode(actionCur.Label));
                 buttonCur.addEventListener('click', (event) => {
                     event.preventDefault();
-                    this.actionResult = this.session.appConfig.WebAppCustomCode[actionCur.ActionFunction](
+                    this.session.appConfig.WebAppCustomCode[actionCur.ActionFunction](
                         {
                             Action: actionCur.Name,
                             opt: {
@@ -474,11 +476,11 @@ class TemplateItem extends TemplateItemClient {
                     );
                 });
 
-                let aCur = document.createElement('a');
-                aCur.setAttribute("href", "data:text/plain;charset=utf-8," + this.actionResult);
-                aCur.setAttribute("download", "downloaded.txt");
-                aCur.appendChild(document.createTextNode("Download"));
-                divCur.appendChild(aCur);
+                this.aCur = document.createElement('a');
+                //this.aCur.setAttribute("href", "data:text/plain;charset=utf-8," + this.actionResult);
+                this.aCur.setAttribute("download", "downloaded.txt");
+                this.aCur.appendChild(document.createTextNode("Download File"));
+                divCur.appendChild(this.aCur);
 
             });
         }
@@ -504,8 +506,9 @@ class TemplateItem extends TemplateItemClient {
         }
     }
 
-    actionCallback() {
-
+    actionCallback(result) {
+        this.actionResult = result;
+        this.aCur.setAttribute("href", "data:text/plain;charset=utf-8," + this.actionResult);
     }
 
     presentFormElem(elem) {
