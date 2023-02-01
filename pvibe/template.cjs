@@ -334,14 +334,20 @@ class TemplateItem {
 		let withString = 'WITH ';
 		insertQueries.forEach((queryCur, queryIndex) => {
 			if (queryCur.Sets.length > 0) {
-				queryCur.QueryString = 'INSERT INTO data."' + queryCur.Table + '" ("Id", "Extension", ';
+				queryCur.QueryString = 'INSERT INTO data."' + queryCur.Table + '" ';
+				if ((queryIndex+1) < insertQueries.length) {
+					queryCur.QueryString += '("Id", "Extension", ';
+				}
 				queryCur.Sets.forEach((setCur, setIndex) => {
 					queryCur.QueryString += ('"' + setCur.Column + '"');
 					if ((setIndex + 1) < queryCur.Sets.length) {
 						queryCur.QueryString += ', ';
 					}
 				});
-				queryCur.QueryString += ') VALUES(\'' + idNew + '\', \'[]\', ';
+				queryCur.QueryString += ') VALUES(';
+				if ((queryIndex+1) < insertQueries.length) {
+					queryCur.QueryString += '\'' + idNew + '\', \'[]\', ';
+				}
 				queryCur.Sets.forEach((setCur, setIndex) => {
 					queryCur.QueryString += ('\'' + setCur.Value + '\'');
 					if ((setIndex + 1) < queryCur.Sets.length) {
