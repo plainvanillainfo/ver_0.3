@@ -325,7 +325,7 @@ class TemplateItem {
 				});
 				queryCur.QueryString += ' WHERE "Id" = \'' + queryCur.WhereId + '\'';
 				withString += (' insert' + (queryIndex + 1).toString() + '(ok) AS ( ' + queryCur.QueryString + ' RETURNING \'ok\' )');
-				if ((queryIndex + 1) < updateQueries.length) {
+				if ((queryIndex + 1) < insertQueries.length) {
 					withString += ',';
 				}
 				withString += ' ';
