@@ -175,12 +175,12 @@ class Application {
 			this.sqlScriptData += ('PRIMARY KEY ("ParentId", "ChildId") ;\n');
 
 			this.sqlScriptData += ('ALTER TABLE ONLY data."' + childTableName + '"\n');
-			this.sqlScriptData += ('    ADD CONSTRAINT "' + childTableName + '_' + classInfo.Name + '_REFERENCE" DEFERRABLE INITIALLY DEFERRED ');
-			this.sqlScriptData += ('FOREIGN KEY ("ParentId") REFERENCES data."' + classInfo.tableName + '"("Id") NOT VALID;\n');
+			this.sqlScriptData += ('    ADD CONSTRAINT "' + childTableName + '_' + classInfo.Name + '_REFERENCE" ');
+			this.sqlScriptData += ('FOREIGN KEY ("ParentId") REFERENCES data."' + classInfo.tableName + '"("Id") NOT VALID DEFERRABLE INITIALLY DEFERRED ;\n');
 
 			this.sqlScriptData += ('ALTER TABLE ONLY data."' + childTableName + '"\n');
-			this.sqlScriptData += ('    ADD CONSTRAINT "' + childTableName + '_' + childCur.Name + '_REFERENCE" DEFERRABLE INITIALLY DEFERRED ');
-			this.sqlScriptData += ('FOREIGN KEY ("ChildId") REFERENCES data."' + childClass.tableName + '"("Id") NOT VALID;\n');
+			this.sqlScriptData += ('    ADD CONSTRAINT "' + childTableName + '_' + childCur.Name + '_REFERENCE" ');
+			this.sqlScriptData += ('FOREIGN KEY ("ChildId") REFERENCES data."' + childClass.tableName + '"("Id") NOT VALID DEFERRABLE INITIALLY DEFERRED ;\n');
 		});
 		classInfo.Extensions.forEach(extensionCur => {
 			this.createLinkTables(extensionCur);
@@ -191,15 +191,15 @@ class Application {
         classInfo.References.forEach(referenceCur => {
             let referredClass = this.classesAll.find(cur => cur.Name === referenceCur.ReferredClass);
 			this.sqlScriptData += ('ALTER TABLE ONLY data."' + classInfo.tableName + '"\n');
-			this.sqlScriptData += ('    ADD CONSTRAINT "' + referenceCur.Name + '_REFERENCE" DEFERRABLE INITIALLY DEFERRED ');
-			this.sqlScriptData += ('FOREIGN KEY ("' + referenceCur.Name + '") REFERENCES data."' + referredClass.tableName + '"("Id") NOT VALID;\n');
+			this.sqlScriptData += ('    ADD CONSTRAINT "' + referenceCur.Name + '_REFERENCE" ');
+			this.sqlScriptData += ('FOREIGN KEY ("' + referenceCur.Name + '") REFERENCES data."' + referredClass.tableName + '"("Id") NOT VALID DEFERRABLE INITIALLY DEFERRED ;\n');
         });
         classInfo.Components.forEach(componentCur => {
             if (componentCur.EmbeddedClass != null) {
                 let embeddedClass = this.classesAll.find(cur => cur.Name === componentCur.EmbeddedClass);
                 this.sqlScriptData += ('ALTER TABLE ONLY data."' + classInfo.tableName + '"\n');
-                this.sqlScriptData += ('    ADD CONSTRAINT "' + componentCur.Name + '_EMBED" DEFERRABLE INITIALLY DEFERRED ');
-                this.sqlScriptData += ('FOREIGN KEY ("' + componentCur.Name + '") REFERENCES data."' + embeddedClass.tableName + '"("Id") NOT VALID;\n');
+                this.sqlScriptData += ('    ADD CONSTRAINT "' + componentCur.Name + '_EMBED" ');
+                this.sqlScriptData += ('FOREIGN KEY ("' + componentCur.Name + '") REFERENCES data."' + embeddedClass.tableName + '"("Id") NOT VALIDDEFERRABLE INITIALLY DEFERRED ;\n');
             }
         });
 		classInfo.Extensions.forEach(extensionCur => {
