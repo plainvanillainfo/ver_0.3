@@ -1,5 +1,5 @@
 const jsesc = require("jsesc");
-const uuidv4 = require("uuid").v4;
+const { uuidv4 } = require("uuid4");
 
 class TemplateItem {
     constructor(parent, useCase, key) {
