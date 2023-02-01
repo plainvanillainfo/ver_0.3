@@ -299,6 +299,7 @@ class TemplateItem {
 					Alias: tableCur.Alias,
 					Table: tableCur.Table,
 					Sets: [],
+					//WhereId: dataItemCur.Attrs[colCur.As],
 					QueryString: ''
 				};
 				insertQueries.push(insertQueryCur);
