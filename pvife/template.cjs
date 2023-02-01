@@ -454,7 +454,7 @@ class TemplateItem extends TemplateItemClient {
             this.formList.appendChild(divCur);
             divCur.className = 'mb-3';
             this.useCase.Detail.Rendering.Actions.forEach(actionCur => {
-                let uttonCur = document.createElement('button');
+                let buttonCur = document.createElement('button');
                 divCur.appendChild(buttonCur);
                 buttonCur.className = 'btn btn-success';
                 buttonCur.setAttribute("type", "button");
