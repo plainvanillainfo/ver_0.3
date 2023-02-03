@@ -476,21 +476,6 @@ class TemplateItem extends TemplateItemClient {
                     this.session.appConfig.WebAppCustomCode[actionCur.ActionFunction](
                         {
                             Action: actionCur.Name,
-                            /*
-                            opt: {
-                                Fund: '111',
-                                immediateOriginName: 'IHC',
-                                companyName: 'IHC',
-                                effectiveEntryDate: '230201',
-                                companyEntryDescription: 'IHC DISTR',
-                                routing: '121143273',
-                                account: '8803096275',
-                                amount: 3000.00,
-                                user_id: '',
-                                acct_name: 'The Wimer Family Trust',
-                                TransactionCode: '32'
-                            }
-                            */
                             opt: {
                                 Fund: attrs['Fund'],
                                 effectiveEntryDate: attrs['EntryDate'],
