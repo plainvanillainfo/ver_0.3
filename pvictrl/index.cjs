@@ -36,8 +36,8 @@ class ServerMonitor {
     }
 
     instructionsReceivedFromDB(instructions) {
-        //let applicationName = 'CPL';
-        let applicationName = 'IHC';
+        let applicationName = 'CPL';
+        //let applicationName = 'IHC';
         let applicationCur;
         let serverName = '';
         let serverCur;
