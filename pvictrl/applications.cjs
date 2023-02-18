@@ -139,13 +139,13 @@ class Application {
             } else {
                 if (componentCur.EmbeddedClass != null) {
                     this.sqlScriptData += '    "' + componentCur.Name + '" ';
-                    this.sqlScriptData += 'uuid not null ,\n';
+                    this.sqlScriptData += 'uuid null ,\n';
                 }
             }
         });
         classInfo.References.forEach(referenceCur => {
             this.sqlScriptData += '    "' + referenceCur.Name + '" ';
-            this.sqlScriptData += 'uuid not null ,\n';
+            this.sqlScriptData += 'uuid null ,\n';
         });
         classInfo.Extensions.forEach(extensionCur => {
             this.createTable(extensionCur, classInfo);
