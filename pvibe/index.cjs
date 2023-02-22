@@ -43,9 +43,6 @@ class Backend {
                 case 'Executables':
                     this.executables = rowCur.Value;
                     break;
-                case 'Executables':
-                    this.executables = rowCur.Value;
-                    break;
                 case 'Classes':
                     this.classes = rowCur.Value;
                     break;
