@@ -37,12 +37,12 @@ class ServerMonitor {
 
     instructionsReceivedFromDB(instructions) {
         let applicationName = 'CPL';
+        let dir = '/home/ubuntu/projects/CPL/test3/meta/';
         //let applicationName = 'IHC';
+        //let dir = '/home/ubuntu/projects/IHC/test3/meta/';
         let applicationCur;
         let serverName = '';
         let serverCur;
-        let dir = '/home/ubuntu/projects/CPL/test3/meta/';
-        //let dir = '/home/ubuntu/projects/IHC/test3/meta/';
         switch (instructions.Type) {
             case 'CreateClasses':
                 // Read json files

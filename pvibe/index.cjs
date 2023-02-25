@@ -2,6 +2,32 @@ const { Database } = require('./database.cjs');
 const { BFF } = require('./bff.cjs');
 const { EngineRoom } = require('./engineroom.cjs');
 
+/*
+* The application's back end executable has code like this to run this code:
+* 
+* const { Backend } = require('plainvanillainfo/pvibe');
+* process.on('uncaughtException', function (error) {
+*    console.log(error.stack);
+* });
+*
+* process.on('unhandledRejection', (reason, promise) => {
+*     console.log('Unhandled Rejection at:', reason.stack || reason)
+* })
+*
+* let appConfig = {
+*     Name: 'APP', 
+*     DB: {
+*         User: 'postgres',
+*         Host: 'localhost',
+*         Database: 'JUNK',
+*         Password: '*********',
+*         Port: 8506,
+*     }
+* };
+* let backendInstance = new Backend(appConfig);
+* setTimeout(() => { backendInstance.start({}); }, 500);
+* 
+*/
 class Backend {
     constructor(config) {
         console.log("Backend::constructor()");
