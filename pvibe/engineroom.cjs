@@ -31,12 +31,29 @@ class EngineRoom {
                         this.engines[executableCur.Name] = new FileExportNACHA(this, executableCur, customCode);
                         break;
                     default:
+                        this.engines[executableCur.Name] = new ClientEngine(this, executableCur.Name);
+				        this.hostname = '';
+				        this.websocketPort = this.config.WebsocketListenPort.toString();
+				        this.websocketProtocol = 'wss';
+				        this.transmitter = new Transmitter();
+				        this.transmitter.startSessionServer(this, this.websocketProtocol+ '://' + this.hostname + ':' + this.websocketPort);
                         break;
                 }
             }
         });
     }
 
+    receivedFromServer(message) {
+        //this.client.fromServer(message);
+    }
+
+    sendToServer(messageIn) {
+        let messageOut = {
+            AppId: this.appId,
+            ...messageIn
+        };
+        this.transmitter.sendMessageToBE(JSON.stringify(messageOut));
+    }
 }
 
 class Transmitter {
@@ -135,7 +152,6 @@ class ClientEngine {
     toServer(messageIn) {
         this.parent.sendToServer(messageIn);
     }
-
 
     setViewerSpec(viewerSpec) {
         console.log("ClientEngine::setViewerSpec()");
