@@ -1,3 +1,5 @@
+const WebSocket = require('ws');
+const { TemplateItemClient, TemplateElemClient } = require('./template_client.cjs');
 const { Nacha } = require('./engine_nacha.cjs');
 
 class EngineRoom {
@@ -35,6 +37,156 @@ class EngineRoom {
         });
     }
 
+}
+
+class Transmitter {
+    constructor(parent) {
+        this.parent = parent;
+        this.websocketBE = null;
+        this.websocketBEIsActive = false;
+        this.sessionId = null;
+    }
+    
+    startSessionServer(url) {
+        this.websocketBE = new WebSocket(url, [], {rejectUnauthorized: false});
+        this.websocketBE.on('open', () => {
+            this.websocketBEIsActive = true;
+            console.log("Websocket opened");
+            setTimeout(() => { this.keepAlive(); }, 30000);
+        });
+        this.websocketBE.on('ping', () => {
+            clearTimeout(this.pingTimeout);
+            setTimeout(() => { this.keepAlive(); }, 30000);
+        });
+        this.websocketBE.on('close', (e) => {
+            this.websocketBEIsActive = false;
+            console.log("Websocket closed: ", e);
+            clearTimeout(this.pingTimeout);
+        });
+        this.websocketBE.on('message', (data) => {
+            //console.log("Transmitter::websocketBE - data: ", data.toString());
+            var messageInParsed = JSON.parse(data);
+            if (messageInParsed.SessionId != null) {
+                if (this.sessionId == null) {
+                    this.sessionId = messageInParsed.SessionId;
+                        this.parent.receivedFromServer(messageInParsed);
+                } else {
+                    if (messageInParsed.SessionId === this.sessionId) {
+                        this.parent.receivedFromServer(messageInParsed);
+                    }
+                }
+            } else {
+                this.parent.receivedFromServer(messageInParsed);
+            }
+        });
+        this.websocketBE.on('error', (e) => {
+            console.log("Websocket open error: " + e);
+        });
+    }
+    
+    sendMessageToBE(message) {
+        if (this.websocketBEIsActive === true) {
+            this.websocketBE.send(message);
+        } else {
+            // TBD: Restart session if necessary
+            console.log("Transmitter::sendMessageToBE - this.websocketBEIsActive !== true");
+        }
+    }
+    
+    keepAlive() {
+        this.websocketBE.send('{}');
+        this.pingTimeout = setTimeout(() => { this.keepAlive(); }, 30000 + 1000);
+    }    
+}
+
+class ClientEngine {
+    constructor(parent, name) {
+        this.name = name;
+    }
+
+    setViewerSpec(viewerSpec) {
+        console.log("ClientEngine::setViewerSpec()");
+        //if (viewerSpec.DriverUseCase != null) {
+        //    this.driverUseCase = viewerSpec.DriverUseCase;
+        //}
+        //this.checkUserAuthentication();
+    }
+
+    setEntitlement(trackId, template, classesFileContent, useCasesFileContent) {
+        console.log("ClientEngine::setEntitlement()");
+        //super.setEntitlement(trackId, template, this.name, classesFileContent, useCasesFileContent);
+        //this.initializeClasses(classesFileContent, viewerName);
+        //this.initializeUseCases(useCasesFileContent, viewerName);
+        //this.tracks[trackId].setUseCase(this.useCases[track.UseCaseSpec.Name]);        
+    }
+    
+    checkUserAuthentication() {
+        this.userId = 'DefaultEngine';
+        this.isAuthenticated = true;
+        this.setUserAccess();
+    }
+
+    setUserAccess() {
+        if (this.isAuthenticated === true) {
+            this.initiateTracks();
+        } else {
+            this.terminateTracks();
+        }
+    }
+
+    initiateTracks() {
+        //super.initiateTracks(new TrackEngine(this, '1', ""));
+    }
+
+    terminateTracks() {
+        //super.terminateTracks();
+    }
+
+}
+
+class Track {
+    constructor(parent, trackId, div) {
+        this.parent = parent;
+        this.id = trackId;
+	}
+
+    fromServer(message) {
+        console.log("Track::fromServer(): ", message);
+        if (message.Action != null && message.TemplateItem != null) {
+            switch (message.Action) {
+                case 'ContinueTemplateItem':
+                    this.templateItemRoot.fromServer(message.TemplateItem);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    toServer(messageIn) {
+        let messageOut = {
+            TrackId: this.id,
+            Action: 'ContinueTrack',
+            Track :{
+                ...messageIn
+            }
+        };
+        this.parent.toServer(messageOut);
+    }
+
+    setRoot(useCase, dataItems) {
+        console.log("Track::setRoot()");
+        this.templateItemRoot = new TemplateItem(this, useCase, this.divItem);
+        this.templateItemRoot.setDataItems(dataItems);
+    }
+	
+}
+
+class TemplateItem extends TemplateItemClient {
+    constructor(parent, useCase, divItemSurrounding) {
+        super(parent, useCase);
+	}
+	
 }
 
 class ChildProcess {
