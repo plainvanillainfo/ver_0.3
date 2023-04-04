@@ -101,8 +101,41 @@ class Transmitter {
 
 class ClientEngine {
     constructor(parent, name) {
+        this.parent = parent;
         this.name = name;
+        this.appConfig = parent.appConfig;
+        this.tracks = {};
+        this.useCases = null;
+        this.fromServer = this.fromServer.bind(this);
+        this.toServer = this.toServer.bind(this);
     }
+
+    fromServer(message) {
+        console.log("ClientEngine::fromServer(): ", message);
+        switch (message.Action) {
+            case 'StartSession':
+                this.toServer({Action: 'SendViewerSpec'});
+                break;
+            case 'ReceiveViewerSpec':
+                this.setViewerSpec(message.ViewerSpec);
+                break;
+            case 'ReceiveEntitlement':
+                this.setEntitlement(message.Entitlement);
+                break;
+            case 'ContinueTrack':
+                if (message.TrackId != null && message.Track != null && this.tracks[message.TrackId] != null) {
+                    this.tracks[message.TrackId].fromServer(message.Track);
+                }
+                break;
+            default:
+                break;        
+        }
+    }
+
+    toServer(messageIn) {
+        this.parent.sendToServer(messageIn);
+    }
+
 
     setViewerSpec(viewerSpec) {
         console.log("ClientEngine::setViewerSpec()");
@@ -135,17 +168,22 @@ class ClientEngine {
     }
 
     initiateTracks() {
-        //super.initiateTracks(new TrackEngine(this, '1', ""));
+        let trackFirst = new Track(this, '1', divTrackNew);
+        this.tracks[trackFirst.id] = trackFirst;
+        this.toServer({
+            Action: 'SendEntitlement',
+            TrackId: trackFirst.id,
+            UserId: this.userId
+        });
     }
 
     terminateTracks() {
-        //super.terminateTracks();
     }
 
 }
 
 class Track {
-    constructor(parent, trackId, div) {
+    constructor(parent, trackId) {
         this.parent = parent;
         this.id = trackId;
 	}
