@@ -36,7 +36,7 @@ class Backend {
         this.users = {};
         this.entitlements = {};
         this.items = {};
-        this.sessions = {};
+        //this.sessions = {};
         process.on('exit', this.exitHandler);
         process.on('SIGTERM', this.exitHandler);
         process.on('SIGINT', this.exitHandler);     // catches ctrl+c event

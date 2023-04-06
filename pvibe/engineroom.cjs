@@ -43,17 +43,6 @@ class EngineRoom {
         });
     }
 
-    receivedFromServer(message) {
-        //this.client.fromServer(message);
-    }
-
-    sendToServer(messageIn) {
-        let messageOut = {
-            AppId: this.appId,
-            ...messageIn
-        };
-        this.transmitter.sendMessageToBE(JSON.stringify(messageOut));
-    }
 }
 
 class Transmitter {
@@ -319,5 +308,6 @@ class FileExportNACHA {
 
 module.exports = {
     EngineRoom: EngineRoom,
+    ClientEngine: ClientEngine,
     FileExportNACHA: FileExportNACHA
 }
