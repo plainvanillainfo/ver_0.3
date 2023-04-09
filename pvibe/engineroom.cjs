@@ -226,10 +226,18 @@ class Track {
 }
 
 class TemplateItem extends TemplateItemClient {
-    constructor(parent, useCase, divItemSurrounding) {
+    constructor(parent, useCase) {
         super(parent, useCase);
 	}
 	
+}
+
+class TemplateElem extends TemplateElemClient {
+    constructor(parent, dataItemParent, dataElem, useCaseElem) {
+        super(parent, dataItemParent, dataElem, useCaseElem);
+        this.visible = false;
+    }
+
 }
 
 class ChildProcess {
