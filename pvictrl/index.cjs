@@ -36,8 +36,10 @@ class ServerMonitor {
     }
 
     instructionsReceivedFromDB(instructions) {
-        let applicationName = 'CPL';
-        let dir = '/home/ubuntu/projects/CPL/test3/meta/';
+        let applicationName = 'CNR';
+        let dir = '/home/ubuntu/projects/CNR/test3/meta/';
+        //let applicationName = 'CPL';
+        //let dir = '/home/ubuntu/projects/CPL/test3/meta/';
         //let applicationName = 'IHC';
         //let dir = '/home/ubuntu/projects/IHC/test3/meta/';
         let applicationCur;
