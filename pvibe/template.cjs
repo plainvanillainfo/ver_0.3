@@ -115,6 +115,7 @@ class TemplateItem {
 			{Table: this.tableBase['Name'], Alias: this.tableBase['Name']}
 		];
 		this.tableBase['WhereJoins'] = [];
+		this.tableBase['WhereTerms'] = [];
 		this.selectQuery = 'SELECT ';
 		this.selectFrom = 'FROM ';
 		this.selectWhere = 'WHERE';
@@ -134,10 +135,11 @@ class TemplateItem {
 				TableRight: this.tableBase['Name'],
 				ColumnRight: 'Id'
 			});
-			this.constructSelectApplyContext();	// HERE - filtration: 
+		//	this.constructSelectApplyContext();	// HERE - filtration: 
 		} else {
 			this.selectWhere += ' 1=1';
 		}
+		this.constructSelectApplyContext(); // HERE - filtration:
 		this.useCase.Detail.Elems.forEach(elemCur => {
 			let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
 			this.constructSelectAddColumn(elemCur, elemAttribute, this.tableBase['Class'], this.tableBase['Name']);
@@ -154,12 +156,30 @@ class TemplateItem {
 				this.selectFrom += ', ';
 			}
 		});
-		this.tableBase['WhereJoins'].forEach((joinCur, joinIndex) => {
+		this.tableBase['WhereJoins'].forEach((joinCur) => {
 			this.selectWhere += ('"' + joinCur.TableLeft + '"."' + joinCur.ColumnLeft + '" = "' + joinCur.TableRight + '"."' + joinCur.ColumnRight + '"');
-			if ((joinIndex+1) < this.tableBase['WhereJoins'].length) {
-				this.selectWhere += ' AND ';
-			}
+			//if ((joinIndex+1) < this.tableBase['WhereJoins'].length) {
+			//	this.selectWhere += ' AND ';
+			//}
 		});
+		if (this.useCase.Filter != null && this.useCase.Filter.Connector != null) {
+			if (this.useCase.Filter.Connector === 'And') {
+				this.tableBase['WhereTerms'].forEach((termCur) => {
+					this.selectWhere += (' AND "' + termCur.Table + '"."' + termCur.Column + '" ' + termCur.Comparison + ' "' + termCur.Value  + '"');
+				});
+			} else {
+				if (this.useCase.Filter.Connector === 'Or') {
+					this.selectWhere += ' AND (';
+					this.tableBase['WhereTerms'].forEach((termCur, termIndex) => {
+						this.selectWhere += ('"' + termCur.Table + '"."' + termCur.Column + '" ' + termCur.Comparison + ' "' + termCur.Value  + '"');
+						if ((termIndex+1) < this.tableBase['WhereTerms'].length) {
+							this.selectWhere += ' OR ';
+						}
+					});
+					this.selectWhere += ')';
+				}
+			}
+		}
 		this.selectQuery += (' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
 	}
 
@@ -226,6 +246,39 @@ class TemplateItem {
 
 	constructSelectApplyContext() {
 		this.parent.context;
+		if (this.useCase.Filter != null && this.useCase.Filter.Terms != null) {
+			if (this.useCase.Filter.Connector === 'And') {
+				this.useCase.Filter.Terms.forEach(termCur => {
+					let queryTerm = {
+						Table: this.tableBase['Name'],
+						Column: termCur.Attribute, 
+						Comparison: '=',
+						Value: termCur.Value
+					};
+					switch (termCur.Comparison) {
+						case 'Eq':
+							queryTerm.Comparison = '=';
+							break;
+						case 'Gt':
+							queryTerm.Comparison = '>';
+							break;
+						case 'Lt':
+							queryTerm.Comparison = '<';
+							break;
+						case 'Ge':
+							queryTerm.Comparison = '>=';
+							break;
+						case 'Le':
+							queryTerm.Comparison = '<=';
+							break;
+						case 'Ne':
+							queryTerm.Comparison = '<>';
+							break;
+					}
+					this.tableBase['WhereJoins'].push(queryTerm);
+				});
+			}
+		}
 	}
 
 	constructUpdate(message, dataItemCur) {
