@@ -162,6 +162,7 @@ class TemplateItem {
 			//	this.selectWhere += ' AND ';
 			//}
 		});
+		console.log("TemplateItem::cccccCCCCCCC");
 		if (this.useCase.Filter != null && this.useCase.Filter.Connector != null) {
 			console.log("TemplateItem::CCCCCC");
 			if (this.useCase.Filter.Connector === 'And') {
@@ -247,7 +248,7 @@ class TemplateItem {
 	}
 
 	constructSelectApplyContext() {
-		console.log("TemplateItem::constructSelectApplyContext():");
+		console.log("TemplateItem::constructSelectApplyContext():", JSON.stringify(this.useCase));
 		//this.parent.context;
 		if (this.useCase.Filter != null && this.useCase.Filter.Terms != null) {
 			console.log("TemplateItem::AAAAA");
