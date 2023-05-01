@@ -245,7 +245,7 @@ class TemplateItem {
 	}
 
 	constructSelectApplyContext() {
-		this.parent.context;
+		//this.parent.context;
 		if (this.useCase.Filter != null && this.useCase.Filter.Terms != null) {
 			if (this.useCase.Filter.Connector === 'And') {
 				this.useCase.Filter.Terms.forEach(termCur => {
@@ -275,7 +275,7 @@ class TemplateItem {
 							queryTerm.Comparison = '<>';
 							break;
 					}
-					this.tableBase['WhereJoins'].push(queryTerm);
+					this.tableBase['WhereTerms'].push(queryTerm);
 				});
 			}
 		}
