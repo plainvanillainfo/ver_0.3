@@ -208,6 +208,7 @@ class TemplateItem {
 						if (elemAttribute.Type === 'Embedded') {
 							embeddedOrReferredComponent = ucClass.Components.find(cur => cur.Name === elemAttribute.Path[0]);
 							embeddedOrReferredTableName = this.session.classes.find(cur => cur.Name === embeddedOrReferredComponent.EmbeddedClass).tableName;
+							console.log("TemplateItem::constructSelectAddColumn() - AAAAA: ", embeddedOrReferredComponent, "\n", embeddedOrReferredTableName);
 						} else {
 							embeddedOrReferredComponent = ucClass.References.find(cur => cur.Name === elemAttribute.Path[0]);
 							embeddedOrReferredTableName = this.session.classes.find(cur => cur.Name === embeddedOrReferredComponent.ReferredClass).tableName;
