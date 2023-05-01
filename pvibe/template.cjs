@@ -163,10 +163,12 @@ class TemplateItem {
 			//}
 		});
 		if (this.useCase.Filter != null && this.useCase.Filter.Connector != null) {
+			console.log("TemplateItem::CCCCCC");
 			if (this.useCase.Filter.Connector === 'And') {
 				this.tableBase['WhereTerms'].forEach((termCur) => {
 					this.selectWhere += (' AND "' + termCur.Table + '"."' + termCur.Column + '" ' + termCur.Comparison + ' "' + termCur.Value  + '"');
 				});
+				console.log("TemplateItem::DDDDDD", this.selectWhere);
 			} else {
 				if (this.useCase.Filter.Connector === 'Or') {
 					this.selectWhere += ' AND (';
@@ -245,9 +247,12 @@ class TemplateItem {
 	}
 
 	constructSelectApplyContext() {
+		console.log("TemplateItem::constructSelectApplyContext():");
 		//this.parent.context;
 		if (this.useCase.Filter != null && this.useCase.Filter.Terms != null) {
+			console.log("TemplateItem::AAAAA");
 			if (this.useCase.Filter.Connector === 'And') {
+				console.log("TemplateItem::BBBBB");
 				this.useCase.Filter.Terms.forEach(termCur => {
 					let queryTerm = {
 						Table: this.tableBase['Name'],
