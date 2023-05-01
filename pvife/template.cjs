@@ -37,6 +37,11 @@ class TemplateItem extends TemplateItemClient {
         - Actions: []
         */
     
+        if (this.useCase == null) {
+            let stop = 1;
+
+        }
+
         let rendering = this.useCase.Detail.Rendering;
         if (rendering.Stack != null) {
             if (rendering.Stack === 'Inherit') {
