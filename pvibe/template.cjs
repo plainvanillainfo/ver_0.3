@@ -163,15 +163,15 @@ class TemplateItem {
 			//}
 		});
 		console.log("TemplateItem::cccccCCCCCCC");
-		if (this.useCase.Filter != null && this.useCase.Filter.Connector != null) {
+		if (this.useCase.Detail.Filter != null && this.useCase.Detail.Filter.Connector != null) {
 			console.log("TemplateItem::CCCCCC");
-			if (this.useCase.Filter.Connector === 'And') {
+			if (this.useCase.Detail.Filter.Connector === 'And') {
 				this.tableBase['WhereTerms'].forEach((termCur) => {
 					this.selectWhere += (' AND "' + termCur.Table + '"."' + termCur.Column + '" ' + termCur.Comparison + ' "' + termCur.Value  + '"');
 				});
 				console.log("TemplateItem::DDDDDD", this.selectWhere);
 			} else {
-				if (this.useCase.Filter.Connector === 'Or') {
+				if (this.useCase.Detail.Filter.Connector === 'Or') {
 					this.selectWhere += ' AND (';
 					this.tableBase['WhereTerms'].forEach((termCur, termIndex) => {
 						this.selectWhere += ('"' + termCur.Table + '"."' + termCur.Column + '" ' + termCur.Comparison + ' "' + termCur.Value  + '"');
@@ -250,11 +250,11 @@ class TemplateItem {
 	constructSelectApplyContext() {
 		console.log("TemplateItem::constructSelectApplyContext():", JSON.stringify(this.useCase));
 		//this.parent.context;
-		if (this.useCase.Filter != null && this.useCase.Filter.Terms != null) {
+		if (this.useCase.Detail.Filter != null && this.useCase.Detail.Filter.Terms != null) {
 			console.log("TemplateItem::AAAAA");
-			if (this.useCase.Filter.Connector === 'And') {
+			if (this.useCase.Detail.Filter.Connector === 'And') {
 				console.log("TemplateItem::BBBBB");
-				this.useCase.Filter.Terms.forEach(termCur => {
+				this.useCase.Detail.Filter.Terms.forEach(termCur => {
 					let queryTerm = {
 						Table: this.tableBase['Name'],
 						Column: termCur.Attribute, 
