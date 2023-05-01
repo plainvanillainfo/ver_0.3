@@ -156,7 +156,7 @@ class TemplateItem {
 				this.selectFrom += ', ';
 			}
 		});
-		this.tableBase['WhereJoins'].forEach((joinCur) => {
+		this.tableBase['WhereJoins'].forEach((joinCur, joinIndex) => {
 			this.selectWhere += ('"' + joinCur.TableLeft + '"."' + joinCur.ColumnLeft + '" = "' + joinCur.TableRight + '"."' + joinCur.ColumnRight + '"');
 			if ((joinIndex+1) < this.tableBase['WhereJoins'].length) {
 				this.selectWhere += ' AND ';
