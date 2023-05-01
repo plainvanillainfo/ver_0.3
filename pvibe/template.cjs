@@ -167,7 +167,7 @@ class TemplateItem {
 			//console.log("TemplateItem::CCCCCC");
 			if (this.useCase.Detail.Filter.Connector === 'And') {
 				this.tableBase['WhereTerms'].forEach((termCur) => {
-					this.selectWhere += (' AND "' + termCur.Table + '"."' + termCur.Column + '" ' + termCur.Comparison + ' "' + termCur.Value  + '"');
+					this.selectWhere += (' AND "' + termCur.Table + '"."' + termCur.Column + '" ' + termCur.Comparison + ' \'' + termCur.Value  + '\'');
 				});
 				//console.log("TemplateItem::DDDDDD", this.selectWhere);
 			} else {
