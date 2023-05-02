@@ -3,6 +3,7 @@ const { TemplateItemClient, TemplateElemClient } = require('../pvibe/template_cl
 class TemplateItem extends TemplateItemClient {
     constructor(parent, useCase, divItemSurrounding) {
         super(parent, useCase);
+        console.log("TemplateItem::constructor");
         this.divItemSurrounding = divItemSurrounding;
         this.isLeaf = true;
         this.columns = [];
@@ -181,6 +182,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     renderSingleDataItem() {
+        console.log("TemplateItem::renderSingleDataItem");
         switch (this.useCase.Detail.Flow) {
             case 'Parallel':
                 switch (this.useCase.Detail.Rendering.Format) {
@@ -210,6 +212,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     renderMultipleDataItems(dataItems) {
+        console.log("TemplateItem::renderMultipleDataItems");
         switch (this.useCase.Detail.Flow) {
             case 'Parallel':
                 switch (this.useCase.Detail.Rendering.Format) {
@@ -309,6 +312,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentTable() {
+        console.log("TemplateItem::presentTable");
         if (this.divItem == null) {
             this.divItem = document.createElement('div');
             this.divItemSurrounding.appendChild(this.divItem);
@@ -364,6 +368,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentTableElem(elem) {
+        console.log("TemplateItem::presentTableElem");
         if (elem.Rendering.Nesting == null || elem.Rendering.Nesting !== 'Coerced') {
             if (elem.SubUseCase == null) {
                 if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
@@ -393,12 +398,14 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentTableRootStatus() {
+        console.log("TemplateItem::presentTableRootStatus");
         this.useCase.Detail.Elems.forEach(elemCur => {
             this.presentTableRootStatusElem(elemCur);
         });
     }
 
     presentTableRootStatusElem(elem) {
+        console.log("TemplateItem::presentTableRootStatusElem");
         if (elem.Rendering.Nesting != null && elem.Rendering.Nesting === 'Coerced') {
             this.isLeaf = false;
             let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
@@ -412,6 +419,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentForm() {
+        console.log("TemplateItem::presentForm");
         this.formList = document.createElement('form');
         if (this.divItem == null) {
             this.divItem = document.createElement('div');
@@ -511,6 +519,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     saveFormData() {
+        console.log("TemplateItem::saveFormData");
         let attrs = {};
         let fUpdated = false;
         for (let formAttrCur in this.formData) {
@@ -531,11 +540,13 @@ class TemplateItem extends TemplateItemClient {
     }
 
     actionCallback(result) {
+        console.log("TemplateItem::actionCallback");
         this.actionResult = result;
         this.aCur.setAttribute("href", "data:text/plain;charset=utf-8," + this.actionResult);
     }
 
     presentFormElem(elem) {
+        console.log("TemplateItem::presentFormElem");
         if (elem.Rendering.Nesting == null || (elem.Rendering.Nesting !== 'Coerced' && elem.Rendering.Nesting !== 'Flattened' )) {
             if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
                 this.columns.push(elem.Rendering.Label);
@@ -566,12 +577,14 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentFormRootStatus() {
+        console.log("TemplateItem::presentFormRootStatus");
         this.useCase.Detail.Elems.forEach(elemCur => {
             this.presentFormRootStatusElem(elemCur);
         });
     }
 
     presentFormRootStatusElem(elem) {
+        console.log("TemplateItem::presentFormRootStatusElem");
         if (elem.Rendering.Nesting != null && elem.Rendering.Nesting === 'Coerced') {
             this.isLeaf = false;
             let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
@@ -589,6 +602,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentTableRows() {
+        console.log("TemplateItem::presentTableRows");
         while (this.tableOwner.tableBody == null) {
             this.tableOwner = this.tableOwner.parent.parent; 
         }
@@ -598,6 +612,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentTableRowsCreateCells(itemCur, itemCellsParent) {
+        console.log("TemplateItem::presentTableRowsCreateCells");
         this.itemCells[itemCur.Key] = [];
         itemCellsParent.forEach(cellCur => {
             this.itemCells[itemCur.Key].push({ ...cellCur });
@@ -650,6 +665,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentTableRowsSetCellValue(itemCur, elems) {
+        console.log("TemplateItem::presentTableRowsSetCellValue");
         elems.forEach(elemCur => {
             if (elemCur.SubUseCase == null) {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
@@ -709,6 +725,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentFormRows() {
+        console.log("TemplateItem::presentFormRows");
         this.dataItems.forEach(itemCur => {
             this.itemCells[itemCur.Key].forEach(cellCur => {
                 let divField = this.formList.firstChild;
@@ -1069,6 +1086,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     showCrumbs() {
+        console.log("TemplateItem::showCrumbs");
         let child = this.olBreadcrumbs.lastElementChild; 
         while (child) {
             this.olBreadcrumbs.removeChild(child);
@@ -1120,6 +1138,7 @@ class TemplateItem extends TemplateItemClient {
 class TemplateElem extends TemplateElemClient {
     constructor(parent, dataItemParent, dataElem, useCaseElem,  divItemParent) {
         super(parent, dataItemParent, dataElem, useCaseElem);
+        console.log("TemplateElem::constructor");
         this.divItemParent = divItemParent;
         if (this.useCaseElem.Rendering != null && this.useCaseElem.Rendering.Nesting != null &&  this.useCaseElem.Rendering.Nesting === 'Coerced') {
             this.divElem = this.divItemParent;
@@ -1192,6 +1211,7 @@ class TemplateElem extends TemplateElemClient {
     }
 
     show() {
+        console.log("TemplateElem::show");
         if (this.dataElem == null) {
             this.toServer({
                 Action: 'Start',
@@ -1206,6 +1226,7 @@ class TemplateElem extends TemplateElemClient {
     }
 
     hide() {
+        console.log("TemplateElem::hide");
         if (this.visible == true) {
             this.divElem.style.visibility = 'hidden';
             this.divElem.style.display = 'none';
@@ -1214,6 +1235,7 @@ class TemplateElem extends TemplateElemClient {
     }
 
     destroy() {
+        console.log("TemplateElem::destroy");
         this.divItemParent.removeChild(this.divElem);
         this.divElem = null;
     }
