@@ -43,13 +43,32 @@ class TemplateItem extends TemplateItemClient {
 
         }
 
+        let isCoerced = false;
+        if (this.parent.useCaseElem != null) {
+            console.log("TemplateItem::AAAA",JSON.stringify(this.parent.useCaseElem));
+            if (this.parent.useCaseElem.Rendering != null) {
+                if (this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
+                    isCoerced = true;
+                }
+            }
+        }
+
         let rendering = this.useCase.Detail.Rendering;
-        if (rendering.Stack != null) {
-            if (rendering.Stack === 'Inherit') {
-                if (this.parent.divBreadcrumbs != null) {
-                    this.divBreadcrumbs = this.parent.divBreadcrumbs;
-                    this.olBreadcrumbs = this.parent.olBreadcrumbs;
-                    this.breadcrumbs = this.parent.breadcrumbs;
+        if (isCoerced === false) {
+            if (rendering.Stack != null) {
+                if (rendering.Stack === 'Inherit') {
+                    if (this.parent.divBreadcrumbs != null) {
+                        this.divBreadcrumbs = this.parent.divBreadcrumbs;
+                        this.olBreadcrumbs = this.parent.olBreadcrumbs;
+                        this.breadcrumbs = this.parent.breadcrumbs;
+                    } else {
+                        this.divBreadcrumbs = document.createElement('nav');
+                        this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
+                        this.olBreadcrumbs = document.createElement('ol');
+                        this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
+                        this.olBreadcrumbs.className = 'breadcrumb';
+                        this.breadcrumbs = [this];
+                    }
                 } else {
                     this.divBreadcrumbs = document.createElement('nav');
                     this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
@@ -58,82 +77,75 @@ class TemplateItem extends TemplateItemClient {
                     this.olBreadcrumbs.className = 'breadcrumb';
                     this.breadcrumbs = [this];
                 }
-            } else{
-                this.divBreadcrumbs = document.createElement('nav');
-                this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
-                this.olBreadcrumbs = document.createElement('ol');
-                this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
-                this.olBreadcrumbs.className = 'breadcrumb';
-                this.breadcrumbs = [this];
-            }
-        } else {
-            if (this.parent.divBreadcrumbs != null) {
-                this.divBreadcrumbs = this.parent.divBreadcrumbs;
-                this.olBreadcrumbs = this.parent.olBreadcrumbs;
-                this.breadcrumbs = this.parent.breadcrumbs;
-            }
-        }
-        if (rendering.Caption != null) {
-            let headingCaption = document.createElement('h3');
-            if (this.divItem == null) {
-                this.divItem = document.createElement('div');
-                this.divItemSurrounding.appendChild(this.divItem);
-            }
-            this.divItem.appendChild(headingCaption);
-            headingCaption.appendChild(document.createTextNode(rendering.Caption));
-        }
-        if (rendering.Search != null) {
-            let divSearch = document.createElement('div');
-            if (this.divItem == null) {
-                this.divItem = document.createElement('div');
-                this.divItemSurrounding.appendChild(this.divItem);
-            }
-            this.divItem.appendChild(divSearch);
-            let inputSearch = document.createElement('input');
-            divSearch.appendChild(inputSearch);
-            inputSearch.setAttribute("type", "text");
-            inputSearch.setAttribute("placeholder", "Search..");
-
-            let buttonClear = document.createElement('button');
-            divSearch.appendChild(buttonClear);
-            buttonClear.setAttribute("type", "button");
-            buttonClear.id = 'clearbutton';
-            let iconClear = document.createElement('i');
-            buttonClear.appendChild(iconClear);
-            iconClear.className = 'bi bi-x-circle';
-
-            let buttonSearch = document.createElement('button');
-            divSearch.appendChild(buttonSearch);
-            buttonSearch.setAttribute("type", "button");
-            buttonSearch.id = 'searchbutton';
-            let iconSearch = document.createElement('i');
-            buttonSearch.appendChild(iconSearch);
-            iconSearch.className = 'bi bi-search';
-        }
-        if (rendering.Criteria != null) {
-            let divCriteria = document.createElement('div');
-            if (this.divItem == null) {
-                this.divItem = document.createElement('div');
-                this.divItemSurrounding.appendChild(this.divItem);
-            }
-            this.divItem.appendChild(divCriteria);
-            divCriteria.appendChild(document.createTextNode('Criteria' + JSON.stringify(this.useCase.Detail.Rendering)));
-        }
-        if (this.parent.useCaseElem != null) {
-            console.log("TemplateItem::AAAA",JSON.stringify(this.parent.useCaseElem));
-        }
-        if (rendering.Format === 'Table') {
-            if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
-                this.presentTable();
             } else {
-                this.presentTableRootStatus();
+                if (this.parent.divBreadcrumbs != null) {
+                    this.divBreadcrumbs = this.parent.divBreadcrumbs;
+                    this.olBreadcrumbs = this.parent.olBreadcrumbs;
+                    this.breadcrumbs = this.parent.breadcrumbs;
+                }
             }
-        } else {
-            if (rendering.Format === 'Form') {
+            if (rendering.Caption != null) {
+                let headingCaption = document.createElement('h3');
+                if (this.divItem == null) {
+                    this.divItem = document.createElement('div');
+                    this.divItemSurrounding.appendChild(this.divItem);
+                }
+                this.divItem.appendChild(headingCaption);
+                headingCaption.appendChild(document.createTextNode(rendering.Caption));
+            }
+            if (rendering.Search != null) {
+                let divSearch = document.createElement('div');
+                if (this.divItem == null) {
+                    this.divItem = document.createElement('div');
+                    this.divItemSurrounding.appendChild(this.divItem);
+                }
+                this.divItem.appendChild(divSearch);
+                let inputSearch = document.createElement('input');
+                divSearch.appendChild(inputSearch);
+                inputSearch.setAttribute("type", "text");
+                inputSearch.setAttribute("placeholder", "Search..");
+
+                let buttonClear = document.createElement('button');
+                divSearch.appendChild(buttonClear);
+                buttonClear.setAttribute("type", "button");
+                buttonClear.id = 'clearbutton';
+                let iconClear = document.createElement('i');
+                buttonClear.appendChild(iconClear);
+                iconClear.className = 'bi bi-x-circle';
+
+                let buttonSearch = document.createElement('button');
+                divSearch.appendChild(buttonSearch);
+                buttonSearch.setAttribute("type", "button");
+                buttonSearch.id = 'searchbutton';
+                let iconSearch = document.createElement('i');
+                buttonSearch.appendChild(iconSearch);
+                iconSearch.className = 'bi bi-search';
+            }
+            if (rendering.Criteria != null) {
+                let divCriteria = document.createElement('div');
+                if (this.divItem == null) {
+                    this.divItem = document.createElement('div');
+                    this.divItemSurrounding.appendChild(this.divItem);
+                }
+                this.divItem.appendChild(divCriteria);
+                divCriteria.appendChild(document.createTextNode('Criteria' + JSON.stringify(this.useCase.Detail.Rendering)));
+            }
+            if (this.parent.useCaseElem != null) {
+                console.log("TemplateItem::AAAA", JSON.stringify(this.parent.useCaseElem));
+            }
+            if (rendering.Format === 'Table') {
                 if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
-                    this.presentForm();
+                    this.presentTable();
                 } else {
-                    this.presentFormRootStatus();
+                    this.presentTableRootStatus();
+                }
+            } else {
+                if (rendering.Format === 'Form') {
+                    if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
+                        this.presentForm();
+                    } else {
+                        this.presentFormRootStatus();
+                    }
                 }
             }
         }
