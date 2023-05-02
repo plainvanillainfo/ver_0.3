@@ -119,6 +119,9 @@ class TemplateItem extends TemplateItemClient {
             this.divItem.appendChild(divCriteria);
             divCriteria.appendChild(document.createTextNode('Criteria' + JSON.stringify(this.useCase.Detail.Rendering)));
         }
+        if (this.parent.useCaseElem != null) {
+            console.log("TemplateItem::AAAA",JSON.stringify(this.parent.useCaseElem));
+        }
         if (rendering.Format === 'Table') {
             if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
                 this.presentTable();
