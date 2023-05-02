@@ -117,7 +117,7 @@ class TemplateItem extends TemplateItemClient {
                 this.divItemSurrounding.appendChild(this.divItem);
             }
             this.divItem.appendChild(divCriteria);
-            divCriteria.appendChild(document.createTextNode('Criteria' + this.useCase.Detail.Rendering));
+            divCriteria.appendChild(document.createTextNode('Criteria' + JSON.stringify(this.useCase.Detail.Rendering)));
         }
         if (rendering.Format === 'Table') {
             if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
