@@ -1,5 +1,6 @@
 class TemplateItemClient {
     constructor(parent, useCase) {
+        console.log("TemplateItemClient::constructor");
         this.parent = parent;
         this.session = this.parent.session;
         this.useCase = useCase;
@@ -43,6 +44,7 @@ class TemplateItemClient {
     }
 
     toServer(messageIn) {
+        console.log("TemplateItemClient::toServer");
         let messageOut = {
             Action: 'ContinueTemplateItem',
             TemplateItem: {
@@ -81,6 +83,7 @@ class TemplateItemClient {
 
 class TemplateElemClient {
     constructor(parent, dataItemParent, dataElem, useCaseElem) {
+        console.log("TemplateElemClient::constructor");
         this.parent = parent;
         this.session = this.parent.session;
         this.dataItemParent = dataItemParent;
@@ -115,6 +118,7 @@ class TemplateElemClient {
     }
 
     toServer(messageIn) {
+        console.log("TemplateElemClient::toServer");
         let messageOut = {
             Action: 'ContinueTemplateElem',
             TemplateElem: {
