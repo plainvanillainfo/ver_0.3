@@ -135,7 +135,6 @@ class TemplateItem {
 				TableRight: this.tableBase['Name'],
 				ColumnRight: 'Id'
 			});
-		//	this.constructSelectApplyContext();	// HERE - filtration: 
 		} else {
 			this.selectWhere += ' 1=1';
 		}
@@ -162,14 +161,11 @@ class TemplateItem {
 				this.selectWhere += ' AND ';
 			}
 		});
-		//console.log("TemplateItem::cccccCCCCCCC");
 		if (this.useCase.Detail.Filter != null && this.useCase.Detail.Filter.Connector != null) {
-			//console.log("TemplateItem::CCCCCC");
 			if (this.useCase.Detail.Filter.Connector === 'And') {
 				this.tableBase['WhereTerms'].forEach((termCur) => {
 					this.selectWhere += (' AND "' + termCur.Table + '"."' + termCur.Column + '" ' + termCur.Comparison + ' \'' + termCur.Value  + '\'');
 				});
-				//console.log("TemplateItem::DDDDDD", this.selectWhere);
 			} else {
 				if (this.useCase.Detail.Filter.Connector === 'Or') {
 					this.selectWhere += ' AND (';
@@ -201,14 +197,12 @@ class TemplateItem {
 					break;
 				case 'Embedded':
 				case 'Reference':
-						if (elemAttribute.Path.length === 1) {
-				        console.log("TemplateItem::constructSelectAddColumn() - Embedded: ", elemAttribute);
+					if (elemAttribute.Path.length === 1) {
 						let embeddedOrReferredComponent;
 						let embeddedOrReferredTableName;
 						if (elemAttribute.Type === 'Embedded') {
 							embeddedOrReferredComponent = ucClass.Components.find(cur => cur.Name === elemAttribute.Path[0]);
 							embeddedOrReferredTableName = this.session.classes.find(cur => cur.Name === embeddedOrReferredComponent.EmbeddedClass).tableName;
-							console.log("TemplateItem::constructSelectAddColumn() - AAAAA: ", embeddedOrReferredComponent, "\n", embeddedOrReferredTableName);
 						} else {
 							embeddedOrReferredComponent = ucClass.References.find(cur => cur.Name === elemAttribute.Path[0]);
 							embeddedOrReferredTableName = this.session.classes.find(cur => cur.Name === embeddedOrReferredComponent.ReferredClass).tableName;
@@ -250,7 +244,6 @@ class TemplateItem {
 
 	constructSelectApplyContext() {
 		//console.log("TemplateItem::constructSelectApplyContext():", JSON.stringify(this.useCase));
-		//this.parent.context;
 		if (this.useCase.Detail.Filter != null && this.useCase.Detail.Filter.Terms != null) {
 			console.log("TemplateItem::AAAAA");
 			if (this.useCase.Detail.Filter.Connector === 'And') {
@@ -530,7 +523,7 @@ class TemplateItem {
 			}
 
 		});
-		if (this.dataItems.length > 0) {
+		if (true || this.dataItems.length > 0) {
 			let parentKey = this.parent.itemParent != null ? this.parent.itemParent.Key : null;
 	        let messageOut = {
 	            Action: 'StartTemplateItem',
