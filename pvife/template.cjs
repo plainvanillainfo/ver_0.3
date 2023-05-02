@@ -47,6 +47,7 @@ class TemplateItem extends TemplateItemClient {
             if (rendering.Stack === 'Inherit') {
                 if (this.parent.divBreadcrumbs != null) {
                     this.divBreadcrumbs = this.parent.divBreadcrumbs;
+                    this.olBreadcrumbs = this.parent.olBreadcrumbs;
                     this.breadcrumbs = this.parent.breadcrumbs;
                 } else {
                     this.divBreadcrumbs = document.createElement('nav');
