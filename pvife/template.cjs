@@ -128,10 +128,10 @@ class TemplateItem extends TemplateItemClient {
                     this.divItemSurrounding.appendChild(this.divItem);
                 }
                 this.divItem.appendChild(divCriteria);
-                divCriteria.appendChild(document.createTextNode('Criteria' + JSON.stringify(this.useCase.Detail.Rendering)));
+                divCriteria.appendChild(document.createTextNode('Criteria'));
             }
             if (this.parent.useCaseElem != null) {
-                console.log("TemplateItem::AAAA", JSON.stringify(this.parent.useCaseElem));
+                //console.log("TemplateItem::AAAA", JSON.stringify(this.parent.useCaseElem));
             }
             if (rendering.Format === 'Table') {
                 if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
@@ -643,7 +643,7 @@ class TemplateItem extends TemplateItemClient {
             }
         });
         itemCur.isEmpty = true;
-        if (this.isLeaf === true) {
+        if (true || this.isLeaf === true) {
             this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
             if (itemCur.isEmpty === false) {
                 let tableItemRow = document.createElement('tr');
