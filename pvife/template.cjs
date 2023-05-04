@@ -39,18 +39,6 @@ class TemplateItem extends TemplateItemClient {
         - Actions: []
         */
     
-        /*
-        let isCoerced = false;
-        if (this.parent.useCaseElem != null) {
-            console.log("TemplateItem::AAAA",JSON.stringify(this.parent.useCaseElem));
-            if (this.parent.useCaseElem.Rendering != null) {
-                if (this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
-                    isCoerced = true;
-                }
-            }
-        }
-        */
-
         let rendering = this.useCase.Detail.Rendering;
         if (this.isCoerced === false) {
             if (rendering.Stack != null) {
