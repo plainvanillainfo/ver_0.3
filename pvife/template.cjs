@@ -1174,18 +1174,9 @@ class TemplateElem extends TemplateElemClient {
         if (this.templateItem == null) {
             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
             this.templateItem = new TemplateItem(this, subUseCase, this.divElem);
-            //this.templateItem.setDataItems(message.DataItems);
             if (this.useCaseElem.Rendering.Format != null && this.useCaseElem.Rendering.Format === 'DrillDown') {
                 this.parent.pushBreadcrumb(this.templateItem);
             }
-
-        /*
-        } else {
-            // HERE:
-
-            let r = 6;
-            this.templateItem.setDataItems(message.DataItems);
-            */
         }
         this.templateItem.setDataItems(message.DataItems);
     }
