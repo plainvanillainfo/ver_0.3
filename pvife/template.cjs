@@ -162,20 +162,22 @@ class TemplateItem extends TemplateItemClient {
 
             } else {
                 let dataItemParent = message.TemplateItem.ParentKey != null ? this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) : this.dataItems[0];
-                if (this.elemDataItems[dataItemParent.Key] == null) {
-                    this.elemDataItems[dataItemParent.Key] = {};
-                }
-                if (this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] == null) {
-                    let useCaseElemCur = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.UseCaseElemName);
-                    if (this.divItem == null) {
-                        this.divItem = document.createElement('div');
-                        this.divItemSurrounding.appendChild(this.divItem);
+                if (dataItemParent != null) {
+                    if (this.elemDataItems[dataItemParent.Key] == null) {
+                        this.elemDataItems[dataItemParent.Key] = {};
                     }
-                    let templateElemNew = new TemplateElem(this, dataItemParent, null, useCaseElemCur, this.divItem);
-                    this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] = templateElemNew;
-                }
-                if (this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] != null) {
-                    this.elemDataItems[dataItemParent.Key][message.UseCaseElemName].fromServer(message);
+                    if (this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] == null) {
+                        let useCaseElemCur = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === message.UseCaseElemName);
+                        if (this.divItem == null) {
+                            this.divItem = document.createElement('div');
+                            this.divItemSurrounding.appendChild(this.divItem);
+                        }
+                        let templateElemNew = new TemplateElem(this, dataItemParent, null, useCaseElemCur, this.divItem);
+                        this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] = templateElemNew;
+                    }
+                    if (this.elemDataItems[dataItemParent.Key][message.UseCaseElemName] != null) {
+                        this.elemDataItems[dataItemParent.Key][message.UseCaseElemName].fromServer(message);
+                    }
                 }
             }
         }
