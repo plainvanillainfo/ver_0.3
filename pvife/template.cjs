@@ -1,10 +1,11 @@
 const { TemplateItemClient, TemplateElemClient } = require('../pvibe/template_client.cjs');
 
 class TemplateItem extends TemplateItemClient {
-    constructor(parent, useCase, divItemSurrounding) {
+    constructor(parent, useCase, divItemSurrounding, isCoerced) {
         super(parent, useCase);
         console.log("TemplateItem::constructor");
         this.divItemSurrounding = divItemSurrounding;
+        this.isCoerced = isCoerced;
         this.isLeaf = true;
         this.columns = [];
         this.tableOwner = this;
@@ -38,11 +39,7 @@ class TemplateItem extends TemplateItemClient {
         - Actions: []
         */
     
-        if (this.useCase == null) {
-            let stop = 1;
-
-        }
-
+        /*
         let isCoerced = false;
         if (this.parent.useCaseElem != null) {
             console.log("TemplateItem::AAAA",JSON.stringify(this.parent.useCaseElem));
@@ -52,9 +49,10 @@ class TemplateItem extends TemplateItemClient {
                 }
             }
         }
+        */
 
         let rendering = this.useCase.Detail.Rendering;
-        if (isCoerced === false) {
+        if (this.isCoerced === false) {
             if (rendering.Stack != null) {
                 if (rendering.Stack === 'Inherit') {
                     if (this.parent.divBreadcrumbs != null) {
@@ -130,9 +128,6 @@ class TemplateItem extends TemplateItemClient {
                 this.divItem.appendChild(divCriteria);
                 divCriteria.appendChild(document.createTextNode('Criteria'));
             }
-            if (this.parent.useCaseElem != null) {
-                //console.log("TemplateItem::AAAA", JSON.stringify(this.parent.useCaseElem));
-            }
             if (rendering.Format === 'Table') {
                 if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
                     this.presentTable();
@@ -148,6 +143,8 @@ class TemplateItem extends TemplateItemClient {
                     }
                 }
             }
+        } else {
+            let x = 4;
         }
         this.actionResult = '';
         this.actionCallback = this.actionCallback.bind(this);
@@ -1175,7 +1172,8 @@ class TemplateElem extends TemplateElemClient {
         console.log("TemplateElem::startTemplateItem");
         if (this.templateItem == null) {
             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
-            this.templateItem = new TemplateItem(this, subUseCase, this.divElem);
+            let isItemCoerced = (this.useCaseElem.Rendering.Nesting != null && this.useCaseElem.Rendering.Nesting === 'Coerced') ? true : false;
+            this.templateItem = new TemplateItem(this, subUseCase, this.divElem, isItemCoerced);
             if (this.useCaseElem.Rendering.Format != null && this.useCaseElem.Rendering.Format === 'DrillDown') {
                 this.parent.pushBreadcrumb(this.templateItem);
             }
