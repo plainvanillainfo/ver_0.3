@@ -598,8 +598,7 @@ class TemplateItem extends TemplateItemClient {
         console.log("TemplateItem::presentTableRowsCreateCells");
         this.itemCells[itemCur.Key] = [];
         itemCellsParent.forEach(cellParentCur => {
-            //this.itemCells[itemCur.Key].push({ ...cellCur });
-            this.itemCells[itemCur.Key].push(cellCur);
+            this.itemCells[itemCur.Key].push(cellParentCur);
         });
         this.templateItemCoercer.columns.forEach(colCur => {
             let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
