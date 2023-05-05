@@ -251,7 +251,7 @@ class TemplateItem extends TemplateItemClient {
                         this.presentTableRows();
                         break;
                     case 'Form':
-                        this.presentFormRows();
+                        this.presentFormColumns();
                         break;
                     default:
                         break;
@@ -362,7 +362,7 @@ class TemplateItem extends TemplateItemClient {
                     this.templateItemSub.itemCells = {};
                     let itemCur = {Key: '00000000-0000-0000-0000-000000000001', Attrs: {}};     // New record key and data
                     this.dataItems.push(itemCur);
-                    this.presentTableRowsCreateCells(itemCur, this.itemCellsParent);
+                    this.presentColumn(itemCur, this.itemCellsParent);
                     this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
                     this.templateItemSub.setDataItems([itemCur]);
                     this.pushBreadcrumb(this.templateItemSub);
@@ -577,18 +577,13 @@ class TemplateItem extends TemplateItemClient {
 
     presentTableRows() {
         console.log("TemplateItem::presentTableRows");
-        /*
-        //while (this.templateItemCoercer.tableBody == null) {
-        //    this.templateItemCoercer = this.templateItemCoercer.parent.parent; 
-        //}
-        */
         this.dataItems.forEach(itemCur => {
-            this.presentTableRowsCreateCells(itemCur, this.itemCellsParent);
+            this.presentRow(itemCur, this.itemCellsParent);
         });
     }
 
-    presentTableRowsCreateCells(itemCur, itemCellsParent) {
-        console.log("TemplateItem::presentTableRowsCreateCells");
+    presentRow(itemCur, itemCellsParent) {
+        console.log("TemplateItem::presentRow");
         this.itemCells[itemCur.Key] = [];
         itemCellsParent.forEach(cellParentCur => {
             let cellParentLocal = {...cellParentCur};
@@ -609,7 +604,7 @@ class TemplateItem extends TemplateItemClient {
             }
         });
         itemCur.isEmpty = true;
-        this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
+        this.presentCells(itemCur, this.useCase.Detail.Elems);
         if (this.isLeaf === true) {
             if (itemCur.isEmpty === false) {
                 let tableItemRow = document.createElement('tr');
@@ -618,7 +613,7 @@ class TemplateItem extends TemplateItemClient {
                 if (this.useCase.Detail.Rendering.Actions != null && this.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown')) {
                     tableItemRow.addEventListener('click', (event) => {
                         event.preventDefault();
-                        console.log("presentTableRows - Item picked: ", event.currentTarget.dataItem.Key);
+                        console.log("presentRow - Item picked: ", event.currentTarget.dataItem.Key);
                         if (this.useCase.Detail.SubUseCase != null) {
                             if (this.divItem == null) {
                                 this.divItem = document.createElement('div');
@@ -629,8 +624,6 @@ class TemplateItem extends TemplateItemClient {
                             this.templateItemCoercer.divItemSub.style.margin = '10px';
                             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                             this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, false);
-                            //this.templateItemSub.itemCells = {};
-                            //this.templateItemSub.itemCells[event.currentTarget.dataItem.Key] = this.itemCells[event.currentTarget.dataItem.Key];
                             this.templateItemSub.setDataItems([event.currentTarget.dataItem]);
                             this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
                         }
@@ -646,8 +639,8 @@ class TemplateItem extends TemplateItemClient {
         };
     }
 
-    presentTableRowsSetCellValue(itemCur, elems) {
-        console.log("TemplateItem::presentTableRowsSetCellValue");
+    presentCells(itemCur, elems) {
+        console.log("TemplateItem::presentCells");
         elems.forEach(elemCur => {
             if (elemCur.SubUseCase == null) {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
@@ -698,15 +691,17 @@ class TemplateItem extends TemplateItemClient {
             } else {
                 let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === elemCur.SubUseCase);
                 if (elemCur.Rendering.Nesting != null && elemCur.Rendering.Nesting === 'Flattened') {
-                    this.presentTableRowsSetCellValue(itemCur, subUseCase.Detail.Elems);
+                    this.presentCells(itemCur, subUseCase.Detail.Elems);
                 }
             }
         });
     }
 
-    presentFormRows() {
-        console.log("TemplateItem::presentFormRows");
+    presentFormColumns() {
+        console.log("TemplateItem::presentFormColumns");
         this.dataItems.forEach(itemCur => {
+            this.presentColumn(itemCur, this.itemCellsParent);
+            /*
             this.itemCells[itemCur.Key].forEach(cellCur => {
                 let divField = this.formList.firstChild;
                 while (divField != null) {
@@ -843,7 +838,172 @@ class TemplateItem extends TemplateItemClient {
                     }
                 }
             });
+            */
         });
+    }
+
+    presentColumn(itemCur, itemCellsParent) {
+
+        this.itemCells[itemCur.Key] = [];
+        itemCellsParent.forEach(cellParentCur => {
+            let cellParentLocal = {...cellParentCur};
+            if (cellParentCur.Td != null) {
+                cellParentLocal.Td = cellParentCur.Td.cloneNode(true);
+            }
+
+            this.itemCells[itemCur.Key].push(cellParentLocal);
+        });
+        this.templateItemCoercer.columns.forEach(colCur => {
+            let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
+            if (cellCur == null) {
+                this.itemCells[itemCur.Key].push({
+                    Col: colCur,
+                    Value: '',
+                    Td: null
+                });
+            }
+        });
+        itemCur.isEmpty = true;
+
+
+        this.itemCells[itemCur.Key].forEach(cellCur => {
+            let divField = this.formList.firstChild;
+            while (divField != null) {
+                if (divField.rendering != null && divField.rendering.Label === cellCur.Col) {
+                    let inputCur;
+                    if (divField.rendering.Format != null) {
+                        switch (divField.rendering.Format) {
+                            case 'Text':
+                                inputCur = document.createElement('input');
+                                inputCur.id = cellCur.Elem.Name;
+                                divField.appendChild(inputCur);
+                                inputCur.setAttribute("type", "input");
+                                inputCur.value = cellCur.Value;
+                                inputCur.style.width = '70%';
+                                inputCur.addEventListener('blur', (event) => {
+                                    event.preventDefault();
+                                    this.formData[event.target.id] = event.target.value
+                                });
+                                if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
+                                    inputCur.disabled = true;
+                                }
+                                break;
+                            case 'Date':
+                                let divDate = document.createElement('div');
+                                divField.appendChild(divDate);
+                                divDate.className = 'input-group date';
+                                divDate.style.display = 'inline';
+                                inputCur = document.createElement('input');
+                                inputCur.id = cellCur.Elem.Name;
+                                divDate.appendChild(inputCur);
+                                inputCur.setAttribute("type", "date");
+                                if (cellCur.Value != null && cellCur.Value > '') {
+                                    let valueCur = new Date(cellCur.Value);
+                                    inputCur.value = valueCur.toISOString();
+                                } else {
+                                    inputCur.value = '';
+                                }
+                                inputCur.style.width = '70%';
+                                inputCur.addEventListener('blur', (event) => {
+                                    event.preventDefault();
+                                    this.formData[event.target.id] = event.target.value;
+                                });
+                                let itemImgCal = document.createElement('i');
+                                divDate.appendChild(itemImgCal);
+                                itemImgCal.className = 'bi bi-calendar';
+                                itemImgCal.style.marginLeft = "10px";
+                                break;
+                            case 'Textarea':
+                                inputCur = document.createElement('textarea');
+                                inputCur.id = cellCur.Elem.Name;
+                                divField.appendChild(inputCur);
+                                if (divField.rendering.Rows != null) {
+                                    inputCur.setAttribute("rows", divField.rendering.Rows);
+                                }
+                                inputCur.value = cellCur.Value;
+                                inputCur.style.width = '70%';
+                                inputCur.addEventListener('blur', (event) => {
+                                    event.preventDefault();
+                                    this.formData[event.target.id] = event.target.value
+                                });
+                                if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
+                                    inputCur.disabled = true;
+                                }
+                                break;
+                            case 'DrillDown':
+                                inputCur = document.createElement('button');
+                                inputCur.id = cellCur.Elem.Name;
+                                divField.appendChild(inputCur);
+                                inputCur.className = 'btn btn-primary';
+                                inputCur.setAttribute("type", "button");
+                                inputCur.style.width = "22em";
+                                inputCur.appendChild(document.createTextNode(divField.rendering.Label));
+                                inputCur.addEventListener('click', (event) => {
+                                    event.preventDefault();
+                                    console.log("TemplateItem - DrillDown: ");
+                                    if (this.divItem == null) {
+                                        this.divItem = document.createElement('div');
+                                        this.divItemSurrounding.appendChild(this.divItem);
+                                    }
+                                    this.divItemSub = document.createElement('div');
+                                    this.divItemSub.className = 'mb-3';
+                                    this.divItemSub.style.margin = '10px';
+                                    let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === divField.elem.SubUseCase);
+                                    
+                                    let dataItem = this.dataItems[0];		// For forms with multiple items, [0] will change to [i]
+                                    if (this.elemDataItems[dataItem.Key] == null) {
+                                        this.elemDataItems[dataItem.Key] = {};
+                                    }
+
+                                    let templateElemPicked = null;
+                                    if (this.elemDataItems[dataItem.Key][divField.elem.Name] == null) {
+                                        templateElemPicked = new TemplateElem(this, dataItem, null, divField.elem, this.divItemSub);
+                                        this.elemDataItems[dataItem.Key][divField.elem.Name] = templateElemPicked;
+                                    } else {
+                                        templateElemPicked = this.elemDataItems[dataItem.Key][divField.elem.Name];
+                                    }
+                                    if (this.dataElem == null) {
+                                        this.toServer({
+                                            Action: 'ContinueTemplateElem',
+                                            TemplateElem: {
+                                                ItemKey: itemCur.Key,
+                                                UseCaseElemName: divField.elem.Name,
+                                                Action: 'ContinueTemplateItem',
+                                                TemplateItem: {
+                                                  UseCaseName: subUseCase.Detail.Name,
+                                                  Action: 'Start'
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                                break;
+                            default:
+                                break;
+                        }
+                    } else {
+                        inputCur = document.createElement('input');
+                        inputCur.id = cellCur.Elem.Name;
+                        divField.appendChild(inputCur);
+                        inputCur.setAttribute("type", "input");
+                        inputCur.value = cellCur.Value;
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value
+                        });
+                        if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
+                            inputCur.disabled = true;
+                        }
+                    }
+                    break;
+                } else {
+                    divField = divField.nextSibling;
+                }
+            }
+        });
+
+
     }
 
     /*
