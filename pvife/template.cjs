@@ -118,23 +118,9 @@ class TemplateItem extends TemplateItemClient {
                 divCriteria.appendChild(document.createTextNode('Criteria'));
             }
             if (rendering.Format === 'Table') {
-                /*
-                if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
-                    this.presentTable();
-                } else {
-                    this.setCoercedLeafStatus();
-                }
-                */
                 this.presentTable();
             } else {
                 if (rendering.Format === 'Form') {
-                    /*
-                    if (this.parent.useCaseElem == null || this.parent.useCaseElem.Rendering.Nesting == null || this.parent.useCaseElem.Rendering.Nesting !== 'Coerced') {
-                        this.presentForm();
-                    } else {
-                        this.presentFormRootStatus();
-                    }
-                    */
                     this.presentForm();
                 }
             }
@@ -387,7 +373,7 @@ class TemplateItem extends TemplateItemClient {
         tableHead.appendChild(this.tableHeadRow);
         this.tableBody = document.createElement('tbody');
         this.tableList.appendChild(this.tableBody);
-        if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null && this.isCoerced === true) { //this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
+        if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null && this.isCoerced === true) {
             this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
                 this.itemCellsParent.push({...cur});
             });
@@ -585,29 +571,6 @@ class TemplateItem extends TemplateItemClient {
         this.aCur.setAttribute("href", "data:text/plain;charset=utf-8," + this.actionResult);
     }
 
-    /*
-    presentFormRootStatus() {
-        console.log("TemplateItem::presentFormRootStatus");
-        this.useCase.Detail.Elems.forEach(elemCur => {
-            this.presentFormRootStatusElem(elemCur);
-        });
-    }
-
-    presentFormRootStatusElem(elem) {
-        console.log("TemplateItem::presentFormRootStatusElem");
-        if (elem.Rendering.Nesting != null && elem.Rendering.Nesting === 'Coerced') {
-            this.isLeaf = false;
-            let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
-            if (subUseCase != null) {
-                subUseCase.Detail.Elems.forEach(elemCur => {
-                    this.presentFormRootStatusElem(elemCur);
-                });
-        
-            }
-        }
-    }
-    */
-
     presentPickList() {
         console.log("TemplateItem::presentPickList");
     }
@@ -642,9 +605,8 @@ class TemplateItem extends TemplateItemClient {
             }
         });
         itemCur.isEmpty = true;
-        //if (true || this.isLeaf === true) {
+        this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
         if (this.isLeaf === true) {
-            this.presentTableRowsSetCellValue(itemCur, this.useCase.Detail.Elems);
             if (itemCur.isEmpty === false) {
                 let tableItemRow = document.createElement('tr');
                 this.templateItemCoercer.tableBody.appendChild(tableItemRow);
