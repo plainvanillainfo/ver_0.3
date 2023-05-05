@@ -129,10 +129,7 @@ class TemplateItem extends TemplateItemClient {
             this.setCoercedLeafStatus();
             if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
                 this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
-                    let curLocal = {...cur};
-                    curLocal.Td = document.createElement('td');
-                    curLocal.Value = '';
-                    this.itemCellsParent.push(curLocal);
+                    this.itemCellsParent.push(cur);
                 });
             }
             }
@@ -594,7 +591,10 @@ class TemplateItem extends TemplateItemClient {
         console.log("TemplateItem::presentTableRowsCreateCells");
         this.itemCells[itemCur.Key] = [];
         itemCellsParent.forEach(cellParentCur => {
-            this.itemCells[itemCur.Key].push({...cellParentCur});
+            let cellParentLocal = {...cellParentCur};
+            cellParentLocal.Td = cellParentCur.Td.cloneNode(true);
+
+            this.itemCells[itemCur.Key].push(cellParentLocal);
         });
         this.templateItemCoercer.columns.forEach(colCur => {
             let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === colCur);
