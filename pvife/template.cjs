@@ -387,7 +387,7 @@ class TemplateItem extends TemplateItemClient {
         tableHead.appendChild(this.tableHeadRow);
         this.tableBody = document.createElement('tbody');
         this.tableList.appendChild(this.tableBody);
-        if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null && his.isCoerced === true) { //this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
+        if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null && this.isCoerced === true) { //this.parent.useCaseElem.Rendering.Nesting != null && this.parent.useCaseElem.Rendering.Nesting === 'Coerced') {
             this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
                 this.itemCellsParent.push({...cur});
             });
