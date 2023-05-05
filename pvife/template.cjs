@@ -129,7 +129,7 @@ class TemplateItem extends TemplateItemClient {
             this.setCoercedLeafStatus();
             if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null) {
                 this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
-                    this.itemCellsParent.push({...cur});
+                    this.itemCellsParent.push(cur);
                 });
             }
             }
@@ -378,13 +378,6 @@ class TemplateItem extends TemplateItemClient {
         tableHead.appendChild(this.tableHeadRow);
         this.tableBody = document.createElement('tbody');
         this.tableList.appendChild(this.tableBody);
-        /*
-        if (this.parent.dataItemParent != null && this.parent.parent.itemCells != null && this.isCoerced === true) {
-            this.parent.parent.itemCells[this.parent.dataItemParent.Key].forEach(cur => {
-                this.itemCellsParent.push({...cur});
-            });
-        }
-        */
         this.useCase.Detail.Elems.forEach(elemCur => {
             this.presentTableElem(elemCur);
         });
