@@ -592,7 +592,9 @@ class TemplateItem extends TemplateItemClient {
         this.itemCells[itemCur.Key] = [];
         itemCellsParent.forEach(cellParentCur => {
             let cellParentLocal = {...cellParentCur};
-            cellParentLocal.Td = cellParentCur.Td.cloneNode(true);
+            if (cellParentCur.Td != null) {
+                cellParentLocal.Td = cellParentCur.Td.cloneNode(true);
+            }
 
             this.itemCells[itemCur.Key].push(cellParentLocal);
         });
