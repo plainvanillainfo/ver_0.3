@@ -657,26 +657,24 @@ class TemplateItem extends TemplateItemClient {
                     cellCur.Td = document.createElement('td');
                     cellCur.Rendering = elemCur.Rendering;
                     cellCur.Elem = elemCur;
-                }
-                if (valueCur !== '') {
-                    itemCur.isEmpty = false;
-                    if (cellCur != null) {
-                        cellCur.Value = valueCur;
+                    if (valueCur !== '') {
+                        itemCur.isEmpty = false;
+                        let displayValue = valueCur;
                         if (cellCur.Rendering.Width != null) {
                             cellCur.Td.style.width = cellCur.Rendering.Width;
                         }
                         if (cellCur.Rendering.Format != null) {
                             if (cellCur.Rendering.Format === 'Date') {
-                                cellCur.Value = cellCur.Value.substring(0, 19).replace('-', '/').replace('-', '/').replace('T', ' ');
+                                displayValue = cellCur.Value.substring(0, 19).replace('-', '/').replace('-', '/').replace('T', ' ');
                             }
                         }
                         if (cellCur.Rendering.Format === 'URL') {
-                            let fileName = cellCur.Value.substring(cellCur.Value.lastIndexOf('/') + 1);
+                            let fileName = cellCur.Value.substring(displayValue.lastIndexOf('/') + 1);
                             let fileExt = fileName.substring(fileName.lastIndexOf('.') + 1);
                             switch (fileExt.toLowerCase()) {
                                 case 'pdf':
                                     let aCur = document.createElement('a');
-                                    aCur.setAttribute("href", cellCur.Value);
+                                    aCur.setAttribute("href", displayValue);
                                     aCur.setAttribute("download", fileName);
                                     aCur.appendChild(document.createTextNode(fileName));
                                     cellCur.Td.appendChild(aCur);
@@ -686,7 +684,7 @@ class TemplateItem extends TemplateItemClient {
                                 case 'gif':
                                 case 'png':
                                     let imgCur = document.createElement('img');
-                                    imgCur.setAttribute("src", cellCur.Value);
+                                    imgCur.setAttribute("src", displayValue);
                                     imgCur.setAttribute("width", 'auto');
                                     cellCur.Td.appendChild(imgCur);
                                     break;
@@ -694,7 +692,7 @@ class TemplateItem extends TemplateItemClient {
                                     break;
                             }
                         } else {
-                            cellCur.Td.appendChild(document.createTextNode(cellCur.Value));
+                            cellCur.Td.appendChild(document.createTextNode(displayValue));
                         }
                     }
                 }
