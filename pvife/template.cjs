@@ -614,10 +614,11 @@ class TemplateItem extends TemplateItemClient {
             if (itemCur.isEmpty === false) {
                 let tableItemRow = document.createElement('tr');
                 this.templateItemCoercer.tableBody.appendChild(tableItemRow);
+                tableItemRow.dataItem = itemCur;
                 if (this.useCase.Detail.Rendering.Actions != null && this.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown')) {
                     tableItemRow.addEventListener('click', (event) => {
                         event.preventDefault();
-                        console.log("presentTableRows - Item picked: ", itemCur.Key);
+                        console.log("presentTableRows - Item picked: ", event.currentTarget.dataItem.Key);
                         if (this.useCase.Detail.SubUseCase != null) {
                             if (this.divItem == null) {
                                 this.divItem = document.createElement('div');
@@ -629,8 +630,8 @@ class TemplateItem extends TemplateItemClient {
                             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                             this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, false);
                             this.templateItemSub.itemCells = {};
-                            this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
-                            this.templateItemSub.setDataItems([itemCur]);
+                            this.templateItemSub.itemCells[event.currentTarget.dataItem.Key] = this.itemCells[event.currentTarget.dataItem.Key];
+                            this.templateItemSub.setDataItems([event.currentTarget.dataItem]);
                             this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
                         }
                     });
