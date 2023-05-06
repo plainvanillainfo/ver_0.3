@@ -1031,6 +1031,10 @@ class TemplateItem extends TemplateItemClient {
                     cellCur.Rendering = elemCur.Rendering;
                     cellCur.Elem = elemCur;
 
+                    //
+                    // TODO
+                    //
+
                     //this.itemCells[itemCur.Key].forEach(cellCur => {
                     if (valueCur !== '') {
                         let divField = this.formList.firstChild;
