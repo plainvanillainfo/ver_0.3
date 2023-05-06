@@ -616,6 +616,7 @@ class TemplateItem extends TemplateItemClient {
         this.presentRowCells(itemCur, this.useCase.Detail.Elems);
         if (this.isLeaf === true) {
             if (itemCur.isEmpty === false) {
+
                 let tableItemRow = document.createElement('tr');
                 this.templateItemCoercer.tableBody.appendChild(tableItemRow);
                 tableItemRow.dataItem = itemCur;
@@ -644,6 +645,7 @@ class TemplateItem extends TemplateItemClient {
                     }
                     tableItemRow.appendChild(cellCur.Td);
                 });
+
             }
         };
     }
@@ -715,22 +717,22 @@ class TemplateItem extends TemplateItemClient {
                 let divField = this.formList.firstChild;
                 while (divField != null) {
                     if (divField.rendering != null && divField.rendering.Label === cellCur.Col) {
-                        let inputCur;
+                        let cellCur.Input;
                         if (divField.rendering.Format != null) {
                             switch (divField.rendering.Format) {
                                 case 'Text':
-                                    inputCur = document.createElement('input');
-                                    inputCur.id = cellCur.Elem.Name;
-                                    divField.appendChild(inputCur);
-                                    inputCur.setAttribute("type", "input");
-                                    inputCur.value = cellCur.Value;
-                                    inputCur.style.width = '70%';
-                                    inputCur.addEventListener('blur', (event) => {
+                                    cellCur.Input = document.createElement('input');
+                                    cellCur.Input.id = cellCur.Elem.Name;
+                                    divField.appendChild(cellCur.Input);
+                                    cellCur.Input.setAttribute("type", "input");
+                                    cellCur.Input.value = cellCur.Value;
+                                    cellCur.Input.style.width = '70%';
+                                    cellCur.Input.addEventListener('blur', (event) => {
                                         event.preventDefault();
                                         this.formData[event.target.id] = event.target.value
                                     });
                                     if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
-                                        inputCur.disabled = true;
+                                        cellCur.Input.disabled = true;
                                     }
                                     break;
                                 case 'Date':
@@ -738,18 +740,18 @@ class TemplateItem extends TemplateItemClient {
                                     divField.appendChild(divDate);
                                     divDate.className = 'input-group date';
                                     divDate.style.display = 'inline';
-                                    inputCur = document.createElement('input');
-                                    inputCur.id = cellCur.Elem.Name;
-                                    divDate.appendChild(inputCur);
-                                    inputCur.setAttribute("type", "date");
+                                    cellCur.Input = document.createElement('input');
+                                    cellCur.Input.id = cellCur.Elem.Name;
+                                    divDate.appendChild(cellCur.Input);
+                                    cellCur.Input.setAttribute("type", "date");
                                     if (cellCur.Value != null && cellCur.Value > '') {
                                         let valueCur = new Date(cellCur.Value);
-                                        inputCur.value = valueCur.toISOString();
+                                        cellCur.Input.value = valueCur.toISOString();
                                     } else {
-                                        inputCur.value = '';
+                                        cellCur.Input.value = '';
                                     }
-                                    inputCur.style.width = '70%';
-                                    inputCur.addEventListener('blur', (event) => {
+                                    cellCur.Input.style.width = '70%';
+                                    cellCur.Input.addEventListener('blur', (event) => {
                                         event.preventDefault();
                                         this.formData[event.target.id] = event.target.value;
                                     });
@@ -759,31 +761,31 @@ class TemplateItem extends TemplateItemClient {
                                     itemImgCal.style.marginLeft = "10px";
                                     break;
                                 case 'Textarea':
-                                    inputCur = document.createElement('textarea');
-                                    inputCur.id = cellCur.Elem.Name;
-                                    divField.appendChild(inputCur);
+                                    cellCur.Input = document.createElement('textarea');
+                                    cellCur.Input.id = cellCur.Elem.Name;
+                                    divField.appendChild(cellCur.Input);
                                     if (divField.rendering.Rows != null) {
-                                        inputCur.setAttribute("rows", divField.rendering.Rows);
+                                        cellCur.Input.setAttribute("rows", divField.rendering.Rows);
                                     }
-                                    inputCur.value = cellCur.Value;
-                                    inputCur.style.width = '70%';
-                                    inputCur.addEventListener('blur', (event) => {
+                                    cellCur.Input.value = cellCur.Value;
+                                    cellCur.Input.style.width = '70%';
+                                    cellCur.Input.addEventListener('blur', (event) => {
                                         event.preventDefault();
                                         this.formData[event.target.id] = event.target.value
                                     });
                                     if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
-                                        inputCur.disabled = true;
+                                        cellCur.Input.disabled = true;
                                     }
                                     break;
                                 case 'DrillDown':
-                                    inputCur = document.createElement('button');
-                                    inputCur.id = cellCur.Elem.Name;
-                                    divField.appendChild(inputCur);
-                                    inputCur.className = 'btn btn-primary';
-                                    inputCur.setAttribute("type", "button");
-                                    inputCur.style.width = "22em";
-                                    inputCur.appendChild(document.createTextNode(divField.rendering.Label));
-                                    inputCur.addEventListener('click', (event) => {
+                                    cellCur.Input = document.createElement('button');
+                                    cellCur.Input.id = cellCur.Elem.Name;
+                                    divField.appendChild(cellCur.Input);
+                                    cellCur.Input.className = 'btn btn-primary';
+                                    cellCur.Input.setAttribute("type", "button");
+                                    cellCur.Input.style.width = "22em";
+                                    cellCur.Input.appendChild(document.createTextNode(divField.rendering.Label));
+                                    cellCur.Input.addEventListener('click', (event) => {
                                         event.preventDefault();
                                         console.log("TemplateItem - DrillDown: ");
                                         if (this.divItem == null) {
@@ -827,18 +829,18 @@ class TemplateItem extends TemplateItemClient {
                                     break;
                             }
                         } else {
-                            inputCur = document.createElement('input');
-                            inputCur.id = cellCur.Elem.Name;
-                            divField.appendChild(inputCur);
-                            inputCur.setAttribute("type", "input");
-                            inputCur.value = cellCur.Value;
-                            inputCur.style.width = '70%';
-                            inputCur.addEventListener('blur', (event) => {
+                            cellCur.Input = document.createElement('input');
+                            cellCur.Input.id = cellCur.Elem.Name;
+                            divField.appendChild(cellCur.Input);
+                            cellCur.Input.setAttribute("type", "input");
+                            cellCur.Input.value = cellCur.Value;
+                            cellCur.Input.style.width = '70%';
+                            cellCur.Input.addEventListener('blur', (event) => {
                                 event.preventDefault();
                                 this.formData[event.target.id] = event.target.value
                             });
                             if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
-                                inputCur.disabled = true;
+                                cellCur.Input.disabled = true;
                             }
                         }
                         break;
@@ -878,6 +880,7 @@ class TemplateItem extends TemplateItemClient {
                 //
                 // TODO
                 //
+
             }
         }
         /*
@@ -885,22 +888,22 @@ class TemplateItem extends TemplateItemClient {
             let divField = this.formList.firstChild;
             while (divField != null) {
                 if (divField.rendering != null && divField.rendering.Label === cellCur.Col) {
-                    let inputCur;
+                    let cellCur.Input;
                     if (divField.rendering.Format != null) {
                         switch (divField.rendering.Format) {
                             case 'Text':
-                                inputCur = document.createElement('input');
-                                inputCur.id = cellCur.Elem.Name;
-                                divField.appendChild(inputCur);
-                                inputCur.setAttribute("type", "input");
-                                inputCur.value = cellCur.Value;
-                                inputCur.style.width = '70%';
-                                inputCur.addEventListener('blur', (event) => {
+                                cellCur.Input = document.createElement('input');
+                                cellCur.Input.id = cellCur.Elem.Name;
+                                divField.appendChild(cellCur.Input);
+                                cellCur.Input.setAttribute("type", "input");
+                                cellCur.Input.value = cellCur.Value;
+                                cellCur.Input.style.width = '70%';
+                                cellCur.Input.addEventListener('blur', (event) => {
                                     event.preventDefault();
                                     this.formData[event.target.id] = event.target.value
                                 });
                                 if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
-                                    inputCur.disabled = true;
+                                    cellCur.Input.disabled = true;
                                 }
                                 break;
                             case 'Date':
@@ -908,18 +911,18 @@ class TemplateItem extends TemplateItemClient {
                                 divField.appendChild(divDate);
                                 divDate.className = 'input-group date';
                                 divDate.style.display = 'inline';
-                                inputCur = document.createElement('input');
-                                inputCur.id = cellCur.Elem.Name;
-                                divDate.appendChild(inputCur);
-                                inputCur.setAttribute("type", "date");
+                                cellCur.Input = document.createElement('input');
+                                cellCur.Input.id = cellCur.Elem.Name;
+                                divDate.appendChild(cellCur.Input);
+                                cellCur.Input.setAttribute("type", "date");
                                 if (cellCur.Value != null && cellCur.Value > '') {
                                     let valueCur = new Date(cellCur.Value);
-                                    inputCur.value = valueCur.toISOString();
+                                    cellCur.Input.value = valueCur.toISOString();
                                 } else {
-                                    inputCur.value = '';
+                                    cellCur.Input.value = '';
                                 }
-                                inputCur.style.width = '70%';
-                                inputCur.addEventListener('blur', (event) => {
+                                cellCur.Input.style.width = '70%';
+                                cellCur.Input.addEventListener('blur', (event) => {
                                     event.preventDefault();
                                     this.formData[event.target.id] = event.target.value;
                                 });
@@ -929,31 +932,31 @@ class TemplateItem extends TemplateItemClient {
                                 itemImgCal.style.marginLeft = "10px";
                                 break;
                             case 'Textarea':
-                                inputCur = document.createElement('textarea');
-                                inputCur.id = cellCur.Elem.Name;
-                                divField.appendChild(inputCur);
+                                cellCur.Input = document.createElement('textarea');
+                                cellCur.Input.id = cellCur.Elem.Name;
+                                divField.appendChild(cellCur.Input);
                                 if (divField.rendering.Rows != null) {
-                                    inputCur.setAttribute("rows", divField.rendering.Rows);
+                                    cellCur.Input.setAttribute("rows", divField.rendering.Rows);
                                 }
-                                inputCur.value = cellCur.Value;
-                                inputCur.style.width = '70%';
-                                inputCur.addEventListener('blur', (event) => {
+                                cellCur.Input.value = cellCur.Value;
+                                cellCur.Input.style.width = '70%';
+                                cellCur.Input.addEventListener('blur', (event) => {
                                     event.preventDefault();
                                     this.formData[event.target.id] = event.target.value
                                 });
                                 if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
-                                    inputCur.disabled = true;
+                                    cellCur.Input.disabled = true;
                                 }
                                 break;
                             case 'DrillDown':
-                                inputCur = document.createElement('button');
-                                inputCur.id = cellCur.Elem.Name;
-                                divField.appendChild(inputCur);
-                                inputCur.className = 'btn btn-primary';
-                                inputCur.setAttribute("type", "button");
-                                inputCur.style.width = "22em";
-                                inputCur.appendChild(document.createTextNode(divField.rendering.Label));
-                                inputCur.addEventListener('click', (event) => {
+                                cellCur.Input = document.createElement('button');
+                                cellCur.Input.id = cellCur.Elem.Name;
+                                divField.appendChild(cellCur.Input);
+                                cellCur.Input.className = 'btn btn-primary';
+                                cellCur.Input.setAttribute("type", "button");
+                                cellCur.Input.style.width = "22em";
+                                cellCur.Input.appendChild(document.createTextNode(divField.rendering.Label));
+                                cellCur.Input.addEventListener('click', (event) => {
                                     event.preventDefault();
                                     console.log("TemplateItem - DrillDown: ");
                                     if (this.divItem == null) {
@@ -997,18 +1000,18 @@ class TemplateItem extends TemplateItemClient {
                                 break;
                         }
                     } else {
-                        inputCur = document.createElement('input');
-                        inputCur.id = cellCur.Elem.Name;
-                        divField.appendChild(inputCur);
-                        inputCur.setAttribute("type", "input");
-                        inputCur.value = cellCur.Value;
-                        inputCur.style.width = '70%';
-                        inputCur.addEventListener('blur', (event) => {
+                        cellCur.Input = document.createElement('input');
+                        cellCur.Input.id = cellCur.Elem.Name;
+                        divField.appendChild(cellCur.Input);
+                        cellCur.Input.setAttribute("type", "input");
+                        cellCur.Input.value = cellCur.Value;
+                        cellCur.Input.style.width = '70%';
+                        cellCur.Input.addEventListener('blur', (event) => {
                             event.preventDefault();
                             this.formData[event.target.id] = event.target.value
                         });
                         if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
-                            inputCur.disabled = true;
+                            cellCur.Input.disabled = true;
                         }
                     }
                     break;
@@ -1027,7 +1030,7 @@ class TemplateItem extends TemplateItemClient {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
-                    cellCur.Input = document.createElement('input');
+                    //cellCur.Input = document.createElement('input');
                     cellCur.Rendering = elemCur.Rendering;
                     cellCur.Elem = elemCur;
 
@@ -1035,46 +1038,45 @@ class TemplateItem extends TemplateItemClient {
                     // TODO
                     //
 
-                    //this.itemCells[itemCur.Key].forEach(cellCur => {
                     if (valueCur !== '') {
                         let divField = this.formList.firstChild;
                         while (divField != null) {
                             if (divField.rendering != null && divField.rendering.Label === cellCur.Col) {
-                                let inputCur;
+                                //let cellCur.Input;
                                 if (divField.rendering.Format != null) {
                                     switch (divField.rendering.Format) {
                                         case 'Text':
-                                            inputCur = document.createElement('input');
-                                            inputCur.id = cellCur.Elem.Name;
-                                            divField.appendChild(inputCur);
-                                            inputCur.setAttribute("type", "input");
-                                            inputCur.value = cellCur.Value;
-                                            inputCur.style.width = '70%';
-                                            inputCur.addEventListener('blur', (event) => {
+                                            cellCur.Input = document.createElement('input');
+                                            cellCur.Input.id = cellCur.Elem.Name;
+                                            divField.appendChild(cellCur.Input);
+                                            cellCur.Input.setAttribute("type", "input");
+                                            cellCur.Input.value = cellCur.Value;
+                                            cellCur.Input.style.width = '70%';
+                                            cellCur.Input.addEventListener('blur', (event) => {
                                                 event.preventDefault();
                                                 this.formData[event.target.id] = event.target.value
                                             });
                                             if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
-                                                inputCur.disabled = true;
+                                                cellCur.Input.disabled = true;
                                             }
                                             break;
                                         case 'Date':
-                                            let divDate = document.createElement('div');
-                                            divField.appendChild(divDate);
-                                            divDate.className = 'input-group date';
-                                            divDate.style.display = 'inline';
-                                            inputCur = document.createElement('input');
-                                            inputCur.id = cellCur.Elem.Name;
-                                            divDate.appendChild(inputCur);
-                                            inputCur.setAttribute("type", "date");
+                                            cellCur.Input = document.createElement('div');
+                                            divField.appendChild(cellCur.Input);
+                                            cellCur.Input.className = 'input-group date';
+                                            cellCur.Input.style.display = 'inline';
+                                            let inputDate = document.createElement('input');
+                                            inputDate.id = cellCur.Elem.Name;
+                                            cellCur.Input.appendChild(inputDate);
+                                            inputDate.setAttribute("type", "date");
                                             if (cellCur.Value != null && cellCur.Value > '') {
                                                 let valueCur = new Date(cellCur.Value);
-                                                inputCur.value = valueCur.toISOString();
+                                                inputDate.value = valueCur.toISOString();
                                             } else {
-                                                inputCur.value = '';
+                                                inputDate.value = '';
                                             }
-                                            inputCur.style.width = '70%';
-                                            inputCur.addEventListener('blur', (event) => {
+                                            inputDate.style.width = '70%';
+                                            inputDate.addEventListener('blur', (event) => {
                                                 event.preventDefault();
                                                 this.formData[event.target.id] = event.target.value;
                                             });
@@ -1084,31 +1086,31 @@ class TemplateItem extends TemplateItemClient {
                                             itemImgCal.style.marginLeft = "10px";
                                             break;
                                         case 'Textarea':
-                                            inputCur = document.createElement('textarea');
-                                            inputCur.id = cellCur.Elem.Name;
-                                            divField.appendChild(inputCur);
+                                            cellCur.Input = document.createElement('textarea');
+                                            cellCur.Input.id = cellCur.Elem.Name;
+                                            divField.appendChild(cellCur.Input);
                                             if (divField.rendering.Rows != null) {
-                                                inputCur.setAttribute("rows", divField.rendering.Rows);
+                                                cellCur.Input.setAttribute("rows", divField.rendering.Rows);
                                             }
-                                            inputCur.value = cellCur.Value;
-                                            inputCur.style.width = '70%';
-                                            inputCur.addEventListener('blur', (event) => {
+                                            cellCur.Input.value = cellCur.Value;
+                                            cellCur.Input.style.width = '70%';
+                                            cellCur.Input.addEventListener('blur', (event) => {
                                                 event.preventDefault();
                                                 this.formData[event.target.id] = event.target.value
                                             });
                                             if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
-                                                inputCur.disabled = true;
+                                                cellCur.Input.disabled = true;
                                             }
                                             break;
                                         case 'DrillDown':
-                                            inputCur = document.createElement('button');
-                                            inputCur.id = cellCur.Elem.Name;
-                                            divField.appendChild(inputCur);
-                                            inputCur.className = 'btn btn-primary';
-                                            inputCur.setAttribute("type", "button");
-                                            inputCur.style.width = "22em";
-                                            inputCur.appendChild(document.createTextNode(divField.rendering.Label));
-                                            inputCur.addEventListener('click', (event) => {
+                                            cellCur.Input = document.createElement('button');
+                                            cellCur.Input.id = cellCur.Elem.Name;
+                                            divField.appendChild(cellCur.Input);
+                                            cellCur.Input.className = 'btn btn-primary';
+                                            cellCur.Input.setAttribute("type", "button");
+                                            cellCur.Input.style.width = "22em";
+                                            cellCur.Input.appendChild(document.createTextNode(divField.rendering.Label));
+                                            cellCur.Input.addEventListener('click', (event) => {
                                                 event.preventDefault();
                                                 console.log("TemplateItem - DrillDown: ");
                                                 if (this.divItem == null) {
@@ -1152,18 +1154,18 @@ class TemplateItem extends TemplateItemClient {
                                             break;
                                     }
                                 } else {
-                                    inputCur = document.createElement('input');
-                                    inputCur.id = cellCur.Elem.Name;
-                                    divField.appendChild(inputCur);
-                                    inputCur.setAttribute("type", "input");
-                                    inputCur.value = cellCur.Value;
-                                    inputCur.style.width = '70%';
-                                    inputCur.addEventListener('blur', (event) => {
+                                    cellCur.Input = document.createElement('input');
+                                    cellCur.Input.id = cellCur.Elem.Name;
+                                    divField.appendChild(cellCur.Input);
+                                    cellCur.Input.setAttribute("type", "input");
+                                    cellCur.Input.value = cellCur.Value;
+                                    cellCur.Input.style.width = '70%';
+                                    cellCur.Input.addEventListener('blur', (event) => {
                                         event.preventDefault();
                                         this.formData[event.target.id] = event.target.value
                                     });
                                     if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
-                                        inputCur.disabled = true;
+                                        cellCur.Input.disabled = true;
                                     }
                                 }
                                 break;
@@ -1172,7 +1174,6 @@ class TemplateItem extends TemplateItemClient {
                             }
                         }
                     }
-                    //});
                 }
             } else {
                 let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === elemCur.SubUseCase);
@@ -1185,53 +1186,53 @@ class TemplateItem extends TemplateItemClient {
 
     /*
     case 'Json':
-        inputCur = document.createElement('textarea');
-        divCur.appendChild(inputCur);
-        inputCur.setAttribute("rows", "4");
+        cellCur.Input = document.createElement('textarea');
+        divCur.appendChild(cellCur.Input);
+        cellCur.Input.setAttribute("rows", "4");
         if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
-            inputCur.value = JSON.stringify(this.item.Attrs[elemCur.Name]);
+            cellCur.Input.value = JSON.stringify(this.item.Attrs[elemCur.Name]);
         } else {
-            inputCur.value = '';
+            cellCur.Input.value = '';
         }
-        inputCur.style.width = '70%';
-        inputCur.addEventListener('blur', (event) => {
+        cellCur.Input.style.width = '70%';
+        cellCur.Input.addEventListener('blur', (event) => {
             event.preventDefault();
             this.formData[event.target.id] = event.target.value
         });
         if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
-            inputCur.disabled = true;
+            cellCur.Input.disabled = true;
         }
         break;
     case 'Textarea':
-        inputCur = document.createElement('textarea');
-        divCur.appendChild(inputCur);
-        inputCur.setAttribute("rows", "4");
+        cellCur.Input = document.createElement('textarea');
+        divCur.appendChild(cellCur.Input);
+        cellCur.Input.setAttribute("rows", "4");
         if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
-            inputCur.value = this.item.Attrs[elemCur.Name];
+            cellCur.Input.value = this.item.Attrs[elemCur.Name];
         } else {
-            inputCur.value = '';
+            cellCur.Input.value = '';
         }
-        inputCur.style.width = '70%';
-        inputCur.addEventListener('blur', (event) => {
+        cellCur.Input.style.width = '70%';
+        cellCur.Input.addEventListener('blur', (event) => {
             event.preventDefault();
             this.formData[event.target.id] = event.target.value
         });
         if (elemCur.Editable != null && elemCur.Editable.toLowerCase() === 'no') {
-            inputCur.disabled = true;
+            cellCur.Input.disabled = true;
         }
         break;
     case 'Checkbox':
-        inputCur = document.createElement('input');
-        divCur.appendChild(inputCur);
-        inputCur.className = 'form-check-input';
-        inputCur.setAttribute("type", "checkbox");
+        cellCur.Input = document.createElement('input');
+        divCur.appendChild(cellCur.Input);
+        cellCur.Input.className = 'form-check-input';
+        cellCur.Input.setAttribute("type", "checkbox");
         if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
-            inputCur.checked = true
+            cellCur.Input.checked = true
         } else {
-            inputCur.checked = false;
+            cellCur.Input.checked = false;
         }
-        inputCur.style.marginRight = "1em";
-        inputCur.addEventListener('blur', (event) => {
+        cellCur.Input.style.marginRight = "1em";
+        cellCur.Input.addEventListener('blur', (event) => {
             event.preventDefault();
             this.formData[event.target.id] = event.target.checked;
         });
@@ -1245,18 +1246,18 @@ class TemplateItem extends TemplateItemClient {
         }
         break;
     case 'Radio':
-        inputCur = document.createElement('input');
-        divCur.appendChild(inputCur);
-        inputCur.className = 'form-check-input';
-        inputCur.setAttribute("type", "radio");
-        inputCur.style.width = '70%';
+        cellCur.Input = document.createElement('input');
+        divCur.appendChild(cellCur.Input);
+        cellCur.Input.className = 'form-check-input';
+        cellCur.Input.setAttribute("type", "radio");
+        cellCur.Input.style.width = '70%';
         if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null && this.item.Attrs[elemCur.Name] !== "") {
-            inputCur.checked = true
+            cellCur.Input.checked = true
         } else {
-            inputCur.checked = false;
+            cellCur.Input.checked = false;
         }
-        inputCur.style.marginRight = "1em";
-        inputCur.addEventListener('blur', (event) => {
+        cellCur.Input.style.marginRight = "1em";
+        cellCur.Input.addEventListener('blur', (event) => {
             event.preventDefault();
             //this.formData[event.target.id] = event.target.checked;
         });
@@ -1268,8 +1269,8 @@ class TemplateItem extends TemplateItemClient {
         inputLabel.appendChild(document.createTextNode(labelText));
         break;
     case 'Dropdown':
-        inputCur = document.createElement('select');
-        divCur.appendChild(inputCur);
+        cellCur.Input = document.createElement('select');
+        divCur.appendChild(cellCur.Input);
         let valuePicked = '';
         if (this.item != null && this.item.Attrs != null && this.item.Attrs[elemCur.Name] != null) {
             valuePicked = this.item.Attrs[elemCur.Name];
@@ -1277,7 +1278,7 @@ class TemplateItem extends TemplateItemClient {
         if (elemCur.ValueSet != null) {
             elemCur.ValueSet.forEach(itemCur => {
                 let option = document.createElement('option');
-                inputCur.appendChild(option);
+                cellCur.Input.appendChild(option);
                 if (itemCur === valuePicked) {
                     option.setAttribute('selected', 'selected');
                 }
@@ -1286,20 +1287,20 @@ class TemplateItem extends TemplateItemClient {
                 spanAttr.appendChild(document.createTextNode(itemCur));
             });
         }
-        inputCur.addEventListener('change', (event) => {
+        cellCur.Input.addEventListener('change', (event) => {
             event.preventDefault();
             console.log("click on option", event.target.value);
             this.formData[elemCur.Name] = event.target.value;
         });
         break;
     case 'DrillDown':
-        inputCur = document.createElement('button');
-        divCur.appendChild(inputCur);
-        inputCur.className = 'btn btn-primary';
-        inputCur.setAttribute("type", "button");
-        inputCur.style.width = "22em";
-        inputCur.appendChild(document.createTextNode(labelText));
-        inputCur.addEventListener('click', (event) => {
+        cellCur.Input = document.createElement('button');
+        divCur.appendChild(cellCur.Input);
+        cellCur.Input.className = 'btn btn-primary';
+        cellCur.Input.setAttribute("type", "button");
+        cellCur.Input.style.width = "22em";
+        cellCur.Input.appendChild(document.createTextNode(labelText));
+        cellCur.Input.addEventListener('click', (event) => {
             event.preventDefault();
             console.log("TemplateItem - DrillDown: ");
  
@@ -1333,17 +1334,17 @@ class TemplateItem extends TemplateItemClient {
         this.elems[elemCur.Name] = new TemplateElem(this, elemCur, divCur, false);
         break;
     case 'PickList':
-        inputCur = document.createElement('div');
-        divCur.appendChild(inputCur);
-        inputCur.style.display = "inline-block";
-        inputCur.style.width = '70%';
+        cellCur.Input = document.createElement('div');
+        divCur.appendChild(cellCur.Input);
+        cellCur.Input.style.display = "inline-block";
+        cellCur.Input.style.width = '70%';
         elemPicked = this.useCase.elems[elemCur.Name];
         break;
     case 'InPlace':
-        inputCur = document.createElement('div');
-        divCur.appendChild(inputCur);
-        inputCur.style.display = "inline-block";
-        inputCur.style.width = '70%';
+        cellCur.Input = document.createElement('div');
+        divCur.appendChild(cellCur.Input);
+        cellCur.Input.style.display = "inline-block";
+        cellCur.Input.style.width = '70%';
         elemPicked = this.useCase.elems[elemCur.Name];
         break;
  
