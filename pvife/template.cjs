@@ -614,13 +614,15 @@ class TemplateItem extends TemplateItemClient {
         });
         itemCur.isEmpty = true;
         this.presentRowCells(itemCur, this.useCase.Detail.Elems);
-        if (this.isLeaf === false) {
+        if (this.isLeaf === true) {
             if (itemCur.isEmpty === false) {
                 let tableItemRow = document.createElement('tr');
                 this.templateItemCoercer.tableBody.appendChild(tableItemRow);
                 tableItemRow.dataItem = itemCur;
-                if (this.useCase.Detail.Rendering.Actions != null && this.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown')) {
-                    let renderingAction = this.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown');
+
+                if (this.templateItemCoercer.useCase.Detail.Rendering.Actions != null && 
+                        this.templateItemCoercer.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown')) {
+                    let renderingAction = this.templateItemCoercer.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown');
                     tableItemRow.addEventListener('click', (event) => {
                         event.preventDefault();
                         console.log("presentRow - Item picked: ", event.currentTarget.dataItem.Key);
@@ -647,7 +649,7 @@ class TemplateItem extends TemplateItemClient {
                 });
 
             }
-        };
+        }
     }
 
     presentRowCells(itemCur, elems) {
