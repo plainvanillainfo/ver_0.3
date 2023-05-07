@@ -614,17 +614,17 @@ class TemplateItem extends TemplateItemClient {
         });
         itemCur.isEmpty = true;
         this.presentRowCells(itemCur, this.useCase.Detail.Elems);
-        if (this.isLeaf === true) {
+        if (this.isLeaf === false) {
             if (itemCur.isEmpty === false) {
-
                 let tableItemRow = document.createElement('tr');
                 this.templateItemCoercer.tableBody.appendChild(tableItemRow);
                 tableItemRow.dataItem = itemCur;
                 if (this.useCase.Detail.Rendering.Actions != null && this.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown')) {
+                    let renderingAction = this.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown');
                     tableItemRow.addEventListener('click', (event) => {
                         event.preventDefault();
                         console.log("presentRow - Item picked: ", event.currentTarget.dataItem.Key);
-                        if (this.useCase.Detail.SubUseCase != null) {
+                        if (renderingAction.SubUseCase != null) {
                             if (this.divItem == null) {
                                 this.divItem = document.createElement('div');
                                 this.divItemSurrounding.appendChild(this.divItem);
@@ -632,7 +632,7 @@ class TemplateItem extends TemplateItemClient {
                             this.templateItemCoercer.divItemSub = document.createElement('div');
                             this.templateItemCoercer.divItemSub.className = 'mb-3';
                             this.templateItemCoercer.divItemSub.style.margin = '10px';
-                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
+                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === renderingAction.SubUseCase);
                             this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, false);
                             this.templateItemSub.setDataItems([event.currentTarget.dataItem]);
                             this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
