@@ -634,7 +634,7 @@ class TemplateItem extends TemplateItemClient {
                             this.templateItemCoercer.divItemSub.className = 'mb-3';
                             this.templateItemCoercer.divItemSub.style.margin = '10px';
                             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === renderingAction.SubUseCase);
-                            this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, false);
+                            this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, this.templateItemCoercer.isCoerced);
                             this.templateItemSub.setDataItems([event.currentTarget.dataItem]);
                             this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
                         }
