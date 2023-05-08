@@ -616,12 +616,9 @@ class TemplateItem extends TemplateItemClient {
         this.presentRowCells(itemCur, this.useCase.Detail.Elems);
         if (this.isLeaf === true) {
             if (itemCur.isEmpty === false) {
-
-
                 let tableItemRow = document.createElement('tr');
                 this.templateItemCoercer.tableBody.appendChild(tableItemRow);
                 tableItemRow.dataItem = itemCur;
-
                 if (this.templateItemCoercer.useCase.Detail.Rendering.Actions != null && 
                         this.templateItemCoercer.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown')) {
                     let renderingAction = this.templateItemCoercer.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown');
@@ -649,7 +646,6 @@ class TemplateItem extends TemplateItemClient {
                     }
                     tableItemRow.appendChild(cellCur.Td);
                 });
-
             }
         }
     }
@@ -720,6 +716,7 @@ class TemplateItem extends TemplateItemClient {
     }
 
     presentColumn(itemCur, itemCellsParent) {
+        console.log("TemplateItem::presentColumn");
         this.itemCells[itemCur.Key] = [];
         itemCellsParent.forEach(cellParentCur => {
             let cellParentLocal = {...cellParentCur};
