@@ -42,8 +42,10 @@ class ServerMonitor {
         //let dir = '/home/ubuntu/projects/CPL/test3/meta/';
         //let applicationName = 'IHC';
         //let dir = '/home/ubuntu/projects/IHC/test3/meta/';
-        let applicationName = 'SKM';
-        let dir = '/home/ubuntu/projects/SKM/test3/meta/';
+        let applicationName = 'DS';
+        let dir = '/home/ubuntu/projects/AJ5/test3/meta/';
+        //let applicationName = 'SKM';
+        //let dir = '/home/ubuntu/projects/SKM/test3/meta/';
         let applicationCur;
         let serverName = '';
         let serverCur;
