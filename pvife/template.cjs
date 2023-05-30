@@ -636,26 +636,19 @@ class TemplateItem extends TemplateItemClient {
                             this.templateItemCoercer.divItemSub = document.createElement('div');
                             this.templateItemCoercer.divItemSub.className = 'mb-3';
                             this.templateItemCoercer.divItemSub.style.margin = '10px';
-                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === renderingAction.SubUseCase);
+                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === renderingAction.SubUseCase).SubUseCase;
                             this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, this.templateItemCoercer.isCoerced);
                             //
                             // HERE
                             //
-                            //this.templateItemSub.setDataItems([event.currentTarget.dataItem]);
-                            
-							if (true /*this.dataElem == null*/ ) {
-								this.toServer({
-									//Action: 'ContinueTemplateItem',
-									Action: 'Drilldown',
-									TemplateItem: {
-										ItemKey: event.currentTarget.dataItem.Key,
-										UseCaseName: subUseCase.Detail.Name,
-										Action: 'Start'
-									}
-								});
-							}
-                            
-                            
+							this.toServer({
+								Action: 'Drilldown',
+								TemplateItem: {
+									ItemKey: event.currentTarget.dataItem.Key,
+									UseCaseName: subUseCase.Detail.Name,
+									Action: 'Start'
+								}
+							});
                             this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
                         }
                     });
