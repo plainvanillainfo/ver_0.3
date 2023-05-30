@@ -51,16 +51,14 @@ class TemplateItem {
                 case 'Drilldown':
 					if ( message.TemplateItem != null) {
 						console.log("Drilldown", message.TemplateItem, "\n", this.itemList);
-						if (message.TemplateItem.ItemKey) {
+						if (message.TemplateItem.ItemKey != null) {
 							let itemListEntry = this.itemList[message.TemplateItem.ItemKey];
 							if (itemListEntry != null ) {
-								if (itemListEntry.TemplateItemDrilldown == null) {
-									let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === message.TemplateItem);
-									if (useCaseFound != null) {
-										itemListEntry.TemplateItemDrilldown = new TemplateItem(this, useCaseFound);
-										itemListEntry.TemplateItemDrilldown.constructSelect();
-										itemListEntry.TemplateItemDrilldown.sendToDbSelect();
-									}
+								let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === message.TemplateItem.UseCaseName);
+								if (useCaseFound != null) {
+									itemListEntry.TemplateItemDrilldown = new TemplateItem(this, useCaseFound);
+									itemListEntry.TemplateItemDrilldown.constructSelect();
+									itemListEntry.TemplateItemDrilldown.sendToDbSelect();
 								}
 							}
 						}
