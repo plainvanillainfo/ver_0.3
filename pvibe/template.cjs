@@ -50,8 +50,20 @@ class TemplateItem {
 					break;
                 case 'Drilldown':
 					if ( message.TemplateItem != null) {
-						console.log("Drilldown",message.TemplateItem, "\n", this.itemList);
-						//this.templateItem.fromClient(message.TemplateItem.TemplateItem);
+						console.log("Drilldown", message.TemplateItem, "\n", this.itemList);
+						if (message.TemplateItem.ItemKey) {
+							let itemListEntry = this.itemList[message.TemplateItem.ItemKey];
+							if (itemListEntry != null ) {
+								if (itemListEntry.TemplateItemDrilldown == null) {
+									let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === message.TemplateItem);
+									if (useCaseFound != null) {
+										itemListEntry.TemplateItemDrilldown = new TemplateItem(this, useCaseFound);
+										itemListEntry.TemplateItemDrilldown.constructSelect();
+										itemListEntry.TemplateItemDrilldown.sendToDbSelect();
+									}
+								}
+							}
+						}
 					}
                     break;
 				case 'Refresh':
@@ -65,15 +77,14 @@ class TemplateItem {
 						let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === useCaseElemName);
 						if (useCaseElemFound != null) {
 							let itemListEntry = this.itemList[message.TemplateElem.ItemKey];
-							console.log("TemplateItem::fromClient() - DDDDD");
+							console.log("TemplateItem::fromClient() - useCaseElemFound != null");
 	                        if (itemListEntry.Elems[useCaseElemName] == null) {
-								console.log("TemplateItem::fromClient() - EEEEE");
+								console.log("TemplateItem::fromClient() - itemListEntry.Elems[useCaseElemName] == null");
                                 let templateElemNew = new TemplateElem(this, useCaseElemFound, itemListEntry);
                                 itemListEntry.Elems[useCaseElemName] = templateElemNew;
 	                        }
-							console.log("TemplateItem::fromClient() - FFFFF");
 	                        if (itemListEntry.Elems[useCaseElemName] != null) {
-								console.log("TemplateItem::fromClient() - GGGGG");
+								console.log("TemplateItem::fromClient() - itemListEntry.Elems[useCaseElemName] != null");
 	                            itemListEntry.Elems[useCaseElemName].fromClient(message.TemplateElem);
 	                        }
 						}
@@ -496,8 +507,8 @@ class TemplateItem {
             this.dataItems.push(dataItemCur);
 
 			if (this.itemList[dataItemCur.Key] == null) {
-				console.log("receiveFromDb - lllllll");
-				this.itemList[dataItemCur.Key] = {Key: dataItemCur.Key, Elems: {}};
+				console.log("receiveFromDb - this.itemList[dataItemCur.Key] == null");
+				this.itemList[dataItemCur.Key] = {Key: dataItemCur.Key, Elems: {}, TemplateItemDrilldown: null};
 			} else {
 				console.log("receiveFromDb - mmmmmm");
 
@@ -541,8 +552,8 @@ class TemplateElem {
             switch (message.Action) {
                 case 'Start':
 					if (message.Context != null) {
-							// HERE: 
-							this.context = message.Context;
+						// HERE: 
+						this.context = message.Context;
 					}
 					this.startTemplateItem();
                     break;
