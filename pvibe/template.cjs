@@ -25,6 +25,8 @@ class TemplateItem {
             switch (message.Action) {
                 case 'Start':
 					if (this.useCase.Detail.Flow === 'Serial') {
+						console.log("TemplateItem::fromClient() - this.useCase.Detail' ", this.useCase.Detail);
+
 						this.constructSelect();
 						this.sendToDbSelect();
 					}
@@ -57,18 +59,6 @@ class TemplateItem {
 						let useCaseElemName = message.TemplateElem.UseCaseElemName;
 						let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === useCaseElemName);
 						if (useCaseElemFound != null) {
-							/*
-							console.log("TemplateItem::fromClient() - AAAAA");
-							let itemListEntry;
-							if (this.itemList[message.TemplateElem.ItemKey] == null) {
-								console.log("TemplateItem::fromClient() - BBBBB");
-								itemListEntry = {Key: message.TemplateElem.ItemKey, Elems: {}};
-								this.itemList[message.TemplateElem.ItemKey] = itemListEntry;
-							} else {
-								console.log("TemplateItem::fromClient() - CCCCC");
-								itemListEntry = this.itemList[message.TemplateElem.ItemKey];
-							}
-							*/
 							let itemListEntry = this.itemList[message.TemplateElem.ItemKey];
 							console.log("TemplateItem::fromClient() - DDDDD");
 	                        if (itemListEntry.Elems[useCaseElemName] == null) {
@@ -458,30 +448,16 @@ class TemplateItem {
 				case 'Child':
 					//console.log("TemplateItem::stepDownToChild() - elemChild: ", elemChild.Name);
 					this.dataItems.forEach(dataItemCur => {
-						/*
-						//console.log("TemplateItem::stepDownToChild() - dataItemCur.Key: ", dataItemCur.Key);
-						console.log("TemplateItem::fromClient() - AAAAA 11111");
-						let itemListEntry;
-						if (this.itemList[dataItemCur.Key] == null) {
-							console.log("TemplateItem::fromClient() - BBBBB 11111");
-							itemListEntry = {Key: dataItemCur.Key, Elems: {}};
-							this.itemList[dataItemCur.Key] = itemListEntry;
-						} else {
-							console.log("TemplateItem::fromClient() - CCCCC 11111");
-							itemListEntry = this.itemList[dataItemCur.Key];
-						}
-						*/
 						let itemListEntry = this.itemList[dataItemCur.Key];
-						console.log("stepDownToChild - DDDDD 11111");
+						console.log("stepDownToChild - dataItemCur.Key", dataItemCur.Key);
 						if (itemListEntry.Elems[elemChild.Name] == null) {
-							console.log("stepDownToChild - EEEEE 11111");
+							console.log("stepDownToChild - itemListEntry.Elems[elemChild.Name] == null");
 							let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === elemChild.Name);
 							itemListEntry.Elems[elemChild.Name] = new TemplateElem(this, useCaseElemFound, itemListEntry);
 							// HERE: 
 							itemListEntry.Elems[elemChild.Name].context = this.parent.context;
 							itemListEntry.Elems[elemChild.Name].startTemplateItem();
 						}
-						console.log("stepDownToChild - FFFFF 11111");
 					});
 					break;
 				default:
@@ -597,7 +573,7 @@ class TemplateElem {
 							}
 						} else {
 							console.log("TemplateElem::fromClient() - this.templateItem != null "); //, this.templateItem);
-							if (message.TemplateItem.TemplateItem != null) {
+							if (message.TemplateItem.Action != null && message.TemplateItem.Action === 'Drilldown' && message.TemplateItem.TemplateItem != null) {
 								this.templateItem.fromClient(message.TemplateItem.TemplateItem);
 							} else {
 								this.templateItem.fromClient(message.TemplateItem);
