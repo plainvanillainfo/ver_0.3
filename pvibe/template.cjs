@@ -49,12 +49,10 @@ class TemplateItem {
 					}
 					break;
                 case 'Drilldown':
-
 					if ( message.TemplateItem != null) {
-						console.log("Drilldown",message.TemplateItem);
+						console.log("Drilldown",message.TemplateItem, "\n", this.itemList);
 						//this.templateItem.fromClient(message.TemplateItem.TemplateItem);
 					}
-
                     break;
 				case 'Refresh':
 					break;
@@ -550,46 +548,7 @@ class TemplateElem {
                     break;
 				case 'ContinueTemplateItem':
                     if (message.TemplateItem != null) {
-						//if (this.templateItem == null) {
-							/*
-							console.log("TemplateElem::fromClient() - this.templateItem == null ");
-							let useCaseFound;
-							if (message.TemplateItem.TemplateItem != null) {
-								useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
-							} else {
-								useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === message.TemplateItem.UseCaseName);
-							}
-							if (useCaseFound != null) {
-								console.log("TemplateElem::fromClient() - useCaseFound ", useCaseFound);
-								if (useCaseFound.Detail.SubUseCase != null) {
-									// This is a case of drilldown from list to form, where the form is presenting the same Item as the row
-									// in the parent list, which was selected for drilldown
-									//this.templateItem = this.parent;
-									let subUseCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === useCaseFound.Detail.SubUseCase);
-									if (subUseCaseFound != null) {
-										console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
-										this.templateItem = new TemplateItem(this, subUseCaseFound);
-										if (message.TemplateItem.TemplateItem != null) {
-											console.log("aaaaaaaaaaaaaaaaaaaaaa:\n"); //, this.itemParent,
-											this.templateItem.fromClient(message.TemplateItem.TemplateItem);
-										} else {
-											console.log("bbbbbbbbbbbbbbbbbbb");
-											this.templateItem.fromClient(message.TemplateItem);
-										}
-									}
-								}
-							}
-							*/
-						//} else {
-							console.log("TemplateElem::fromClient() - this.templateItem != null");
-							//if (message.TemplateItem.Action != null && message.TemplateItem.Action === 'Drilldown') {
-							//	if ( message.TemplateItem.TemplateItem != null) {
-							//		this.templateItem.fromClient(message.TemplateItem.TemplateItem);
-							//	}
-							//} else {
-								this.templateItem.fromClient(message.TemplateItem);
-							//}
-						//}
+						this.templateItem.fromClient(message.TemplateItem);
 					}
 					break;
 				default:
