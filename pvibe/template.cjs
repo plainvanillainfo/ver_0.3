@@ -559,13 +559,13 @@ class TemplateElem {
 									//this.templateItem = this.parent;
 									let subUseCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === useCaseFound.Detail.SubUseCase);
 									if (subUseCaseFound != null) {
-										//console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+										console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 										this.templateItem = new TemplateItem(this, subUseCaseFound);
 										if (message.TemplateItem.TemplateItem != null) {
-											//console.log("aaaaaaaaaaaaaaaaaaaaaa:\n"); //, this.itemParent,
+											console.log("aaaaaaaaaaaaaaaaaaaaaa:\n"); //, this.itemParent,
 											this.templateItem.fromClient(message.TemplateItem.TemplateItem);
 										} else {
-											//console.log("bbbbbbbbbbbbbbbbbbb");
+											console.log("bbbbbbbbbbbbbbbbbbb");
 											this.templateItem.fromClient(message.TemplateItem);
 										}
 									}
@@ -603,7 +603,7 @@ class TemplateElem {
             console.log("TemplateElem::startTemplateItem: ", this.useCaseElem.SubUseCase);
             let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
             if (useCaseFound != null) {
-				//console.log("useCaseFound:\n", useCaseFound, "\n");
+				console.log("useCaseFound:\n", useCaseFound, "\n");
 				this.templateItem = new TemplateItem(this, useCaseFound);
 				this.templateItem.constructSelect();
 				this.templateItem.sendToDbSelect();
