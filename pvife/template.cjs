@@ -364,7 +364,10 @@ class TemplateItem extends TemplateItemClient {
                     this.dataItems.push(itemCur);
                     this.presentColumn(itemCur, this.itemCellsParent);
                     this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
-                    this.templateItemSub.setDataItems([itemCur]);
+                    //
+                    // HERE
+                    //
+                    //this.templateItemSub.setDataItems([itemCur]);
                     this.pushBreadcrumb(this.templateItemSub);
                 }
             });
@@ -635,7 +638,22 @@ class TemplateItem extends TemplateItemClient {
                             this.templateItemCoercer.divItemSub.style.margin = '10px';
                             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === renderingAction.SubUseCase);
                             this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, this.templateItemCoercer.isCoerced);
-                            this.templateItemSub.setDataItems([event.currentTarget.dataItem]);
+                            //
+                            // HERE
+                            //
+                            //this.templateItemSub.setDataItems([event.currentTarget.dataItem]);
+                            
+							if (true /*this.dataElem == null*/ ) {
+								this.toServer({
+									Action: 'ContinueTemplateItem',
+									TemplateItem: {
+										UseCaseName: subUseCase.Detail.Name,
+										Action: 'Start'
+									}
+								});
+							}
+                            
+                            
                             this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
                         }
                     });
