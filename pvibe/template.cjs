@@ -26,7 +26,6 @@ class TemplateItem {
                 case 'Start':
 					if (this.useCase.Detail.Flow === 'Serial') {
 						console.log("TemplateItem::fromClient() - this.useCase.Detail' ", this.useCase.Detail);
-
 						this.constructSelect();
 						this.sendToDbSelect();
 					}
@@ -49,9 +48,17 @@ class TemplateItem {
 						}
 					}
 					break;
-                case 'Refresh':
+                case 'Drilldown':
+
+					if ( message.TemplateItem != null) {
+						console.log("Drilldown",message.TemplateItem);
+						//this.templateItem.fromClient(message.TemplateItem.TemplateItem);
+					}
+
                     break;
-                case 'Stop':
+				case 'Refresh':
+					break;
+				case 'Stop':
                     break;
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
@@ -543,7 +550,8 @@ class TemplateElem {
                     break;
 				case 'ContinueTemplateItem':
                     if (message.TemplateItem != null) {
-						if (this.templateItem == null) {
+						//if (this.templateItem == null) {
+							/*
 							console.log("TemplateElem::fromClient() - this.templateItem == null ");
 							let useCaseFound;
 							if (message.TemplateItem.TemplateItem != null) {
@@ -571,14 +579,17 @@ class TemplateElem {
 									}
 								}
 							}
-						} else {
-							console.log("TemplateElem::fromClient() - this.templateItem != null "); //, this.templateItem);
-							if (message.TemplateItem.Action != null && message.TemplateItem.Action === 'Drilldown' && message.TemplateItem.TemplateItem != null) {
-								this.templateItem.fromClient(message.TemplateItem.TemplateItem);
-							} else {
+							*/
+						//} else {
+							console.log("TemplateElem::fromClient() - this.templateItem != null");
+							//if (message.TemplateItem.Action != null && message.TemplateItem.Action === 'Drilldown') {
+							//	if ( message.TemplateItem.TemplateItem != null) {
+							//		this.templateItem.fromClient(message.TemplateItem.TemplateItem);
+							//	}
+							//} else {
 								this.templateItem.fromClient(message.TemplateItem);
-							}
-						}
+							//}
+						//}
 					}
 					break;
 				default:
