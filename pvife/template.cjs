@@ -645,8 +645,10 @@ class TemplateItem extends TemplateItemClient {
                             
 							if (true /*this.dataElem == null*/ ) {
 								this.toServer({
-									Action: 'ContinueTemplateItem',
+									//Action: 'ContinueTemplateItem',
+									Action: 'Drilldown',
 									TemplateItem: {
+										ItemKey: event.currentTarget.dataItem.Key,
 										UseCaseName: subUseCase.Detail.Name,
 										Action: 'Start'
 									}
