@@ -142,7 +142,7 @@ class TemplateItem {
 			});
 		} else {
 			if (this.soleKey != null && this.soleKey !== '') {
-				this.selectWhere += ' Id=\'' + this.soleKey + '\'';
+				this.selectWhere += ' "Id"=\'' + this.soleKey + '\'';
 			} else {
 				this.selectWhere += ' 1=1';
 			}
