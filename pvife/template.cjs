@@ -664,45 +664,43 @@ class TemplateItem extends TemplateItemClient {
                     cellCur.Td = document.createElement('td');
                     cellCur.Rendering = elemCur.Rendering;
                     cellCur.Elem = elemCur;
-                    //if (valueCur !== '') {
-                        cellCur.Value = valueCur;
-                        itemCur.isEmpty = false;
-                        let displayValue = valueCur;
-                        if (cellCur.Rendering.Width != null) {
-                            cellCur.Td.style.width = cellCur.Rendering.Width;
+                    cellCur.Value = valueCur;
+                    itemCur.isEmpty = false;
+                    let displayValue = valueCur;
+                    if (cellCur.Rendering.Width != null) {
+                        cellCur.Td.style.width = cellCur.Rendering.Width;
+                    }
+                    if (cellCur.Rendering.Format != null) {
+                        if (cellCur.Rendering.Format === 'Date') {
+                            displayValue = cellCur.Value.substring(0, 19).replace('-', '/').replace('-', '/').replace('T', ' ');
                         }
-                        if (cellCur.Rendering.Format != null) {
-                            if (cellCur.Rendering.Format === 'Date') {
-                                displayValue = cellCur.Value.substring(0, 19).replace('-', '/').replace('-', '/').replace('T', ' ');
-                            }
+                    }
+                    if (cellCur.Rendering.Format === 'URL') {
+                        let fileName = cellCur.Value.substring(displayValue.lastIndexOf('/') + 1);
+                        let fileExt = fileName.substring(fileName.lastIndexOf('.') + 1);
+                        switch (fileExt.toLowerCase()) {
+                            case 'pdf':
+                                let aCur = document.createElement('a');
+                                aCur.setAttribute("href", displayValue);
+                                aCur.setAttribute("download", fileName);
+                                aCur.appendChild(document.createTextNode(fileName));
+                                cellCur.Td.appendChild(aCur);
+                                break;
+                            case 'jpg':
+                            case 'jpeg':
+                            case 'gif':
+                            case 'png':
+                                let imgCur = document.createElement('img');
+                                imgCur.setAttribute("src", displayValue);
+                                imgCur.setAttribute("width", 'auto');
+                                cellCur.Td.appendChild(imgCur);
+                                break;
+                            default:
+                                break;
                         }
-                        if (cellCur.Rendering.Format === 'URL') {
-                            let fileName = cellCur.Value.substring(displayValue.lastIndexOf('/') + 1);
-                            let fileExt = fileName.substring(fileName.lastIndexOf('.') + 1);
-                            switch (fileExt.toLowerCase()) {
-                                case 'pdf':
-                                    let aCur = document.createElement('a');
-                                    aCur.setAttribute("href", displayValue);
-                                    aCur.setAttribute("download", fileName);
-                                    aCur.appendChild(document.createTextNode(fileName));
-                                    cellCur.Td.appendChild(aCur);
-                                    break;
-                                case 'jpg':
-                                case 'jpeg':
-                                case 'gif':
-                                case 'png':
-                                    let imgCur = document.createElement('img');
-                                    imgCur.setAttribute("src", displayValue);
-                                    imgCur.setAttribute("width", 'auto');
-                                    cellCur.Td.appendChild(imgCur);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        } else {
-                            cellCur.Td.appendChild(document.createTextNode(displayValue));
-                        }
-                    //}
+                    } else {
+                        cellCur.Td.appendChild(document.createTextNode(displayValue));
+                    }
                 }
             } else {
                 let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === elemCur.SubUseCase);
@@ -867,6 +865,58 @@ class TemplateItem extends TemplateItemClient {
                                                 });
                                             }
                                         });
+
+                                        /*
+				                        tableItemRow.addEventListener('click', (event) => {
+				                            event.preventDefault();
+				                            console.log("presentRow - Item picked: ", event.currentTarget.dataItem.Key);
+				                            if (this.divItem == null) {
+				                                this.divItem = document.createElement('div');
+				                                this.divItemSurrounding.appendChild(this.divItem);
+				                            }
+				                            this.templateItemCoercer.divItemSub = document.createElement('div');
+				                            this.templateItemCoercer.divItemSub.className = 'mb-3';
+				                            this.templateItemCoercer.divItemSub.style.margin = '10px';
+				                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
+				                            this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, this.templateItemCoercer.isCoerced);
+				                            this.toServer({
+				                                Action: 'Drilldown',
+				                                TemplateItem: {
+				                                    ItemKey: event.currentTarget.dataItem.Key,
+				                                    UseCaseName: subUseCase.Detail.Name,
+				                                    Action: 'Start'
+				                                }
+				                            });
+				                            this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
+				                        });
+                                        */
+
+                                        /*
+							            itemLICur.A.addEventListener('click', (event) => {
+							                event.preventDefault();
+							                console.log("TemplateItem::presentMenu - clicked on menu item", menuItemCur);
+							                let useCaseElemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
+							                let templateElemPicked = null;
+							                if (this.elemDataItems[dataItem.Key] == null) {
+							                    this.elemDataItems[dataItem.Key] = {};
+							                }
+							                if (this.elemDataItems[dataItem.Key][menuItemCur.Name] == null) {
+							                    templateElemPicked = new TemplateElem(this, dataItem, null, useCaseElemPicked, this.divMenuOptionPicked);
+							                    this.elemDataItems[dataItem.Key][menuItemCur.Name] = templateElemPicked;
+							                } else {
+							                    templateElemPicked = this.elemDataItems[dataItem.Key][menuItemCur.Name];
+							                }
+							                for (let elemCur in this.elemDataItems[dataItem.Key]) {
+							                    let elemDetail = this.elemDataItems[dataItem.Key][elemCur];
+							                    if (elemDetail.useCaseElem != null && elemDetail.useCaseElem.Name !== menuItemCur.Name) {
+							                        elemDetail.hide();
+							                    }
+							                }
+							                templateElemPicked.show();
+							            });
+                                        */
+
+
                                         break;
                                     default:
                                         break;
