@@ -7,6 +7,7 @@ class TemplateItem {
         this.useCase = useCase;
         this.session = this.parent.session;
         this.dataItems = [];
+		this.soleKey = key;
         this.itemList = {};
         this.itemList[key] = {Key: key, Elems: {}};
 		this.tableBase = {};
@@ -56,7 +57,7 @@ class TemplateItem {
 							if (itemListEntry != null ) {
 								let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === message.TemplateItem.UseCaseName);
 								if (useCaseFound != null) {
-									itemListEntry.TemplateItemDrilldown = new TemplateItem(this, useCaseFound);
+									itemListEntry.TemplateItemDrilldown = new TemplateItem(this, useCaseFound, message.TemplateItem.ItemKey);
 									itemListEntry.TemplateItemDrilldown.constructSelect();
 									itemListEntry.TemplateItemDrilldown.sendToDbSelect();
 								}
@@ -140,7 +141,11 @@ class TemplateItem {
 				ColumnRight: 'Id'
 			});
 		} else {
-			this.selectWhere += ' 1=1';
+			if (this.soleKey != null && this.soleKey !== '') {
+				this.selectWhere += ' Id=\'' + this.soleKey + '\'';
+			} else {
+				this.selectWhere += ' 1=1';
+			}
 		}
 		this.constructSelectApplyContext(); // HERE - filtration:
 		this.useCase.Detail.Elems.forEach(elemCur => {
@@ -583,7 +588,7 @@ class TemplateElem {
             let useCaseFound = this.session.entitlement.UseCases.find(useCaseCur => useCaseCur.Id === this.useCaseElem.SubUseCase);
             if (useCaseFound != null) {
 				//console.log("useCaseFound:\n", useCaseFound, "\n");
-				this.templateItem = new TemplateItem(this, useCaseFound);
+				this.templateItem = new TemplateItem(this, useCaseFound, '');
 				this.templateItem.constructSelect();
 				this.templateItem.sendToDbSelect();
 			}
