@@ -622,13 +622,14 @@ class TemplateItem extends TemplateItemClient {
                 let tableItemRow = document.createElement('tr');
                 this.templateItemCoercer.tableBody.appendChild(tableItemRow);
                 tableItemRow.dataItem = itemCur;
-                if (this.templateItemCoercer.useCase.Detail.Rendering.Actions != null && 
-                        this.templateItemCoercer.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown')) {
+                if (this.templateItemCoercer.useCase.Detail.Rendering.Actions != null &&
+                    this.templateItemCoercer.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown')) {
                     let renderingAction = this.templateItemCoercer.useCase.Detail.Rendering.Actions.find(cur => cur.Name === 'DrillDown');
-                    tableItemRow.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        console.log("presentRow - Item picked: ", event.currentTarget.dataItem.Key);
-                        if (renderingAction.SubUseCase != null) {
+                    if (renderingAction != null && this.useCase.Detail.SubUseCase != null) {
+                        tableItemRow.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            console.log("presentRow - Item picked: ", event.currentTarget.dataItem.Key);
+                        //if (renderingAction.SubUseCase != null) {
                             if (this.divItem == null) {
                                 this.divItem = document.createElement('div');
                                 this.divItemSurrounding.appendChild(this.divItem);
@@ -636,23 +637,25 @@ class TemplateItem extends TemplateItemClient {
                             this.templateItemCoercer.divItemSub = document.createElement('div');
                             this.templateItemCoercer.divItemSub.className = 'mb-3';
                             this.templateItemCoercer.divItemSub.style.margin = '10px';
-                            let subUseCaseRenderingAction = this.session.useCases.find(useCaseCur => useCaseCur.Id === renderingAction.SubUseCase);
-                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === subUseCaseRenderingAction.SubUseCase);
+                            //let subUseCaseRenderingAction = this.session.useCases.find(useCaseCur => useCaseCur.Id === renderingAction.SubUseCase);
+                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                             this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, this.templateItemCoercer.isCoerced);
                             //
                             // HERE
                             //
-							this.toServer({
-								Action: 'Drilldown',
-								TemplateItem: {
-									ItemKey: event.currentTarget.dataItem.Key,
-									UseCaseName: subUseCase.Detail.Name,
-									Action: 'Start'
-								}
-							});
+                            this.toServer({
+                                Action: 'Drilldown',
+                                TemplateItem: {
+                                    ItemKey: event.currentTarget.dataItem.Key,
+                                    UseCaseName: subUseCase.Detail.Name,
+                                    Action: 'Start'
+                                }
+                            });
                             this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
-                        }
-                    });
+                        //}
+                        });
+                    }
+
                 }
                 this.itemCells[itemCur.Key].forEach(cellCur => {
                     if (cellCur.Td == null) {
