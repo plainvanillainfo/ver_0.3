@@ -518,7 +518,7 @@ class TemplateItem extends TemplateItemClient {
     presentFormElem(elem) {
         console.log("TemplateItem::presentFormElem");
         if (elem.Rendering.Nesting == null || elem.Rendering.Nesting !== 'Coerced') {
-            if (elem.SubUseCase == null) {
+            if (elem.SubUseCase == null || (elem.Rendering.Format != null && elem.Rendering.Format === 'DrillDown')) {
                 if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
                     this.columns.push(elem.Rendering.Label);
                     let divCur = document.createElement('div');
