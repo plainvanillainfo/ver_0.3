@@ -112,7 +112,7 @@ class TemplateItem {
 		console.log("TemplateItem::constructSelect():");
 		this.tableBase['Class'] = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
 		if (this.tableBase['Class'] == null) {
-			console.log("TemplateItem::constructSelect() - this.tableBase['Class'].tableName == null", this,useCase.Detail, "\n", this.session.classes);
+			console.log("TemplateItem::constructSelect() - this.tableBase['Class'].tableName == null", this.useCase.Detail, "\n", this.session.classes);
 		}
 		this.tableBase['Name'] = this.tableBase['Class'].tableName;
 		this.tableBase['SelectColumns'] = [
