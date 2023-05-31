@@ -751,7 +751,7 @@ class TemplateItem extends TemplateItemClient {
     presentColumnCells(itemCur, elems) {
         console.log("TemplateItem::presentColumnCells");
         elems.forEach(elemCur => {
-            if (elemCur.SubUseCase == null || (elem.Rendering.Format != null && elem.Rendering.Format === 'DrillDown')) {
+            if (elemCur.SubUseCase == null || (elemCur.Rendering.Format != null && elemCur.Rendering.Format === 'DrillDown')) {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
