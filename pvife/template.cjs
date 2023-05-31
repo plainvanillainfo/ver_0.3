@@ -753,6 +753,9 @@ class TemplateItem extends TemplateItemClient {
         elems.forEach(elemCur => {
             if (elemCur.SubUseCase == null || (elemCur.Rendering.Format != null && elemCur.Rendering.Format === 'DrillDown')) {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
+                if (valueCur === '' && elemCur.Rendering.Format != null && elemCur.Rendering.Format === 'DrillDown') {
+                    valueCur = 'Details';
+                }
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
                     cellCur.Rendering = elemCur.Rendering;
