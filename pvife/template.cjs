@@ -257,7 +257,6 @@ class TemplateItem extends TemplateItemClient {
                         break;
                 }
                 break;
-                break;
             default:
                 break;
         }
@@ -895,7 +894,7 @@ class TemplateItem extends TemplateItemClient {
                                     cellCur.Input.id = cellCur.Elem.Name;
                                     divField.appendChild(cellCur.Input);
                                     cellCur.Input.setAttribute("type", "input");
-                                    cellCur.Input.value = cellCur.Value;
+                                    cellCur.Input.value = valueCur;
                                     cellCur.Input.style.width = '70%';
                                     cellCur.Input.addEventListener('blur', (event) => {
                                         event.preventDefault();
