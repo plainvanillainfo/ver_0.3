@@ -753,14 +753,14 @@ class TemplateItem extends TemplateItemClient {
         elems.forEach(elemCur => {
             if (elemCur.SubUseCase == null || (elemCur.Rendering.Format != null && elemCur.Rendering.Format === 'DrillDown')) {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
-                if (valueCur === '' && elemCur.Rendering.Format != null && elemCur.Rendering.Format === 'DrillDown') {
-                    valueCur = 'Details';
-                }
+                //if (valueCur === '' && elemCur.Rendering.Format != null && elemCur.Rendering.Format === 'DrillDown') {
+                //    valueCur = 'Details';
+                //}
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
                     cellCur.Rendering = elemCur.Rendering;
                     cellCur.Elem = elemCur;
-                    if (valueCur !== '') {
+                    //if (valueCur !== '') {
                         cellCur.Value = valueCur;
                         let divField = this.formList.firstChild;
                         while (divField != null) {
@@ -895,7 +895,7 @@ class TemplateItem extends TemplateItemClient {
                                 divField = divField.nextSibling;
                             }
                         }
-                    }
+                    //}
                 }
             } else {
                 let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === elemCur.SubUseCase);
