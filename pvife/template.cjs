@@ -363,10 +363,6 @@ class TemplateItem extends TemplateItemClient {
                     this.dataItems.push(itemCur);
                     this.presentColumn(itemCur, this.itemCellsParent);
                     this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
-                    //
-                    // HERE
-                    //
-                    //this.templateItemSub.setDataItems([itemCur]);
                     this.pushBreadcrumb(this.templateItemSub);
                 }
             });
@@ -601,7 +597,6 @@ class TemplateItem extends TemplateItemClient {
             if (cellParentCur.Td != null) {
                 cellParentLocal.Td = cellParentCur.Td.cloneNode(true);
             }
-
             this.itemCells[itemCur.Key].push(cellParentLocal);
         });
         this.templateItemCoercer.columns.forEach(colCur => {
@@ -628,7 +623,6 @@ class TemplateItem extends TemplateItemClient {
                         tableItemRow.addEventListener('click', (event) => {
                             event.preventDefault();
                             console.log("presentRow - Item picked: ", event.currentTarget.dataItem.Key);
-                        //if (renderingAction.SubUseCase != null) {
                             if (this.divItem == null) {
                                 this.divItem = document.createElement('div');
                                 this.divItemSurrounding.appendChild(this.divItem);
@@ -636,12 +630,8 @@ class TemplateItem extends TemplateItemClient {
                             this.templateItemCoercer.divItemSub = document.createElement('div');
                             this.templateItemCoercer.divItemSub.className = 'mb-3';
                             this.templateItemCoercer.divItemSub.style.margin = '10px';
-                            //let subUseCaseRenderingAction = this.session.useCases.find(useCaseCur => useCaseCur.Id === renderingAction.SubUseCase);
                             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                             this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, this.templateItemCoercer.isCoerced);
-                            //
-                            // HERE
-                            //
                             this.toServer({
                                 Action: 'Drilldown',
                                 TemplateItem: {
@@ -651,10 +641,8 @@ class TemplateItem extends TemplateItemClient {
                                 }
                             });
                             this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
-                        //}
                         });
                     }
-
                 }
                 this.itemCells[itemCur.Key].forEach(cellCur => {
                     if (cellCur.Td == null) {
@@ -677,6 +665,9 @@ class TemplateItem extends TemplateItemClient {
                     cellCur.Rendering = elemCur.Rendering;
                     cellCur.Elem = elemCur;
                     if (valueCur !== '') {
+
+                        cellCur.Value = valueCur;
+
                         itemCur.isEmpty = false;
                         let displayValue = valueCur;
                         if (cellCur.Rendering.Width != null) {
@@ -766,19 +757,15 @@ class TemplateItem extends TemplateItemClient {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
-                    //cellCur.Input = document.createElement('input');
                     cellCur.Rendering = elemCur.Rendering;
                     cellCur.Elem = elemCur;
-
-                    //
-                    // TODO
-                    //
-
                     if (valueCur !== '') {
+
+                        cellCur.Value = valueCur;
+
                         let divField = this.formList.firstChild;
                         while (divField != null) {
                             if (divField.rendering != null && divField.rendering.Label === cellCur.Col) {
-                                //let cellCur.Input;
                                 if (divField.rendering.Format != null) {
                                     switch (divField.rendering.Format) {
                                         case 'Text':
@@ -806,8 +793,8 @@ class TemplateItem extends TemplateItemClient {
                                             cellCur.Input.appendChild(inputDate);
                                             inputDate.setAttribute("type", "date");
                                             if (cellCur.Value != null && cellCur.Value > '') {
-                                                let valueCur = new Date(cellCur.Value);
-                                                inputDate.value = valueCur.toISOString();
+                                                let valueCur1 = new Date(cellCur.Value);
+                                                inputDate.value = valueCur1.toISOString();
                                             } else {
                                                 inputDate.value = '';
                                             }
@@ -894,7 +881,7 @@ class TemplateItem extends TemplateItemClient {
                                     cellCur.Input.id = cellCur.Elem.Name;
                                     divField.appendChild(cellCur.Input);
                                     cellCur.Input.setAttribute("type", "input");
-                                    cellCur.Input.value = valueCur;
+                                    cellCur.Input.value = cellCur.Value; // valueCur;
                                     cellCur.Input.style.width = '70%';
                                     cellCur.Input.addEventListener('blur', (event) => {
                                         event.preventDefault();
