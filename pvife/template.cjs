@@ -1239,6 +1239,13 @@ class TemplateElem extends TemplateElemClient {
                         }
                     }
                     break;
+                case 'StartTemplateItem':
+                    if (message.TemplateItem != null) {
+                        if (this.templateItem.templateItemSub != null) {
+                            this.templateItem.templateItemSub.setDataItems(message.TemplateItem.DataItems);
+                        }
+                    }
+                    break;
                 default:
                     break;
             }
