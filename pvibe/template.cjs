@@ -522,7 +522,7 @@ class TemplateItem {
 
 		});
 		if (true || this.dataItems.length > 0) {
-			let parentKey = this.parent.itemParent != null ? this.parent.itemParent.Key : this.parent.parent.itemParent != null ? this.parent.parent.itemParent != null : null;
+			let parentKey = this.parent.itemParent != null ? this.parent.itemParent.Key : this.parent.parent.itemParent != null ? this.parent.parent.itemParent.Key != null : null;
 	        let messageOut = {
 	            Action: 'StartTemplateItem',
 	            TemplateItem: {
