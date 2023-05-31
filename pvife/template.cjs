@@ -665,9 +665,7 @@ class TemplateItem extends TemplateItemClient {
                     cellCur.Rendering = elemCur.Rendering;
                     cellCur.Elem = elemCur;
                     if (valueCur !== '') {
-
                         cellCur.Value = valueCur;
-
                         itemCur.isEmpty = false;
                         let displayValue = valueCur;
                         if (cellCur.Rendering.Width != null) {
@@ -753,16 +751,14 @@ class TemplateItem extends TemplateItemClient {
     presentColumnCells(itemCur, elems) {
         console.log("TemplateItem::presentColumnCells");
         elems.forEach(elemCur => {
-            if (elemCur.SubUseCase == null) {
+            if (elemCur.SubUseCase == null || (elem.Rendering.Format != null && elem.Rendering.Format === 'DrillDown')) {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
                 let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
                     cellCur.Rendering = elemCur.Rendering;
                     cellCur.Elem = elemCur;
                     if (valueCur !== '') {
-
                         cellCur.Value = valueCur;
-
                         let divField = this.formList.firstChild;
                         while (divField != null) {
                             if (divField.rendering != null && divField.rendering.Label === cellCur.Col) {
