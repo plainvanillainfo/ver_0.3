@@ -147,6 +147,7 @@ class TemplateItem extends TemplateItemClient {
     setCoercedLeafStatusElem(elem) {
         console.log("TemplateItem::setCoercedLeafStatusElem");
         if (elem.Rendering.Nesting != null && elem.Rendering.Nesting === 'Coerced') {
+            console.log("TemplateItem::setCoercedLeafStatusElem - this.isLeaf = false");
             this.isLeaf = false;
             let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
             if (subUseCase != null) {
@@ -404,6 +405,7 @@ class TemplateItem extends TemplateItemClient {
                 }
             }
         } else {
+            console.log("TemplateItem::presentTableElem - this.isLeaf = false");
             this.isLeaf = false;
             let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
             if (subUseCase != null) {
@@ -543,6 +545,7 @@ class TemplateItem extends TemplateItemClient {
                 }
             }
         } else {
+            console.log("TemplateItem::presentFormElem - this.isLeaf = false");
             this.isLeaf = false;
             let subUseCase = this.session.useCases.find(cur => cur.Id === elem.SubUseCase);
             if (subUseCase != null) {
