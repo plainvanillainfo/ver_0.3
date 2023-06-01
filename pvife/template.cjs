@@ -837,12 +837,10 @@ class TemplateItem extends TemplateItemClient {
                                             this.divItemSub.className = 'mb-3';
                                             this.divItemSub.style.margin = '10px';
                                             let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === divField.elem.SubUseCase);
-
                                             let dataItem = this.dataItems[0];		// For forms with multiple items, [0] will change to [i]
                                             if (this.elemDataItems[dataItem.Key] == null) {
                                                 this.elemDataItems[dataItem.Key] = {};
                                             }
-
                                             let templateElemPicked = null;
                                             if (this.elemDataItems[dataItem.Key][divField.elem.Name] == null) {
                                                 templateElemPicked = new TemplateElem(this, dataItem, null, divField.elem, this.divItemSub);
@@ -850,6 +848,7 @@ class TemplateItem extends TemplateItemClient {
                                             } else {
                                                 templateElemPicked = this.elemDataItems[dataItem.Key][divField.elem.Name];
                                             }
+                                            
                                             if (this.dataElem == null) {
                                                 this.toServer({
                                                     Action: 'ContinueTemplateElem',
@@ -867,70 +866,70 @@ class TemplateItem extends TemplateItemClient {
                                         });
 
                                         /*
-							            itemLICur.A.addEventListener('click', (event) => {
-							                event.preventDefault();
-							                console.log("TemplateItem::presentMenu - clicked on menu item", menuItemCur);
-							                let useCaseElemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
-							                let templateElemPicked = null;
-							                if (this.elemDataItems[dataItem.Key] == null) {
-							                    this.elemDataItems[dataItem.Key] = {};
-							                }
-							                if (this.elemDataItems[dataItem.Key][menuItemCur.Name] == null) {
-							                    templateElemPicked = new TemplateElem(this, dataItem, null, useCaseElemPicked, this.divMenuOptionPicked);
-							                    this.elemDataItems[dataItem.Key][menuItemCur.Name] = templateElemPicked;
-							                } else {
-							                    templateElemPicked = this.elemDataItems[dataItem.Key][menuItemCur.Name];
-							                }
-							                for (let elemCur in this.elemDataItems[dataItem.Key]) {
-							                    let elemDetail = this.elemDataItems[dataItem.Key][elemCur];
-							                    if (elemDetail.useCaseElem != null && elemDetail.useCaseElem.Name !== menuItemCur.Name) {
-							                        elemDetail.hide();
-							                    }
-							                }
-							                templateElemPicked.show();
-							            });
+                                        itemLICur.A.addEventListener('click', (event) => {
+                                            event.preventDefault();
+                                            console.log("TemplateItem::presentMenu - clicked on menu item", menuItemCur);
+                                            let useCaseElemPicked = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === menuItemCur.Name);
+                                            let templateElemPicked = null;
+                                            if (this.elemDataItems[dataItem.Key] == null) {
+                                                this.elemDataItems[dataItem.Key] = {};
+                                            }
+                                            if (this.elemDataItems[dataItem.Key][menuItemCur.Name] == null) {
+                                                templateElemPicked = new TemplateElem(this, dataItem, null, useCaseElemPicked, this.divMenuOptionPicked);
+                                                this.elemDataItems[dataItem.Key][menuItemCur.Name] = templateElemPicked;
+                                            } else {
+                                                templateElemPicked = this.elemDataItems[dataItem.Key][menuItemCur.Name];
+                                            }
+                                            for (let elemCur in this.elemDataItems[dataItem.Key]) {
+                                                let elemDetail = this.elemDataItems[dataItem.Key][elemCur];
+                                                if (elemDetail.useCaseElem != null && elemDetail.useCaseElem.Name !== menuItemCur.Name) {
+                                                    elemDetail.hide();
+                                                }
+                                            }
+                                            templateElemPicked.show();
+                                        });
                                         */
 
                                         /*
-									    show() {
-									        console.log("TemplateElem::show");
-									        if (this.dataElem == null) {
-									            this.toServer({
-									                Action: 'Start',
-									                Context: {}
-									            });
-									        }
-									        if (this.visible == false) {
-									            this.divElem.style.visibility = 'visible';
-									            this.divElem.style.display = 'block';
-									            this.visible = true;
-									        }
-									    }                                        
-									    */
+                                        show() {
+                                            console.log("TemplateElem::show");
+                                            if (this.dataElem == null) {
+                                                this.toServer({
+                                                    Action: 'Start',
+                                                    Context: {}
+                                                });
+                                            }
+                                            if (this.visible == false) {
+                                                this.divElem.style.visibility = 'visible';
+                                                this.divElem.style.display = 'block';
+                                                this.visible = true;
+                                            }
+                                        }                                        
+                                        */
 
                                         /*
-				                        tableItemRow.addEventListener('click', (event) => {
-				                            event.preventDefault();
-				                            console.log("presentRow - Item picked: ", event.currentTarget.dataItem.Key);
-				                            if (this.divItem == null) {
-				                                this.divItem = document.createElement('div');
-				                                this.divItemSurrounding.appendChild(this.divItem);
-				                            }
-				                            this.templateItemCoercer.divItemSub = document.createElement('div');
-				                            this.templateItemCoercer.divItemSub.className = 'mb-3';
-				                            this.templateItemCoercer.divItemSub.style.margin = '10px';
-				                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
-				                            this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, this.templateItemCoercer.isCoerced);
-				                            this.toServer({
-				                                Action: 'Drilldown',
-				                                TemplateItem: {
-				                                    ItemKey: event.currentTarget.dataItem.Key,
-				                                    UseCaseName: subUseCase.Detail.Name,
-				                                    Action: 'Start'
-				                                }
-				                            });
-				                            this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
-				                        });
+                                        tableItemRow.addEventListener('click', (event) => {
+                                            event.preventDefault();
+                                            console.log("presentRow - Item picked: ", event.currentTarget.dataItem.Key);
+                                            if (this.divItem == null) {
+                                                this.divItem = document.createElement('div');
+                                                this.divItemSurrounding.appendChild(this.divItem);
+                                            }
+                                            this.templateItemCoercer.divItemSub = document.createElement('div');
+                                            this.templateItemCoercer.divItemSub.className = 'mb-3';
+                                            this.templateItemCoercer.divItemSub.style.margin = '10px';
+                                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
+                                            this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, this.templateItemCoercer.isCoerced);
+                                            this.toServer({
+                                                Action: 'Drilldown',
+                                                TemplateItem: {
+                                                    ItemKey: event.currentTarget.dataItem.Key,
+                                                    UseCaseName: subUseCase.Detail.Name,
+                                                    Action: 'Start'
+                                                }
+                                            });
+                                            this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
+                                        });
                                         */
 
                                         break;

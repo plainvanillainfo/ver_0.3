@@ -50,6 +50,7 @@ class TemplateItem {
 					}
 					break;
                 case 'Drilldown':
+				case 'ContinueTemplateItem':
 					if ( message.TemplateItem != null) {
 						console.log("Drilldown", message.TemplateItem, "\n", this.itemList);
 						if (message.TemplateItem.ItemKey != null) {
