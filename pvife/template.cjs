@@ -167,7 +167,9 @@ class TemplateItem extends TemplateItemClient {
                 //this.templateItemSub.templateItemSub.setDataItems(message.TemplateItem.DataItems);
             } else {
                 let dataItemParent = message.TemplateItem.ParentKey != null && this.dataItems != null ? 
-                    this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) : this.dataItems[0];
+                    this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) 
+                    : 
+                    this.dataItems != null ? this.dataItems[0] : null;
                 if (dataItemParent != null) {
                     if (this.elemDataItems[dataItemParent.Key] == null) {
                         this.elemDataItems[dataItemParent.Key] = {};
