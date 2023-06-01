@@ -867,31 +867,6 @@ class TemplateItem extends TemplateItemClient {
                                         });
 
                                         /*
-				                        tableItemRow.addEventListener('click', (event) => {
-				                            event.preventDefault();
-				                            console.log("presentRow - Item picked: ", event.currentTarget.dataItem.Key);
-				                            if (this.divItem == null) {
-				                                this.divItem = document.createElement('div');
-				                                this.divItemSurrounding.appendChild(this.divItem);
-				                            }
-				                            this.templateItemCoercer.divItemSub = document.createElement('div');
-				                            this.templateItemCoercer.divItemSub.className = 'mb-3';
-				                            this.templateItemCoercer.divItemSub.style.margin = '10px';
-				                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
-				                            this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, this.templateItemCoercer.isCoerced);
-				                            this.toServer({
-				                                Action: 'Drilldown',
-				                                TemplateItem: {
-				                                    ItemKey: event.currentTarget.dataItem.Key,
-				                                    UseCaseName: subUseCase.Detail.Name,
-				                                    Action: 'Start'
-				                                }
-				                            });
-				                            this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
-				                        });
-                                        */
-
-                                        /*
 							            itemLICur.A.addEventListener('click', (event) => {
 							                event.preventDefault();
 							                console.log("TemplateItem::presentMenu - clicked on menu item", menuItemCur);
@@ -916,6 +891,47 @@ class TemplateItem extends TemplateItemClient {
 							            });
                                         */
 
+                                        /*
+									    show() {
+									        console.log("TemplateElem::show");
+									        if (this.dataElem == null) {
+									            this.toServer({
+									                Action: 'Start',
+									                Context: {}
+									            });
+									        }
+									        if (this.visible == false) {
+									            this.divElem.style.visibility = 'visible';
+									            this.divElem.style.display = 'block';
+									            this.visible = true;
+									        }
+									    }                                        
+									    */
+
+                                        /*
+				                        tableItemRow.addEventListener('click', (event) => {
+				                            event.preventDefault();
+				                            console.log("presentRow - Item picked: ", event.currentTarget.dataItem.Key);
+				                            if (this.divItem == null) {
+				                                this.divItem = document.createElement('div');
+				                                this.divItemSurrounding.appendChild(this.divItem);
+				                            }
+				                            this.templateItemCoercer.divItemSub = document.createElement('div');
+				                            this.templateItemCoercer.divItemSub.className = 'mb-3';
+				                            this.templateItemCoercer.divItemSub.style.margin = '10px';
+				                            let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
+				                            this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, this.templateItemCoercer.isCoerced);
+				                            this.toServer({
+				                                Action: 'Drilldown',
+				                                TemplateItem: {
+				                                    ItemKey: event.currentTarget.dataItem.Key,
+				                                    UseCaseName: subUseCase.Detail.Name,
+				                                    Action: 'Start'
+				                                }
+				                            });
+				                            this.templateItemCoercer.pushBreadcrumb(this.templateItemSub);
+				                        });
+                                        */
 
                                         break;
                                     default:
