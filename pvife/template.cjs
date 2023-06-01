@@ -5,6 +5,11 @@ class TemplateItem extends TemplateItemClient {
         super(parent, useCase);
         console.log("TemplateItem::constructor");
         this.divItemSurrounding = divItemSurrounding;
+        if (this.parent.divBreadcrumbs != null) {
+            this.divBreadcrumbs = this.parent.divBreadcrumbs;
+            this.olBreadcrumbs = this.parent.olBreadcrumbs;
+            this.breadcrumbs = this.parent.breadcrumbs;
+        }
         this.isCoerced = isCoerced;
         this.isLeaf = true;
         this.columns = [];
