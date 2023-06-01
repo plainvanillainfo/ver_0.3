@@ -166,7 +166,8 @@ class TemplateItem extends TemplateItemClient {
                 console.log("TemplateItem::continueTemplateElem - this.templateItemSub.templateItemSub.setDataItems()");
                 //this.templateItemSub.templateItemSub.setDataItems(message.TemplateItem.DataItems);
             } else {
-                let dataItemParent = message.TemplateItem.ParentKey != null ? this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) : this.dataItems[0];
+                let dataItemParent = message.TemplateItem.ParentKey != null && this.dataItems ? 
+                    this.dataItems.find(cur => cur.Key === message.TemplateItem.ParentKey) : this.dataItems[0];
                 if (dataItemParent != null) {
                     if (this.elemDataItems[dataItemParent.Key] == null) {
                         this.elemDataItems[dataItemParent.Key] = {};
