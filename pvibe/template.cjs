@@ -561,10 +561,10 @@ class TemplateElem {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
-					if (message.Context != null) {
+					//if (message.Context != null) {
 						// HERE: 
-						this.context = message.Context;
-					}
+					//	this.context = message.Context;
+					//}
 					this.startTemplateItem();
                     break;
 				case 'ContinueTemplateItem':

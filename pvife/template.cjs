@@ -863,7 +863,7 @@ class TemplateItem extends TemplateItemClient {
                                                     TemplateElem: {
                                                         ItemKey: itemCur.Key,
                                                         UseCaseElemName: divField.elem.Name,
-                                                        Action: 'ContinueTemplateItem',
+                                                        Action: 'Start',
                                                         TemplateItem: {
                                                             UseCaseName: subUseCase.Detail.Name,
                                                             Action: 'Start'
