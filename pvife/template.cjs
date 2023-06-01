@@ -1295,7 +1295,7 @@ class TemplateElem extends TemplateElemClient {
                 case 'ContinueTemplateItem':
                     if (message.TemplateItem != null) {
                         if (this.templateItem.templateItemSub != null) {
-                            this.templateItem.templateItemSub.continueTemplateEItem(message.TemplateItem);
+                            this.templateItem.templateItemSub.continueTemplateItem(message.TemplateItem);
                         }
                     }
                     break;
