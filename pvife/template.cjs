@@ -852,6 +852,7 @@ class TemplateItem extends TemplateItemClient {
                                             if (this.dataElem == null) {
                                                 this.toServer({
                                                     Action: 'ContinueTemplateElem',
+                                                    ItemKey: itemCur.Key,
                                                     TemplateElem: {
                                                         ItemKey: itemCur.Key,
                                                         UseCaseElemName: divField.elem.Name,
