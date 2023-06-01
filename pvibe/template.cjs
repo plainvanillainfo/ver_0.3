@@ -473,26 +473,22 @@ class TemplateItem {
 
 	stepDownToChild(elemChild) {
         let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemChild.Attribute);
-        if (elemAttribute != null) {
-			switch (elemAttribute.Type) {
-				case 'Child':
-					//console.log("TemplateItem::stepDownToChild() - elemChild: ", elemChild.Name);
-					this.dataItems.forEach(dataItemCur => {
-						let itemListEntry = this.itemList[dataItemCur.Key];
-						console.log("stepDownToChild - dataItemCur.Key", dataItemCur.Key);
-						if (itemListEntry.Elems[elemChild.Name] == null) {
-							console.log("stepDownToChild - itemListEntry.Elems[elemChild.Name] == null");
-							let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === elemChild.Name);
-							itemListEntry.Elems[elemChild.Name] = new TemplateElem(this, useCaseElemFound, itemListEntry);
-							// HERE: 
-							itemListEntry.Elems[elemChild.Name].context = this.parent.context;
-							itemListEntry.Elems[elemChild.Name].startTemplateItem();
-						}
-					});
-					break;
-				default:
-					break;
-			}
+		if (elemChild.Rendering != null && elemChild.Rendering.Format != null && elemChild.Rendering.Format === 'DrillDown') {
+			elemAttribute = null;  // Suppress child items if rendering calls for drilldown
+		}
+		if (elemAttribute != null && elemAttribute.Type) {
+			this.dataItems.forEach(dataItemCur => {
+				let itemListEntry = this.itemList[dataItemCur.Key];
+				console.log("stepDownToChild - dataItemCur.Key", dataItemCur.Key);
+				if (itemListEntry.Elems[elemChild.Name] == null) {
+					console.log("stepDownToChild - itemListEntry.Elems[elemChild.Name] == null");
+					let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === elemChild.Name);
+					itemListEntry.Elems[elemChild.Name] = new TemplateElem(this, useCaseElemFound, itemListEntry);
+					// HERE: 
+					itemListEntry.Elems[elemChild.Name].context = this.parent.context;
+					itemListEntry.Elems[elemChild.Name].startTemplateItem();
+				}
+			});
 		}
 	}
 	
@@ -543,7 +539,7 @@ class TemplateItem {
 		
 		// Drilldown
 		this.useCase.Detail.Elems.forEach(elemCur => {
-			//this.stepDownToChild(elemCur);
+			this.stepDownToChild(elemCur);
 		});
     }
 
