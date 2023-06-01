@@ -707,8 +707,10 @@ class TemplateItem extends TemplateItemClient {
                 }
             } else {
                 let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === elemCur.SubUseCase);
-                if (elemCur.Rendering.Nesting != null && elemCur.Rendering.Nesting === 'Flattened') {
-                    this.presentRowCells(itemCur, subUseCase.Detail.Elems);
+                if (subUseCase != null) {
+                    if (elemCur.Rendering.Nesting != null && elemCur.Rendering.Nesting === 'Flattened') {
+                        this.presentRowCells(itemCur, subUseCase.Detail.Elems);
+                    }
                 }
             }
         });
