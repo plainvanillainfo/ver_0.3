@@ -1278,11 +1278,9 @@ class TemplateElem extends TemplateElemClient {
                             this.fromServer(message.TemplateElem);
                         } else {
                             if (this.templateItem.templateItemSub != null) {
-                                //this.templateItem.templateItemSub.continueTemplateElem(message.TemplateElem);
-                                this.templateItem.templateItemSub.fromServer(message);
+                                this.templateItem.templateItemSub.continueTemplateElem(message.TemplateElem);
                             } else {
                                 this.templateItem.continueTemplateElem(message.TemplateElem);
-                                //this.templateItem.fromServer(message);
                             }
                         }
                     }
@@ -1297,7 +1295,7 @@ class TemplateElem extends TemplateElemClient {
                 case 'ContinueTemplateItem':
                     if (message.TemplateItem != null) {
                         if (this.templateItem.templateItemSub != null) {
-                            this.templateItem.templateItemSub.fromServer(message.TemplateItem);
+                            this.templateItem.templateItemSub.continueTemplateEItem(message.TemplateItem);
                         }
                     }
                     break;
