@@ -1281,8 +1281,8 @@ class TemplateElem extends TemplateElemClient {
                                 //this.templateItem.templateItemSub.continueTemplateElem(message.TemplateElem);
                                 this.templateItem.templateItemSub.fromServer(message);
                             } else {
-                                //this.templateItem.continueTemplateElem(message.TemplateElem);
-                                this.templateItem.fromServer(message);
+                                this.templateItem.continueTemplateElem(message.TemplateElem);
+                                //this.templateItem.fromServer(message);
                             }
                         }
                     }
