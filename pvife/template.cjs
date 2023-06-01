@@ -1278,9 +1278,11 @@ class TemplateElem extends TemplateElemClient {
                             this.fromServer(message.TemplateElem);
                         } else {
                             if (this.templateItem.templateItemSub != null) {
-                                this.templateItem.templateItemSub.continueTemplateElem(message.TemplateElem);
+                                //this.templateItem.templateItemSub.continueTemplateElem(message.TemplateElem);
+                                this.templateItem.templateItemSub.fromServer(message);
                             } else {
-                                this.templateItem.continueTemplateElem(message.TemplateElem);
+                                //this.templateItem.continueTemplateElem(message.TemplateElem);
+                                this.templateItem.fromServer(message);
                             }
                         }
                     }
@@ -1289,6 +1291,13 @@ class TemplateElem extends TemplateElemClient {
                     if (message.TemplateItem != null) {
                         if (this.templateItem.templateItemSub != null) {
                             this.templateItem.templateItemSub.setDataItems(message.TemplateItem.DataItems);
+                        }
+                    }
+                    break;
+                case 'ContinueTemplateItem':
+                    if (message.TemplateItem != null) {
+                        if (this.templateItem.templateItemSub != null) {
+                            this.templateItem.templateItemSub.fromServer(message.TemplateItem);
                         }
                     }
                     break;
