@@ -154,7 +154,6 @@ class TemplateItem extends TemplateItemClient {
                 subUseCase.Detail.Elems.forEach(elemCur => {
                     this.setCoercedLeafStatusElem(elemCur);
                 });
-        
             }
         }
     }

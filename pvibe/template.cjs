@@ -543,7 +543,7 @@ class TemplateItem {
 		
 		// Drilldown
 		this.useCase.Detail.Elems.forEach(elemCur => {
-			this.stepDownToChild(elemCur);
+			//this.stepDownToChild(elemCur);
 		});
     }
 
