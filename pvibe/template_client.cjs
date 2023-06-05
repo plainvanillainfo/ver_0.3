@@ -34,7 +34,7 @@ class TemplateItemClient {
             Action: 'ContinueTemplateItem',
             TemplateItem: {
                 UseCaseName: this.useCase.Detail.Name,
-                ItemKey: messageIn.Action === 'ContinueTemplateItem' ? messageIn.TemplateItem.ItemKey : null, //this.itemKey,
+                ItemKey: messageIn.TemplateItem!= null ? messageIn.TemplateItem.ItemKey : null, //this.itemKey,
                 ...messageIn
             }
         };
