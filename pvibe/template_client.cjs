@@ -112,8 +112,9 @@ class TemplateElemClient {
         console.log("TemplateElemClient::toServer");
         let messageOut = {
             Action: 'ContinueTemplateElem',
+            ItemKey: this.dataItemParent.Key,
             TemplateElem: {
-				ItemKey: this.dataItemParent.Key,
+	            ItemKey: this.dataItemParent.Key,
                 UseCaseElemName: this.useCaseElem.Name,
                 ...messageIn
             }
