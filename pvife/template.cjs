@@ -14,6 +14,7 @@ class TemplateItem extends TemplateItemClient {
         this.isLeaf = true;
         this.columns = [];
         this.templateItemCoercer = this;
+        this.dataItems = [];
         this.itemCells = {};
         this.itemCellsParent = [];
         /* 
