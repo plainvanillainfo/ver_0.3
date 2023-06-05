@@ -370,7 +370,7 @@ class TemplateItem extends TemplateItemClient {
                 let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                 this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, this.templateItemCoercer.isCoerced);
                 let itemCur = { Key: '00000000-0000-0000-0000-000000000001', Attrs: {} };     // New record key and data
-                this.dataItems.push(itemCur);
+                this.templateItemSub.dataItems.push(itemCur);
                 //this.presentColumn(itemCur, this.itemCellsParent);
                 //this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
                 this.templateItemSub.presentFormColumns();
