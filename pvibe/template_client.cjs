@@ -32,10 +32,10 @@ class TemplateItemClient {
         console.log("TemplateItemClient::toServer");
         let messageOut = {
             Action: 'ContinueTemplateItem',
-            //ItemKey: messageIn.TemplateItem!= null ? messageIn.TemplateItem.ItemKey : null,
+            ItemKey: messageIn.TemplateItem!= null && messageIn.TemplateItem.TemplateElem != null && messageIn.TemplateItem.TemplateElem.ItemKey != null ?
+                messageIn.TemplateItem.TemplateElem.ItemKey : null,
             TemplateItem: {
                 UseCaseName: this.useCase.Detail.Name,
-                //ItemKey: this.itemKey,
                 ...messageIn
             }
         };
