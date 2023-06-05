@@ -39,6 +39,7 @@ class TemplateItemClient {
         };
         if (messageIn.TemplateItem != null && messageIn.TemplateItem.TemplateElem != null && 
                 messageIn.TemplateItem.TemplateElem.Action !== 'Start' && messageIn.TemplateItem.TemplateElem.ItemKey != null) {
+            messageOut.ItemKey = messageIn.TemplateItem != null && messageIn.TemplateItem.TemplateElem != null && messageIn.TemplateItem.TemplateElem.ItemKey;
             messageOut.TemplateItem.ItemKey = messageIn.TemplateItem != null && messageIn.TemplateItem.TemplateElem != null && messageIn.TemplateItem.TemplateElem.ItemKey;
         }
         this.parent.toServer(messageOut);
