@@ -812,7 +812,7 @@ class TemplateItem extends TemplateItemClient {
                                             this.formData[event.target.id] = event.target.value;
                                         });
                                         let itemImgCal = document.createElement('i');
-                                        divDate.appendChild(itemImgCal);
+                                        cellCur.Input.appendChild(itemImgCal);
                                         itemImgCal.className = 'bi bi-calendar';
                                         itemImgCal.style.marginLeft = "10px";
                                         break;
