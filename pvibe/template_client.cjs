@@ -35,7 +35,7 @@ class TemplateItemClient {
             ItemKey: messageIn.TemplateItem!= null ? messageIn.TemplateItem.ItemKey : null,
             TemplateItem: {
                 UseCaseName: this.useCase.Detail.Name,
-                //ItemKey: messageIn.TemplateItem!= null ? messageIn.TemplateItem.ItemKey : null, //this.itemKey,
+                ItemKey: this.itemKey,
                 ...messageIn
             }
         };
