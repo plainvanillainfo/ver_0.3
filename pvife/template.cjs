@@ -907,7 +907,9 @@ class TemplateItem extends TemplateItemClient {
             } else {
                 let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === elemCur.SubUseCase);
                 if (elemCur.Rendering.Nesting != null && elemCur.Rendering.Nesting === 'Flattened') {
-                    this.presentColumnCells(itemCur, subUseCase.Detail.Elems);
+                    if (subUseCase != null) {
+                        this.presentColumnCells(itemCur, subUseCase.Detail.Elems);
+                    }
                 }
             }
         });
