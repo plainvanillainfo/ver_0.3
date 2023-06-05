@@ -369,30 +369,12 @@ class TemplateItem extends TemplateItemClient {
                 this.templateItemCoercer.divItemSub.style.margin = '10px';
                 let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
                 this.templateItemSub = new TemplateItem(this, subUseCase, this.templateItemCoercer.divItemSub, this.templateItemCoercer.isCoerced);
-                //this.templateItemSub.itemCells = {};
-                //let itemCur = { Key: '00000000-0000-0000-0000-000000000001', Attrs: {} };     // New record key and data
-                //this.dataItems.push(itemCur);
+                let itemCur = { Key: '00000000-0000-0000-0000-000000000001', Attrs: {} };     // New record key and data
+                this.dataItems.push(itemCur);
                 //this.presentColumn(itemCur, this.itemCellsParent);
                 //this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
                 this.templateItemSub.presentFormColumns();
                 this.pushBreadcrumb(this.templateItemSub);
-
-                /*
-                if (this.useCase.Detail.SubUseCase != null) {
-                    this.divItemSub = document.createElement('div');
-                    this.divItemSub.className = 'mb-3';
-                    this.divItemSub.style.margin = '10px';
-                    let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === this.useCase.Detail.SubUseCase);
-                    this.templateItemSub = new TemplateItem(this, subUseCase, this.divItemSub, false);
-                    this.templateItemSub.itemCells = {};
-                    let itemCur = {Key: '00000000-0000-0000-0000-000000000001', Attrs: {}};     // New record key and data
-                    this.dataItems.push(itemCur);
-                    this.presentColumn(itemCur, this.itemCellsParent);
-                    this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
-                    this.pushBreadcrumb(this.templateItemSub);
-                }
-                */
-
             });
         }
         this.tableList = document.createElement('table');
