@@ -144,7 +144,8 @@ class TemplateItem {
 				Table: this.tableBase['ParentToThisLinkTableName'],
 				Alias: this.tableBase['ParentToThisLinkTableName']
 			});
-			this.selectWhere += (' "' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ');
+			//this.selectWhere += (' "' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ');
+			this.selectWhere += (' "' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\'');
 			this.tableBase['WhereJoins'].push({
 				TableLeft: this.tableBase['ParentToThisLinkTableName'],
 				ColumnLeft: 'ChildId', 
@@ -153,7 +154,7 @@ class TemplateItem {
 			});
 		} else {
 			if (this.soleKey != null && this.soleKey !== '') {
-				this.selectWhere += ' "Id"=\'' + this.soleKey + '\'';
+				this.selectWhere +=  ('"'+ this.tableBase['Name'] + '"."Id"=\'' + this.soleKey + '\'');
 			} else {
 				this.selectWhere += ' 1=1';
 			}
@@ -175,6 +176,9 @@ class TemplateItem {
 				this.selectFrom += ', ';
 			}
 		});
+		if (this.tableBase['WhereJoins'].length > 0) {
+			this.selectWhere += ' AND ';
+		}
 		this.tableBase['WhereJoins'].forEach((joinCur, joinIndex) => {
 			this.selectWhere += ('"' + joinCur.TableLeft + '"."' + joinCur.ColumnLeft + '" = "' + joinCur.TableRight + '"."' + joinCur.ColumnRight + '"');
 			if ((joinIndex+1) < this.tableBase['WhereJoins'].length) {
