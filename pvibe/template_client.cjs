@@ -26,21 +26,6 @@ class TemplateItemClient {
                     break;
             }
         }
-        /*
-        if (message.Item != null) {
-            this.item = message.Item;
-            switch (this.useCase.Detail.Format) {
-                case 'Menu':
-                    this.setUseCaseMenu();
-                    break;
-                case 'Form':
-                    this.setUseCaseForm();
-                    break;
-                default:
-                    break;
-            }
-        }
-        */
     }
 
     toServer(messageIn) {
@@ -49,7 +34,7 @@ class TemplateItemClient {
             Action: 'ContinueTemplateItem',
             TemplateItem: {
                 UseCaseName: this.useCase.Detail.Name,
-                ItemKey: this.itemKey,
+                ItemKey: messageIn.Action === 'Drilldown' ? messageIn.TemplateItem.ItemKey : null, //this.itemKey,
                 ...messageIn
             }
         };
