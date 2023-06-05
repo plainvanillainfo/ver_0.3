@@ -79,7 +79,7 @@ class TemplateItem {
                     break;
                 case 'ContinueTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
-						console.log("TemplateItem::fromClient() - aaaaa");
+						console.log("TemplateItem::fromClient() - ContinueTemplateElem");
 						let useCaseElemName = message.TemplateElem.UseCaseElemName;
 						let useCaseElemFound = this.useCase.Detail.Elems.find(elemCur => elemCur.Name === useCaseElemName);
 						if (useCaseElemFound != null) {
@@ -557,7 +557,7 @@ class TemplateElem {
     }
 
     fromClient(message) {
-        console.log("TemplateElem::fromClient(): ", message, "\nthis.useCaseElem: ", this.useCaseElem, "\n");
+        console.log("TemplateElem::fromClient(): ", message); //, "\nthis.useCaseElem: ", this.useCaseElem, "\n");
         if (message.Action != null) {
             switch (message.Action) {
                 case 'Start':
