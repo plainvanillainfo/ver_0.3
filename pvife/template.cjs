@@ -374,6 +374,7 @@ class TemplateItem extends TemplateItemClient {
                 //this.dataItems.push(itemCur);
                 //this.presentColumn(itemCur, this.itemCellsParent);
                 //this.templateItemSub.itemCells[itemCur.Key] = this.itemCells[itemCur.Key];
+                this.templateItemSub.presentFormColumns();
                 this.pushBreadcrumb(this.templateItemSub);
 
                 /*
