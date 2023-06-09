@@ -679,14 +679,18 @@ class TemplateItem extends TemplateItemClient {
             if (elemCur.SubUseCase == null) {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
                 if (cellCur != null) {
-                    cellCur.Td = document.createElement('td');
+                    if (cellCur.Td == null) {
+                        cellCur.Td = document.createElement('td');
+                    }
                     cellCur.Rendering = elemCur.Rendering;
                     cellCur.Elem = elemCur;
                     cellCur.Value = valueCur;
                     itemCur.isEmpty = false;
                     let displayValue = valueCur;
                     if (cellCur.Rendering.Width != null) {
-                        cellCur.Td.style.width = cellCur.Rendering.Width;
+                        if (cellCur.Td.style.width == null || (parseInt(cellCur.Rendering.Width) > parseInt(cellCur.Td.style.width))) {
+                            cellCur.Td.style.width = cellCur.Rendering.Width;
+                        }
                     }
                     if (cellCur.Rendering.Format != null) {
                         if (cellCur.Rendering.Format === 'Date') {
@@ -725,6 +729,9 @@ class TemplateItem extends TemplateItemClient {
                 if (subUseCase != null) {
                     if (elemCur.Rendering.Nesting != null && elemCur.Rendering.Nesting === 'Flattened') {
                         if (elemCur.Rendering.Format != null && elemCur.Rendering.Format === 'Compressed') {
+                            if (cellCur.Td == null) {
+                                cellCur.Td = document.createElement('td');
+                            }
                             this.presentRowCells(itemCur, subUseCase.Detail.Elems, cellCur);
                         } else {
                             this.presentRowCells(itemCur, subUseCase.Detail.Elems, null);
