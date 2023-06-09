@@ -728,7 +728,7 @@ class TemplateItem extends TemplateItemClient {
                 let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === elemCur.SubUseCase);
                 if (subUseCase != null) {
                     if (elemCur.Rendering.Nesting != null && elemCur.Rendering.Nesting === 'Flattened') {
-                        if (elemCur.Rendering.Format != null && elemCur.Rendering.Format === 'Compressed') {
+                        if (elemCur.Rendering.Format != null && elemCur.Rendering.Format === 'Compressed' || cellCompressed != null) {
                             if (cellCur.Td == null) {
                                 cellCur.Td = document.createElement('td');
                             }
