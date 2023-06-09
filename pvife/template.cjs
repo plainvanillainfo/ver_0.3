@@ -731,6 +731,8 @@ class TemplateItem extends TemplateItemClient {
                         if (elemCur.Rendering.Format != null && elemCur.Rendering.Format === 'Compressed' || cellCompressed != null) {
                             if (cellCur.Td == null) {
                                 cellCur.Td = document.createElement('td');
+                            } else {
+                                cellCur.Td.appendChild(document.createElement('br'));
                             }
                             this.presentRowCells(itemCur, subUseCase.Detail.Elems, cellCur);
                         } else {
