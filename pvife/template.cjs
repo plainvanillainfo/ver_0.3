@@ -395,7 +395,7 @@ class TemplateItem extends TemplateItemClient {
     presentTableElem(elem) {
         console.log("TemplateItem::presentTableElem");
         if (elem.Rendering.Nesting == null || elem.Rendering.Nesting !== 'Coerced') {
-            if (elem.SubUseCase == null) {
+            if (elem.SubUseCase == null || (elem.Rendering.Format != null && elem.Rendering.Format === 'Compressed')) {
                 if (this.columns.find(cur => cur === elem.Rendering.Label) == null) {
                     this.columns.push(elem.Rendering.Label);
                     let tableHeadRowHeader = document.createElement('th');
@@ -623,7 +623,7 @@ class TemplateItem extends TemplateItemClient {
             }
         });
         itemCur.isEmpty = true;
-        this.presentRowCells(itemCur, this.useCase.Detail.Elems);
+        this.presentRowCells(itemCur, this.useCase.Detail.Elems, null);
         if (this.isLeaf === true) {
             if (itemCur.isEmpty === false) {
                 let tableItemRow = document.createElement('tr');
@@ -667,12 +667,17 @@ class TemplateItem extends TemplateItemClient {
         }
     }
 
-    presentRowCells(itemCur, elems) {
+    presentRowCells(itemCur, elems, cellCompressed) {
         console.log("TemplateItem::presentRowCells");
         elems.forEach(elemCur => {
+            let cellCur;
+            if (cellCompressed != null) {
+                cellCur = cellCompressed;
+            } else {
+                cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
+            }
             if (elemCur.SubUseCase == null) {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name] : '';
-                let cellCur = this.itemCells[itemCur.Key].find(cur => cur.Col === elemCur.Rendering.Label);
                 if (cellCur != null) {
                     cellCur.Td = document.createElement('td');
                     cellCur.Rendering = elemCur.Rendering;
@@ -719,7 +724,11 @@ class TemplateItem extends TemplateItemClient {
                 let subUseCase = this.session.useCases.find(useCaseCur => useCaseCur.Id === elemCur.SubUseCase);
                 if (subUseCase != null) {
                     if (elemCur.Rendering.Nesting != null && elemCur.Rendering.Nesting === 'Flattened') {
-                        this.presentRowCells(itemCur, subUseCase.Detail.Elems);
+                        if (elemCur.Rendering.Format != null && elemCur.Rendering.Format === 'Compressed') {
+                            this.presentRowCells(itemCur, subUseCase.Detail.Elems, cellCur);
+                        } else {
+                            this.presentRowCells(itemCur, subUseCase.Detail.Elems, null);
+                        }
                     }
                 }
             }
