@@ -98,5 +98,6 @@ class Backend {
 }
 
 module.exports = {
-    Backend
+    Backend: Backend,
+    Database: Database
 }
