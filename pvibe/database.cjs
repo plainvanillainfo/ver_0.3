@@ -16,11 +16,25 @@ class Database {
         console.log("Database::openDataDB()");
         await this.client.connect();
         console.log("Database::openDataDB() - await returned");
+        this.client.on('error', (err) => {
+            console.error("Database::openDataDB() - client.on('error')", err.stack)
+        })
         this.client.query(
             'SELECT * FROM functionality."AppConfig" ORDER BY "Param" ASC',
             (err, res) => {
             setConfigFromDB(res.rows);
         })
+    }
+
+    async openDataDBStartClient(clientConnectedToDB) {
+        console.log("Database::openDataDBStartClient()");
+        await this.client.connect();
+        console.log("Database::openDataDBStartClient() - await returned");
+        this.client.on('error', (err) => {
+            console.error("Database::openDataDBStartClient() - client.on('error')", err.stack)
+            clientConnectedToDB(false);
+        });
+        clientConnectedToDB(true);
     }
 
     async getEntitlement(messageIn, sendEntitlement) {
