@@ -171,7 +171,7 @@ class WebServer {
                         //return res.status(500).send(err);
                     } else {
                         fileCountMoved++;
-                        retCode += "Received: " + fileDetail.name, + " - Size: ", fileDetail.size + "\n";
+                        retCode += ("Received: " + fileDetail.name, + " - Size: ", fileDetail.size + "\n");
                         if (fileCountMoved === fileCount) {
                             res.status(200).send(retCode);
                         }
