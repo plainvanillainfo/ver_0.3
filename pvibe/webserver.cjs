@@ -159,15 +159,17 @@ class WebServer {
                 var fileDetail = req.files[fileCur];
                 console.log("app.post / fileDetail: ", fileDetail);
                 console.log("File: ", uploadDir + fileDetail.name);
+                let retCode = ''
                 fileDetail.mv(uploadDir + fileDetail.name, (err) => {
                     if (err) {
                         console.log("fileDetail.mv err: ", err);
                         //return res.status(500).send(err);
                     } else {
-                        res.status(200).send("Received: " + fileDetail.name, + " - Size: ", fileDetail.size);
+                        retCode += "Received: " + fileDetail.name, + " - Size: ", fileDetail.size + "\n";
                     }
                 });                    
             }
+            res.status(200).send(retCode);
         });
     }
 
