@@ -23,7 +23,7 @@ class WebServer {
             this.startWebsocketListening(configWebAppServer.WebsocketListenPort);
         }, this.startupTimeBufferMillisec);
         setTimeout(() => { 
-            this.startUploadListening(configWebAppServer.UploadListenPort);
+            this.startUploadListening(configWebAppServer.UploadListenPort, configWebAppServer.UploadDir);
         }, this.startupTimeBufferMillisec);
     }
 
@@ -129,7 +129,7 @@ class WebServer {
         }
     }
 
-    startUploadListening(portNumber) {
+    startUploadListening(portNumber, uploadDir) {
         console.log("WebServer - startUploadListening: ", portNumber);
         this.portUpload = {};
         this.portUpload.express = express();
@@ -158,8 +158,8 @@ class WebServer {
             for (var fileCur in req.files) {
                 var fileDetail = req.files[fileCur];
                 console.log("app.post / fileDetail: ", fileDetail);
-                console.log("File: ", this.parent.serverConfig.UploadDir + fileDetail.name);
-                fileDetail.mv(this.parent.serverConfig.UploadDir + fileDetail.name, (err) => {
+                console.log("File: ", uploadDir + fileDetail.name);
+                fileDetail.mv(uploadDir + fileDetail.name, (err) => {
                     if (err) {
                         console.log("fileDetail.mv err: ", err);
                         //return res.status(500).send(err);
