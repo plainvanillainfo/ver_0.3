@@ -155,11 +155,11 @@ class WebServer {
         /* Post data and/or files */
         this.portUpload.express.post('/', (req, res) => {
             console.log("app.post /: ", req.body)
+            let retCode = ''
             for (var fileCur in req.files) {
                 var fileDetail = req.files[fileCur];
                 console.log("app.post / fileDetail: ", fileDetail);
                 console.log("File: ", uploadDir + fileDetail.name);
-                let retCode = ''
                 fileDetail.mv(uploadDir + fileDetail.name, (err) => {
                     if (err) {
                         console.log("fileDetail.mv err: ", err);
