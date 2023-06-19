@@ -155,7 +155,12 @@ class WebServer {
         /* Post data and/or files */
         this.portUpload.express.post('/', (req, res) => {
             console.log("app.post /: ", req.body)
-            let retCode = ''
+            let fileCount = 0;
+            let fileCountMoved = 0;
+            for (var fileCur in req.files) {
+                fileCount++;
+            }
+            let retCode = '';
             for (var fileCur in req.files) {
                 var fileDetail = req.files[fileCur];
                 console.log("app.post / fileDetail: ", fileDetail);
@@ -165,11 +170,14 @@ class WebServer {
                         console.log("fileDetail.mv err: ", err);
                         //return res.status(500).send(err);
                     } else {
+                        fileCountMoved++;
                         retCode += "Received: " + fileDetail.name, + " - Size: ", fileDetail.size + "\n";
+                        if (fileCountMoved === fileCount) {
+                            res.status(200).send(retCode);
+                        }
                     }
                 });                    
             }
-            res.status(200).send(retCode);
         });
     }
 
