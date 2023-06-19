@@ -157,12 +157,12 @@ class WebServer {
             console.log("app.post /: ", req.body)
             let fileCount = 0;
             let fileCountMoved = 0;
+            let retCode = '';
             for (var fileCur in req.files) {
                 var fileDetail = req.files[fileCur];
                 fileCount++;
                 retCode += ("Received: " + fileDetail.name, + " - Size: " + fileDetail.size.toString() + "\n");
             }
-            let retCode = '';
             for (var fileCur in req.files) {
                 var fileDetail = req.files[fileCur];
                 console.log("app.post / fileDetail: ", fileDetail);
