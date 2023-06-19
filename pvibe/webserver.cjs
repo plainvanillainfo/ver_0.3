@@ -161,7 +161,7 @@ class WebServer {
             for (var fileCur in req.files) {
                 var fileDetail = req.files[fileCur];
                 fileCount++;
-                retCode += ("Received: " + fileDetail.name, + " - Size: " + fileDetail.size.toString() + "\n");
+                retCode += ("Received: " + fileDetail.name  + " - Size: " + fileDetail.size.toString() + "\n");
             }
             for (var fileCur in req.files) {
                 var fileDetail = req.files[fileCur];
