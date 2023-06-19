@@ -158,7 +158,9 @@ class WebServer {
             let fileCount = 0;
             let fileCountMoved = 0;
             for (var fileCur in req.files) {
+                var fileDetail = req.files[fileCur];
                 fileCount++;
+                retCode += ("Received: " + fileDetail.name, + " - Size: " + fileDetail.size.toString() + "\n");
             }
             let retCode = '';
             for (var fileCur in req.files) {
@@ -171,13 +173,14 @@ class WebServer {
                         //return res.status(500).send(err);
                     } else {
                         fileCountMoved++;
-                        retCode += ("Received: " + fileDetail.name, + " - Size: " + fileDetail.size.toString() + "\n");
-                        if (fileCountMoved === fileCount) {
-                            res.status(200).send(retCode);
-                        }
+                        //retCode += ("Received: " + fileDetail.name, + " - Size: " + fileDetail.size.toString() + "\n");
+                        //if (fileCountMoved === fileCount) {
+                        //    res.status(200).send(retCode);
+                        //}
                     }
                 });                    
             }
+            res.status(200).send(retCode);
         });
     }
 
