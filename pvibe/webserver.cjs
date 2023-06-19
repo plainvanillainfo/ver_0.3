@@ -164,7 +164,7 @@ class WebServer {
                         console.log("fileDetail.mv err: ", err);
                         //return res.status(500).send(err);
                     } else {
-                        return res.status(200).send("Received: " + fileDetail.name, + " - Size: ", fileDetail.size);
+                        res.status(200).send("Received: " + fileDetail.name, + " - Size: ", fileDetail.size);
                     }
                 });                    
             }
