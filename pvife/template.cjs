@@ -792,7 +792,6 @@ class TemplateItem extends TemplateItemClient {
                     let divField = this.formList.firstChild;
                     while (divField != null) {
                         if (divField.rendering != null && divField.rendering.Label === cellCur.Col) {
-                            if (divField.rendering.Format != null) {
                                 // KLUDGE
                                 if (divField.rendering.Label === 'TaskActions') {
                                     divField.rendering.Format = 'Textarea';
@@ -801,6 +800,8 @@ class TemplateItem extends TemplateItemClient {
                                 if (divField.rendering.Label === 'Attachments') {
                                     divField.rendering.Format = 'File';
                                 }
+
+                            if (divField.rendering.Format != null) {
                                 switch (divField.rendering.Format) {
                                     case 'Text':
                                         cellCur.Input = document.createElement('input');
