@@ -829,7 +829,7 @@ class TemplateItem extends TemplateItemClient {
                                         cellCur.Input.addEventListener('blur', (event) => {
                                             event.preventDefault();
                                             this.formData[event.target.id] = event.target.value;
-                                            event.target.vappendChild(document.createTextNode(event.target.value));
+                                            event.target.appendChild(document.createTextNode(event.target.value));
                                         });
                                         if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
                                             cellCur.Input.disabled = true;
