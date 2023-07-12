@@ -793,6 +793,14 @@ class TemplateItem extends TemplateItemClient {
                     while (divField != null) {
                         if (divField.rendering != null && divField.rendering.Label === cellCur.Col) {
                             if (divField.rendering.Format != null) {
+                                // KLUDGE
+                                if (divField.rendering.Label === 'TaskActions') {
+                                    divField.rendering.Format = 'Textarea';
+                                    divField.rendering.Rows = '6';
+                                }
+                                if (divField.rendering.Label === 'Attachments') {
+                                    divField.rendering.Format = 'File';
+                                }
                                 switch (divField.rendering.Format) {
                                     case 'Text':
                                         cellCur.Input = document.createElement('input');
@@ -804,6 +812,24 @@ class TemplateItem extends TemplateItemClient {
                                         cellCur.Input.addEventListener('blur', (event) => {
                                             event.preventDefault();
                                             this.formData[event.target.id] = event.target.value
+                                        });
+                                        if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
+                                            cellCur.Input.disabled = true;
+                                        }
+                                        break;
+                                    case 'File':
+                                        cellCur.Input = document.createElement('input');
+                                        cellCur.Input.id = cellCur.Elem.Name;
+                                        divField.appendChild(cellCur.Input);
+                                        cellCur.Input.className = 'input-group date';
+                                        cellCur.Input.setAttribute("type", "file");
+                                        cellCur.Input.setAttribute("multiple", "");
+                                        cellCur.Input.value = cellCur.Value;
+                                        cellCur.Input.style.width = '70%';
+                                        cellCur.Input.addEventListener('blur', (event) => {
+                                            event.preventDefault();
+                                            this.formData[event.target.id] = event.target.value;
+                                            event.target.value.appendChild(document.createTextNode(event.target.value);
                                         });
                                         if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
                                             cellCur.Input.disabled = true;
