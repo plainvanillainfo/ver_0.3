@@ -830,9 +830,9 @@ class TemplateItem extends TemplateItemClient {
                                             event.preventDefault();
                                             this.formData[event.target.id] = event.target.value;
                                             let labelCur = '';
-                                            event.target.files.forEach(cur => {
-                                                labelCur += cur.name;
-                                            });
+                                            for (let cur = 0; cur < event.target.files.length; cur++) {
+                                                labelCur += event.target.files[cur.name];
+                                            };
                                             event.target.appendChild(document.createTextNode(labelCur));
                                         });
                                         if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
