@@ -833,6 +833,7 @@ class TemplateItem extends TemplateItemClient {
                                             for (let cur = 0; cur < event.target.files.length; cur++) {
                                                 labelCur += event.target.files[cur].name;
                                             };
+                                            alert(labelCur);
                                             event.target.appendChild(document.createTextNode(labelCur));
                                         });
                                         if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
