@@ -829,7 +829,11 @@ class TemplateItem extends TemplateItemClient {
                                         cellCur.Input.addEventListener('blur', (event) => {
                                             event.preventDefault();
                                             this.formData[event.target.id] = event.target.value;
-                                            event.target.appendChild(document.createTextNode(JSON.stringify(event.target.files)));
+                                            let labelCur = '';
+                                            event.target.files.forEach(cur => {
+                                                labelCur += cur.name;
+                                            });
+                                            event.target.appendChild(document.createTextNode(labelCur));
                                         });
                                         if (divField.rendering.Editable != null && divField.rendering.Editable.toLowerCase() === 'no') {
                                             cellCur.Input.disabled = true;
