@@ -831,7 +831,7 @@ class TemplateItem extends TemplateItemClient {
                                             this.formData[event.target.id] = event.target.value;
                                             let labelCur = '';
                                             for (let cur = 0; cur < event.target.files.length; cur++) {
-                                                labelCur += event.target.files[cur];
+                                                labelCur += event.target.files[cur].name;
                                             };
                                             event.target.appendChild(document.createTextNode(labelCur));
                                         });
