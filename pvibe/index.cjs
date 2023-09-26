@@ -54,13 +54,13 @@ class Backend {
     }
 
     async start() {
-        console.log("Backend::start() - config:\n", JSON.stringify(this.config));
+        console.log("Backend::start()"); // - config:\n", JSON.stringify(this.config));
         await this.database.openDataDB(this.setConfigFromDB);
     }
 
     async setConfigFromDB(configRows) {
         configRows.forEach(rowCur => {
-            console.log(rowCur);
+            //console.log(rowCur);
             switch (rowCur.Param) {
                 case 'Identity':
                     this.identity = rowCur.Value;
