@@ -36,7 +36,6 @@ class Backend {
         this.users = {};
         this.entitlements = {};
         this.items = {};
-        //this.sessions = {};
         process.on('exit', this.exitHandler);
         process.on('SIGTERM', this.exitHandler);
         process.on('SIGINT', this.exitHandler);     // catches ctrl+c event
@@ -47,15 +46,15 @@ class Backend {
         this.executables = [];
         this.setConfigFromDB = this.setConfigFromDB.bind(this);
         this.database = new Database(this, this.config.DB);
-        if  (config.Usage != null && config.Usage === 'Engines') {
-            this.engineRoom = new EngineRoom(this, config);
+        if  (this.config.Usage != null && this.config.Usage === 'Engines') {
+            this.engineRoom = new EngineRoom(this, this.config);
         } else {
             this.bff = new BFF(this);
         }
     }
 
     async start() {
-        console.log("Backend::start()");
+        console.log("Backend::start() - config:\n", JSON.stringify(this.config));
         await this.database.openDataDB(this.setConfigFromDB);
     }
 
