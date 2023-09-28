@@ -43,7 +43,9 @@ class Session {
                             Id: message.Id, 
                             Action: 'ReceiveRows', 
                             Response: {
-                                meta: 2,
+                                meta: {
+                                    totalRowCount: 2
+                                },
                                 data: [
                                     {
                                         Id: 1,
