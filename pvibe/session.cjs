@@ -16,6 +16,8 @@ class Session {
         this.receiveMessage = this.receiveMessage.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this.sendEntitlement = this.sendEntitlement.bind(this);
+        this.receiveFromDb = this.receiveFromDb.bind(this);
+
     }
     
     async receiveMessage(message) {
@@ -93,6 +95,46 @@ class Session {
             TrackId: messageIn.TrackId,
             Entitlement: this.entitlement
         });
+    }
+
+    async sendToDbSelect() {
+        await this.session.database.doSelect(this.selectQuery, this.receiveFromDb);
+    }
+
+    async receiveFromDb(result) {
+        let dataItems = [];
+		result.forEach(resultCur => {
+			console.log("Session::receiveFromDb() - resultCur:\n", resultCur);
+			let dataItemCur = {
+				Key: resultCur.Id,
+				Attrs: {...resultCur}
+			};
+            dataItems.push(dataItemCur);
+
+            /*
+			if (this.itemList[dataItemCur.Key] == null) {
+				console.log("receiveFromDb - this.itemList[dataItemCur.Key] == null");
+				this.itemList[dataItemCur.Key] = {Key: dataItemCur.Key, Elems: {}, TemplateItemDrilldown: null};
+			} else {
+				console.log("receiveFromDb - this.itemList[dataItemCur.Key] != null");
+			}
+            */
+
+		});
+		if (true) {
+	        this.toClient(messageOut);
+		}
+    }
+
+    toClient(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTrack',
+            TrackId: this.id,
+            Track: {
+                ...messageIn
+            }
+        };
+        this.sendMessage(messageOut);
     }
 
 }
