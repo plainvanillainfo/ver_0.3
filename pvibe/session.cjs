@@ -38,7 +38,9 @@ class Session {
                     }
                     break;
                 case 'FetchRows':
-                    this.sendMessage({Action: 'ReceiveViewerSpec', ViewerSpec: webAppCur.WebAppClient});
+                    if (message.Id != null) {
+                        this.sendMessage({Id: message.Id, Action: 'ReceiveRows', Rows: []});
+                    }
                     break;
                 default:
                     break;        
