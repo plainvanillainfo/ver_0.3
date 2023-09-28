@@ -3,6 +3,7 @@ const { TemplateItem } = require('./template.cjs');
 class Session {
     constructor(parent, id, ws) {
         this.parent = parent;
+        this.config = this.parent.config;
         this.id = id;
         this.ws = ws;
         this.database = this.parent.database;
@@ -39,6 +40,7 @@ class Session {
                     break;
                 case 'FetchRows':
                     if (message.Id != null) {
+                        console.log("this.config.DML", this.config.DML);
                         this.sendMessage({
                             Id: message.Id, 
                             Action: 'ReceiveRows', 

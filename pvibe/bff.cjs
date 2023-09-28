@@ -3,6 +3,7 @@ const { WebServer } = require('./webserver.cjs');
 class BFF {
     constructor(parent) {
         this.parent = parent;
+        this.config = this.parent.config;
         this.database = this.parent.database;
         this.classes = null;
         this.users = {};

@@ -11,6 +11,7 @@ const fileUpload = require('express-fileupload');
 class WebServer {
     constructor(parent) {
         this.parent = parent;
+        this.config = this.parent.config;
         this.wsConnections = [];
         this.classes = null;
         this.startupTimeBufferMillisec = 1;
