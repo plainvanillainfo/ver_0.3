@@ -39,7 +39,23 @@ class Session {
                     break;
                 case 'FetchRows':
                     if (message.Id != null) {
-                        this.sendMessage({Id: message.Id, Action: 'ReceiveRows', Response: {Rows: []}});
+                        this.sendMessage({
+                            Id: message.Id, 
+                            Action: 'ReceiveRows', 
+                            Response: {
+                                meta: 2,
+                                data: [
+                                    {
+                                        Id: 1,
+                                        Name: 'Couuminity 1'
+                                    },
+                                    {
+                                        Id: 2,
+                                        Name: 'Couuminity 2'
+                                    }
+                                ]
+                            }
+                        });
                     }
                     break;
                 default:
