@@ -13,6 +13,7 @@ class Session {
         this.entitlement = null;
         this.trackMain = new Track(this, '1');
         this.tracks = {'1': this.trackMain};
+        this.dataTree = {};
         this.receiveMessage = this.receiveMessage.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this.sendEntitlement = this.sendEntitlement.bind(this);
@@ -43,6 +44,7 @@ class Session {
                 case 'FetchRows':
                     if (message.Id != null) {
                         console.log("this.config.DML", this.config.DML);
+                        console.log("this.config.FeReactAppContext.MenuItems", this.config.FeReactAppContext.MenuItems);
                         this.sendMessage({
                             Id: message.Id, 
                             Action: 'ReceiveRows', 
