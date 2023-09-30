@@ -58,14 +58,14 @@ class Database {
         });
     }
 
-    async doSelect(query, doneSelect) {
+    async doSelect(query, doneSelect, messageId) {
         console.log("Database::doSelect() - query: ", query);
         this.client.query(
             query, 
             (err, res) => {
                 if (err) {
                 } else {
-                    doneSelect(res.rows);
+                    doneSelect(res.rows, messageId);
                 }
         });
     }

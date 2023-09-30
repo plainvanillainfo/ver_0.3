@@ -67,7 +67,7 @@ class Session {
                         });
                         */
                        let selectQuery = this.config.DML.Views[message.List].SelectQuery;
-                       this.sendToDbSelect(selectQuery);
+                       this.sendToDbSelect(selectQuery, message.Id);
                     }
                     break;
                 default:
@@ -198,12 +198,12 @@ class Session {
         return retVal;
     }
 
-    async sendToDbSelect(selectQuery) {
+    async sendToDbSelect(selectQuery, messageId) {
         console.log("Session::sendToDbSelect() - selectQuery:\n", selectQuery);
-        await this.database.doSelect(selectQuery, this.receiveFromDb);
+        await this.database.doSelect(selectQuery, this.receiveFromDb, messageId);
     }
 
-    async receiveFromDb(result) {
+    async receiveFromDb(result, messageId) {
         let dataItems = [];
 		result.forEach(resultCur => {
 			console.log("Session::receiveFromDb() - resultCur:\n", resultCur);
@@ -225,7 +225,7 @@ class Session {
         */
 
         let messageOut = {
-            Id: message.Id, 
+            Id: messageId, 
             Action: 'ReceiveRows', 
             Response: {
                 meta: {
