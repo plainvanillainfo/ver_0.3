@@ -206,7 +206,7 @@ class Session {
     async receiveFromDb(result, messageId) {
         let dataItems = [];
 		result.forEach(resultCur => {
-			console.log("Session::receiveFromDb() - resultCur:\n", resultCur);
+			console.log("Session::receiveFromDb() - resultCur: ", JSON.stringify(resultCur));
             /*
 			let dataItemCur = {
 				Key: resultCur.Id,
