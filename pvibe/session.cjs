@@ -200,7 +200,7 @@ class Session {
 
     async sendToDbSelect(selectQuery) {
         console.log("Session::sendToDbSelect() - selectQuery:\n", selectQuery);
-        await this.session.database.doSelect(selectQuery, this.receiveFromDb);
+        await this.database.doSelect(selectQuery, this.receiveFromDb);
     }
 
     async receiveFromDb(result) {
