@@ -43,9 +43,9 @@ class Session {
                     break;
                 case 'FetchRows':
                     if (message.Id != null) {
-                        console.log("this.config.DML", this.config.DML);
-                        console.log("this.config.FeReactAppContext.MenuItems", this.config.FeReactAppContext.MenuItems);
-
+                        //console.log("this.config.DML", this.config.DML);
+                        //console.log("this.config.FeReactAppContext.MenuItems", this.config.FeReactAppContext.MenuItems);
+                        /*
                         this.sendMessage({
                             Id: message.Id, 
                             Action: 'ReceiveRows', 
@@ -65,6 +65,9 @@ class Session {
                                 ]
                             }
                         });
+                        */
+                       let selectQuery = this.config.DML.Views[message.List].SelectQuery;
+                       this.sendToDbSelect(selectQuery);
                     }
                     break;
                 default:
@@ -195,33 +198,44 @@ class Session {
         return retVal;
     }
 
-    async sendToDbSelect() {
-        await this.session.database.doSelect(this.selectQuery, this.receiveFromDb);
+    async sendToDbSelect(selectQuery) {
+        console.log("Session::sendToDbSelect() - selectQuery:\n", selectQuery);
+        await this.session.database.doSelect(selectQuery, this.receiveFromDb);
     }
 
     async receiveFromDb(result) {
         let dataItems = [];
 		result.forEach(resultCur => {
 			console.log("Session::receiveFromDb() - resultCur:\n", resultCur);
+            /*
 			let dataItemCur = {
 				Key: resultCur.Id,
 				Attrs: {...resultCur}
 			};
-            dataItems.push(dataItemCur);
-
-            /*
-			if (this.itemList[dataItemCur.Key] == null) {
-				console.log("receiveFromDb - this.itemList[dataItemCur.Key] == null");
-				this.itemList[dataItemCur.Key] = {Key: dataItemCur.Key, Elems: {}, TemplateItemDrilldown: null};
-			} else {
-				console.log("receiveFromDb - this.itemList[dataItemCur.Key] != null");
-			}
             */
-
+			let dataItemCur = {
+				...resultCur
+			};
+            dataItems.push(dataItemCur);
 		});
+        /*
 		if (true) {
 	        this.toClient(messageOut);
 		}
+        */
+
+        let messageOut = {
+            Id: message.Id, 
+            Action: 'ReceiveRows', 
+            Response: {
+                meta: {
+                    totalRowCount: dataItems.length
+                },
+                data: dataItems
+            }
+
+        };
+        this.sendMessage(messageOut);
     }
 
     toClient(messageIn) {
