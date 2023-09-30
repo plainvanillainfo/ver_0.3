@@ -102,6 +102,8 @@ class Session {
 
 	constructSelect() {
 		console.log("Session::constructSelect():");
+        let retVal = '';
+        /*
 		this.tableBase['Class'] = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
 		if (this.tableBase['Class'] == null) {
 			console.log("TemplateItem::constructSelect() - this.tableBase['Class'].tableName == null", this.useCase.Detail, "\n", this.session.classes);
@@ -188,7 +190,10 @@ class Session {
 			}
 		}
 		this.selectQuery += (' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
-	}
+        */
+
+        return retVal;
+    }
 
     async sendToDbSelect() {
         await this.session.database.doSelect(this.selectQuery, this.receiveFromDb);
