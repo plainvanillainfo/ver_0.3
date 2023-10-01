@@ -43,31 +43,11 @@ class Session {
                     break;
                 case 'FetchRows':
                     if (message.Id != null) {
-                        //console.log("this.config.DML", this.config.DML);
-                        //console.log("this.config.FeReactAppContext.MenuItems", this.config.FeReactAppContext.MenuItems);
-                        /*
-                        this.sendMessage({
-                            Id: message.Id, 
-                            Action: 'ReceiveRows', 
-                            Response: {
-                                meta: {
-                                    totalRowCount: 2
-                                },
-                                data: [
-                                    {
-                                        Id: 1,
-                                        Name: 'Couuminity 1'
-                                    },
-                                    {
-                                        Id: 2,
-                                        Name: 'Couuminity 2'
-                                    }
-                                ]
-                            }
-                        });
-                        */
-                       let selectQuery = this.config.DML.Views[message.List].SelectQuery;
-                       this.sendToDbSelect(selectQuery, message.Id);
+                        let selectQuery = this.config.DML.Views[message.List].SelectQuery;
+                        if (message.ParentId != null && message.ParentId > '') {
+                            selectQuery = selectQuery.replace('PARENT_ID', message.ParentId);
+                        }
+                        this.sendToDbSelect(selectQuery, message.Id);
                     }
                     break;
                 default:
@@ -106,95 +86,6 @@ class Session {
 	constructSelect() {
 		console.log("Session::constructSelect():");
         let retVal = '';
-        /*
-		this.tableBase['Class'] = this.session.classes.find(cur => cur.Name === this.useCase.Detail.Class);
-		if (this.tableBase['Class'] == null) {
-			console.log("TemplateItem::constructSelect() - this.tableBase['Class'].tableName == null", this.useCase.Detail, "\n", this.session.classes);
-		}
-		this.tableBase['Name'] = this.tableBase['Class'].tableName;
-		this.tableBase['SelectColumns'] = [
-			{As: 'Id', Table: this.tableBase['Name'], Column: 'Id'},
-			{As: 'Extension', Table: this.tableBase['Name'], Column: 'Extension'}
-		];
-		this.tableBase['FromTables'] = [
-			{Table: this.tableBase['Name'], Alias: this.tableBase['Name']}
-		];
-		this.tableBase['WhereJoins'] = [];
-		this.tableBase['WhereTerms'] = [];
-		this.selectQuery = 'SELECT ';
-		this.selectFrom = 'FROM ';
-		this.selectWhere = 'WHERE';
-		this.selectOrderBy = '';
-		if (this.parent.itemParent != null) {
-			let classParent = this.parent.parent.useCase.Detail.Class;
-			this.tableBase['ParentTableName'] = this.session.classes.find(cur => cur.Name === classParent).tableName;
-			this.tableBase['ParentToThisLinkTableName'] = this.tableBase['ParentTableName'] + '_CHILD_' + this.parent.useCaseElem.Attribute;
-			this.tableBase['FromTables'].push({
-				Table: this.tableBase['ParentToThisLinkTableName'],
-				Alias: this.tableBase['ParentToThisLinkTableName']
-			});
-			//this.selectWhere += (' "' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\' AND ');
-			this.selectWhere += (' "' + this.tableBase['ParentToThisLinkTableName'] + '"."ParentId" = \'' + this.parent.itemParent.Key + '\'');
-			this.tableBase['WhereJoins'].push({
-				TableLeft: this.tableBase['ParentToThisLinkTableName'],
-				ColumnLeft: 'ChildId', 
-				TableRight: this.tableBase['Name'],
-				ColumnRight: 'Id'
-			});
-		} else {
-			if (this.soleKey != null && this.soleKey !== '') {
-				this.selectWhere +=  ('"'+ this.tableBase['Name'] + '"."Id"=\'' + this.soleKey + '\'');
-			} else {
-				this.selectWhere += ' 1=1';
-			}
-		}
-		this.constructSelectApplyContext(); // HERE - filtration:
-		this.useCase.Detail.Elems.forEach(elemCur => {
-			let elemAttribute = this.useCase.Detail.Attributes.find(attributeCur => attributeCur.Name === elemCur.Attribute);
-			this.constructSelectAddColumn(elemCur, elemAttribute, this.tableBase['Class'], this.tableBase['Name']);
-		});
-		this.tableBase['SelectColumns'].forEach((colCur, colIndex) => {
-			this.selectQuery += ('"' + colCur.Table + '"."' + colCur.Column + '" AS "' + colCur.As + '"');
-			if ((colIndex+1) < this.tableBase['SelectColumns'].length) {
-				this.selectQuery += ', ';
-			}
-		});
-		this.tableBase['FromTables'].forEach((tableCur, tableIndex) => {
-			this.selectFrom += ('data."' + tableCur.Table + '" "' + tableCur.Alias + '"');
-			if ((tableIndex+1) < this.tableBase['FromTables'].length) {
-				this.selectFrom += ', ';
-			}
-		});
-		if (this.tableBase['WhereJoins'].length > 0) {
-			this.selectWhere += ' AND ';
-		}
-		this.tableBase['WhereJoins'].forEach((joinCur, joinIndex) => {
-			this.selectWhere += ('"' + joinCur.TableLeft + '"."' + joinCur.ColumnLeft + '" = "' + joinCur.TableRight + '"."' + joinCur.ColumnRight + '"');
-			if ((joinIndex+1) < this.tableBase['WhereJoins'].length) {
-				this.selectWhere += ' AND ';
-			}
-		});
-		if (this.useCase.Detail.Filter != null && this.useCase.Detail.Filter.Connector != null) {
-			if (this.useCase.Detail.Filter.Connector === 'And') {
-				this.tableBase['WhereTerms'].forEach((termCur) => {
-					this.selectWhere += (' AND "' + termCur.Table + '"."' + termCur.Column + '" ' + termCur.Comparison + ' \'' + termCur.Value  + '\'');
-				});
-			} else {
-				if (this.useCase.Detail.Filter.Connector === 'Or') {
-					this.selectWhere += ' AND (';
-					this.tableBase['WhereTerms'].forEach((termCur, termIndex) => {
-						this.selectWhere += ('"' + termCur.Table + '"."' + termCur.Column + '" ' + termCur.Comparison + ' \'' + termCur.Value  + '\'');
-						if ((termIndex+1) < this.tableBase['WhereTerms'].length) {
-							this.selectWhere += ' OR ';
-						}
-					});
-					this.selectWhere += ')';
-				}
-			}
-		}
-		this.selectQuery += (' ' + this.selectFrom + ' ' + this.selectWhere + ' ' + this.selectOrderBy);
-        */
-
         return retVal;
     }
 
@@ -207,23 +98,11 @@ class Session {
         let dataItems = [];
 		result.forEach(resultCur => {
 			console.log("Session::receiveFromDb() - resultCur: ", JSON.stringify(resultCur));
-            /*
-			let dataItemCur = {
-				Key: resultCur.Id,
-				Attrs: {...resultCur}
-			};
-            */
 			let dataItemCur = {
 				...resultCur
 			};
             dataItems.push(dataItemCur);
 		});
-        /*
-		if (true) {
-	        this.toClient(messageOut);
-		}
-        */
-
         let messageOut = {
             Id: messageId, 
             Action: 'ReceiveRows', 
