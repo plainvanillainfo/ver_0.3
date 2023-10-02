@@ -42,7 +42,7 @@ class Session {
                     }
                     break;
                 case 'FetchRows':
-                    if (message.Id != null) {
+                    if (message.Id != null && this.config.DML.Views[message.List] != null) {
                         let selectQuery = this.config.DML.Views[message.List].SelectQuery;
                         if (message.ParentId != null && message.ParentId > '') {
                             selectQuery = selectQuery.replace('PARENT_ID', message.ParentId);
