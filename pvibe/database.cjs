@@ -4,15 +4,6 @@ class Database {
     constructor(parent, dbConfig) {
         this.parent = parent;
         this.dbConfig = dbConfig;
-        /*
-        this.client = new Client({
-            user: dbConfig.User,
-            host: dbConfig.Host,
-            database: dbConfig.Database,
-            password: dbConfig.Password,
-            port: dbConfig.Port
-        })
-        */
         this.client = new Client({
             user: this.dbConfig.User,
             host: this.dbConfig.Host != null ? this.dbConfig.Host : this.dbConfig.LocalHost,
@@ -66,18 +57,17 @@ class Database {
                             sshConnection.end();
                             return deny();
                         }
-                        this.startDbClient();
+                        this.startDbClient(setConfigFromDB);
                     });
             }).on('error', (err) => {
                 deny();
             }).connect(this.dbConfig.Tunnel);
         } else {
-            //this.startDbClient();
             await this.client.connect();
             console.log("Database::openDataDB() - await returned");
             this.client.on('error', (err) => {
                 console.error("Database::openDataDB() - client.on('error')", err.stack)
-            })
+            });
             this.client.query(
                 'SELECT * FROM functionality."AppConfig" ORDER BY "Param" ASC',
                 (err, res) => {
@@ -86,7 +76,7 @@ class Database {
         }
     }
        
-    async startDbClient() {
+    async startDbClient(setConfigFromDB) {
         console.log("Database::startDbClient()");
         await this.client.connect();
         console.log("Database::startDbClient() - await this.client.connect() returned");
@@ -94,20 +84,12 @@ class Database {
             console.error("Database::startDbClient() - client.on('error')", err.stack)
             this.client = null;
         });
+        setConfigFromDB([]);
     }
 
     async openDataDBStartClient(clientConnectedToDB) {
         console.log("Database::openDataDBStartClient()");
         // This is called by sys/server_monitor.cjs
-        /*
-        this.client = new Client({
-            user: this.dbConfig.User,
-            host: this.dbConfig.Host,
-            database: this.dbConfig.Database,
-            password: this.dbConfig.Password,
-            port: this.dbConfig.Port
-        })
-        */
         await this.client.connect();
         console.log("Database::openDataDBStartClient() - await returned");
         this.client.on('error', (err) => {
