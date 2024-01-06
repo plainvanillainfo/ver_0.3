@@ -84,7 +84,23 @@ class Database {
             console.error("Database::startDbClient() - client.on('error')", err.stack)
             this.client = null;
         });
-        setConfigFromDB([]);
+        setConfigFromDB([
+            {
+                Param: 'Executables',
+                Value: [
+                    {
+                        WebAppServer: {
+                            HostName: "plainvanillainfo.net",
+                            WebsocketListenPort: 8607,
+                            DownloadListenPort: 8707,
+                            UploadListenPort: 8807,
+                            UploadDir: "/var/lib/plainvanillainfo/data/files/CNR/",
+                            KeyFileDir: "/var/lib/plainvanillainfo/certbot/conf/live/plainvanillainfo.com/"                            
+                        }
+                    }
+                ]            
+            }
+        ]);
     }
 
     async openDataDBStartClient(clientConnectedToDB) {
